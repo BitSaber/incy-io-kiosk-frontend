@@ -40,7 +40,9 @@ class App extends React.Component {
       }
       if (this.state.observationQuestions.length !== 0) {
       return (
-        <div>{this.state.observationQuestions[0].name}</div> //Should find the lowest position first (javascript.find)
+        <div>{this.state.observationQuestions.find(function(question) {
+          return question.position === 1;
+        }).name}</div> //Should find the lowest position first (javascript.find)
       )
       }
     }
