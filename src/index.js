@@ -1,7 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom';
 import GetQuestion from './service'
-
 
 const Button = ({ klikki, name }) => (
   <button onClick = {klikki} >{name}</button>
