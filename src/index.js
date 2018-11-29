@@ -16,16 +16,15 @@ class App extends React.Component {
     }
   }
 
-  klikHyva = () => {
+  onClick = () => {
     this.setState({
       hyva: this.state.hyva + 1
     })
   }
 
   render () {
-    const otsake = 'Anna palautetta'
-    const aliotsake = 'Statistiikka'
-    const statistiikka = () => {
+
+    const kysymys = () => {
       if ((this.state.hyva) === 0) {
         return (
           <div>
@@ -40,9 +39,8 @@ class App extends React.Component {
 
     return (
       <div>
-        <Button klikki = {this.klikHyva} nimi = "Hyvä" />
-
-        <div>{statistiikka()}</div>
+        <Button klikki = {this.onClick} nimi = "GET" />
+        <div>{kysymys()}</div>
       </div>
     )
   }
