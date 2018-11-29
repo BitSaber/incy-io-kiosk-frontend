@@ -11,14 +11,20 @@ class App extends React.Component {
     super(props)
     this.state = {
       counter: 0,
-      question: "Who let the dogs out?"
+      question: "Who let the dogs out?",
+      observationQuestions: []
     }
   }
 
   clickGet = () => {
     this.setState({
       counter: this.state.counter + 1,
-      question: GetQuestion()
+    });
+    GetQuestion().then((questions) => {
+      console.log('mjoo', questions);
+      this.setState({
+        observationQuestions: questions
+      })
     })
   }
 
@@ -32,9 +38,11 @@ class App extends React.Component {
           </div>
         )
       }
+      if (this.state.observationQuestions.length !== 0) {
       return (
-        <div>{this.state.question}</div> 
+        <div>{this.state.observationQuestions[0].name}</div> //Should find the lowest position first (javascript.find)
       )
+      }
     }
 
     return (

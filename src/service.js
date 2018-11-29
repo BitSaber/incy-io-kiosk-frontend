@@ -2,14 +2,19 @@ import axios from 'axios'
 
 const baseUrl = 'https://app-staging.incy.io/api/bitsaber-staging/observation-questions/links/staging-place-tarvikkeet'
 
-const getAll = () => {
-    return axios.get(baseUrl)
-  }
+ const getAll = () => (
+    axios
+    .get(baseUrl)
+   )
 
 const GetQuestion = () => {
-    console.log(getAll())
+    const promise = getAll()
+    console.log(promise)
     return (
-        "Onko maito lämmintä?"
+        promise.then(response => {
+            console.log('promise fulfilled')
+            console.log(response.data)
+            return response.data.data })
     )
 }
 
