@@ -16,7 +16,7 @@ class App extends React.Component {
     }
   }
 
-  onClick = () => {
+  clickGet = () => {
     this.setState({
       hyva: this.state.hyva + 1
     })
@@ -39,7 +39,7 @@ class App extends React.Component {
 
     return (
       <div>
-        <Button klikki = {this.onClick} nimi = "GET" />
+        <Button klikki = {this.clickGet} nimi = "GET" />
         <div>{kysymys()}</div>
       </div>
     )
