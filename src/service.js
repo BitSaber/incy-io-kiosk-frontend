@@ -2,15 +2,10 @@ import React from 'react';
 
 const baseUrl = 'https://app-staging.incy.io/api/bitsaber-staging/observation-questions/links/staging-place-tarvikkeet'
 
-const GetQuestions = () => {
+const GetQuestion = () => {
     return (
-        <div>
-            <p>This should display the question when implemented</p>
-        </div>
+        "Onko maito lämmintä?"
     )
 }
 
-export default App
-
-<button onClick = {<ClickAndGet state = {this.state} />}  >Don't Push</button>
-<div>{question()}</div>
+export default GetQuestion

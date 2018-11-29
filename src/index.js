@@ -1,31 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
-//import GetQuestions from './service';
+import GetQuestion from './service'
 
 
-const Button = ({ klikki, nimi }) => (
-  <button onClick = {klikki} >{nimi}</button>
+const Button = ({ klikki, name }) => (
+  <button onClick = {klikki} >{name}</button>
 )
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      hyva: 0,
+      counter: 0,
       question: "Who let the dogs out?"
     }
   }
 
   clickGet = () => {
     this.setState({
-      hyva: this.state.hyva + 1
+      counter: this.state.counter + 1,
+      question: GetQuestion()
     })
   }
 
   render () {
 
-    const kysymys = () => {
-      if ((this.state.hyva) === 0) {
+    const displayedText = () => {
+      if ((this.state.counter) === 0) {
         return (
           <div>
             <em>Button not yet pushed</em>
@@ -39,8 +40,8 @@ class App extends React.Component {
 
     return (
       <div>
-        <Button klikki = {this.clickGet} nimi = "GET" />
-        <div>{kysymys()}</div>
+        <Button klikki = {this.clickGet} name = "GET" />
+        <div>{displayedText()}</div>
       </div>
     )
   }
