@@ -12,8 +12,7 @@ const GetQuestion = () => {
     console.log(promise)
     return (
         promise.then(response => {
-            console.log('promise fulfilled')
-            console.log(response.data)
+            /*console.log(response.data)*/
             return response.data.data })
     )
 }
