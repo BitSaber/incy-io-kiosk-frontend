@@ -8,10 +8,11 @@
     "react-scripts": "2.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "webpack-dev-server --hot --inline --config webpack.dev.js --progress",
+    "build": "webpack --config webpack.prod.js",
+    "clean": "rm -rf ./builds ./dist",
+    "lint": "eslint --ext \".js,.jsx\" src/",
+    "test": "jest"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -21,5 +22,14 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "@babel/preset-env": "^7.1.6",
+    "@babel/preset-react": "^7.0.0",
+    "webpack": "^4.26.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10",
+    "webpack-merge": "^4.1.4",
+    "webpack-shell-plugin": "^0.5.0"
+  }
 }
