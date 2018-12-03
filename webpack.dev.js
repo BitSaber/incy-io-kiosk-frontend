@@ -11,7 +11,7 @@ module.exports = merge(common, {
         ],
         compress: true,
         host: allowRemoteDev ? '0.0.0.0' : 'localhost',
-        port: 3000,
+        port: 3002,
         disableHostCheck: allowRemoteDev
     },
     devtool: "cheap-module-source-map",
