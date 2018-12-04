@@ -10,25 +10,32 @@ const TestButton = ({ clickAction, name }) => (
   <Button variant="contained"  style={{padding: '3rem', margin: '3rem'}} onClick = {clickAction} >{name}</Button>
 )
 
+
+const initialState = {
+  counter: 1,
+  currentId: 5090,
+  observationQuestions: [],
+  questionsChoices: [],
+  observationAnswer: []
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      counter: 1,
-      currentId: 5090,
-      observationQuestions: [],
-      questionsChoices: [],
-      observationAnswer: []
-    }
+    this.state = initialState
   }
 
   componentDidMount() {
-    questionService.GetQuestion().then((questions) => {
-      this.setState({
-        observationQuestions: questions
-      })
-    })
+   this.initilizeQuestions()
   }
+
+  initilizeQuestions= () => {
+  questionService.GetQuestion().then((questions) => {
+    this.setState({
+      observationQuestions: questions
+    })
+  })
+}
 
   clickChoices = () => {
     questionService.GetChoices(this.state.currentId).then((choices) => {
@@ -49,6 +56,14 @@ class App extends React.Component {
     console.log(obsAns)
   }
 
+  submitObservation = () => {
+    //TODO: Post observation
+    setTimeout(() => {
+      this.setState(initialState)
+      this.initilizeQuestions()
+    }, 3000)
+  }
+
   render () {
     const counter = this.state.counter;
     console.log(counter)
@@ -67,12 +82,19 @@ class App extends React.Component {
     }
     if (this.state.observationQuestions.length === 0) {
       return null;
-    } else {
+    }
+    else if (this.state.counter > this.state.observationQuestions.length){
+      this.submitObservation()
+      return <div>
+        Kiitos palautteesta!
+      </div>
+    }
+    else {
     return (
       <div>
         <div>{displayedText()}</div>
-        <TestButton clickAction = {() => this.clickHandler('Kyllä')} name = "KYLLÄ" />
-        <TestButton clickAction = {() => this.clickHandler('Ei')} name = "EI" />
+        <TestButton clickAction = {() => this.clickHandler('Kyllä')} name = "Kyllä" />
+        <TestButton clickAction = {() => this.clickHandler('Ei')} name = "Ei" />
       </div>
     )
   }
