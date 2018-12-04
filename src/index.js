@@ -6,8 +6,8 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import './index.css'
 import Button from '@material-ui/core/Button'
 
-const TestButton = ({ klikki, name }) => (
-  <Button variant="contained"  style={{padding: '3rem', margin: '3rem'}} onClick = {klikki} >{name}</Button>
+const TestButton = ({ clickAction, name }) => (
+  <Button variant="contained"  style={{padding: '3rem', margin: '3rem'}} onClick = {clickAction} >{name}</Button>
 )
 
 class App extends React.Component {
@@ -48,7 +48,7 @@ class App extends React.Component {
             return question.position === 1;
             }).name}
           </Typography>
-        </div> //Should find the lowest position first (javascript.find)
+        </div> // ^^^ Finds the question with the position 1
       )
       }
     }
@@ -56,7 +56,7 @@ class App extends React.Component {
     return (
       <div>
         <div>{displayedText()}</div>
-        <TestButton klikki = {this.clickGet} name = "GET" />
+        <TestButton clickAction = {this.clickGet} name = "GET" />
       </div>
     )
   }
