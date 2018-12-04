@@ -15,7 +15,7 @@ class App extends React.Component {
     super(props)
     this.state = {
       counter: 1,
-      currentId: 5090,
+      currentQuestionId: 5090,
       observationQuestions: [],
       questionsChoices: [],
       observationAnswer: []
@@ -28,6 +28,11 @@ class App extends React.Component {
         observationQuestions: questions
       })
     })
+    questionService.GetChoices().then(choices) => {
+      this.setState({
+        questionsChoices: choices
+      })
+    }
   }
 
   clickChoices = () => {
