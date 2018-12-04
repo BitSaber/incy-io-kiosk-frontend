@@ -1,14 +1,16 @@
 body {
-    overflow-y: scroll;
-    min-height: 100vh;
-    margin: 0;
+
+min-height: 100vh;
+
 }
 
 
 html {
-    height: 100vh;
+overflow-y:hidden;
+    height:100vh;
     padding: 40px;
 	overflow-x: hidden; /* For Opera */
+	
 	-webkit-box-shadow:
 		inset #19d4ff 0 0 0 5px,
 		inset #18cdf7 0 0 0 1px,
@@ -153,4 +155,7 @@ html {
     .transclass:hover{
     width:300px;
     } */
-        
+		
+	
+
+	

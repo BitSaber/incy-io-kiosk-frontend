@@ -4,14 +4,24 @@ import './css/style.css';
 import axios from 'axios'
 
 const observationQuestionUrl = 'https://app-staging.incy.io/api/bitsaber-staging/observation-questions/links/staging-place-tarvikkeet';
-const element = <button className="myButton">Yes</button>
-const element1 = <button className="myButton1" onClick={ActionLink}>No</button>
+// const answerQuestionUrl = 'https://app-staging.incy.io/api/bitsaber-staging/observation-questions/links/staging-place-tarvikkeet/7366';
+//const element = <button className="myButton">Yes</button>
+const element1 = <button className="myButton1" >No</button>
 
 
 function getQuestions() {
     return axios
         .get(observationQuestionUrl)
 }
+
+function showAlert() {
+    alert("Im an alert");
+}
+
+// function getAnswers() {
+//     return axios
+//         .get(answerQuestionUrl)
+// }
 
 class App extends Component {
     constructor(props) {
@@ -20,7 +30,8 @@ class App extends Component {
             errorOccurred: false,
             errorMessage: null,
             loading: false,
-            questions: []
+            questions: [],
+            answers: []
         }
         getQuestions()
             .then(response => {
@@ -28,7 +39,8 @@ class App extends Component {
                     loading: false,
                     errorOccurred: false,
                     errorMessage: null,
-                    questions: response.data.data
+                    questions: response.data.data,
+                    answers: response.data.data
                 })
             })
             .catch(error => {
@@ -38,7 +50,26 @@ class App extends Component {
                     errorMessage: error
                 })
             })
+
+        // getAnswers()
+        //     .then(response => {
+        //         this.setState({
+        //             loading: false,
+        //             errorOccurred: false,
+        //             errorMessage: null,
+        //             answers: response.data.data
+        //         })
+        //     })
+        //     .catch(error => {
+        //         this.setState({
+        //             loading: false,
+        //             errorOccurred: true,
+        //             errorMessage: error
+        //         })
+        //     })
     }
+
+
 
 
     render() {
@@ -47,24 +78,32 @@ class App extends Component {
         this.state.questions.forEach((value, key) => {
             console.log(key, value) // eslint-disable-line
             questionElems.push(
-                <li key={'question_'+value.id}>{value.name}</li>
+                <h1 key={'question_' + value.id}>{value.name}</h1>
             )
         })
+
+        const answerElems = []
+        this.state.answers.forEach((value, key) => {
+            console.log(key.value) // eslint-disable-line
+            answerElems.push(
+                <button key={'answer_' + value.id} className="myButton" onClick={showAlert} > {value.name}</button >
+            )
+        })
+
+
+
+
 
         return (
             // Insert API answers
             <div className="center-align">
                 <div className="txt">
-                    <h1>
-                        <ul>
-                            {questionElems}
-                        </ul>
-                    </h1>
+                    {questionElems[0]}
                 </div>
                 {this.state.errorOccurred ? this.state.errorMessage : 'All\'s good in the neighbourhood!'}
 
                 <div>
-                    {element}
+                    {answerElems[0]}
                     {element1}
                 </div>
 
@@ -73,10 +112,8 @@ class App extends Component {
     }
 }
 
-function ActionLink(event) {
-    event.currentTarget.style.backgroundColor = '#ccc';
 
-}
+
 
 
 export default App
