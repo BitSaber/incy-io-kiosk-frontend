@@ -15,7 +15,7 @@ class App extends React.Component {
     super(props)
     this.state = {
       counter: 1,
-      currentQuestionId: 5090,
+      currentQuestionId: 0,
       observationQuestions: [],
       questionsChoices: [],
       observationAnswer: []
@@ -24,8 +24,12 @@ class App extends React.Component {
 
   async componentDidMount() {
     const questions = await questionService.GetQuestion();
+    const count = this.state.counter
     this.setState({
-      observationQuestions: questions
+      observationQuestions: questions,
+      currentQuestionId: questions.find(function(question) {
+        return question.position === count;
+      }).id
     });
 
     const choices = await questionService.GetChoices(this.state.currentQuestionId);
@@ -42,16 +46,24 @@ class App extends React.Component {
     })
   }
 
-  clickHandler = (answer) => {
+  async clickHandler(answer) {
+
     const count = this.state.counter
     const obsAns = this.state.observationAnswer
-    this.setState ({
+
+    await this.setState ({
       counter: count + 1,
       observationAnswer: [...obsAns].concat(answer),
       currentQuestionId: this.state.observationQuestions.find(function(question) {
         return question.position === count + 1;
       }).id
     })
+
+    const choices = await questionService.GetChoices(this.state.currentQuestionId)
+    await this.setState({
+      questionChoices: choices
+    })
+
   }
 
   render () {
@@ -69,6 +81,7 @@ class App extends React.Component {
       )
       }
     }
+
     if (this.state.observationQuestions.length === 0) {
       return null;
     } else {
