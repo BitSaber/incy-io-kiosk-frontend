@@ -16,10 +16,8 @@ const getQuestionsChoices = (id) => (
 
 const GetQuestion = () => {
     const promise = getQuestions()
-    console.log(promise)
     return (
         promise.then(response => {
-            /*console.log(response.data)*/
             return response.data.data })
     )
 }

@@ -22,25 +22,23 @@ class App extends React.Component {
     }
   }
 
-  componentDidMount() {
-    questionService.GetQuestion().then((questions) => {
-      this.setState({
-        observationQuestions: questions
-      })
-    })
-    questionService.GetChoices().then((choices) => {
-      this.setState({
-        questionsChoices: choices
-      })
+  async componentDidMount() {
+    const questions = await questionService.GetQuestion();
+    this.setState({
+      observationQuestions: questions
+    });
+
+    const choices = await questionService.GetChoices(this.state.currentQuestionId);
+    this.setState({
+      questionsChoices: choices
     })
   }
 
   clickChoices = () => {
-    questionService.GetChoices(this.state.currentId).then((choices) => {
+    questionService.GetChoices(this.state.currentQuestionId).then((choices) => {
       this.setState({
         questionsChoices: choices
       })
-      console.log(this.state)
     })
   }
 
@@ -49,14 +47,15 @@ class App extends React.Component {
     const obsAns = this.state.observationAnswer
     this.setState ({
       counter: count + 1,
-      observationAnswer: [...obsAns].concat(answer)
+      observationAnswer: [...obsAns].concat(answer),
+      currentQuestionId: this.state.observationQuestions.find(function(question) {
+        return question.position === count + 1;
+      }).id
     })
-    console.log(obsAns)
   }
 
   render () {
     const counter = this.state.counter;
-    console.log(counter)
     const displayedText = () => {
       if (this.state.observationQuestions.length !== 0) {
       return (
@@ -75,9 +74,7 @@ class App extends React.Component {
     } else {
     return (
       <div>
-        <div>{displayedText()}</div>
-        <TestButton clickAction = {() => this.clickHandler('Kyllä')} name = "KYLLÄ" />
-        <TestButton clickAction = {() => this.clickHandler('Ei')} name = "EI" />
+        <div>{displayedText()}</div> {this.state.questionsChoices.map( questionsChoice => <TestButton clickAction = {() => this.clickHandler(questionsChoice.name)} name = {questionsChoice.name} />)}
       </div>
     )
   }
