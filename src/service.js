@@ -1,14 +1,21 @@
 import axios from 'axios'
 
-const baseUrl = 'https://app-staging.incy.io/api/bitsaber-staging/observation-questions/links/staging-place-tarvikkeet'
+const observationQuestionUrl = 'https://app-staging.incy.io/api/bitsaber-staging/observation-questions/links/staging-place-tarvikkeet';
+const questionChoicesUrl = 'https://app-staging.incy.io/api/bitsaber-staging/observation-questions-choices/links/staging-place-tarvikkeet/'
 
- const getAll = () => (
+
+ const getQuestions = () => (
     axios
-    .get(baseUrl)
+    .get(observationQuestionUrl)
    )
 
+const getQuestionsChoices = (id) => (
+    axios
+    .get(questionChoicesUrl + id)
+)
+
 const GetQuestion = () => {
-    const promise = getAll()
+    const promise = getQuestions()
     console.log(promise)
     return (
         promise.then(response => {
@@ -17,4 +24,13 @@ const GetQuestion = () => {
     )
 }
 
-export default GetQuestion
+const GetChoices = (id) => {
+    const promise = getQuestionsChoices(id)
+    return (
+        promise.then(response => {
+            return response.data.data
+        })
+    )
+}
+
+export default {GetQuestion, GetChoices}

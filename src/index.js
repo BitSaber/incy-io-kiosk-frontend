@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import GetQuestion from './service'
+import questionService from './service'
 import Typography from '@material-ui/core/Typography'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import './index.css'
@@ -15,7 +15,9 @@ class App extends React.Component {
     super(props)
     this.state = {
       counter: 0,
-      observationQuestions: []
+      currentId: 5090,
+      observationQuestions: [],
+      questionsChoices: []
     }
   }
 
@@ -23,10 +25,19 @@ class App extends React.Component {
     this.setState({
       counter: this.state.counter + 1,
     });
-    GetQuestion().then((questions) => {
+    questionService.GetQuestion().then((questions) => {
       this.setState({
         observationQuestions: questions
       })
+    })
+  }
+
+  clickChoices = () => {
+    questionService.GetChoices(this.state.currentId).then((choices) => {
+      this.setState({
+        questionsChoices: choices
+      })
+      console.log(this.state)
     })
   }
 
@@ -57,6 +68,7 @@ class App extends React.Component {
       <div>
         <div>{displayedText()}</div>
         <TestButton clickAction = {this.clickGet} name = "GET" />
+        <TestButton clickAction = {this.clickChoices} name = "Choices" />
       </div>
     )
   }
