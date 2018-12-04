@@ -28,11 +28,11 @@ class App extends React.Component {
         observationQuestions: questions
       })
     })
-    questionService.GetChoices().then(choices) => {
+    questionService.GetChoices().then((choices) => {
       this.setState({
         questionsChoices: choices
       })
-    }
+    })
   }
 
   clickChoices = () => {
