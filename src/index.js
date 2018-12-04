@@ -14,15 +14,13 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      counter: 0,
-      observationQuestions: []
+      counter: 1,
+      observationQuestions: [],
+      observationAnswer: []
     }
   }
 
-  clickGet = () => {
-    this.setState({
-      counter: this.state.counter + 1,
-    });
+  componentDidMount() {
     GetQuestion().then((questions) => {
       this.setState({
         observationQuestions: questions
@@ -30,36 +28,44 @@ class App extends React.Component {
     })
   }
 
-  render () {
+  clickHandler = (answer) => {
+    const count = this.state.counter
+    const obsAns = this.state.observationAnswer
+    this.setState ({
+      counter: count + 1,
+      observationAnswer: [...obsAns].concat(answer)
+    })
+    console.log(obsAns)
+  }
 
+  render () {
+    const counter = this.state.counter;
+    console.log(counter)
     const displayedText = () => {
-      if ((this.state.counter) === 0) {
-        return (
-          <div>
-            <Typography variant='h1'>Button not yet pushed</Typography>
-          </div>
-        )
-      }
       if (this.state.observationQuestions.length !== 0) {
       return (
         <div>
           <Typography variant='h1'>
             {this.state.observationQuestions.find(function(question) {
-            return question.position === 1;
+              return question.position === counter;
             }).name}
           </Typography>
         </div> // ^^^ Finds the question with the position 1
       )
       }
     }
-
+    if (this.state.observationQuestions.length === 0) {
+      return null;
+    } else {
     return (
       <div>
         <div>{displayedText()}</div>
-        <TestButton clickAction = {this.clickGet} name = "GET" />
+        <TestButton clickAction = {() => this.clickHandler('Kyllä')} name = "KYLLÄ" />
+        <TestButton clickAction = {() => this.clickHandler('Ei')} name = "EI" />
       </div>
     )
   }
+}
 }
 
 export default App

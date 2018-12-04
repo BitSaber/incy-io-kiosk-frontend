@@ -8,7 +8,7 @@ const baseUrl = 'https://app-staging.incy.io/api/bitsaber-staging/observation-qu
    )
 
 const GetQuestion = () => {
-    const promise = getAll()
+    const promise = getAll();
     console.log(promise)
     return (
         promise.then(response => {
