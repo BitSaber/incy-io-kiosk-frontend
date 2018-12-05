@@ -7,11 +7,12 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import './index.css'
 import Button from '@material-ui/core/Button'
 
+/* Template button used to render the question choices. */
 const TestButton = ({ clickAction, name }) => (
   <Button variant="contained"  style={{padding: '3rem', margin: '3rem'}} onClick = {clickAction} >{name}</Button>
 )
 
-
+/*  */
 const initialState = {
   counter: 1,
   currentQuestionId: 5090,
@@ -69,13 +70,27 @@ class App extends React.Component {
     })
   }
 
+  
+
   handleSubmit = () => {
+    console.log('moi')
+    const data = {
+      occurred_at: "Tue Nov 20 2018 18:58",
+      place: 7925,
+      deadline: null,
+      category: 65336,
+      answers: {
+        5090: {
+          id: 41695
+        }
+      }
+    }
     const ids = this.state.observationAnswer
-    axios.post('https://app-staging.incy.io/api/bitsaber-staging/observations', {ids})
+    axios.post('https://app-staging.incy.io/api/bitsaber-staging/observations/links/staging-place-tarvikkeet', data)
     .then(res => {
       console.log(res)
       console.log(res.data)
-    })
+    }).catch(error => console.error(error));
   }
 
   async clickHandler(answer) {
