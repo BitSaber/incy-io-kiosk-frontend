@@ -19,8 +19,9 @@ const buildsDir = path.resolve(__dirname, 'builds');
 const distDir = path.resolve(__dirname, 'dist')
 const ENSURE_BUILDS_DIR = 'test -d '+buildsDir+' || mkdir '+buildsDir;
 const ENSURE_DIST_DIR = 'test -d '+distDir+' || mkdir '+distDir
-const MERGE_ASSET_COMPILE = 'cp -R assets/* '+distDir+' &> /dev/null || :';
-const CREATE_ARCHIVE = 'tar czvf '+buildsDir+'/'+appName+'-'+appVersion+'-b'+buildNumber+'.tar.gz'+' -C '+distDir+' .';
+const MERGE_ASSET_COMPILE = '[ -d assets ] && cp -R '+path.join('assets', '*')+' "'+distDir+'" || true';
+const CREATE_ARCHIVE = 'uname -a | grep -iqv cygwin && tar czvf '+path.join(buildsDir, appName+'-'+appVersion+'-b'+buildNumber+'.tar.gz')+' -C '+distDir+' . || echo "skipping archive creation, unsupported platform"';
+
 
 module.exports = {
     entry: './src/index.jsx',
