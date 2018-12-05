@@ -15,7 +15,6 @@ const getQuestionsChoices = (id) =>
 // Please use camelCase
 const GetQuestion = () => {
     const promise = getQuestions()
-    console.log(promise) // eslint-disable-line
     return (
         promise.then(response => {
             // console.log(response.data)

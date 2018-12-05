@@ -15,9 +15,26 @@ const initialState = {
 class App extends Component {
     constructor(props) {
         super(props)
-        this.state = initialState
+        this.state = {
+            counter: 1,
+            currentQuestionId: 0,
+            observationQuestions: [],
+            questionsChoices: [],
+            observationAnswer: []
+        }
         this.initializeQuestions = this.initializeQuestions.bind(this)
-        this.initializeQuestions()
+        const count = this.state.counter
+        GetQuestion().then((questions) => {
+            const newId = questions.find(function(question) {
+                return question.position === count;
+            }).id
+
+            this.setState({
+                observationQuestions: questions,
+                currentQuestionId: newId
+            });
+            this.clickChoices(newId)
+        })
     }
 
     clickGet() {
@@ -39,8 +56,8 @@ class App extends Component {
         })
     }
 
-    clickChoices() {
-        GetChoices(this.state.currentId).then((choices) => {
+    clickChoices(id) {
+        GetChoices(id).then((choices) => {
             this.setState({
                 questionsChoices: choices
             })
@@ -102,11 +119,19 @@ class App extends Component {
             </div>)
         }
         else {
+            console.log(this.state.questionsChoices) // eslint-disable-line
             return (
                 <div>
                     <div>{displayedText()}</div>
-                    <TestButton clickAction = {() => this.clickHandler('Kyllä')} name = "Kyllä" />
-                    <TestButton clickAction = {() => this.clickHandler('Ei')} name = "Ei" />
+                    {this.state.questionsChoices
+                        .map(questionsChoice =>
+                            <TestButton key={questionsChoice.name+'btn'}
+                                clickAction = {
+                                    () => this.clickHandler(questionsChoice.name)
+                                }
+                                name = {questionsChoice.name} />
+                        )
+                    }
                 </div>
             )
         }
