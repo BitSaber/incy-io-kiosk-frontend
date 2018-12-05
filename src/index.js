@@ -31,6 +31,19 @@ class App extends React.Component {
     }
   }
 
+  initilizeState = (id) => {
+    questionService.GetQuestion().then((questions) => {
+      this.setState({
+        observationQuestions: questions
+      })
+    })
+    questionService.GetChoices(id).then((choices) => {
+      this.setState({
+        questionsChoices: choices
+      })
+    })
+  }
+
   async componentDidMount() {
 
     const questions = await questionService.GetQuestion();
@@ -58,8 +71,9 @@ class App extends React.Component {
   async clickHandler(answer) {
 
     const count = this.state.counter
+    const length = this.state.observationQuestions.length
     const queId = (this.state.observationQuestions.find(function(question) {
-      return question.position === count + 1;
+      return question.position === ((count) % length) + 1;
     }).id)
     this.clickChoices(queId)
     const obsAns = this.state.observationAnswer
@@ -73,10 +87,11 @@ class App extends React.Component {
   }
 
   submitObservation = () => {
+    const initialID = this.state.currentQuestionId
     //TODO: Post observation
     setTimeout(() => {
       this.setState(initialState)
-      this.initilizeQuestions()
+      this.initilizeState(initialID)
     }, 3000)
   }
 
