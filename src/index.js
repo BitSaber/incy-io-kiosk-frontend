@@ -38,8 +38,8 @@ class App extends React.Component {
     })
   }
 
-  clickChoices = () => {
-    questionService.GetChoices(this.state.currentQuestionId).then((choices) => {
+  clickChoices = (id) => {
+    questionService.GetChoices(id).then((choices) => {
       this.setState({
         questionsChoices: choices
       })
@@ -49,19 +49,16 @@ class App extends React.Component {
   async clickHandler(answer) {
 
     const count = this.state.counter
+    const queId = (this.state.observationQuestions.find(function(question) {
+      return question.position === count + 1;
+    }).id)
+    this.clickChoices(queId)
     const obsAns = this.state.observationAnswer
 
-    await this.setState ({
+    this.setState({
       counter: count + 1,
       observationAnswer: [...obsAns].concat(answer),
-      currentQuestionId: this.state.observationQuestions.find(function(question) {
-        return question.position === count + 1;
-      }).id
-    })
-
-    const choices = await questionService.GetChoices(this.state.currentQuestionId)
-    await this.setState({
-      questionChoices: choices
+      currentQuestionId: queId
     })
 
   }
