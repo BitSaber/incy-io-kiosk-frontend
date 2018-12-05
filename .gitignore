@@ -46,4 +46,6 @@ yarn-debug.log*
 yarn-error.log*
 
 /builds/*.tar.gz
-package-lock.json
+/package-lock.json
+/dist
+/yarn.lock
