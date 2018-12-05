@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 import questionService from './service'
 import Typography from '@material-ui/core/Typography'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -13,7 +14,7 @@ const TestButton = ({ clickAction, name }) => (
 
 const initialState = {
   counter: 1,
-  currentId: 5090,
+  currentQuestionId: 5090,
   observationQuestions: [],
   questionsChoices: [],
   observationAnswer: []
@@ -68,6 +69,15 @@ class App extends React.Component {
     })
   }
 
+  handleSubmit = () => {
+    const ids = this.state.observationAnswer
+    axios.post('https://app-staging.incy.io/api/bitsaber-staging/observations', {ids})
+    .then(res => {
+      console.log(res)
+      console.log(res.data)
+    })
+  }
+
   async clickHandler(answer) {
 
     const count = this.state.counter
@@ -83,12 +93,13 @@ class App extends React.Component {
       observationAnswer: [...obsAns].concat(answer),
       currentQuestionId: queId
     })
+    console.log(queId)
 
   }
 
   submitObservation = () => {
     const initialID = this.state.currentQuestionId
-    //TODO: Post observation
+    this.handleSubmit()
     setTimeout(() => {
       this.setState(initialState)
       this.initilizeState(initialID)
