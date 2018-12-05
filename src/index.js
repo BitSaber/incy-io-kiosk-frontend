@@ -10,6 +10,15 @@ const TestButton = ({ clickAction, name }) => (
   <Button variant="contained"  style={{padding: '3rem', margin: '3rem'}} onClick = {clickAction} >{name}</Button>
 )
 
+
+const initialState = {
+  counter: 1,
+  currentId: 5090,
+  observationQuestions: [],
+  questionsChoices: [],
+  observationAnswer: []
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -23,19 +32,19 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
+
     const questions = await questionService.GetQuestion();
     const count = this.state.counter
+    const newId = questions.find(function(question) {
+      return question.position === count;
+    }).id
+
     this.setState({
       observationQuestions: questions,
-      currentQuestionId: questions.find(function(question) {
-        return question.position === count;
-      }).id
+      currentQuestionId: newId
     });
 
-    const choices = await questionService.GetChoices(this.state.currentQuestionId);
-    this.setState({
-      questionsChoices: choices
-    })
+    await this.clickChoices(newId)
   }
 
   clickChoices = (id) => {
@@ -63,6 +72,14 @@ class App extends React.Component {
 
   }
 
+  submitObservation = () => {
+    //TODO: Post observation
+    setTimeout(() => {
+      this.setState(initialState)
+      this.initilizeQuestions()
+    }, 3000)
+  }
+
   render () {
     const counter = this.state.counter;
     const displayedText = () => {
@@ -81,7 +98,14 @@ class App extends React.Component {
 
     if (this.state.observationQuestions.length === 0) {
       return null;
-    } else {
+    }
+    else if (this.state.counter > this.state.observationQuestions.length){
+      this.submitObservation()
+      return <div>
+        Kiitos palautteesta!
+      </div>
+    }
+    else {
     return (
       <div>
         <div>{displayedText()}</div> {this.state.questionsChoices.map( questionsChoice => <TestButton clickAction = {() => this.clickHandler(questionsChoice.name)} name = {questionsChoice.name} />)}
