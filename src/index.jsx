@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import CssBaseline from '@material-ui/core/CssBaseline'
-import App from './App'
+import './index.css'
+
+import App from './App';
 
 ReactDOM.render(
-    <div>
+    <React.Fragment>
         <CssBaseline />
         <App />
-    </div>,
-    document.getElementById('app')
+    </React.Fragment>, 
+    document.getElementById('root')
 );
