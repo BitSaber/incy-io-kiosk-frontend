@@ -1,34 +1,20 @@
-import axios from 'axios'
+import axios from 'axios';
 
-const observationQuestionUrl = 'https://app-staging.incy.io/api/bitsaber-staging/observation-questions/links/staging-place-tarvikkeet';
-const questionChoicesUrl = 'https://app-staging.incy.io/api/bitsaber-staging/observation-questions-choices/links/staging-place-tarvikkeet/'
+const questionsUrl = 'https://app-staging.incy.io/api/bitsaber-staging/observation-questions/links/staging-place-tarvikkeet';
+const choisesUrl = 'https://app-staging.incy.io/api/bitsaber-staging/observation-questions-choices/links/staging-place-tarvikkeet/';
 
+const getQuestions = async () => {
+    const response = await axios.get(questionsUrl);
+    return response.data.data;
+};
 
- const getQuestions = () => (
-    axios
-    .get(observationQuestionUrl)
-   )
+const getChoices = async (id) => {
+    const response =  await axios.get(choisesUrl + id);
+    return response.data.data;
+};
 
-const getQuestionsChoices = (id) => (
-    axios
-    .get(questionChoicesUrl + id)
-)
+const postObservation = async (data) => {
+    // TODO
+};
 
-const GetQuestion = () => {
-    const promise = getQuestions()
-    return (
-        promise.then(response => {
-            return response.data.data })
-    )
-}
-
-const GetChoices = (id) => {
-    const promise = getQuestionsChoices(id)
-    return (
-        promise.then(response => {
-            return response.data.data
-        })
-    )
-}
-
-export default {GetQuestion, GetChoices}
+export default { getQuestions, getChoices, postObservation };
