@@ -8,14 +8,14 @@ const QuestionPage = ({ question, questionChoices, onChoiceClick }) => (
     <div>
         <Typography variant='h1'>{question.name}</Typography>
         <Grid container justify="center">
-          {questionChoices.map(questionsChoice => (
-            <BigButton 
-              key={questionsChoice.id} 
-              onClick={() => onChoiceClick(questionsChoice)} 
-              text={questionsChoice.name} 
-            />
+            {questionChoices.map(questionsChoice => (
+                <BigButton
+                    key={questionsChoice.id}
+                    onClick={() => onChoiceClick(questionsChoice)}
+                    text={questionsChoice.name}
+                />
             ))
-          }
+            }
         </Grid>
     </div>
 );

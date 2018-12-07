@@ -1,0 +1,16 @@
+{
+    "env": {
+        "browser": true,
+        "es6": false,
+        "node": false,
+        "jest": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+    "parser": "babel-eslint",
+    "rules": {
+        "indent": [2, 4]
+    }
+}

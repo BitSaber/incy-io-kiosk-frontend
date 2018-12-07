@@ -13,11 +13,11 @@ const TextContainer = styled.div`
 `;
 
 const BigButton = ({ onClick, text }) => (
-  <ButtonContainer>
-    <Button variant="contained" onClick={onClick}>
-      <TextContainer>{text}</TextContainer>
-    </Button>
-  </ButtonContainer>
+    <ButtonContainer>
+        <Button variant="contained" onClick={onClick}>
+            <TextContainer>{text}</TextContainer>
+        </Button>
+    </ButtonContainer>
 );
 
 export default BigButton;
