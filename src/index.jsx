@@ -9,6 +9,6 @@ ReactDOM.render(
     <React.Fragment>
         <CssBaseline />
         <App />
-    </React.Fragment>, 
-    document.getElementById('root')
+    </React.Fragment>,
+    document.getElementById('app')
 );

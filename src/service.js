@@ -13,7 +13,7 @@ const getChoices = async (id) => {
     return response.data.data;
 };
 
-const postObservation = async (data) => {
+const postObservation = async (data) => { // eslint-disable-line
     // TODO
 };
 
