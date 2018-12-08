@@ -36,7 +36,11 @@ class App extends React.Component {
     }
 
     setNextQuestion = async (currentQuestionIndex) => {
-        const newQuestionID = this.state.questions[currentQuestionIndex + 1].id;
+        // finds the question that depends on this one
+        const newQuestionID = 
+            this.state.questions.find(
+                question => question.depends_on_question_id === this.state.questions[currentQuestionIndex].id
+            ).id
         this.setState({
             currentQuestionID: newQuestionID,
         });
@@ -70,12 +74,15 @@ class App extends React.Component {
 
     }
 
-    /* Checks if new answer should end this question round */
+    /* Checks if new answer should end this question round .
+       NOTE: Assumes that all questions except the start are dependent on a specific answer. */
     moreQuestions = (currentQuestionIndex) => {
         const answers = this.state.answers
         const questions = this.state.questions
         return currentQuestionIndex !== questions.length - 1 && answers !== undefined &&
-            questions[currentQuestionIndex + 1].depends_on_choice_id === answers[questions[currentQuestionIndex].id].id
+            // finds the question which depends on the given answer
+            questions.find(question => question.depends_on_question_id === questions[currentQuestionIndex].id).
+            depends_on_choice_id === answers[questions[currentQuestionIndex].id].id
     }
 
 
