@@ -47,7 +47,7 @@ class App extends React.Component {
     }
 
     handleChoiceClick = async (choice) => {
-        this.setState((previousState) => {
+        await this.setState((previousState) => {
             return {
                 ...previousState,
                 answers: {
@@ -62,13 +62,22 @@ class App extends React.Component {
         const { currentQuestionID, questions } = this.state;
         const currentQuestionIndex = questions.findIndex(question => question.id === currentQuestionID);
 
-        if (currentQuestionIndex !== questions.length - 1) { // more questions
+        if (this.moreQuestions(currentQuestionIndex)) { // more questions
             this.setNextQuestion(currentQuestionIndex);
         } else { // no more questions 
             this.submitObservation();
         }
 
     }
+
+    /* Checks if new answer should end this question round */
+    moreQuestions = (currentQuestionIndex) => {
+        const answers = this.state.answers
+        const questions = this.state.questions
+        return currentQuestionIndex !== questions.length - 1 && answers !== undefined &&
+            questions[currentQuestionIndex + 1].depends_on_choice_id === answers[questions[currentQuestionIndex].id].id
+    }
+
 
     submitObservation = () => {
         // TODO POST observation
