@@ -6,15 +6,7 @@ import './css/animations.css';
 const element = <button className="newButton">Kyllä</button>
 const element1 = <button className="newButton" >Ei</button>
 
-
-
-
 class App extends Component {
-
-
-
-
-
 
     render() {
 
