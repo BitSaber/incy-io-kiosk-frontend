@@ -1,27 +1,18 @@
 import React, { Component } from 'react';
 import './css/style.css';
-//import './service.js'
-import axios from 'axios'
+import './css/animations.css';
+/*import './images/planblogo.png';*/
+import axios from 'axios';
 
 const observationQuestionUrl = 'https://app-staging.incy.io/api/bitsaber-staging/observation-questions/links/staging-place-tarvikkeet';
-// const answerQuestionUrl = 'https://app-staging.incy.io/api/bitsaber-staging/observation-questions/links/staging-place-tarvikkeet/7366';
-//const element = <button className="myButton">Yes</button>
-const element1 = <button className="myButton1" >No</button>
+const element = <button className="newButton">Kyllä</button>
+const element1 = <button className="newButton" >Ei</button>
 
 
 function getQuestions() {
     return axios
         .get(observationQuestionUrl)
 }
-
-function showAlert() {
-    alert("Im an alert");
-}
-
-// function getAnswers() {
-//     return axios
-//         .get(answerQuestionUrl)
-// }
 
 class App extends Component {
     constructor(props) {
@@ -51,22 +42,7 @@ class App extends Component {
                 })
             })
 
-        // getAnswers()
-        //     .then(response => {
-        //         this.setState({
-        //             loading: false,
-        //             errorOccurred: false,
-        //             errorMessage: null,
-        //             answers: response.data.data
-        //         })
-        //     })
-        //     .catch(error => {
-        //         this.setState({
-        //             loading: false,
-        //             errorOccurred: true,
-        //             errorMessage: error
-        //         })
-        //     })
+
     }
 
 
@@ -86,7 +62,7 @@ class App extends Component {
         this.state.answers.forEach((value, key) => {
             console.log(key.value) // eslint-disable-line
             answerElems.push(
-                <button key={'answer_' + value.id} className="myButton" onClick={showAlert} > {value.name}</button >
+                <button key={'answer_' + value.id} className="newButton"  > {value.name}</button >
             )
         })
 
@@ -96,18 +72,29 @@ class App extends Component {
 
         return (
             // Insert API answers
-            <div className="center-align">
-                <div className="txt">
-                    {questionElems[0]}
+            <div>
+                <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img> </div>
+                <div className="question-div ">
+                    <h2 className="txt">Oletko tyytyväinen huoneen tarvikkeisiin?</h2>
                 </div>
-                {this.state.errorOccurred ? this.state.errorMessage : 'All\'s good in the neighbourhood!'}
 
                 <div>
-                    {answerElems[0]}
-                    {element1}
+                    <div className="center-align">
+                        {element}
+                        {element1}
+                    </div>
                 </div>
-
-            </div>
+                <footer className="footer">
+                    <footer className="inside">
+                        <p>Copyright © 2018 BitSaber, Otaniemi, Finland</p>
+                        <div className="under">
+                            <ul>
+                                <li> <a href="https://github.com/BitSaber/incy-io-kiosk-frontend" target="_blank" rel="noopener noreferrer">GitHub</a> </li>
+                            </ul>
+                        </div>
+                    </footer>
+                </footer>
+            </div >
         )
     }
 }
