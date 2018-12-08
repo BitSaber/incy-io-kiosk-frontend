@@ -14,7 +14,11 @@ const getChoices = async (id) => {
 };
 
 const postObservation = async (data) => { // eslint-disable-line
-    // TODO
+    axios.post('https://app-staging.incy.io/api/bitsaber-staging/observations/links/staging-place-tarvikkeet', data)
+        .then(res => {
+            console.log(res)
+            console.log(res.data)
+        }).catch(error => console.error(error));
 };
 
 export default { getQuestions, getChoices, postObservation };

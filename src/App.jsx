@@ -87,7 +87,21 @@ class App extends React.Component {
 
 
     submitObservation = () => {
-        // TODO POST observation
+        // NOTE: place and category still need to be fetched from API
+        const time = new Date().toString().substring(0,21)
+        const place = 7925
+        const answers = this.state.answers
+        const category = 65336
+        const data = {
+            occurred_at: time,
+            place: place,
+            deadline: null,
+            category: category,
+            answers: answers
+        }
+
+        questionService.postObservation(data)
+
         this.setState({
             isAllQuestionsAnswered: true,
         });
