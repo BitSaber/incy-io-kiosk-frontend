@@ -1,6 +1,8 @@
 body {
 background-color: #ffffff;
-font-family: "Roboto",sans-serif;
+ font-family: "Roboto",sans-serif; 
+ margin: 0px;
+
 max-width: 1109px;
 }
 

@@ -1,74 +1,22 @@
 import React, { Component } from 'react';
 import './css/style.css';
 import './css/animations.css';
-/*import './images/planblogo.png';*/
-import axios from 'axios';
 
-const observationQuestionUrl = 'https://app-staging.incy.io/api/bitsaber-staging/observation-questions/links/staging-place-tarvikkeet';
+
 const element = <button className="newButton">Kyllä</button>
 const element1 = <button className="newButton" >Ei</button>
 
 
-function getQuestions() {
-    return axios
-        .get(observationQuestionUrl)
-}
+
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            errorOccurred: false,
-            errorMessage: null,
-            loading: false,
-            questions: [],
-            answers: []
-        }
-        getQuestions()
-            .then(response => {
-                this.setState({
-                    loading: false,
-                    errorOccurred: false,
-                    errorMessage: null,
-                    questions: response.data.data,
-                    answers: response.data.data
-                })
-            })
-            .catch(error => {
-                this.setState({
-                    loading: false,
-                    errorOccurred: true,
-                    errorMessage: error
-                })
-            })
 
 
-    }
 
 
 
 
     render() {
-
-        const questionElems = []
-        this.state.questions.forEach((value, key) => {
-            console.log(key, value) // eslint-disable-line
-            questionElems.push(
-                <h1 key={'question_' + value.id}>{value.name}</h1>
-            )
-        })
-
-        const answerElems = []
-        this.state.answers.forEach((value, key) => {
-            console.log(key.value) // eslint-disable-line
-            answerElems.push(
-                <button key={'answer_' + value.id} className="newButton"  > {value.name}</button >
-            )
-        })
-
-
-
-
 
         return (
             // Insert API answers
