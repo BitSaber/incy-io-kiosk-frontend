@@ -1,3 +1,4 @@
+/* eslint-env node */
 const path = require('path');
 const webpack = require('webpack');
 
@@ -15,9 +16,12 @@ const appVersion = pack.version;
 const buildNumber = process.env.BUILD_NUMBER || 'local_dev';
 const WebpackShellPlugin = require('webpack-shell-plugin');
 const buildsDir = path.resolve(__dirname, 'builds');
-const MAKE_BUILDS_DIR = 'test -d '+buildsDir+' || mkdir '+buildsDir;
-const MERGE_ASSET_COMPILE = 'cp -R assets/* '+path.resolve(__dirname, 'dist')+' &> /dev/null || :';
-const CREATE_ARCHIVE = 'tar czvf '+path.resolve(__dirname, 'builds')+'/'+appName+'-'+appVersion+'-b'+buildNumber+'.tar.gz'+' -C '+path.resolve(__dirname, 'dist')+' .';
+const distDir = path.resolve(__dirname, 'dist')
+const ENSURE_BUILDS_DIR = 'test -d '+buildsDir+' || mkdir '+buildsDir;
+const ENSURE_DIST_DIR = 'test -d '+distDir+' || mkdir '+distDir
+const MERGE_ASSET_COMPILE = '[ -d assets ] && cp -R '+path.join('assets', '*')+' "'+distDir+'" || true';
+const CREATE_ARCHIVE = 'uname -a | grep -iqv cygwin && tar czvf '+path.join(buildsDir, appName+'-'+appVersion+'-b'+buildNumber+'.tar.gz')+' -C '+distDir+' . || echo "skipping archive creation, unsupported platform"';
+
 
 module.exports = {
     entry: './src/index.jsx',
@@ -36,13 +40,7 @@ module.exports = {
             {
                 test: /\.jsx$|\.js$/,
                 loader: 'babel-loader',
-                exclude: /node_modules/,
-                query: {
-                    presets: [
-                        '@babel/preset-env',
-                        '@babel/preset-react'
-                    ]
-                }
+                exclude: /node_modules/
             },
             {
                 test: /\.css$/,
@@ -77,7 +75,8 @@ module.exports = {
     plugins: [
         HtmlWebpackPluginConfig,
         new WebpackShellPlugin({
-            onBuildExit: [MAKE_BUILDS_DIR, MERGE_ASSET_COMPILE, CREATE_ARCHIVE],
+            onBuildStart: [ENSURE_BUILDS_DIR, ENSURE_DIST_DIR],
+            onBuildExit: [MERGE_ASSET_COMPILE, CREATE_ARCHIVE],
             safe: true
         })
     ],
