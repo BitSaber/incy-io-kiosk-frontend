@@ -24,8 +24,8 @@ class QuestionPage extends Component {
                 </div>
 
                 <div>
-                    <div className="center-align">
-                        <Grid container justify="center">
+                    <div className="center-align txt">
+                        <Grid container direction="row" justify="center">
                             {this.props.questionChoices.map(questionsChoice => (
                                 <BigButton
                                     key={questionsChoice.id}
