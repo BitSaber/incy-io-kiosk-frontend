@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout SCM') {
             steps {
-                git url: 'https://github.com/BitSaber/incy-io-kiosk-frontend.git'
+                git url: 'https://github.com/BitSaber/incy-io-kiosk-frontend.git', branch: env.BRANCH_NAME
             }
         }
 /*        stage('Static code analysis') {
