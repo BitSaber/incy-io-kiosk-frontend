@@ -87,7 +87,7 @@ class App extends React.Component {
 
 
     submitObservation = () => {
-        // NOTE: place and category still need to be fetched from API
+        // TODO: place and category still need to be fetched from API
         const time = new Date().toString().substring(0,21)
         const place = 7925
         const answers = this.state.answers
