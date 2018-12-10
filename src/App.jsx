@@ -82,7 +82,7 @@ class App extends React.Component {
         return currentQuestionIndex !== questions.length - 1 && answers !== undefined &&
             // finds the question which depends on the given answer
             questions.find(question => question.depends_on_question_id === questions[currentQuestionIndex].id).
-            depends_on_choice_id === answers[questions[currentQuestionIndex].id].id
+                depends_on_choice_id === answers[questions[currentQuestionIndex].id].id
     }
 
 
