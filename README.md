@@ -9,6 +9,9 @@ In case you are running your browser from a different computer than you are runn
 
 When hopping different branches, it might be a good idea to run `rm -rf node_modules && yarn install` to have a clean set of dependencies.
 
+When making pull requests, [Jenkins](https://jenkins.bitsaber.net) will automatically chack it out.
+
+
 ## Author
 
 BitSaber Team
