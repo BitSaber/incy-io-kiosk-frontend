@@ -46,7 +46,7 @@ class App extends React.Component {
         });
     }
 
-    handleChoiceClick = async (choice) => {
+handleChoiceClick = async (choice) => {
         this.setState((previousState) => {
             return {
                 ...previousState,
