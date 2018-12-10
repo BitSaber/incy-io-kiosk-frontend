@@ -1,11 +1,11 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 
-const ThankYouPage = () => (
+const ThankYouPage = () => ( //TODO: attributes of class txt should be implemented with material UI
     <div>
         <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img> </div>
         <div className="answer-div">
-            <Typography class="txt"><h2>Kiitos palautteesta!</h2></Typography>
+            <Typography class="txt" variant="h2">Kiitos palautteesta!</Typography>
         </div>
 
         <footer className="footer">
