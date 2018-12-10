@@ -36,7 +36,11 @@ class App extends React.Component {
     }
 
     setNextQuestion = async (currentQuestionIndex) => {
-        const newQuestionID = this.state.questions[currentQuestionIndex + 1].id;
+        // finds the question that depends on this one
+        const newQuestionID = 
+            this.state.questions.find(
+                question => question.depends_on_question_id === this.state.questions[currentQuestionIndex].id
+            ).id
         this.setState({
             currentQuestionID: newQuestionID,
         });
@@ -47,7 +51,7 @@ class App extends React.Component {
     }
 
     handleChoiceClick = async (choice) => {
-        this.setState((previousState) => {
+        await this.setState((previousState) => {
             return {
                 ...previousState,
                 answers: {
@@ -62,7 +66,7 @@ class App extends React.Component {
         const { currentQuestionID, questions } = this.state;
         const currentQuestionIndex = questions.findIndex(question => question.id === currentQuestionID);
 
-        if (currentQuestionIndex !== questions.length - 1) { // more questions
+        if (this.moreQuestions(currentQuestionIndex)) { // more questions
             this.setNextQuestion(currentQuestionIndex);
         } else { // no more questions 
             this.submitObservation();
@@ -70,8 +74,34 @@ class App extends React.Component {
 
     }
 
+    /* Checks if new answer should end this question round .
+       NOTE: Assumes that all questions except the start are dependent on a specific answer. */
+    moreQuestions = (currentQuestionIndex) => {
+        const answers = this.state.answers
+        const questions = this.state.questions
+        return currentQuestionIndex !== questions.length - 1 && answers !== undefined &&
+            // finds the question which depends on the given answer
+            questions.find(question => question.depends_on_question_id === questions[currentQuestionIndex].id).
+                depends_on_choice_id === answers[questions[currentQuestionIndex].id].id
+    }
+
+
     submitObservation = () => {
-        // TODO POST observation
+        // TODO: place and category still need to be fetched from API
+        const time = new Date().toString().substring(0,21)
+        const place = 7925
+        const answers = this.state.answers
+        const category = 65336
+        const data = {
+            occurred_at: time,
+            place: place,
+            deadline: null,
+            category: category,
+            answers: answers
+        }
+
+        questionService.postObservation(data)
+
         this.setState({
             isAllQuestionsAnswered: true,
         });
