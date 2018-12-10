@@ -5,7 +5,7 @@ const ThankYouPage = () => (
     <div>
         <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img> </div>
         <div className="answer-div">
-            <Typography class="txt"><h2>Kiitos vastaamisesta!</h2></Typography>
+            <Typography class="txt"><h2>Kiitos palautteesta!</h2></Typography>
         </div>
 
         <footer className="footer">
