@@ -4,6 +4,8 @@ import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types'
 
 import BigButton from '../components/BigButton';
+import '../css/style.css';
+
 
 class QuestionPage extends Component {
     static propTypes = {
@@ -11,21 +13,44 @@ class QuestionPage extends Component {
         questionChoices: PropTypes.arrayOf(PropTypes.object).isRequired,
         onChoiceClick: PropTypes.func.isRequired
     }
+
+
     render() {
         return (
             <div>
-                <Typography variant='h1'>{this.props.question.name}</Typography>
-                <Grid container justify="center">
-                    {this.props.questionChoices.map(questionsChoice => (
-                        <BigButton
-                            key={questionsChoice.id}
-                            onClick={() => this.props.onChoiceClick(questionsChoice)}
-                            text={questionsChoice.name}
-                        />
-                    ))
-                    }
-                </Grid>
+                <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img> </div>
+                <div className="question-div ">
+                    <Typography class="txt"  ><h2>{this.props.question.name}</h2></Typography>
+                </div>
+
+                <div>
+                    <div className="center-align txt">
+                        <Grid container direction="row" justify="center">
+                            {this.props.questionChoices.map(questionsChoice => (
+                                <BigButton
+                                    key={questionsChoice.id}
+                                    onClick={() => this.props.onChoiceClick(questionsChoice)}
+                                    text={questionsChoice.name}
+                                />
+                            ))
+                            }
+                        </Grid>
+                    </div>
+                </div>
+                <footer className="footer">
+                    <footer className="inside">
+                        <p>Copyright © 2018 BitSaber, Otaniemi, Finland</p>
+                        <div className="under">
+                            <ul>
+                                <li> <a href="https://github.com/BitSaber/incy-io-kiosk-frontend" target="_blank" rel="noopener noreferrer">GitHub</a> </li>
+                            </ul>
+                        </div>
+                    </footer>
+                </footer>
+
             </div>
+
+
         )
     }
 }

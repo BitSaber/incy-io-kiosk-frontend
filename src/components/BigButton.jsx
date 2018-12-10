@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
 import PropTypes from 'prop-types'
+import '../css/style.css';
 
 
 class BigButton extends Component {
@@ -11,17 +12,24 @@ class BigButton extends Component {
     }
     render() {
         const ButtonContainer = styled.div`
-          padding: 3rem;
-          margin: 3rem;
+margin:8px;
+	
+
         `;
 
         const TextContainer = styled.div`
-          padding: 3rem;
-          margin: 3rem;
+        padding:60px 60px; 
+        margin:5px;
+        text-decoration:none;
+        text-shadow:0px 1px 0px #005667;
+        color: #ffffff;
+        font-size:19px;
+        font-weight:bold;
+        
         `;
         return (
             <ButtonContainer>
-                <Button variant="contained" onClick={this.props.onClick}>
+                <Button className="newButton" variant="contained" onClick={this.props.onClick}>
                     <TextContainer>{this.props.text}</TextContainer>
                 </Button>
             </ButtonContainer>
