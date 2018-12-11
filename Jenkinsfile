@@ -7,24 +7,6 @@ pipeline {
         PATH = "/opt/tools/yarn/yarn-v1.12.3/bin:/opt/tools/nodejs/node-v11.4.0-linux-x64/bin:$PATH"
     }
     stages {
-/*        stage('Static code analysis') {
-            steps {
-                script {
-                    scannerHome = tool 'SonarScanner'
-                }
-                sh "${scannerHome}/bin/sonar-scanner"
-            }
-        }
-        stage("Quality Gate") {
-            steps {
-                timeout(time: 1, unit: 'HOURS') {
-                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
-                    // true = set pipeline to UNSTABLE, false = don't
-                    // Requires SonarQube Scanner for Jenkins 2.7+
-                    waitForQualityGate abortPipeline: true
-                }
-            }
-        }*/
         stage('Install Dependencies') {
             steps {
                 sh 'yarn install'
@@ -38,6 +20,28 @@ pipeline {
         stage('Run tests') {
             steps {
                 sh 'yarn test'
+            }
+        }
+        withCredentials([string(credentialsId: 'jenkins-slaves-sonar-token', variable: 'SONAR_AUTH_TOKEN')]) {
+            stage('Static code analysis') {
+                steps {
+                    withSonarQubeEnv('BitSaber Sonar') {
+                        script {
+                            scannerHome = tool 'SonarScanner'
+                        }
+                        sh "${scannerHome}/bin/sonar-scanner -D sonar.login=\"${SONAR_AUTH_TOKEN}\""
+                    }
+                }
+            }
+            stage("Quality Gate") {
+                steps {
+                    timeout(time: 10, unit: 'MINUTES') {
+                        // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+                        // true = set pipeline to UNSTABLE, false = don't
+                        // Requires SonarQube Scanner for Jenkins 2.7+
+                        waitForQualityGate abortPipeline: true
+                    }
+                }
             }
         }
         stage('Build Project') {
