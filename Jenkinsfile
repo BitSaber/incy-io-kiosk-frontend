@@ -7,11 +7,6 @@ pipeline {
         PATH = "/opt/tools/yarn/yarn-v1.12.3/bin:/opt/tools/nodejs/node-v11.4.0-linux-x64/bin:$PATH"
     }
     stages {
-        /* stage('Checkout SCM') { */
-        /*     steps { */
-        /*         git url: 'https://github.com/BitSaber/incy-io-kiosk-frontend.git', branch: env.BRANCH_NAME */
-        /*     } */
-        /* } */
 /*        stage('Static code analysis') {
             steps {
                 script {
