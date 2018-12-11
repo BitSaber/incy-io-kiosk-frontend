@@ -12,11 +12,6 @@ pipeline {
                 sh 'yarn install'
             }
         }
-        stage('Linter') {
-            steps {
-                sh 'yarn lint'
-            }
-        }
         stage('Run tests') {
             steps {
                 sh 'yarn test'
@@ -42,6 +37,11 @@ pipeline {
                     // Requires SonarQube Scanner for Jenkins 2.7+
                     waitForQualityGate abortPipeline: true
                 }
+            }
+        }
+        stage('Linter') {
+            steps {
+                sh 'yarn lint'
             }
         }
         stage('Build Project') {
