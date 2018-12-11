@@ -23,8 +23,8 @@ pipeline {
             }
         }
         stage('Static code analysis') {
-            withCredentials([string(credentialsId: 'jenkins-slaves-sonar-token', variable: 'SONAR_AUTH_TOKEN')]) {
-                steps {
+            steps {
+                withCredentials([string(credentialsId: 'jenkins-slaves-sonar-token', variable: 'SONAR_AUTH_TOKEN')]) {
                     withSonarQubeEnv('BitSaber Sonar') {
                         script {
                             scannerHome = tool 'SonarScanner'
