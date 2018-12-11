@@ -22,8 +22,8 @@ pipeline {
                 sh 'yarn test'
             }
         }
-        withCredentials([string(credentialsId: 'jenkins-slaves-sonar-token', variable: 'SONAR_AUTH_TOKEN')]) {
-            stage('Static code analysis') {
+        stage('Static code analysis') {
+            withCredentials([string(credentialsId: 'jenkins-slaves-sonar-token', variable: 'SONAR_AUTH_TOKEN')]) {
                 steps {
                     withSonarQubeEnv('BitSaber Sonar') {
                         script {
@@ -33,14 +33,14 @@ pipeline {
                     }
                 }
             }
-            stage("Quality Gate") {
-                steps {
-                    timeout(time: 10, unit: 'MINUTES') {
-                        // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
-                        // true = set pipeline to UNSTABLE, false = don't
-                        // Requires SonarQube Scanner for Jenkins 2.7+
-                        waitForQualityGate abortPipeline: true
-                    }
+        }
+        stage("Quality Gate") {
+            steps {
+                timeout(time: 10, unit: 'MINUTES') {
+                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+                    // true = set pipeline to UNSTABLE, false = don't
+                    // Requires SonarQube Scanner for Jenkins 2.7+
+                    waitForQualityGate abortPipeline: true
                 }
             }
         }
