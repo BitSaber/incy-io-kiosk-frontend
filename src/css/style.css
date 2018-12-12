@@ -1,0 +1,136 @@
+body {
+background-color: #ffffff;
+ font-family: "Roboto",sans-serif; 
+ color: #ffffff;
+ margin: 0px;
+max-width: 1109px;
+}
+
+html {
+overflow-y:hidden;
+	height:100vh;
+}
+
+.question-div {
+	margin:70px auto;
+	width: 100%;
+	height: 90px;
+	background-color: #055679; 
+}
+.answer-div {
+	margin:70px auto;
+	height: 90px;
+	background-color: #055679; 
+}
+
+.txt {
+	color: #ffffff;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 90px;
+	font-weight: 600;
+	white-space: normal;
+}
+
+
+
+.logo {
+	margin-top: 40px;
+	width:250px; /* you can use % */
+	height: auto;
+	background-color: #055679;
+	align-content: middle;
+}
+
+.bottom {
+	background-color: #044460;
+	width:1024px;
+	height: 35px;
+}
+
+.center-align {
+	text-align: center;
+	display:inline-block;
+}
+
+.footer {
+	position: fixed;
+	display: flex;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  background-color: #044460;
+color: #ffffff;
+font-size: 10px;
+letter-spacing: 1px;
+}
+
+.inside {
+	height: 35px;
+	width: 1009px;
+	margin:auto;
+	text-align: center;
+}
+ul {
+	list-style: none;
+	position: relative;
+	top: -0.9em; /* for the bottom GitHub text, not optimal */
+}
+a{
+	color:inherit;
+	text-decoration:none;
+}
+a:hover{
+    color:inherit;
+}
+
+
+/* Button for getting questions */
+.newButton {
+	/* -moz-box-shadow: 0px 0px 0px 2px #9fb4f2;
+	-webkit-box-shadow: 0px 0px 0px 2px #9fb4f2;
+	box-shadow: 0px 0px 0px 2px #9fb4f2; */
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #055679), color-stop(1, #055679));
+	background:-moz-linear-gradient(top, #055679 5%, #055679 100%);
+	background:-webkit-linear-gradient(top, #055679 5%, #055679 100%);
+	background:-o-linear-gradient(top, #055679 5%, #055679 100%);
+	background:-ms-linear-gradient(top, #055679 5%, #055679 100%);
+	background:linear-gradient(to bottom, #055679 5%, #055679 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#055679', endColorstr='#055679',GradientType=0);
+	background-color:#055679;
+	/* -moz-border-radius:5px;
+	-webkit-border-radius:5px; */
+	/* border-radius:5px; */
+	border:1px solid #ffffff;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:19px;
+	font-weight:bold;
+	padding:60px 60px; 
+	text-decoration:none;
+	text-shadow:0px 1px 0px #005667;
+	margin:10px;
+	white-space: normal;
+	
+}
+.newButton:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #055679), color-stop(1, #055679));
+	background:-moz-linear-gradient(top, #055679 5%, #055679 100%);
+	background:-webkit-linear-gradient(top, #055679 5%, #055679 100%);
+	background:-o-linear-gradient(top, #055679 5%, #055679 100%);
+	background:-ms-linear-gradient(top, #055679 5%, #055679 100%);
+	background:linear-gradient(to bottom, #055679 5%, #055679 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#055679', endColorstr='#055679',GradientType=0);
+	background-color:#055679;
+}
+.newButton:active {
+	position:relative;
+	top:1px;
+}
+
+        
+
+        	
