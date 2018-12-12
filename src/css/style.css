@@ -55,6 +55,7 @@ overflow-y:hidden;
 
 .footer {
 	position: fixed;
+	display: flex;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -72,7 +73,9 @@ letter-spacing: 1px;
 	text-align: center;
 }
 ul {
-	    list-style: none;
+	list-style: none;
+	position: relative;
+	top: -0.9em; /* for the bottom GitHub text, not optimal */
 }
 a{
 	color:inherit;
