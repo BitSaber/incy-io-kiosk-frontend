@@ -15,12 +15,12 @@ class QuestionPage extends Component {
     }
 
 
-    render() {
+    render() { //TODO: attributes of class txt should be implemented with material UI
         return (
             <div>
                 <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img> </div>
                 <div className="question-div ">
-                    <Typography class="txt"  ><h2>{this.props.question.name}</h2></Typography>
+                    <Typography class="txt" variant="h2">{this.props.question.name}</Typography>
                 </div>
 
                 <div>
