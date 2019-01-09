@@ -13,13 +13,11 @@ const getUrl = async (url) => {
 }
 
 const getCategory = () => {
-    const res = getUrl(categoryUrl)
-    console.log(res[0])
-    return res
+    return getUrl(categoryUrl)
 }
 
 const getPlace = () => {
-    return getUrl(placeUrl).id
+    return getUrl(placeUrl)
 }
 
 const getQuestions = () => {

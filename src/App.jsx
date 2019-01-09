@@ -25,10 +25,12 @@ class App extends React.Component {
         this.setCatAndLoc();
     }
 
-    setCatAndLoc = async () => { // TODO
+    setCatAndLoc = async () => {
+        const cat = await questionService.getCategory()
+        const loc = await questionService.getPlace()
         this.setState({
-            category: await questionService.getCategory(),
-            place: await questionService.getPlace(),
+            category: cat[0].id,
+            place: loc[0].id,
         });
     }
 
@@ -100,11 +102,9 @@ class App extends React.Component {
         // TODO: place and category still need to be fetched from API
 
         const time = new Date().toString().substring(0,21)
-        const place = this.state.place[0].id
+        const place = this.state.place
         const answers = this.state.answers
-        const category = this.state.category[0].id
-        console.log('category id: ',this.state.category[0].id)
-        console.log('place id: ',this.state.place[0].id)
+        const category = this.state.category
         const data = {
             occurred_at: time,
             place: place,
@@ -123,6 +123,7 @@ class App extends React.Component {
                 ...initialState
             });
             this.setFirstQuestion();
+            this.setCatAndLoc();
         }, 3000);
     }
 
