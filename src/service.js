@@ -13,7 +13,9 @@ const getUrl = async (url) => {
 }
 
 const getCategory = () => {
-    return getUrl(categoryUrl).id
+    const res = getUrl(categoryUrl)
+    console.log(res[0])
+    return res
 }
 
 const getPlace = () => {
@@ -22,11 +24,11 @@ const getPlace = () => {
 
 const getQuestions = () => {
     return getUrl(questionsUrl)
-};
+}
 
 const getChoices = (id) => {
     return getUrl(choisesUrl + id)
-};
+}
 
 const postObservation = async (data) => { // eslint-disable-line
     axios.post('https://app-staging.incy.io/api/bitsaber-staging/observations/links/staging-place-tarvikkeet', data)

@@ -10,6 +10,8 @@ const initialState = {
     currentQuestionChoices: [],
     answers: {},
     isAllQuestionsAnswered: false,
+    category: null,
+    place: null
 }
 
 class App extends React.Component {
@@ -20,6 +22,14 @@ class App extends React.Component {
 
     async componentDidMount() {
         this.setFirstQuestion();
+        this.setCatAndLoc();
+    }
+
+    setCatAndLoc = async () => { // TODO
+        this.setState({
+            category: await questionService.getCategory(),
+            place: await questionService.getPlace(),
+        });
     }
 
     setFirstQuestion = async () => {
@@ -88,11 +98,13 @@ class App extends React.Component {
 
     submitObservation = async () => {
         // TODO: place and category still need to be fetched from API
+
         const time = new Date().toString().substring(0,21)
-        const place = 7925
+        const place = this.state.place[0].id
         const answers = this.state.answers
-        const category = await questionService.getCategory()
-        console.log(category)
+        const category = this.state.category[0].id
+        console.log('category id: ',this.state.category[0].id)
+        console.log('place id: ',this.state.place[0].id)
         const data = {
             occurred_at: time,
             place: place,
