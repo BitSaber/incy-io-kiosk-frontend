@@ -10,8 +10,8 @@ const initialState = {
     currentQuestionChoices: [],
     answers: {},
     isAllQuestionsAnswered: false,
-    category: null,
-    place: null
+    categoryId: null,
+    placeId: null
 }
 
 class App extends React.Component {
@@ -98,9 +98,7 @@ class App extends React.Component {
     }
 
 
-    submitObservation = async () => {
-        // TODO: place and category still need to be fetched from API
-
+    submitObservation = () => {
         const time = new Date().toString().substring(0,21)
         const place = this.state.place
         const answers = this.state.answers
