@@ -86,12 +86,13 @@ class App extends React.Component {
     }
 
 
-    submitObservation = () => {
+    submitObservation = async () => {
         // TODO: place and category still need to be fetched from API
         const time = new Date().toString().substring(0,21)
         const place = 7925
         const answers = this.state.answers
-        const category = 65336
+        const category = await questionService.getCategory()
+        console.log(category)
         const data = {
             occurred_at: time,
             place: place,
