@@ -95,7 +95,7 @@ class App extends React.Component {
             // finds the question which depends on the given answer
             questions.find(question => question.depends_on_question_id === questions[currentQuestionIndex].id).
                 depends_on_choice_id === answers[questions[currentQuestionIndex].id].id
-    }
+    } 
 
 
     submitObservation = () => {
@@ -111,17 +111,20 @@ class App extends React.Component {
             answers: answers
         }
 
-        questionService.postObservation(data)
+        questionService.postObservation(data);
 
         this.setState({
+            answers: {}, // prevents the previous answers from being POSTed
             isAllQuestionsAnswered: true,
         });
+
+        this.setFirstQuestion();
+        this.setCatAndLoc();
+
         setTimeout(() => {
             this.setState({
-                ...initialState
+                isAllQuestionsAnswered: false
             });
-            this.setFirstQuestion();
-            this.setCatAndLoc();
         }, 3000);
     }
 
