@@ -59,7 +59,7 @@ class App extends React.Component {
         const newChoices = await questionService.getChoices(newQuestionID);
         this.setState({
             currentQuestionChoices: newChoices,
-        });
+        }); // SUGGESTION: get the choices to all questions beforehand to prevent small delay between questions
     }
 
     handleChoiceClick = async (choice) => {
