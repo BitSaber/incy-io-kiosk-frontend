@@ -49,7 +49,7 @@ class App extends React.Component {
 
     setNextQuestion = async (currentQuestionIndex) => {
         // finds the question that depends on this one
-        const newQuestionID = 
+        const newQuestionID =
             this.state.questions.find(
                 question => question.depends_on_question_id === this.state.questions[currentQuestionIndex].id
             ).id
@@ -80,7 +80,7 @@ class App extends React.Component {
 
         if (this.moreQuestions(currentQuestionIndex)) { // more questions
             this.setNextQuestion(currentQuestionIndex);
-        } else { // no more questions 
+        } else { // no more questions
             this.submitObservation();
         }
 
