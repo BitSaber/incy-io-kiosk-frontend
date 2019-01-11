@@ -59,7 +59,7 @@ class App extends React.Component {
         const newChoices = await questionService.getChoices(newQuestionID);
         this.setState({
             currentQuestionChoices: newChoices,
-        });
+        }); // SUGGESTION: get the choices to all questions beforehand to prevent small delay between questions
     }
 
     handleChoiceClick = async (choice) => {
@@ -111,17 +111,20 @@ class App extends React.Component {
             answers: answers
         }
 
-        questionService.postObservation(data)
+        questionService.postObservation(data);
 
         this.setState({
+            answers: {}, // prevents the previous answers from being POSTed
             isAllQuestionsAnswered: true,
         });
+
+        this.setFirstQuestion();
+        this.setCatAndLoc();
+
         setTimeout(() => {
             this.setState({
-                ...initialState
+                isAllQuestionsAnswered: false
             });
-            this.setFirstQuestion();
-            this.setCatAndLoc();
         }, 3000);
     }
 
