@@ -54,7 +54,7 @@ class App extends React.Component {
                 question => question.depends_on_question_id === this.state.questions[currentQuestionIndex].id
             ).id
         this.setState({
-            currentQuestionID: newQuestionID,
+            currentQuestionID: newQuestionID
         });
         const newChoices = await questionService.getChoices(newQuestionID);
         this.setState({
@@ -62,7 +62,17 @@ class App extends React.Component {
         }); // SUGGESTION: get the choices to all questions beforehand to prevent small delay between questions
     }
 
-    handleChoiceClick = async (choice) => {
+    multiAnswerClick = (choice) => {
+        // this is supposed to handle adding new choices to an array
+        // which is then give to submitMultiClick when asnwerer is finished
+    }
+
+    submitMultiClick = (choices) => {
+        // check how multi select answers are posted
+        // 'choices' is supposed to be an array
+    }
+
+    singleAnswerClick = async (choice) => {
         await this.setState((previousState) => {
             return {
                 ...previousState,
@@ -74,7 +84,9 @@ class App extends React.Component {
                 }
             }
         });
+    }
 
+    moveToNextQuestion = () => {
         const { currentQuestionID, questions } = this.state;
         const currentQuestionIndex = questions.findIndex(question => question.id === currentQuestionID);
 
@@ -82,6 +94,18 @@ class App extends React.Component {
             this.setNextQuestion(currentQuestionIndex);
         } else { // no more questions
             this.submitObservation();
+        }
+    }
+
+    handleChoiceClick = (choice) => {
+        const questionType = this.state.questions.find(this.state.currentQuestionID).type
+        if (questionType === 'select') {
+            singleAnswerClick(choice)
+            moveToNextQuestion()
+        } else if (questionType === 'multi-select') {
+            multiAnswerClick(choice) // should moveToNextQuestion only when pressed 'ready' or 'submit' or whatever
+        } else {
+            // tekstikenttä?
         }
 
     }
