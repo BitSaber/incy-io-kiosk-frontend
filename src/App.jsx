@@ -98,12 +98,13 @@ class App extends React.Component {
     }
 
     handleChoiceClick = (choice) => {
-        const questionType = this.state.questions.find(this.state.currentQuestionID).type
+        const questionType = this.state.questions.find(question => question.id === this.state.currentQuestionID).type
         if (questionType === 'select') {
-            singleAnswerClick(choice)
-            moveToNextQuestion()
+            this.singleAnswerClick(choice)
+            console.log('aaa')
+            this.moveToNextQuestion()
         } else if (questionType === 'multi-select') {
-            multiAnswerClick(choice) // should moveToNextQuestion only when pressed 'ready' or 'submit' or whatever
+            this.multiAnswerClick(choice) // should moveToNextQuestion only when pressed 'ready' or 'submit' or whatever
         } else {
             // tekstikenttä?
         }
