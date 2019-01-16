@@ -47,20 +47,38 @@ class App extends React.Component {
         });
     }
 
+    checkNextQuestion = (position) => {
+        const questionsLen = this.state.questions.length
+        const nextQuestion = this.state.questions.find( question => question.position === position + 1 )
+        if ( nextQuestion.depends_on_question_id === null ) {  
+            return true
+        }
+        else if ( this.state.answers.includes(nextQuestion.depends_on_question_id) {
+            console.log('Jeejeejee');
+            return true
+        }
+    }
+
     setNextQuestion = async (currentQuestionIndex) => {
         // finds the question that depends on this one
-        const newQuestionID =
-            this.state.questions.find(
-                question => question.depends_on_question_id === this.state.questions[currentQuestionIndex].id
-            ).id
-        this.setState({
-            currentQuestionID: newQuestionID,
-        });
-        const newChoices = await questionService.getChoices(newQuestionID);
-        this.setState({
-            currentQuestionChoices: newChoices,
-        }); // SUGGESTION: get the choices to all questions beforehand to prevent small delay between questions
-    }
+        const questionsLen = this.state.questions.length
+        const position = this.state.questions.find( question => question.id === this.state.currentQuestionID).position
+        while ( position <= questionLen ) {
+            if(this.checkNextQuestion(position)){
+                this.setState({
+                    currentQuestionID: newQuestionID,
+                });
+                const newChoices = await questionService.getChoices(newQuestionID);
+                this.setState({
+                    currentQuestionChoices: newChoices
+                }
+            }
+            else {
+                position += 1
+            }
+            
+        }
+
 
     handleChoiceClick = async (choice) => {
         await this.setState((previousState) => {
@@ -76,10 +94,10 @@ class App extends React.Component {
         });
 
         const { currentQuestionID, questions } = this.state;
-        const currentQuestionIndex = questions.findIndex(question => question.id === currentQuestionID);
+        const position = questions.findIndex(question => question.id === currentQuestionID);
 
-        if (this.moreQuestions(currentQuestionIndex)) { // more questions
-            this.setNextQuestion(currentQuestionIndex);
+        if (this.moreQuestions(position)) { // more questions
+            this.setNextQuestion(position);
         } else { // no more questions
             this.submitObservation();
         }
@@ -88,13 +106,13 @@ class App extends React.Component {
 
     /* Checks if new answer should end this question round .
        NOTE: Assumes that all questions except the start are dependent on a specific answer. */
-    moreQuestions = (currentQuestionIndex) => {
+    moreQuestions = (position) => {
         const answers = this.state.answers
         const questions = this.state.questions
-        return currentQuestionIndex !== questions.length - 1 && answers !== undefined &&
+        return position !== questions.length - 1 && answers !== undefined &&
             // finds the question which depends on the given answer
-            questions.find(question => question.depends_on_question_id === questions[currentQuestionIndex].id).
-                depends_on_choice_id === answers[questions[currentQuestionIndex].id].id
+            questions.find(question => question.depends_on_question_id === questions[position].id).
+                depends_on_choice_id === answers[questions[position].id].id
     }
 
 
