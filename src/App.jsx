@@ -10,6 +10,7 @@ const initialState = {
     currentQuestionChoices: [],
     answers: {},
     isAllQuestionsAnswered: false,
+    areAllQuestionsDisplayed: false,
     categoryId: null,
     placeId: null
 }
@@ -48,36 +49,59 @@ class App extends React.Component {
     }
 
     checkNextQuestion = (position) => {
-        const questionsLen = this.state.questions.length
-        const nextQuestion = this.state.questions.find( question => question.position === position + 1 )
+        //const questionsLen = this.state.questions.length
+        const answerKeys = this.state.answers
+        console.log(answerKeys["5090"])
+        const nextQuestion = this.state.questions.find( question => question.position === position)
         if ( nextQuestion.depends_on_question_id === null ) {  
             return true
         }
-        else if ( this.state.answers.includes(nextQuestion.depends_on_question_id) {
+        else if ( answerKeys[nextQuestion.depends_on_question_id] !== undefined && 
+                  answerKeys[nextQuestion.depends_on_question_id]["id"] === nextQuestion.depends_on_choice_id  ) {
             console.log('Jeejeejee');
             return true
+        }
+        else {
+            false
         }
     }
 
     setNextQuestion = async (currentQuestionIndex) => {
         // finds the question that depends on this one
         const questionsLen = this.state.questions.length
-        const position = this.state.questions.find( question => question.id === this.state.currentQuestionID).position
-        while ( position <= questionLen ) {
+        var position = this.state.questions.find( question => question.id === this.state.currentQuestionID).position + 1
+        var flag = true
+        console.log('Len: ', questionsLen, 'StartPos: ', position)
+        while ( position <= questionsLen && flag ) {
             if(this.checkNextQuestion(position)){
-                this.setState({
-                    currentQuestionID: newQuestionID,
-                });
-                const newChoices = await questionService.getChoices(newQuestionID);
-                this.setState({
-                    currentQuestionChoices: newChoices
+                flag = false
+                console.log('posBeforeCall: ', position)
+                this.setQuestion(position)
                 }
-            }
             else {
                 position += 1
+                }   
             }
-            
+        if (position === questionsLen) {
+            this.state.areAllQuestionsDisplayed = true
         }
+        else if (position > questionsLen) {
+            this.state.areAllQuestionsDisplayed = true
+            this.state.isAllQuestionsAnswered = true
+        }
+        }
+
+        setQuestion = async (newPosition) => {
+            const newQuestionID = this.state.questions.find( question => question.position === newPosition).id
+            console.log(newQuestionID)
+            this.setState({ 
+               currentQuestionID: newQuestionID
+            });
+            const newChoices = await questionService.getChoices(newQuestionID);
+            this.setState({
+                currentQuestionChoices: newChoices
+                 })
+    }
 
 
     handleChoiceClick = async (choice) => {
@@ -96,8 +120,11 @@ class App extends React.Component {
         const { currentQuestionID, questions } = this.state;
         const position = questions.findIndex(question => question.id === currentQuestionID);
 
-        if (this.moreQuestions(position)) { // more questions
+        if (!this.state.areAllQuestionsDisplayed) { // more questions
             this.setNextQuestion(position);
+            if (this.state.areAllQuestionsDisplayed && this.state.isAllQuestionsAnswered) {
+                this.submitObservation()
+            }
         } else { // no more questions
             this.submitObservation();
         }
@@ -109,6 +136,7 @@ class App extends React.Component {
     moreQuestions = (position) => {
         const answers = this.state.answers
         const questions = this.state.questions
+        const questionsLength = questions.length
         return position !== questions.length - 1 && answers !== undefined &&
             // finds the question which depends on the given answer
             questions.find(question => question.depends_on_question_id === questions[position].id).
@@ -141,7 +169,8 @@ class App extends React.Component {
 
         setTimeout(() => {
             this.setState({
-                isAllQuestionsAnswered: false
+                isAllQuestionsAnswered: false,
+                areAllQuestionsDisplayed: false
             });
         }, 3000);
     }
