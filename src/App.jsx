@@ -51,9 +51,9 @@ class App extends React.Component {
     checkNextQuestion = (position) => {
         const answerKeys = this.state.answers
         const nextQuestion = this.state.questions.find( question => question.position === position)
-        if ( nextQuestion.depends_on_question_id === null ) {  
+        if ( nextQuestion.depends_on_question_id === null ) {
             return true
-        } else if ( answerKeys[nextQuestion.depends_on_question_id] !== undefined && 
+        } else if ( answerKeys[nextQuestion.depends_on_question_id] !== undefined &&
                     answerKeys[nextQuestion.depends_on_question_id]["id"] === nextQuestion.depends_on_choice_id  ) {
             return true
         } else {
@@ -61,10 +61,10 @@ class App extends React.Component {
         }
     }
 
-    setNextQuestion = async (currentQuestionIndex) => {
+    setNextQuestion = async () => {
         // finds the question that depends on this one
         const questionsLen = this.state.questions.length
-        var position = this.state.questions.find( 
+        var position = this.state.questions.find(
             question => question.id === this.state.currentQuestionID).position + 1
         var flag = true
         while ( position <= questionsLen && flag ) {
@@ -85,7 +85,7 @@ class App extends React.Component {
 
     setQuestion = async (newPosition) => {
         const newQuestionID = this.state.questions.find( question => question.position === newPosition).id
-        this.setState({ 
+        this.setState({
             currentQuestionID: newQuestionID
         });
         const newChoices = await questionService.getChoices(newQuestionID);
