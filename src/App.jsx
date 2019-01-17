@@ -122,19 +122,6 @@ class App extends React.Component {
 
     }
 
-    /* Checks if new answer should end this question round .
-       NOTE: Assumes that all questions except the start are dependent on a specific answer. */
-    moreQuestions = (position) => {
-        const answers = this.state.answers
-        const questions = this.state.questions
-        const questionsLength = questions.length
-        return position !== questions.length - 1 && answers !== undefined &&
-            // finds the question which depends on the given answer
-            questions.find(question => question.depends_on_question_id === questions[position].id).
-                depends_on_choice_id === answers[questions[position].id].id
-    }
-
-
     submitObservation = () => {
         const time = new Date().toString().substring(0,21)
         const place = this.state.place
