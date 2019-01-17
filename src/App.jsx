@@ -47,7 +47,6 @@ class App extends React.Component {
             currentIsRequired: isReq
         });
         const choices = await questionService.getChoices(currentQuestionID)
-        const req = questions.find(q => q.position === 1).required
         this.setState({
             currentQuestionChoices: choices
         });
