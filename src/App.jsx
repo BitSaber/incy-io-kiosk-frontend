@@ -62,11 +62,12 @@ class App extends React.Component {
     }
 
     setNextQuestion = async () => {
-        // finds the question that depends on this one
+        // finds the next question to display
         const questionsLen = this.state.questions.length
         var position = this.state.questions.find(
             question => question.id === this.state.currentQuestionID).position + 1
         var flag = true
+        // Loop through the questions by position, and determine if the question at hand needs to be displayed
         while ( position <= questionsLen && flag ) {
             if (this.checkNextQuestion(position)) {
                 flag = false
@@ -75,15 +76,17 @@ class App extends React.Component {
                 position += 1
             }
         }
-        if (position === questionsLen) {
+        // Check if the last displayed question still needs an answer, or if the thank you page can be displayed
+        if (position >= questionsLen && !flag) {
             this.state.areAllQuestionsDisplayed = true
-        } else if (position > questionsLen) {
+        } else if (position >= questionsLen && flag) {
             this.state.areAllQuestionsDisplayed = true
             this.state.isAllQuestionsAnswered = true
         }
     }
 
     setQuestion = async (newPosition) => {
+        // Sets the question with the predetermined position as the new current question and gets the questions choices from the API.
         const newQuestionID = this.state.questions.find( question => question.position === newPosition).id
         this.setState({
             currentQuestionID: newQuestionID
