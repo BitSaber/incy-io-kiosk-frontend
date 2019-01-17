@@ -39,7 +39,7 @@ class QuestionPage extends Component {
                         </Grid>
                     </div>
                     <div>
-                        {
+                        { // TODO: button location and style
                             !this.props.currentIsRequired &&
                                 <BigButton
                                     onClick={() => this.props.skipClick()}
