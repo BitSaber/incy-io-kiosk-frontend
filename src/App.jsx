@@ -49,58 +49,49 @@ class App extends React.Component {
     }
 
     checkNextQuestion = (position) => {
-        //const questionsLen = this.state.questions.length
         const answerKeys = this.state.answers
-        console.log(answerKeys["5090"])
         const nextQuestion = this.state.questions.find( question => question.position === position)
         if ( nextQuestion.depends_on_question_id === null ) {  
             return true
-        }
-        else if ( answerKeys[nextQuestion.depends_on_question_id] !== undefined && 
-                  answerKeys[nextQuestion.depends_on_question_id]["id"] === nextQuestion.depends_on_choice_id  ) {
-            console.log('Jeejeejee');
+        } else if ( answerKeys[nextQuestion.depends_on_question_id] !== undefined && 
+                    answerKeys[nextQuestion.depends_on_question_id]["id"] === nextQuestion.depends_on_choice_id  ) {
             return true
-        }
-        else {
-            false
+        } else {
+            return false
         }
     }
 
     setNextQuestion = async (currentQuestionIndex) => {
         // finds the question that depends on this one
         const questionsLen = this.state.questions.length
-        var position = this.state.questions.find( question => question.id === this.state.currentQuestionID).position + 1
+        var position = this.state.questions.find( 
+            question => question.id === this.state.currentQuestionID).position + 1
         var flag = true
-        console.log('Len: ', questionsLen, 'StartPos: ', position)
         while ( position <= questionsLen && flag ) {
-            if(this.checkNextQuestion(position)){
+            if (this.checkNextQuestion(position)) {
                 flag = false
-                console.log('posBeforeCall: ', position)
                 this.setQuestion(position)
-                }
-            else {
+            } else {
                 position += 1
-                }   
             }
+        }
         if (position === questionsLen) {
             this.state.areAllQuestionsDisplayed = true
-        }
-        else if (position > questionsLen) {
+        } else if (position > questionsLen) {
             this.state.areAllQuestionsDisplayed = true
             this.state.isAllQuestionsAnswered = true
         }
-        }
+    }
 
-        setQuestion = async (newPosition) => {
-            const newQuestionID = this.state.questions.find( question => question.position === newPosition).id
-            console.log(newQuestionID)
-            this.setState({ 
-               currentQuestionID: newQuestionID
-            });
-            const newChoices = await questionService.getChoices(newQuestionID);
-            this.setState({
-                currentQuestionChoices: newChoices
-                 })
+    setQuestion = async (newPosition) => {
+        const newQuestionID = this.state.questions.find( question => question.position === newPosition).id
+        this.setState({ 
+            currentQuestionID: newQuestionID
+        });
+        const newChoices = await questionService.getChoices(newQuestionID);
+        this.setState({
+            currentQuestionChoices: newChoices
+        })
     }
 
 
