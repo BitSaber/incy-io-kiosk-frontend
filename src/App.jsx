@@ -8,6 +8,7 @@ const initialState = {
     questions: [],
     currentQuestionID: null,
     currentQuestionChoices: [],
+    currentIsRequired: false,
     answers: {},
     isAllQuestionsAnswered: false,
     areAllQuestionsDisplayed: false,
@@ -36,15 +37,19 @@ class App extends React.Component {
     }
 
     setFirstQuestion = async () => {
-        const questions = await questionService.getQuestions();
-        const currentQuestionID = questions[0].id;
+        const questions = await questionService.getQuestions()
+        const firstQuestion = questions.find(q => q.position === 1)
+        const currentQuestionID = firstQuestion.id
+        const isReq = firstQuestion.required
         this.setState({
             questions: questions,
             currentQuestionID: currentQuestionID,
+            currentIsRequired: isReq
         });
-        const choices = await questionService.getChoices(currentQuestionID);
+        const choices = await questionService.getChoices(currentQuestionID)
+        const req = questions.find(q => q.position === 1).required
         this.setState({
-            currentQuestionChoices: choices,
+            currentQuestionChoices: choices
         });
     }
 
@@ -87,11 +92,14 @@ class App extends React.Component {
 
     setQuestion = async (newPosition) => {
         // Sets the question with the predetermined position as the new current question and gets the questions choices from the API.
-        const newQuestionID = this.state.questions.find( question => question.position === newPosition).id
+        const newQuestion = this.state.questions.find(question => question.position === newPosition)
+        const id = newQuestion.id
+        const isReq = newQuestion.required
         this.setState({
-            currentQuestionID: newQuestionID
+            currentQuestionID: id,
+            currentIsRequired: isReq
         });
-        const newChoices = await questionService.getChoices(newQuestionID);
+        const newChoices = await questionService.getChoices(id);
         this.setState({
             currentQuestionChoices: newChoices
         })
@@ -173,6 +181,7 @@ class App extends React.Component {
                 question={question}
                 questionChoices={this.state.currentQuestionChoices}
                 onChoiceClick={this.handleChoiceClick}
+                currentIsRequired={this.state.currentIsRequired}
             />
         );
     }
