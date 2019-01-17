@@ -12,6 +12,7 @@ class QuestionPage extends Component {
         question: PropTypes.object.isRequired,
         questionChoices: PropTypes.arrayOf(PropTypes.object).isRequired,
         onChoiceClick: PropTypes.func.isRequired,
+        skipClick: PropTypes.func.isRequired,
         currentIsRequired: PropTypes.bool.isRequired
     }
 
@@ -35,16 +36,16 @@ class QuestionPage extends Component {
                                 />
                             ))
                             }
-
-                            {
-                                !this.props.currentIsRequired &&
-                                    <BigButton
-                                        onClick={() => console.log("lalal")}
-                                        text={"> Skip >"}
-                                    />
-                            }
-                            
                         </Grid>
+                    </div>
+                    <div>
+                        {
+                            !this.props.currentIsRequired &&
+                                <BigButton
+                                    onClick={() => this.props.skipClick()}
+                                    text={"> Skip >"}
+                                />
+                        }
                     </div>
                 </div>
                 <footer className="footer">

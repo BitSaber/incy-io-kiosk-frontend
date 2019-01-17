@@ -105,6 +105,20 @@ class App extends React.Component {
         })
     }
 
+    // used in handleChoiceClick and as the fuction for skipping a question
+    moveToNextStep = () => {
+        const { currentQuestionID, questions } = this.state;
+        const position = questions.findIndex(question => question.id === currentQuestionID);
+
+        if (!this.state.areAllQuestionsDisplayed) { // more questions
+            this.setNextQuestion(position);
+            if (this.state.areAllQuestionsDisplayed && this.state.isAllQuestionsAnswered) {
+                this.submitObservation()
+            }
+        } else { // no more questions
+            this.submitObservation();
+        }
+    }
 
     handleChoiceClick = async (choice) => {
         await this.setState((previousState) => {
@@ -119,18 +133,7 @@ class App extends React.Component {
             }
         });
 
-        const { currentQuestionID, questions } = this.state;
-        const position = questions.findIndex(question => question.id === currentQuestionID);
-
-        if (!this.state.areAllQuestionsDisplayed) { // more questions
-            this.setNextQuestion(position);
-            if (this.state.areAllQuestionsDisplayed && this.state.isAllQuestionsAnswered) {
-                this.submitObservation()
-            }
-        } else { // no more questions
-            this.submitObservation();
-        }
-
+        this.moveToNextStep()
     }
 
     submitObservation = () => {
@@ -182,6 +185,7 @@ class App extends React.Component {
                 questionChoices={this.state.currentQuestionChoices}
                 onChoiceClick={this.handleChoiceClick}
                 currentIsRequired={this.state.currentIsRequired}
+                skipClick={this.moveToNextStep}
             />
         );
     }
