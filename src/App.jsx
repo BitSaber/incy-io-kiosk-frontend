@@ -10,6 +10,7 @@ const initialState = {
     currentQuestionChoices: [],
     answers: {},
     isAllQuestionsAnswered: false,
+    areAllQuestionsDisplayed: false,
     categoryId: null,
     placeId: null
 }
@@ -47,20 +48,55 @@ class App extends React.Component {
         });
     }
 
-    setNextQuestion = async (currentQuestionIndex) => {
-        // finds the question that depends on this one
-        const newQuestionID =
-            this.state.questions.find(
-                question => question.depends_on_question_id === this.state.questions[currentQuestionIndex].id
-            ).id
+    checkNextQuestion = (position) => {
+        const answerKeys = this.state.answers
+        const nextQuestion = this.state.questions.find( question => question.position === position)
+        if ( nextQuestion.depends_on_question_id === null ) {
+            return true
+        } else if ( answerKeys[nextQuestion.depends_on_question_id] !== undefined &&
+                    answerKeys[nextQuestion.depends_on_question_id]["id"] === nextQuestion.depends_on_choice_id  ) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    setNextQuestion = async () => {
+        // finds the next question to display
+        const questionsLen = this.state.questions.length
+        var position = this.state.questions.find(
+            question => question.id === this.state.currentQuestionID).position + 1
+        var flag = true
+        // Loop through the questions by position, and determine if the question at hand needs to be displayed
+        while ( position <= questionsLen && flag ) {
+            if (this.checkNextQuestion(position)) {
+                flag = false
+                this.setQuestion(position)
+            } else {
+                position += 1
+            }
+        }
+        // Check if the last displayed question still needs an answer, or if the thank you page can be displayed
+        if (position >= questionsLen && !flag) {
+            this.state.areAllQuestionsDisplayed = true
+        } else if (position >= questionsLen && flag) {
+            this.state.areAllQuestionsDisplayed = true
+            this.state.isAllQuestionsAnswered = true
+        }
+    }
+
+    setQuestion = async (newPosition) => {
+        // Sets the question with the predetermined position as the new current question and gets the questions choices from the API.
+        const newQuestionID = this.state.questions.find( question => question.position === newPosition).id
         this.setState({
-            currentQuestionID: newQuestionID,
+            currentQuestionID: newQuestionID
         });
         const newChoices = await questionService.getChoices(newQuestionID);
         this.setState({
-            currentQuestionChoices: newChoices,
-        }); // SUGGESTION: get the choices to all questions beforehand to prevent small delay between questions
+            currentQuestionChoices: newChoices
+        })
     }
+
 
     handleChoiceClick = async (choice) => {
         await this.setState((previousState) => {
@@ -76,27 +112,18 @@ class App extends React.Component {
         });
 
         const { currentQuestionID, questions } = this.state;
-        const currentQuestionIndex = questions.findIndex(question => question.id === currentQuestionID);
+        const position = questions.findIndex(question => question.id === currentQuestionID);
 
-        if (this.moreQuestions(currentQuestionIndex)) { // more questions
-            this.setNextQuestion(currentQuestionIndex);
+        if (!this.state.areAllQuestionsDisplayed) { // more questions
+            this.setNextQuestion(position);
+            if (this.state.areAllQuestionsDisplayed && this.state.isAllQuestionsAnswered) {
+                this.submitObservation()
+            }
         } else { // no more questions
             this.submitObservation();
         }
 
     }
-
-    /* Checks if new answer should end this question round .
-       NOTE: Assumes that all questions except the start are dependent on a specific answer. */
-    moreQuestions = (currentQuestionIndex) => {
-        const answers = this.state.answers
-        const questions = this.state.questions
-        return currentQuestionIndex !== questions.length - 1 && answers !== undefined &&
-            // finds the question which depends on the given answer
-            questions.find(question => question.depends_on_question_id === questions[currentQuestionIndex].id).
-                depends_on_choice_id === answers[questions[currentQuestionIndex].id].id
-    }
-
 
     submitObservation = () => {
         const time = new Date().toString().substring(0,21)
@@ -123,7 +150,8 @@ class App extends React.Component {
 
         setTimeout(() => {
             this.setState({
-                isAllQuestionsAnswered: false
+                isAllQuestionsAnswered: false,
+                areAllQuestionsDisplayed: false
             });
         }, 3000);
     }
