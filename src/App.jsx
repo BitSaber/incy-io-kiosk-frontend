@@ -97,7 +97,6 @@ class App extends React.Component {
         })
     }
 
-<<<<<<< HEAD
     multiAnswerClick = (choice) => {
         // this is supposed to handle adding new choices to an array
         // which is then give to submitMultiClick when asnwerer is finished
@@ -109,10 +108,6 @@ class App extends React.Component {
     }
 
     singleAnswerClick = async (choice) => {
-=======
-
-    handleChoiceClick = async (choice) => {
->>>>>>> develop
         await this.setState((previousState) => {
             return {
                 ...previousState,
