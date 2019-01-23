@@ -7,7 +7,7 @@ import QuestionPage from './pages/QuestionPage';
 const initialState = {
     questions: [],
     currentQuestionID: null,
-    currentQuestionType: 'select',
+    currentQuestionType: 'not gotten yet',
     currentQuestionChoices: [],
     answers: {},
     isAllQuestionsAnswered: false,
@@ -44,8 +44,10 @@ class App extends React.Component {
             currentQuestionID: currentQuestionID,
         });
         const choices = await questionService.getChoices(currentQuestionID);
+        const questionType = questions[0].type
         this.setState({
             currentQuestionChoices: choices,
+            currentQuestionType: questionType
         });
     }
 
@@ -89,14 +91,14 @@ class App extends React.Component {
     setQuestion = async (newPosition) => {
         // Sets the question with the predetermined position as the new current question and gets the questions choices from the API.
         const newQuestionID = this.state.questions.find( question => question.position === newPosition).id
-        const questionType = this.state.questions.find(question => question.id === this.state.currentQuestionID).type
         this.setState({
-            currentQuestionID: newQuestionID,
-            currentQuestionType: questionType
+            currentQuestionID: newQuestionID
         });
         const newChoices = await questionService.getChoices(newQuestionID);
+        const questionType = this.state.questions.find(question => question.id === this.state.currentQuestionID).type
         this.setState({
-            currentQuestionChoices: newChoices
+            currentQuestionChoices: newChoices,
+            currentQuestionType: questionType
         })
     }
 
@@ -141,7 +143,6 @@ class App extends React.Component {
     handleChoiceClick = (choice) => {
         if (this.state.currentQuestionType === 'select') {
             this.singleAnswerClick(choice)
-            console.log('aaa')
             this.moveToNextQuestion()
         } else if (this.state.currentQuestionType === 'multi-select') {
             this.multiAnswerClick(choice) // should moveToNextQuestion only when pressed 'ready' or 'submit' or whatever
@@ -185,6 +186,7 @@ class App extends React.Component {
     render() {
         const question = this.state.questions.find(question => question.id === this.state.currentQuestionID);
 
+        //console.log(this.state.currentQuestionType)
         // question is undefined and we are waiting for it from the server
         if (!question) {
             return null;

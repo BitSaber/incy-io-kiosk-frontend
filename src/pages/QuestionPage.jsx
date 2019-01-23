@@ -47,7 +47,7 @@ class QuestionPage extends Component {
                     <div className="center-align txt">
                         <Grid container direction="row" justify="center">
                             {this.props.questionChoices.map(questionsChoice => (
-                                renderButton(questionType,questionsChoice)))
+                                this.renderButton(this.props.questionType,questionsChoice)))
                             }
                         </Grid>
                     </div>
