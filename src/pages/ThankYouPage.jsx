@@ -5,7 +5,7 @@ const ThankYouPage = () => ( //TODO: attributes of class txt should be implement
     <div>
         <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img> </div>
         <div className="answer-div">
-            <Typography class="txt" variant="h2">Kiitos palautteesta!</Typography>
+            <Typography class="txt" variant="h1">Kiitos palautteesta!</Typography>
         </div>
 
         <footer className="footer">

@@ -38,19 +38,23 @@ class QuestionPage extends Component {
                             }
                         </Grid>
                     </div>
-                    <div>
-                        { // TODO: button location and style
-                            !this.props.currentIsRequired &&
-                                <BigButton
-                                    onClick={() => this.props.skipClick()}
-                                    text={"> Skip >"}
-                                />
-                        }
-                    </div>
+
                 </div>
                 <footer className="footer">
+                  <footer className="skipped">
+                    <div>
+                      { // TODO: button location and style
+                          !this.props.currentIsRequired &&
+                              <BigButton
+                                  onClick={() => this.props.skipClick()}
+                                  text={"> Skip >"}
+                                  />
+                      }
+                    </div>
+                    </footer>
                     <footer className="inside">
                         <p>Copyright © 2018 BitSaber, Otaniemi, Finland</p>
+
                         <div className="under">
                             <ul>
                                 <li> <a href="https://github.com/BitSaber/incy-io-kiosk-frontend" target="_blank" rel="noopener noreferrer">GitHub</a> </li>
