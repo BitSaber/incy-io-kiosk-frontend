@@ -67,11 +67,8 @@ letter-spacing: 1px;
 }
 
 .skipped {
-  position: fixed;
-  right: 50px;
-  height: 100px;
-	width: 1009px;
-
+  margin:150px;
+  text-align: center;
 }
 
 .inside {

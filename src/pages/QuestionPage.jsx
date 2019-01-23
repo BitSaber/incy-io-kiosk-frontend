@@ -38,11 +38,7 @@ class QuestionPage extends Component {
                             }
                         </Grid>
                     </div>
-
-                </div>
-                <footer className="footer">
-                  <footer className="skipped">
-                    <div>
+                    <div className="skipped">
                       { // TODO: button location and style
                           !this.props.currentIsRequired &&
                               <BigButton
@@ -51,7 +47,9 @@ class QuestionPage extends Component {
                                   />
                       }
                     </div>
-                    </footer>
+
+                </div>
+                <footer className="footer">
                     <footer className="inside">
                         <p>Copyright © 2018 BitSaber, Otaniemi, Finland</p>
 
