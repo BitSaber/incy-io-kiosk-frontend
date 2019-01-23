@@ -7,6 +7,7 @@ import QuestionPage from './pages/QuestionPage';
 const initialState = {
     questions: [],
     currentQuestionID: null,
+    currentQuestionType: 'select',
     currentQuestionChoices: [],
     answers: {},
     isAllQuestionsAnswered: false,
@@ -88,8 +89,10 @@ class App extends React.Component {
     setQuestion = async (newPosition) => {
         // Sets the question with the predetermined position as the new current question and gets the questions choices from the API.
         const newQuestionID = this.state.questions.find( question => question.position === newPosition).id
+        const questionType = this.state.questions.find(question => question.id === this.state.currentQuestionID).type
         this.setState({
-            currentQuestionID: newQuestionID
+            currentQuestionID: newQuestionID,
+            currentQuestionType: questionType
         });
         const newChoices = await questionService.getChoices(newQuestionID);
         this.setState({
@@ -136,12 +139,11 @@ class App extends React.Component {
     }
 
     handleChoiceClick = (choice) => {
-        const questionType = this.state.questions.find(question => question.id === this.state.currentQuestionID).type
-        if (questionType === 'select') {
+        if (this.state.currentQuestionType === 'select') {
             this.singleAnswerClick(choice)
             console.log('aaa')
             this.moveToNextQuestion()
-        } else if (questionType === 'multi-select') {
+        } else if (this.state.currentQuestionType === 'multi-select') {
             this.multiAnswerClick(choice) // should moveToNextQuestion only when pressed 'ready' or 'submit' or whatever
         } else {
             // tekstikenttä?
@@ -197,6 +199,7 @@ class App extends React.Component {
                 question={question}
                 questionChoices={this.state.currentQuestionChoices}
                 onChoiceClick={this.handleChoiceClick}
+                questionType={this.state.currentQuestionType}
             />
         );
     }

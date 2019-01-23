@@ -11,9 +11,29 @@ class QuestionPage extends Component {
     static propTypes = {
         question: PropTypes.object.isRequired,
         questionChoices: PropTypes.arrayOf(PropTypes.object).isRequired,
-        onChoiceClick: PropTypes.func.isRequired
+        onChoiceClick: PropTypes.func.isRequired,
+        questionType: PropTypes.string.isRequired
     }
 
+    renderButton = (qType,choice) => {
+        console.log(qType)
+        switch(qType) {
+            case 'select':
+                return <BigButton  
+                            key={choice.id}
+                            onClick={() => this.props.onChoiceClick(choice)}
+                            text={choice.name}
+                        />;
+            case 'multi-select':
+                return <BigButton  
+                            key={choice.id}
+                            onClick={() => this.props.onChoiceClick(choice)}
+                            text={''}
+                        />;
+            default: 
+                return null;
+        }
+    }
 
     render() { //TODO: attributes of class txt should be implemented with material UI
         return (
@@ -27,12 +47,7 @@ class QuestionPage extends Component {
                     <div className="center-align txt">
                         <Grid container direction="row" justify="center">
                             {this.props.questionChoices.map(questionsChoice => (
-                                <BigButton
-                                    key={questionsChoice.id}
-                                    onClick={() => this.props.onChoiceClick(questionsChoice)}
-                                    text={questionsChoice.name}
-                                />
-                            ))
+                                renderButton(questionType,questionsChoice)))
                             }
                         </Grid>
                     </div>
