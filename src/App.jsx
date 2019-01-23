@@ -146,6 +146,7 @@ class App extends React.Component {
             this.moveToNextQuestion()
         } else if (this.state.currentQuestionType === 'multi-select') {
             this.multiAnswerClick(choice) // should moveToNextQuestion only when pressed 'ready' or 'submit' or whatever
+            this.moveToNextQuestion()
         } else {
             // tekstikenttä?
         }
@@ -185,8 +186,6 @@ class App extends React.Component {
 
     render() {
         const question = this.state.questions.find(question => question.id === this.state.currentQuestionID);
-
-        //console.log(this.state.currentQuestionType)
         // question is undefined and we are waiting for it from the server
         if (!question) {
             return null;

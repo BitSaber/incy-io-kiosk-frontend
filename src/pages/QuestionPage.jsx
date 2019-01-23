@@ -16,7 +16,6 @@ class QuestionPage extends Component {
     }
 
     renderButton = (qType,choice) => {
-        console.log(qType)
         switch(qType) {
             case 'select':
                 return <BigButton  
@@ -28,7 +27,7 @@ class QuestionPage extends Component {
                 return <BigButton  
                             key={choice.id}
                             onClick={() => this.props.onChoiceClick(choice)}
-                            text={''}
+                            text={choice.name}
                         />;
             default: 
                 return null;
