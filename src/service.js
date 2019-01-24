@@ -25,7 +25,7 @@ const getValueFromCookieUrlOrDefaultAndCache = (defaultValue, urlParam, cookieNa
         }
     }
     const maybeValueFromCookie = Cookie.get(cookieName);
-    if(typeof maybeValueFromCookie === 'string')
+    if(typeof maybeValueFromCookie === 'string' && maybeValueFromCookie !== '')
         return maybeValueFromCookie;
     return defaultValue;
 }
