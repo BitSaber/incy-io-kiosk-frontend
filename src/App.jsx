@@ -11,7 +11,7 @@ const initialState = {
     answers: {},
     isAllQuestionsAnswered: false,
     categoryId: null,
-    placeId: null
+    placeId: null,
 }
 
 class App extends React.Component {
@@ -99,7 +99,7 @@ class App extends React.Component {
 
 
     submitObservation = () => {
-        const time = new Date().toString().substring(0,21)
+        const time = new Date().toString().substring(0, 21)
         const place = this.state.place
         const answers = this.state.answers
         const category = this.state.category
@@ -129,6 +129,7 @@ class App extends React.Component {
     }
 
     render() {
+
         const question = this.state.questions.find(question => question.id === this.state.currentQuestionID);
 
         // question is undefined and we are waiting for it from the server
