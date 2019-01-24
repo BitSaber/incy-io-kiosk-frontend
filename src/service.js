@@ -4,7 +4,7 @@ const organizationName = findGetParameter('organisation')
 const linkName = findGetParameter('link')
 /* The open API links */
 const questionsUrl = `https://app-staging.incy.io/api/${organizationName}/observation-questions/links/${linkName}`;
-const choisesUrl = `https://app-staging.incy.io/api/${organizationName}/observation-questions-choices/links/${linkName}/`;
+const choicesUrl = `https://app-staging.incy.io/api/${organizationName}/observation-questions-choices/links/${linkName}/`;
 const categoryUrl = `https://app-staging.incy.io/api/${organizationName}/observation-categories/links/${linkName}`;
 const placeUrl = `https://app-staging.incy.io/api/${organizationName}/places/links/${linkName}`;
 const postUrl = `https://app-staging.incy.io/api/${organizationName}/observations/links/${linkName}`
