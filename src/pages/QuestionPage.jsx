@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Typography from '@material-ui/core/Typography';
+//import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types'
 
@@ -16,22 +16,21 @@ class QuestionPage extends Component {
     }
 
     renderButton = (qType,choice) => {
-        console.log(qType)
         switch(qType) {
-            case 'select':
-                return <BigButton  
-                            key={choice.id}
-                            onClick={() => this.props.onChoiceClick(choice)}
-                            text={choice.name}
-                        />;
-            case 'multi-select':
-                return <BigButton  
-                            key={choice.id}
-                            onClick={() => this.props.onChoiceClick(choice)}
-                            text={''}
-                        />;
-            default: 
-                return null;
+        case 'select':
+            return <BigButton
+                key={choice.id}
+                onClick={() => this.props.onChoiceClick(choice)}
+                text={choice.name}
+            />;
+        case 'multi-select':
+            return <BigButton
+                key={choice.id}
+                onClick={() => this.props.onChoiceClick(choice)}
+                text={choice.name}
+            />;
+        default:
+            return null;
         }
     }
 
@@ -40,14 +39,14 @@ class QuestionPage extends Component {
             <div>
                 <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img> </div>
                 <div className="question-div ">
-                    <Typography class="txt" variant="h2">{this.props.question.name}</Typography>
+                    <h2 className="txt" variant="h2">{this.props.question.name}</h2>
                 </div>
 
                 <div>
                     <div className="center-align txt">
                         <Grid container direction="row" justify="center">
                             {this.props.questionChoices.map(questionsChoice => (
-                                renderButton(questionType,questionsChoice)))
+                                this.renderButton(this.props.questionType, questionsChoice)))
                             }
                         </Grid>
                     </div>

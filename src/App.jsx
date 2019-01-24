@@ -13,7 +13,8 @@ const initialState = {
     isAllQuestionsAnswered: false,
     areAllQuestionsDisplayed: false,
     categoryId: null,
-    placeId: null
+    placeId: null,
+    multiSelectArray: []
 }
 
 class App extends React.Component {
@@ -89,25 +90,65 @@ class App extends React.Component {
     setQuestion = async (newPosition) => {
         // Sets the question with the predetermined position as the new current question and gets the questions choices from the API.
         const newQuestionID = this.state.questions.find( question => question.position === newPosition).id
-        const questionType = this.state.questions.find(question => question.id === this.state.currentQuestionID).type
+        const questionType = this.state.questions.find(question => question.id === newQuestionID).type
         this.setState({
             currentQuestionID: newQuestionID,
             currentQuestionType: questionType
         });
         const newChoices = await questionService.getChoices(newQuestionID);
-        this.setState({
-            currentQuestionChoices: newChoices
-        })
+
+        // Sets an empty answer array for multi select question
+        if (this.state.currentQuestionType === 'multi-select') {
+            this.setState({
+                currentQuestionChoices: newChoices,
+                multiSelectArray: []
+            })
+        } else {
+            this.setState({
+                currentQuestionChoices: newChoices
+            })
+        }
     }
 
     multiAnswerClick = (choice) => {
         // this is supposed to handle adding new choices to an array
         // which is then give to submitMultiClick when asnwerer is finished
+
+        if ( !this.state.multiSelectArray.map(object => object.id).includes(choice.id) ) {
+            const newChoice = [{id: choice.id}]
+            console.log(newChoice)
+            console.log(this.state.multiSelectArray)
+            this.setState( (previousState) => {
+                return {
+                    ...previousState,
+                    multiSelectArray: previousState.multiSelectArray.push(newChoice)
+                }
+            })
+        } else {
+            const pos = this.state.multiSelectArray.indexOf({id: choice.id})
+            console.log(pos)
+            console.log(this.state.multiSelectArray)
+            this.setState( (previousState) => {
+                return {
+                    ...previousState,
+                    multiSelectArray: previousState.multiSelectArray.splice(pos, 1)
+                }
+            })
+        }
     }
 
-    submitMultiClick = (choices) => {
-        // check how multi select answers are posted
-        // 'choices' is supposed to be an array
+    submitMultiClick = async () => {
+        // Sets the answer objects state when submitting multi select question
+
+        await this.setState((previousState) => {
+            return {
+                ...previousState,
+                answers: {
+                    ...previousState.answers,
+                    [previousState.currentQuestionID]: this.state.multiSelectArray
+                }
+            }
+        })
     }
 
     singleAnswerClick = async (choice) => {
@@ -141,14 +182,11 @@ class App extends React.Component {
     handleChoiceClick = (choice) => {
         if (this.state.currentQuestionType === 'select') {
             this.singleAnswerClick(choice)
-            console.log('aaa')
             this.moveToNextQuestion()
         } else if (this.state.currentQuestionType === 'multi-select') {
             this.multiAnswerClick(choice) // should moveToNextQuestion only when pressed 'ready' or 'submit' or whatever
-        } else {
-            // tekstikenttä?
+            console.log(this.state.multiSelectArray)
         }
-
     }
 
     submitObservation = () => {
