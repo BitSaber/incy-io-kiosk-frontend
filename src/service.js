@@ -3,11 +3,18 @@ import axios from 'axios';
 const organizationName = findGetParameter('organisation')
 const linkName = findGetParameter('link')
 /* The open API links */
+<<<<<<< HEAD
 const questionsUrl = `https://app-staging.incy.io/api/${organizationName}/observation-questions/links/${linkName}`;
 const choisesUrl = `https://app-staging.incy.io/api/${organizationName}/observation-questions-choices/links/${linkName}/`;
 const categoryUrl = `https://app-staging.incy.io/api/${organizationName}/observation-categories/links/${linkName}`;
 const placeUrl = `https://app-staging.incy.io/api/${organizationName}/places/links/${linkName}`;
 const postUrl = `https://app-staging.incy.io/api/${organizationName}/observations/links/${linkName}`
+=======
+const questionsUrl = 'https://app-staging.incy.io/api/bitsaber-staging/observation-questions/links/staging-place-tarvikkeet';
+const choicesUrl =   'https://app-staging.incy.io/api/bitsaber-staging/observation-questions-choices/links/staging-place-tarvikkeet/';
+const categoryUrl =  'https://app-staging.incy.io/api/bitsaber-staging/observation-categories/links/staging-place-tarvikkeet';
+const placeUrl =     'https://app-staging.incy.io/api/bitsaber-staging/places/links/staging-place-tarvikkeet?page=1&per_page=5000&q=';
+>>>>>>> origin/develop
 
 /* A generic function for GETting the data.data from an URL. */
 const getUrl = async (url) => {
@@ -28,7 +35,7 @@ const getQuestions = () => {
 }
 
 const getChoices = (id) => {
-    return getUrl(choisesUrl + id)
+    return getUrl(choicesUrl + id)
 }
 
 const postObservation = async (data) => { // eslint-disable-line
