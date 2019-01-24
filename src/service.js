@@ -7,6 +7,7 @@ import {
 } from './constants/defaults';
 
 import {
+    BASE_API_URL,
     ORG_NAME_COOKIE,
     LINK_NAME_COOKIE,
     ORG_NAME_URLPARAM,
@@ -44,15 +45,17 @@ const linkName = getValueFromCookieUrlOrDefaultAndCache(
 
 
 /* The open API links */
-const questionsUrl = `https://app-staging.incy.io/api/${organizationName}/observation-questions/links/${linkName}`;
-const choicesUrl = `https://app-staging.incy.io/api/${organizationName}/observation-questions-choices/links/${linkName}/`;
-const categoryUrl = `https://app-staging.incy.io/api/${organizationName}/observation-categories/links/${linkName}`;
-const placeUrl = `https://app-staging.incy.io/api/${organizationName}/places/links/${linkName}`;
-const postUrl = `https://app-staging.incy.io/api/${organizationName}/observations/links/${linkName}`
+const questionsUrl = `${BASE_API_URL}/${organizationName}/observation-questions/links/${linkName}`;
+const choicesUrl = `${BASE_API_URL}/${organizationName}/observation-questions-choices/links/${linkName}/`;
+const categoryUrl = `${BASE_API_URL}/${organizationName}/observation-categories/links/${linkName}`;
+const placeUrl = `${BASE_API_URL}/${organizationName}/places/links/${linkName}`;
+const postUrl = `${BASE_API_URL}/${organizationName}/observations/links/${linkName}`
 
 /* A generic function for GETting the data.data from an URL. */
 const getUrl = async (url) => {
-    const response = await axios.get(url);
+    const response = await axios.get(url).catch(err => {
+        console.error(err);
+    });
     return response.data.data;
 }
 
@@ -72,9 +75,9 @@ const getChoices = (id) => {
     return getUrl(choicesUrl + id)
 }
 
-const postObservation = async (data) => { // eslint-disable-line
+const postObservation = async (data) => {
     axios.post(postUrl, data)
-        .catch(error => console.error(error)); // eslint-disable-line
+        .catch(error => console.error(error));
 };
 
 function findGetParameter(parameterName) {
