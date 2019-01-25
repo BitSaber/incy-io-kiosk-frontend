@@ -57,7 +57,7 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: '770b87fe-7835-4a6d-a769-2a7879c12b76', variable: 'HEROKUCREDS')]) {
                     sh 'cp $HEROKUCREDS ~/.netrc'
-                    sh 'cd heroku-docker'
+                    sh 'cd heroku_docker'
                     sh 'heroku container:login'
                     sh 'docker build'
                     sh 'heroku container:push web'
