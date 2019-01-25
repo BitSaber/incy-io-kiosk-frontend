@@ -1,10 +1,11 @@
 pipeline {
     agent {
-        label 'docker'
+        label 'dind'
     }
     environment {
         NODEJS_HOME = '/opt/tools/nodejs/node-v11.4.0-linux-x64'
         PATH = "/opt/tools/yarn/yarn-v1.12.3/bin:/opt/tools/nodejs/node-v11.4.0-linux-x64/bin:$PATH"
+        GIT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
     }
     stages {
         stage('Install Dependencies') {
@@ -47,6 +48,21 @@ pipeline {
         stage('Build Project') {
             steps {
                 sh 'yarn build'
+            }
+        }
+        stage('Build docker container for deployment') {
+            when {
+                expression { return GIT_BRANCH == 'master' | true }
+            }
+            steps {
+                withCredentials([file(credentialsId: '770b87fe-7835-4a6d-a769-2a7879c12b76', variable: 'HEROKUCREDS')]) {
+                    sh 'cp $HEROKUCREDS ~/.netrc'
+                    sh 'cd heroku-docker'
+                    sh 'heroku container:login'
+                    sh 'docker build'
+                    sh 'heroku container:push web'
+                    sh 'heroku container:release web'
+                }
             }
         }
     }
