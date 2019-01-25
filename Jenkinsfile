@@ -52,7 +52,7 @@ pipeline {
         }
         stage('Deploy to staging') {
             when {
-                expression { return GIT_BRANCH == 'master' | true }
+                expression { return GIT_BRANCH == 'master' }
             }
             steps {
                 withCredentials([file(credentialsId: '770b87fe-7835-4a6d-a769-2a7879c12b76', variable: 'HEROKUCREDS')]) {
