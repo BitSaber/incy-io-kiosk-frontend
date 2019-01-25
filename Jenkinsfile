@@ -50,15 +50,14 @@ pipeline {
                 sh 'yarn build'
             }
         }
-        stage('Build docker container for deployment') {
+        stage('Deploy to staging') {
             when {
-                expression { return GIT_BRANCH == 'master' }
+                expression { return GIT_BRANCH == 'master' | true }
             }
             steps {
                 withCredentials([file(credentialsId: '770b87fe-7835-4a6d-a769-2a7879c12b76', variable: 'HEROKUCREDS')]) {
                     sh 'cp "$HEROKUCREDS" ~/.netrc'
                     sh 'cd heroku_docker'
-                    sh 'heroku container:login'
                     sh 'docker build .'
                     sh 'heroku container:push web --app incy-io-kiosk-staging'
                     sh 'heroku container:release web --app incy-io-kiosk-staging'
