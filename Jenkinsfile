@@ -59,7 +59,7 @@ pipeline {
                     sh 'cp $HEROKUCREDS ~/.netrc'
                     sh 'cd heroku_docker'
                     sh 'heroku container:login'
-                    sh 'docker build'
+                    sh 'docker build .'
                     sh 'heroku container:push web'
                     sh 'heroku container:release web'
                 }
