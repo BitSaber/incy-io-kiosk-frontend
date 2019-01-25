@@ -1,0 +1,14 @@
+{
+  "name": "heroku_express",
+  "version": "1.0.0",
+  "description": "Node.js on Docker",
+  "author": "BitSaber / Axel Latvala <dev@bitsaber.com>",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "start_debug": "DEBUG=express:* node server.js"
+  },
+  "dependencies": {
+    "express": "^4.16.1"
+  }
+}
