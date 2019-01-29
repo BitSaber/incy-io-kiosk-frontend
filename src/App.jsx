@@ -10,6 +10,9 @@ const initialState = {
     currentQuestionChoices: [],
     answers: {},
     isAllQuestionsAnswered: false,
+    areAllQuestionsDisplayed: false,
+    categoryId: null,
+    placeId: null
 }
 
 class App extends React.Component {
@@ -20,6 +23,16 @@ class App extends React.Component {
 
     async componentDidMount() {
         this.setFirstQuestion();
+        this.setCatAndLoc();
+    }
+
+    setCatAndLoc = async () => {
+        const cat = await questionService.getCategory()
+        const loc = await questionService.getPlace()
+        this.setState({
+            category: cat[0].id,
+            place: loc[0].id,
+        });
     }
 
     setFirstQuestion = async () => {
@@ -35,20 +48,55 @@ class App extends React.Component {
         });
     }
 
-    setNextQuestion = async (currentQuestionIndex) => {
-        // finds the question that depends on this one
-        const newQuestionID = 
-            this.state.questions.find(
-                question => question.depends_on_question_id === this.state.questions[currentQuestionIndex].id
-            ).id
+    checkNextQuestion = (position) => {
+        const answerKeys = this.state.answers
+        const nextQuestion = this.state.questions.find( question => question.position === position)
+        if ( nextQuestion.depends_on_question_id === null ) {
+            return true
+        } else if ( answerKeys[nextQuestion.depends_on_question_id] !== undefined &&
+                    answerKeys[nextQuestion.depends_on_question_id]["id"] === nextQuestion.depends_on_choice_id  ) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    setNextQuestion = async () => {
+        // finds the next question to display
+        const questionsLen = this.state.questions.length
+        var position = this.state.questions.find(
+            question => question.id === this.state.currentQuestionID).position + 1
+        var flag = true
+        // Loop through the questions by position, and determine if the question at hand needs to be displayed
+        while ( position <= questionsLen && flag ) {
+            if (this.checkNextQuestion(position)) {
+                flag = false
+                this.setQuestion(position)
+            } else {
+                position += 1
+            }
+        }
+        // Check if the last displayed question still needs an answer, or if the thank you page can be displayed
+        if (position >= questionsLen && !flag) {
+            this.state.areAllQuestionsDisplayed = true
+        } else if (position >= questionsLen && flag) {
+            this.state.areAllQuestionsDisplayed = true
+            this.state.isAllQuestionsAnswered = true
+        }
+    }
+
+    setQuestion = async (newPosition) => {
+        // Sets the question with the predetermined position as the new current question and gets the questions choices from the API.
+        const newQuestionID = this.state.questions.find( question => question.position === newPosition).id
         this.setState({
-            currentQuestionID: newQuestionID,
+            currentQuestionID: newQuestionID
         });
         const newChoices = await questionService.getChoices(newQuestionID);
         this.setState({
-            currentQuestionChoices: newChoices,
-        });
+            currentQuestionChoices: newChoices
+        })
     }
+
 
     handleChoiceClick = async (choice) => {
         await this.setState((previousState) => {
@@ -64,34 +112,24 @@ class App extends React.Component {
         });
 
         const { currentQuestionID, questions } = this.state;
-        const currentQuestionIndex = questions.findIndex(question => question.id === currentQuestionID);
+        const position = questions.findIndex(question => question.id === currentQuestionID);
 
-        if (this.moreQuestions(currentQuestionIndex)) { // more questions
-            this.setNextQuestion(currentQuestionIndex);
-        } else { // no more questions 
+        if (!this.state.areAllQuestionsDisplayed) { // more questions
+            this.setNextQuestion(position);
+            if (this.state.areAllQuestionsDisplayed && this.state.isAllQuestionsAnswered) {
+                this.submitObservation()
+            }
+        } else { // no more questions
             this.submitObservation();
         }
 
     }
 
-    /* Checks if new answer should end this question round .
-       NOTE: Assumes that all questions except the start are dependent on a specific answer. */
-    moreQuestions = (currentQuestionIndex) => {
-        const answers = this.state.answers
-        const questions = this.state.questions
-        return currentQuestionIndex !== questions.length - 1 && answers !== undefined &&
-            // finds the question which depends on the given answer
-            questions.find(question => question.depends_on_question_id === questions[currentQuestionIndex].id).
-                depends_on_choice_id === answers[questions[currentQuestionIndex].id].id
-    }
-
-
     submitObservation = () => {
-        // TODO: place and category still need to be fetched from API
         const time = new Date().toString().substring(0,21)
-        const place = 7925
+        const place = this.state.place
         const answers = this.state.answers
-        const category = 65336
+        const category = this.state.category
         const data = {
             occurred_at: time,
             place: place,
@@ -100,16 +138,21 @@ class App extends React.Component {
             answers: answers
         }
 
-        questionService.postObservation(data)
+        questionService.postObservation(data);
 
         this.setState({
+            answers: {}, // prevents the previous answers from being POSTed
             isAllQuestionsAnswered: true,
         });
+
+        this.setFirstQuestion();
+        this.setCatAndLoc();
+
         setTimeout(() => {
             this.setState({
-                ...initialState
+                isAllQuestionsAnswered: false,
+                areAllQuestionsDisplayed: false
             });
-            this.setFirstQuestion();
         }, 3000);
     }
 
