@@ -49,7 +49,9 @@ const questionsUrl = `${BASE_API_URL}/${organizationName}/observation-questions/
 const choicesUrl = `${BASE_API_URL}/${organizationName}/observation-questions-choices/links/${linkName}/`;
 const categoryUrl = `${BASE_API_URL}/${organizationName}/observation-categories/links/${linkName}`;
 const placeUrl = `${BASE_API_URL}/${organizationName}/places/links/${linkName}`;
-const postUrl = `${BASE_API_URL}/${organizationName}/observations/links/${linkName}`
+const postUrl = `${BASE_API_URL}/${organizationName}/observations/links/${linkName}`;
+const availableLangUrl = `${BASE_API_URL}/${organizationName}/available-languages`
+const currentLangUrl = `${BASE_API_URL}/${organizationName}/current-language`
 
 /* A generic function for GETting the data.data from an URL. */
 const getUrl = async (url) => {
@@ -57,6 +59,10 @@ const getUrl = async (url) => {
         console.error(err);
     });
     return response.data.data;
+}
+
+const getLanguages = () => {
+    return getUrl(availableLangUrl)
 }
 
 const getCategory = () => {
@@ -93,4 +99,4 @@ function findGetParameter(parameterName) {
     return result;
 }
 
-export default { getUrl, getCategory, getPlace, getQuestions, getChoices, postObservation };
+export default { getUrl, getCategory, getPlace, getLanguages, getQuestions, getChoices, postObservation };

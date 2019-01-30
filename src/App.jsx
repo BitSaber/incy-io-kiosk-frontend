@@ -29,6 +29,8 @@ class App extends React.Component {
     setCatAndLoc = async () => {
         const cat = await questionService.getCategory()
         const loc = await questionService.getPlace()
+        const lang = await questionService.getLanguages()
+        console.log(lang)
         this.setState({
             category: cat[0].id,
             place: loc[0].id,
@@ -122,7 +124,6 @@ class App extends React.Component {
         } else { // no more questions
             this.submitObservation();
         }
-
     }
 
     submitObservation = () => {
