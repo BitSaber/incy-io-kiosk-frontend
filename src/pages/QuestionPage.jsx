@@ -22,7 +22,6 @@ class QuestionPage extends Component {
                 <div className="question-div ">
                     <Typography class="txt" variant="h2">{this.props.question.name}</Typography>
                 </div>
-
                 <div>
                     <div className="center-align txt">
                         <Grid container direction="row" justify="center">

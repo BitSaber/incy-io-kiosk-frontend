@@ -1,5 +1,4 @@
 import React from 'react';
-
 import FreeText from './components/FreeText'
 import questionService from './service'
 import ThankYouPage from './pages/ThankYouPage';
@@ -53,12 +52,12 @@ class App extends React.Component {
         //const questionsLen = this.state.questions.length
         const answerKeys = this.state.answers
         console.log(answerKeys["5090"])
-        const nextQuestion = this.state.questions.find( question => question.position === position)
-        if ( nextQuestion.depends_on_question_id === null ) {  
+        const nextQuestion = this.state.questions.find(question => question.position === position)
+        if (nextQuestion.depends_on_question_id === null) {
             return true
         }
-        else if ( answerKeys[nextQuestion.depends_on_question_id] !== undefined && 
-                  answerKeys[nextQuestion.depends_on_question_id]["id"] === nextQuestion.depends_on_choice_id  ) {
+        else if (answerKeys[nextQuestion.depends_on_question_id] !== undefined &&
+            answerKeys[nextQuestion.depends_on_question_id]["id"] === nextQuestion.depends_on_choice_id) {
             console.log('Jeejeejee');
             return true
         }
@@ -70,19 +69,19 @@ class App extends React.Component {
     setNextQuestion = async (currentQuestionIndex) => {
         // finds the question that depends on this one
         const questionsLen = this.state.questions.length
-        var position = this.state.questions.find( question => question.id === this.state.currentQuestionID).position + 1
+        var position = this.state.questions.find(question => question.id === this.state.currentQuestionID).position + 1
         var flag = true
         console.log('Len: ', questionsLen, 'StartPos: ', position)
-        while ( position <= questionsLen && flag ) {
-            if(this.checkNextQuestion(position)){
+        while (position <= questionsLen && flag) {
+            if (this.checkNextQuestion(position)) {
                 flag = false
                 console.log('posBeforeCall: ', position)
                 this.setQuestion(position)
-                }
+            }
             else {
                 position += 1
-                }   
             }
+        }
         if (position === questionsLen) {
             this.state.areAllQuestionsDisplayed = true
         }
@@ -90,18 +89,31 @@ class App extends React.Component {
             this.state.areAllQuestionsDisplayed = true
             this.state.isAllQuestionsAnswered = true
         }
-        }
+    }
 
-        setQuestion = async (newPosition) => {
-            const newQuestionID = this.state.questions.find( question => question.position === newPosition).id
-            console.log(newQuestionID)
-            this.setState({ 
-               currentQuestionID: newQuestionID
-            });
-            const newChoices = await questionService.getChoices(newQuestionID);
-            this.setState({
-                currentQuestionChoices: newChoices
-                 })
+    setQuestion = async (newPosition) => {
+        const newQuestionID = this.state.questions.find(question => question.position === newPosition).id
+        console.log(newQuestionID)
+        this.setState({
+            currentQuestionID: newQuestionID
+        });
+        const newChoices = await questionService.getChoices(newQuestionID);
+        this.setState({
+            currentQuestionChoices: newChoices
+        })
+    }
+
+    handleTextClick = async (text) => {
+        await this.setState((previousState) => {
+            return {
+                ...previousState,
+                answers: {
+                    ...previousState.answers,
+                    text
+                }
+            }
+        });
+        setNextQuestion()
     }
 
 
@@ -146,7 +158,7 @@ class App extends React.Component {
 
 
     submitObservation = () => {
-        const time = new Date().toString().substring(0,21)
+        const time = new Date().toString().substring(0, 21)
         const place = this.state.place
         const answers = this.state.answers
         const category = this.state.category
@@ -189,12 +201,16 @@ class App extends React.Component {
         }
 
         return (
-            <QuestionPage
+            /*   <QuestionPage
+                   question={question}
+                   questionChoices={this.state.currentQuestionChoices}
+                   onChoiceClick={this.handleChoiceClick}
+               />*/
+            <FreeText
                 question={question}
-                questionChoices={this.state.currentQuestionChoices}
                 onChoiceClick={this.handleChoiceClick}
             />
-            
+
         );
     }
 }
