@@ -12,7 +12,8 @@ class QuestionPage extends Component {
         question: PropTypes.object.isRequired,
         questionChoices: PropTypes.arrayOf(PropTypes.object).isRequired,
         onChoiceClick: PropTypes.func.isRequired,
-        questionType: PropTypes.string.isRequired
+        questionType: PropTypes.string.isRequired,
+        onSubmitMultiClick: PropTypes.func.isRequired
     }
 
     renderButton = (qType,choice) => {
@@ -34,6 +35,12 @@ class QuestionPage extends Component {
         }
     }
 
+    submitMultiButton = (questionType) => {
+        if (questionType === "multi-select") {
+            return <BigButton onClick= {this.props.onSubmitMultiClick} text="Submit" />
+        }
+    }
+
     render() { //TODO: attributes of class txt should be implemented with material UI
         return (
             <div>
@@ -48,6 +55,8 @@ class QuestionPage extends Component {
                             {this.props.questionChoices.map(questionsChoice => (
                                 this.renderButton(this.props.questionType, questionsChoice)))
                             }
+                            {this.submitMultiButton(this.props.questionType)}
+
                         </Grid>
                     </div>
                 </div>

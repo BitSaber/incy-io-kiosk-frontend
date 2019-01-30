@@ -118,8 +118,7 @@ class App extends React.Component {
 
         if ( !this.state.multiSelectArray.map(object => object.id).includes(choice.id) ) {
             const newChoice = [{id: choice.id}]
-            console.log(newChoice)
-            console.log(this.state.multiSelectArray)
+
             this.setState( (previousState) => {
                 return {
                     ...previousState,
@@ -128,13 +127,14 @@ class App extends React.Component {
             })
             console.log(this.state.multiSelectArray)
         } else {
-            const pos = this.state.multiSelectArray.indexOf({id: choice.id})
+            const pos = this.state.multiSelectArray.map(object => object.id).indexOf(choice.id)
             console.log(pos)
-            console.log(this.state.multiSelectArray)
+            var newMultiSelectArray = this.state.multiSelectArray
+            newMultiSelectArray.splice(pos, 1)
             this.setState( (previousState) => {
                 return {
                     ...previousState,
-                    multiSelectArray: previousState.multiSelectArray.splice(pos, 1)
+                    multiSelectArray: newMultiSelectArray
                 }
             })
         }
@@ -152,6 +152,8 @@ class App extends React.Component {
                 }
             }
         })
+        console.log(this.state.multiSelectArray)
+        this.moveToNextQuestion()
     }
 
     singleAnswerClick = async (choice) => {
@@ -166,6 +168,7 @@ class App extends React.Component {
                 }
             }
         });
+        this.moveToNextQuestion()
     }
 
     moveToNextQuestion = () => {
@@ -185,7 +188,6 @@ class App extends React.Component {
     handleChoiceClick = (choice) => {
         if (this.state.currentQuestionType === 'select') {
             this.singleAnswerClick(choice)
-            this.moveToNextQuestion()
         } else if (this.state.currentQuestionType === 'multi-select') {
             this.multiAnswerClick(choice) // should moveToNextQuestion only when pressed 'ready' or 'submit' or whatever
             console.log(this.state.multiSelectArray)
@@ -239,6 +241,7 @@ class App extends React.Component {
                 question={question}
                 questionChoices={this.state.currentQuestionChoices}
                 onChoiceClick={this.handleChoiceClick}
+                onSubmitMultiClick={this.submitMultiClick}
                 questionType={this.state.currentQuestionType}
             />
         );
