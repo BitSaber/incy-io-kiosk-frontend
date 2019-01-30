@@ -66,12 +66,11 @@ class App extends React.Component {
         }
     }
 
-    setNextQuestion = async (currentQuestionIndex) => {
+    setNextQuestion = () => {
         // finds the question that depends on this one
         const questionsLen = this.state.questions.length
         var position = this.state.questions.find(question => question.id === this.state.currentQuestionID).position + 1
         var flag = true
-        console.log('Len: ', questionsLen, 'StartPos: ', position)
         while (position <= questionsLen && flag) {
             if (this.checkNextQuestion(position)) {
                 flag = false
@@ -109,11 +108,12 @@ class App extends React.Component {
                 ...previousState,
                 answers: {
                     ...previousState.answers,
-                    text
+                    [previousState.currentQuestionID]: text
                 }
             }
         });
-        setNextQuestion()
+        console.log(this.state.answers)
+        this.setNextQuestion()
     }
 
 
@@ -208,7 +208,7 @@ class App extends React.Component {
                />*/
             <FreeText
                 question={question}
-                onChoiceClick={this.handleChoiceClick}
+                onChoiceClick={this.handleTextClick}
             />
 
         );

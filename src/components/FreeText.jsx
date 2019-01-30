@@ -54,7 +54,7 @@ export default class FreeText extends React.Component {
                     <div className="center-align txt">
                         <Grid container direction="row" justify="center">
                             <BigButton
-                                onClick={handleTextClick}
+                                onClick={() => this.props.onChoiceClick(this.state.value)}
                                 text="Submit"
                             />
                             ))
