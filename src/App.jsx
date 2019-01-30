@@ -12,7 +12,7 @@ const initialState = {
     isAllQuestionsAnswered: false,
     areAllQuestionsDisplayed: false,
     categoryId: null,
-    placeId: null
+    placeId: null,
 }
 
 class App extends React.Component {
@@ -50,11 +50,11 @@ class App extends React.Component {
 
     checkNextQuestion = (position) => {
         const answerKeys = this.state.answers
-        const nextQuestion = this.state.questions.find( question => question.position === position)
-        if ( nextQuestion.depends_on_question_id === null ) {
+        const nextQuestion = this.state.questions.find(question => question.position === position)
+        if (nextQuestion.depends_on_question_id === null) {
             return true
-        } else if ( answerKeys[nextQuestion.depends_on_question_id] !== undefined &&
-                    answerKeys[nextQuestion.depends_on_question_id]["id"] === nextQuestion.depends_on_choice_id  ) {
+        } else if (answerKeys[nextQuestion.depends_on_question_id] !== undefined &&
+            answerKeys[nextQuestion.depends_on_question_id]["id"] === nextQuestion.depends_on_choice_id) {
             return true
         } else {
             return false
@@ -68,7 +68,7 @@ class App extends React.Component {
             question => question.id === this.state.currentQuestionID).position + 1
         var flag = true
         // Loop through the questions by position, and determine if the question at hand needs to be displayed
-        while ( position <= questionsLen && flag ) {
+        while (position <= questionsLen && flag) {
             if (this.checkNextQuestion(position)) {
                 flag = false
                 this.setQuestion(position)
@@ -87,7 +87,7 @@ class App extends React.Component {
 
     setQuestion = async (newPosition) => {
         // Sets the question with the predetermined position as the new current question and gets the questions choices from the API.
-        const newQuestionID = this.state.questions.find( question => question.position === newPosition).id
+        const newQuestionID = this.state.questions.find(question => question.position === newPosition).id
         this.setState({
             currentQuestionID: newQuestionID
         });
@@ -126,7 +126,7 @@ class App extends React.Component {
     }
 
     submitObservation = () => {
-        const time = new Date().toString().substring(0,21)
+        const time = new Date().toString().substring(0, 21)
         const place = this.state.place
         const answers = this.state.answers
         const category = this.state.category
@@ -157,6 +157,7 @@ class App extends React.Component {
     }
 
     render() {
+
         const question = this.state.questions.find(question => question.id === this.state.currentQuestionID);
 
         // question is undefined and we are waiting for it from the server
