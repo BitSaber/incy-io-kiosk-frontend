@@ -1,5 +1,5 @@
 import React from 'react';
-
+import FreeText from './components/FreeText'
 import questionService from './service'
 import ThankYouPage from './pages/ThankYouPage';
 import QuestionPage from './pages/QuestionPage';
@@ -138,6 +138,20 @@ class App extends React.Component {
         }
     }
 
+    handleTextClick = async (text) => {
+        await this.setState((previousState) => {
+            return {
+                ...previousState,
+                answers: {
+                    ...previousState.answers,
+                    [previousState.currentQuestionID]: text
+                }
+            }
+        });
+        console.log(this.state.answers)
+        this.setNextQuestion()
+    }
+
     submitMultiClick = async () => {
         // Sets the answer objects state when submitting multi select question
         await this.setState((previousState) => {
@@ -190,7 +204,7 @@ class App extends React.Component {
     }
 
     submitObservation = () => {
-        const time = new Date().toString().substring(0,21)
+        const time = new Date().toString().substring(0, 21)
         const place = this.state.place
         const answers = this.state.answers
         const category = this.state.category
@@ -232,13 +246,18 @@ class App extends React.Component {
         }
 
         return (
-            <QuestionPage
+               /*<QuestionPage
+                    question={question}
+                    questionChoices={this.state.currentQuestionChoices}
+                    onChoiceClick={this.handleChoiceClick}
+                    questionType={this.state.currentQuestionType}
+                    onSubmitMultiClick={this.submitMultiClick}
+               />*/
+            <FreeText
                 question={question}
-                questionChoices={this.state.currentQuestionChoices}
-                onChoiceClick={this.handleChoiceClick}
-                onSubmitMultiClick={this.submitMultiClick}
-                questionType={this.state.currentQuestionType}
+                onChoiceClick={this.handleTextClick}
             />
+
         );
     }
 }
