@@ -125,10 +125,8 @@ class App extends React.Component {
                     multiSelectArray: previousState.multiSelectArray.concat(newChoice)
                 }
             })
-            console.log(this.state.multiSelectArray)
         } else {
             const pos = this.state.multiSelectArray.map(object => object.id).indexOf(choice.id)
-            console.log(pos)
             var newMultiSelectArray = this.state.multiSelectArray
             newMultiSelectArray.splice(pos, 1)
             this.setState( (previousState) => {
@@ -142,7 +140,6 @@ class App extends React.Component {
 
     submitMultiClick = async () => {
         // Sets the answer objects state when submitting multi select question
-
         await this.setState((previousState) => {
             return {
                 ...previousState,
@@ -152,7 +149,6 @@ class App extends React.Component {
                 }
             }
         })
-        console.log(this.state.multiSelectArray)
         this.moveToNextQuestion()
     }
 
@@ -190,7 +186,6 @@ class App extends React.Component {
             this.singleAnswerClick(choice)
         } else if (this.state.currentQuestionType === 'multi-select') {
             this.multiAnswerClick(choice) // should moveToNextQuestion only when pressed 'ready' or 'submit' or whatever
-            console.log(this.state.multiSelectArray)
         }
     }
 
