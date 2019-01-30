@@ -7,7 +7,7 @@ import QuestionPage from './pages/QuestionPage';
 const initialState = {
     questions: [],
     currentQuestionID: null,
-    currentQuestionType: 'select',
+    currentQuestionType: 'not gotten yet',
     currentQuestionChoices: [],
     answers: {},
     isAllQuestionsAnswered: false,
@@ -45,8 +45,10 @@ class App extends React.Component {
             currentQuestionID: currentQuestionID,
         });
         const choices = await questionService.getChoices(currentQuestionID);
+        const questionType = questions[0].type
         this.setState({
             currentQuestionChoices: choices,
+            currentQuestionType: questionType
         });
     }
 
@@ -121,9 +123,10 @@ class App extends React.Component {
             this.setState( (previousState) => {
                 return {
                     ...previousState,
-                    multiSelectArray: previousState.multiSelectArray.push(newChoice)
+                    multiSelectArray: previousState.multiSelectArray.concat(newChoice)
                 }
             })
+            console.log(this.state.multiSelectArray)
         } else {
             const pos = this.state.multiSelectArray.indexOf({id: choice.id})
             console.log(pos)
@@ -222,7 +225,6 @@ class App extends React.Component {
 
     render() {
         const question = this.state.questions.find(question => question.id === this.state.currentQuestionID);
-
         // question is undefined and we are waiting for it from the server
         if (!question) {
             return null;
