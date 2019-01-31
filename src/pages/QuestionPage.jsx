@@ -26,7 +26,7 @@ class QuestionPage extends React.Component {
     }
 
     submitMultiButton = () => {
-        return <BigButton onClick= {this.props.onSubmitMultiClick} text="Submit" />
+        return <BigButton onClick= {() => this.props.onSubmitMultiClick()} text="Submit" />
     }
 
     renderChoices = () => {
@@ -48,25 +48,28 @@ class QuestionPage extends React.Component {
 
     renderTextField = (questionType) => {
         if (questionType === "str") {
-            <div className="center-align txt">
-                <form>
-                    <TextField
-                        id="outlined-bare"
-                        label="Please add text here"
-                        multiline
-                        rows="20"
-                        margin="normal"
-                        value={this.state.value}
-                        onChange={this.handleChange}
-                        variant="outlined"
-                        style={{ width: 1000 }}
-                    />
-                </form>
-            </div>
+            return (
+                <div className="center-align txt">
+                    <form>
+                        <TextField
+                            id="outlined-bare"
+                            label="Please add text here"
+                            multiline
+                            rows="20"
+                            margin="normal"
+                            value={this.state.value}
+                            onChange={this.handleChange}
+                            variant="outlined"
+                            style={{ width: 1000 }}
+                        />
+                    </form>
+                </div>
+            )
         }
     }
 
     renderQuestionElements = (questionType) => {
+        console.log(questionType)
         if (questionType === "select" || questionType === "multi-select") {
             return (
                 this.renderChoices()
@@ -87,9 +90,9 @@ class QuestionPage extends React.Component {
 
     renderSubmitButton = (questionType) => {
         if (questionType === "multi-select") {
-            return submitMultiButton()
+            return this.submitMultiButton()
         } else if (questionType === "str") {
-            return submitTextButton()
+            return this.submitTextButton()
         }
     }
 
