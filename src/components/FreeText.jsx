@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import BigButton from '../components/BigButton';
 import submitTextAnswer from '../App';
 
+// CURRENTLY NOT USED, TO BE DELETED
 export default class FreeText extends React.Component {
     constructor(props) {
         super(props);

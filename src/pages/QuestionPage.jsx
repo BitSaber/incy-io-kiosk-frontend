@@ -46,6 +46,7 @@ class QuestionPage extends React.Component {
         });
     }
 
+    // TEXT QUESTION SHOULD ONLY APPEAR WHEN ANSWERED: 'Ei', 'Jotain Puuttui', 'Kyllä', 'Riippuu kuka kysyy', 'Kahvi'
     renderTextField = (questionType) => {
         if (questionType === "str") {
             return (
