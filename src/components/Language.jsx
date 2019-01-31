@@ -5,7 +5,7 @@ const Language = ({ languages }) => {
     if (languages) {
         return (
             <div>
-                {languages.map(language => (<Button key={language}>{language}</Button>))}
+                {languages.map(language => (<Button key={language}  variant="contained" color="secondary">{language}</Button>))}
             </div>
         );
     } else {
