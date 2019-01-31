@@ -12,7 +12,7 @@ class QuestionPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: ''
+            text: '' // current text of the textField
         };
     }
 
@@ -49,27 +49,29 @@ class QuestionPage extends React.Component {
     renderTextField = (questionType) => {
         if (questionType === "str") {
             return (
-                <div className="center-align txt">
-                    <form>
-                        <TextField
-                            id="outlined-bare"
-                            label="Please add text here"
-                            multiline
-                            rows="20"
-                            margin="normal"
-                            value={this.state.value}
-                            onChange={this.handleChange}
-                            variant="outlined"
-                            style={{ width: 1000 }}
-                        />
-                    </form>
+                <div>
+                    <div className="center-align txt">
+                        <form>
+                            <TextField
+                                id="outlined-bare"
+                                label="Please add text here"
+                                multiline
+                                rows="20"
+                                margin="normal"
+                                value={this.state.text}
+                                onChange={this.handleChange}
+                                variant="outlined"
+                                style={{ width: 1000 }}
+                            />
+                        </form>
+                    </div>
                 </div>
             )
         }
     }
 
     renderQuestionElements = (questionType) => {
-        console.log(questionType)
+        //console.log(questionType)
         if (questionType === "select" || questionType === "multi-select") {
             return (
                 this.renderChoices()

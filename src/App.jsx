@@ -196,12 +196,11 @@ class App extends React.Component {
     }
 
     handleChoiceClick = (choice) => {
+        console.log(this.state.currentQuestionType)
         if (this.state.currentQuestionType === 'select') {
             this.singleAnswerClick(choice)
         } else if (this.state.currentQuestionType === 'multi-select') {
             this.multiAnswerClick(choice) // should moveToNextQuestion only when pressed 'ready' or 'submit' or whatever
-        } else if (this.state.currentQuestionType === 'str') {
-
         }
     }
 
@@ -248,19 +247,14 @@ class App extends React.Component {
         }
 
         return (
-               <QuestionPage
-                    question={question}
-                    questionChoices={this.state.currentQuestionChoices}
-                    onChoiceClick={this.handleChoiceClick}
-                    questionType={this.state.currentQuestionType}
-                    onSubmitMultiClick={this.submitMultiClick}
-                    onSubmitFreeText={this.submitTextAnswer}
-               />
-            /*<FreeText
+            <QuestionPage
                 question={question}
-                onChoiceClick={this.submitTextAnswer}
-            />*/
-
+                questionChoices={this.state.currentQuestionChoices}
+                onChoiceClick={this.handleChoiceClick}
+                questionType={this.state.currentQuestionType}
+                onSubmitMultiClick={this.submitMultiClick}
+                onSubmitFreeText={this.submitTextAnswer}
+            />
         );
     }
 }
