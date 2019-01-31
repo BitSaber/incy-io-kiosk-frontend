@@ -13,6 +13,7 @@ const initialState = {
     areAllQuestionsDisplayed: false,
     categoryId: null,
     placeId: null,
+    languages: [],
 }
 
 class App extends React.Component {
@@ -34,6 +35,7 @@ class App extends React.Component {
         this.setState({
             category: cat[0].id,
             place: loc[0].id,
+            languages: lang.map(language => language.id),
         });
     }
 
@@ -158,6 +160,8 @@ class App extends React.Component {
     }
 
     render() {
+
+        console.log(this.state)
 
         const question = this.state.questions.find(question => question.id === this.state.currentQuestionID);
 

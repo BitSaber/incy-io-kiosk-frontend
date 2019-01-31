@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 
 import BigButton from '../components/BigButton';
 import '../css/style.css';
+import Language from '../components/Language';
 
 
 class QuestionPage extends Component {
@@ -18,7 +19,9 @@ class QuestionPage extends Component {
     render() { //TODO: attributes of class txt should be implemented with material UI
         return (
             <div>
-                <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img> </div>
+                <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img>
+                    <Language />
+                </div>
                 <div className="question-div ">
                     <Typography class="txt" variant="h2">{this.props.question.name}</Typography>
                 </div>
