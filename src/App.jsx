@@ -138,7 +138,7 @@ class App extends React.Component {
         }
     }
 
-    handleTextClick = async (text) => {
+    submitTextAnswer = async (text) => {
         await this.setState((previousState) => {
             return {
                 ...previousState,
@@ -200,6 +200,8 @@ class App extends React.Component {
             this.singleAnswerClick(choice)
         } else if (this.state.currentQuestionType === 'multi-select') {
             this.multiAnswerClick(choice) // should moveToNextQuestion only when pressed 'ready' or 'submit' or whatever
+        } else if (this.state.currentQuestionType === 'str') {
+
         }
     }
 
@@ -246,17 +248,18 @@ class App extends React.Component {
         }
 
         return (
-               /*<QuestionPage
+               <QuestionPage
                     question={question}
                     questionChoices={this.state.currentQuestionChoices}
                     onChoiceClick={this.handleChoiceClick}
                     questionType={this.state.currentQuestionType}
                     onSubmitMultiClick={this.submitMultiClick}
-               />*/
-            <FreeText
+                    onSubmitFreeText={this.submitTextAnswer}
+               />
+            /*<FreeText
                 question={question}
-                onChoiceClick={this.handleTextClick}
-            />
+                onChoiceClick={this.submitTextAnswer}
+            />*/
 
         );
     }

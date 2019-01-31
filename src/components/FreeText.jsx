@@ -3,7 +3,7 @@ import { TextField } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types'
 import BigButton from '../components/BigButton';
-import handleTextClick from '../App';
+import submitTextAnswer from '../App';
 
 export default class FreeText extends React.Component {
     constructor(props) {
@@ -45,7 +45,7 @@ export default class FreeText extends React.Component {
                                 value={this.state.value}
                                 onChange={this.handleChange}
                                 variant="outlined"
-                                style={{ width: 1000 }}
+                                style={{ width: 500 }}
                             />
                         </form>
                     </div>

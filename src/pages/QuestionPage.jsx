@@ -1,43 +1,95 @@
-import React, { Component } from 'react';
+import React from 'react';
 //import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import { TextField } from '@material-ui/core';
 import PropTypes from 'prop-types'
 
 import BigButton from '../components/BigButton';
 import '../css/style.css';
 
 
-class QuestionPage extends Component {
+class QuestionPage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: ''
+        };
+    }
+
     static propTypes = {
         question: PropTypes.object.isRequired,
         questionChoices: PropTypes.arrayOf(PropTypes.object).isRequired,
         onChoiceClick: PropTypes.func.isRequired,
         questionType: PropTypes.string.isRequired,
-        onSubmitMultiClick: PropTypes.func.isRequired
+        onSubmitMultiClick: PropTypes.func.isRequired,
+        onSubmitFreeText: PropTypes.func.isRequired
     }
 
-    renderButton = (qType,choice) => {
-        switch(qType) {
-        case 'select':
-            return <BigButton
-                key={choice.id}
-                onClick={() => this.props.onChoiceClick(choice)}
-                text={choice.name}
-            />;
-        case 'multi-select':
-            return <BigButton
-                key={choice.id}
-                onClick={() => this.props.onChoiceClick(choice)}
-                text={choice.name}
-            />;
-        default:
-            return null;
+    submitMultiButton = () => {
+        return <BigButton onClick= {this.props.onSubmitMultiClick} text="Submit" />
+    }
+
+    renderChoices = () => {
+        return this.props.questionChoices.map(questionsChoice => (
+                <BigButton
+                    key={questionsChoice.id}
+                    onClick={() => this.props.onChoiceClick(questionsChoice)}
+                    text={questionsChoice.name}
+                />
+            )
+        )
+    }
+
+    handleChange = (event) => {
+        this.setState({
+            value: event.target.value
+        });
+    }
+
+    renderTextField = (questionType) => {
+        if (questionType === "str") {
+            <div className="center-align txt">
+                <form>
+                    <TextField
+                        id="outlined-bare"
+                        label="Please add text here"
+                        multiline
+                        rows="20"
+                        margin="normal"
+                        value={this.state.value}
+                        onChange={this.handleChange}
+                        variant="outlined"
+                        style={{ width: 1000 }}
+                    />
+                </form>
+            </div>
         }
     }
 
-    submitMultiButton = (questionType) => {
+    renderQuestionElements = (questionType) => {
+        if (questionType === "select" || questionType === "multi-select") {
+            return (
+                this.renderChoices()
+            )
+        } else if (questionType === "str") {
+            return (
+                this.renderTextField()
+            )
+        }
+    }
+
+    submitTextButton = () => {
+        <BigButton
+            onClick={() => this.props.onSubmitFreeText(this.state.value)}
+            text="Submit"
+        />
+    }
+
+    renderSubmitButton = (questionType) => {
         if (questionType === "multi-select") {
-            return <BigButton onClick= {this.props.onSubmitMultiClick} text="Submit" />
+            return submitMultiButton()
+        } else if (questionType === "str") {
+            return submitTextButton()
         }
     }
 
@@ -51,12 +103,11 @@ class QuestionPage extends Component {
                 <div>
                     <div className="center-align txt">
                         <Grid container direction="row" justify="center">
-                            {this.props.questionChoices.map(questionsChoice => (
-                                this.renderButton(this.props.questionType, questionsChoice)))
-                            }
-                            {this.submitMultiButton(this.props.questionType)}
+
+                            {this.renderQuestionElements(this.props.questionType)}
 
                         </Grid>
+                        {this.renderSubmitButton(this.props.questionType)}
                     </div>
                 </div>
                 <footer className="footer">
