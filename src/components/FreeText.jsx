@@ -58,7 +58,6 @@ export default class FreeText extends React.Component {
                                 onClick={() => this.props.onChoiceClick(this.state.value)}
                                 text="Submit"
                             />
-                            ))
                         </Grid>
                     </div>
                 </div>

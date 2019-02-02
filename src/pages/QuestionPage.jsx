@@ -46,49 +46,48 @@ class QuestionPage extends React.Component {
         });
     }
 
-    // TEXT QUESTION SHOULD ONLY APPEAR WHEN ANSWERED: 'Ei', 'Jotain Puuttui', 'Kyllä', 'Riippuu kuka kysyy', 'Kahvi'
-    renderTextField = (questionType) => {
-        if (questionType === "str") {
-            return (
-                <div>
-                    <div className="center-align txt">
-                        <form>
-                            <TextField
-                                id="outlined-bare"
-                                label="Please add text here"
-                                multiline
-                                rows="20"
-                                margin="normal"
-                                value={this.state.text}
-                                onChange={this.handleChange}
-                                variant="outlined"
-                                style={{ width: 1000 }}
-                            />
-                        </form>
-                    </div>
+    // TEXT QUESTION SHOULD ONLY APPEAR WHEN ANSWERED: 'Kahvi' only to multi-answer question
+    renderTextField = () => {
+        return (
+            <div>
+                <div className="center-align txt">
+                    <form>
+                        <TextField
+                            id="outlined-bare"
+                            label="Please add text here"
+                            multiline
+                            rows="20"
+                            margin="normal"
+                            value={this.state.text}
+                            onChange={this.handleChange}
+                            variant="outlined"
+                            style={{ width: 500 }}
+                        />
+                    </form>
                 </div>
-            )
-        }
+            </div>
+        )
     }
 
     renderQuestionElements = (questionType) => {
-        //console.log(questionType)
         if (questionType === "select" || questionType === "multi-select") {
-            return (
-                this.renderChoices()
-            )
+            return this.renderChoices()
         } else if (questionType === "str") {
-            return (
-                this.renderTextField()
-            )
+            return this.renderTextField()
         }
     }
 
     submitTextButton = () => {
-        <BigButton
-            onClick={() => this.props.onSubmitFreeText(this.state.value)}
-            text="Submit"
-        />
+        return ( // does not render for some reason
+                <div className="center-align txt">
+                    <Grid container direction="row" justify="center">
+                        <BigButton
+                            onClick={() => this.props.onSubmitFreeText(this.state.text)}
+                            text="Submit"
+                        />
+                    </Grid>
+                </div>
+        )
     }
 
     renderSubmitButton = (questionType) => {
@@ -113,8 +112,8 @@ class QuestionPage extends React.Component {
                             {this.renderQuestionElements(this.props.questionType)}
 
                         </Grid>
-                        {this.renderSubmitButton(this.props.questionType)}
                     </div>
+                    {this.renderSubmitButton(this.props.questionType)}
                 </div>
                 <footer className="footer">
                     <footer className="inside">

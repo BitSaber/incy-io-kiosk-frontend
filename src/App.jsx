@@ -97,18 +97,21 @@ class App extends React.Component {
             currentQuestionID: newQuestionID,
             currentQuestionType: questionType
         });
-        const newChoices = await questionService.getChoices(newQuestionID);
 
-        // Sets an empty answer array for multi select question
-        if (this.state.currentQuestionType === 'multi-select') {
-            this.setState({
-                currentQuestionChoices: newChoices,
-                multiSelectArray: []
-            })
-        } else {
-            this.setState({
-                currentQuestionChoices: newChoices
-            })
+        if (this.state.currentQuestionType !== 'str') {
+            const newChoices = await questionService.getChoices(newQuestionID);
+
+            // Sets an empty answer array for multi select question
+            if (this.state.currentQuestionType === 'multi-select') {
+                this.setState({
+                    currentQuestionChoices: newChoices,
+                    multiSelectArray: []
+                })
+            } else {
+                this.setState({
+                    currentQuestionChoices: newChoices
+                })
+            }
         }
     }
 
@@ -185,6 +188,10 @@ class App extends React.Component {
         const { currentQuestionID, questions } = this.state;
         const position = questions.findIndex(question => question.id === currentQuestionID);
 
+        console.log(this.state.areAllQuestionsDisplayed)
+
+        console.log(this.state.currentQuestionType)
+
         if (!this.state.areAllQuestionsDisplayed) { // more questions
             this.setNextQuestion(position);
             if (this.state.areAllQuestionsDisplayed && this.state.isAllQuestionsAnswered) {
@@ -196,7 +203,6 @@ class App extends React.Component {
     }
 
     handleChoiceClick = (choice) => {
-        console.log(this.state.currentQuestionType)
         if (this.state.currentQuestionType === 'select') {
             this.singleAnswerClick(choice)
         } else if (this.state.currentQuestionType === 'multi-select') {
