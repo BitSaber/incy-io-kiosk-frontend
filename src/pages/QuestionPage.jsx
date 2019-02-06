@@ -26,15 +26,7 @@ class QuestionPage extends Component {
                 text={choice.name}
             />;
         case 'multi-select':
-            return <ToggleButtons choice={choice} onChoiceClick={this.props.onChoiceClick(choice)} >
-            {/* <ToggleButton
-                key={choice.id}
-                className={choice.name}
-                selected= {false}
-                onClick={() => this.props.onChoiceClick(choice)}
-                value={choice.name}
-                ><h2>{choice.name}</h2></ToggleButton> */}
-            </ToggleButtons>
+            return <ToggleButtons choice={choice} onChoiceClick={this.props.onChoiceClick(choice)} />
         default:
             return null;
         }
