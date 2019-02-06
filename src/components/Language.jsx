@@ -1,11 +1,13 @@
 import React from 'react'
 import Button from '@material-ui/core/Button';
 
-const Language = ({ languages }) => {
+const Language = ({ languages, onClick }) => {
     if (languages) {
         return (
             <div>
-                {languages.map(language => (<Button key={language}  variant="contained" color="secondary">{language}</Button>))}
+                {languages.map(language => (
+                    <Button key={language} onClick={onClick} variant="contained" color="secondary">{language}</Button>
+                ))}
             </div>
         );
     } else {

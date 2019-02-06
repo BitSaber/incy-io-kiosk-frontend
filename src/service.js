@@ -53,6 +53,11 @@ const postUrl = `${BASE_API_URL}/${organizationName}/observations/links/${linkNa
 const availableLangUrl = `${BASE_API_URL}/${organizationName}/available-languages`
 const currentLangUrl = `${BASE_API_URL}/${organizationName}/current-language`
 
+const patchLang = (langId) => {
+    // PATCH the current lang url to given langId
+
+}
+
 /* A generic function for GETting the data.data from an URL. */
 const getUrl = async (url) => {
     const response = await axios.get(url).catch(err => {

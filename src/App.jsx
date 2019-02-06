@@ -24,10 +24,10 @@ class App extends React.Component {
 
     async componentDidMount() {
         this.setFirstQuestion();
-        this.setCatAndLoc();
+        this.setInfo();
     }
 
-    setCatAndLoc = async () => {
+    setInfo = async () => { // better name ideas?
         const cat = await questionService.getCategory()
         const loc = await questionService.getPlace()
         const lang = await questionService.getLanguages()
@@ -159,6 +159,10 @@ class App extends React.Component {
         }, 3000);
     }
 
+    changeLanguage = (langId) => {
+        questionService.patchLang(langId)
+    }
+
     render() {
 
         const question = this.state.questions.find(question => question.id === this.state.currentQuestionID);
@@ -178,6 +182,7 @@ class App extends React.Component {
                 questionChoices={this.state.currentQuestionChoices}
                 onChoiceClick={this.handleChoiceClick}
                 languages={this.state.languages}
+                onLangClick={}
             />
         );
     }
