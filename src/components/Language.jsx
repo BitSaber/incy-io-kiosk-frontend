@@ -11,9 +11,9 @@ const Language = ({ languages }) => {
     if (languages) {
         return (
             <div>
-                {languages.map(language => (
-                    <Button key={language} onClick={() => changeLanguage(language)} variant="contained" color="secondary">{language}</Button>
-                ))}
+                <button><img src="./assets/flags/uk.png" alt="Eng" onClick={() => changeLanguage('en')} /></button>
+                <button><img src="./assets/flags/fi.png" alt="Fi" onClick={() => changeLanguage('fi')} /></button>
+                <button><img src="./assets/flags/swe.png" alt="Swe" onClick={() => changeLanguage('sv')} /></button>
             </div>
         );
     } else {
