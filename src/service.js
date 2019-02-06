@@ -55,7 +55,14 @@ const currentLangUrl = `${BASE_API_URL}/${organizationName}/current-language`
 
 const patchLang = (langId) => {
     // PATCH the current lang url to given langId
+    axios.patch(currentLangUrl,{
+        id: langId
+    })
+}
 
+// not used
+const getCurrentLang = () => {
+    return getUrl(currentLangUrl)
 }
 
 /* A generic function for GETting the data.data from an URL. */
@@ -104,4 +111,4 @@ function findGetParameter(parameterName) {
     return result;
 }
 
-export default { getUrl, getCategory, getPlace, getLanguages, getQuestions, getChoices, postObservation };
+export default { getUrl, getCategory, getPlace, getLanguages, getQuestions, getChoices, postObservation, patchLang, getCurrentLang };

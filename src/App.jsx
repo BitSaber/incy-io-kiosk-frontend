@@ -31,7 +31,10 @@ class App extends React.Component {
         const cat = await questionService.getCategory()
         const loc = await questionService.getPlace()
         const lang = await questionService.getLanguages()
+
+        const currLang = await questionService.getCurrentLang() // just to check if working
         console.log(lang)
+        console.log(currLang)
         this.setState({
             category: cat[0].id,
             place: loc[0].id,
@@ -182,7 +185,6 @@ class App extends React.Component {
                 questionChoices={this.state.currentQuestionChoices}
                 onChoiceClick={this.handleChoiceClick}
                 languages={this.state.languages}
-                onLangClick={}
             />
         );
     }
