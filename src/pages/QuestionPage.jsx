@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 //import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import PropTypes from 'prop-types'
-
+import PropTypes from 'prop-types';
+import ToggleButton from '@material-ui/lab/ToggleButton';
 import BigButton from '../components/BigButton';
 import '../css/style.css';
-
+//import { withStyles } from '@material-ui/core/styles';
+import ToggleButtons from '../components/ToggleButtons';
 
 class QuestionPage extends Component {
     static propTypes = {
@@ -25,15 +26,20 @@ class QuestionPage extends Component {
                 text={choice.name}
             />;
         case 'multi-select':
-            return <BigButton
+            return <ToggleButtons choice={choice} onChoiceClick={this.props.onChoiceClick(choice)} >
+            {/* <ToggleButton
                 key={choice.id}
+                className={choice.name}
+                selected= {false}
                 onClick={() => this.props.onChoiceClick(choice)}
-                text={choice.name}
-            />;
+                value={choice.name}
+                ><h2>{choice.name}</h2></ToggleButton> */}
+            </ToggleButtons>
         default:
             return null;
         }
     }
+
 
     submitMultiButton = (questionType) => {
         if (questionType === "multi-select") {
@@ -42,6 +48,7 @@ class QuestionPage extends Component {
     }
 
     render() { //TODO: attributes of class txt should be implemented with material UI
+
         return (
             <div>
                 <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img> </div>
