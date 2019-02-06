@@ -54,11 +54,16 @@ class App extends React.Component {
 
     checkNextQuestion = (position) => {
         const answerKeys = this.state.answers
-        const nextQuestion = this.state.questions.find( question => question.position === position)
-        if ( nextQuestion.depends_on_question_id === null ) {
+        const nextQuestion = this.state.questions.find(question => question.position === position)
+        console.log(answerKeys)
+        console.log(nextQuestion)
+        if (nextQuestion.depends_on_question_id === null) {
             return true
-        } else if ( answerKeys[nextQuestion.depends_on_question_id] !== undefined &&
-                    answerKeys[nextQuestion.depends_on_question_id]["id"] === nextQuestion.depends_on_choice_id  ) {
+        } else if (answerKeys[nextQuestion.depends_on_question_id] !== undefined &&
+            answerKeys[nextQuestion.depends_on_question_id]["id"] === nextQuestion.depends_on_choice_id) {
+            return true
+        } else if (this.state.currentQuestionType === "multi-select" && answerKeys[nextQuestion.depends_on_question_id][0] !== undefined &&
+            answerKeys[nextQuestion.depends_on_question_id][0]["id"] === nextQuestion.depends_on_choice_id) {
             return true
         } else {
             return false
@@ -72,7 +77,8 @@ class App extends React.Component {
             question => question.id === this.state.currentQuestionID).position + 1
         var flag = true
         // Loop through the questions by position, and determine if the question at hand needs to be displayed
-        while ( position <= questionsLen && flag ) {
+        while (position <= questionsLen && flag) {
+            console.log("does while work?")
             if (this.checkNextQuestion(position)) {
                 flag = false
                 this.setQuestion(position)
@@ -84,6 +90,7 @@ class App extends React.Component {
         if (position >= questionsLen && !flag) {
             this.state.areAllQuestionsDisplayed = true
         } else if (position >= questionsLen && flag) {
+            console.log("THE END")
             this.state.areAllQuestionsDisplayed = true
             this.state.isAllQuestionsAnswered = true
         }
@@ -91,8 +98,9 @@ class App extends React.Component {
 
     setQuestion = async (newPosition) => {
         // Sets the question with the predetermined position as the new current question and gets the questions choices from the API.
-        const newQuestionID = this.state.questions.find( question => question.position === newPosition).id
+        const newQuestionID = this.state.questions.find(question => question.position === newPosition).id
         const questionType = this.state.questions.find(question => question.id === newQuestionID).type
+        console.log("setQuestion qtype: " + questionType)
         this.setState({
             currentQuestionID: newQuestionID,
             currentQuestionType: questionType
@@ -119,10 +127,10 @@ class App extends React.Component {
         // this is supposed to handle adding new choices to an array
         // which is then give to submitMultiClick when asnwerer is finished
 
-        if ( !this.state.multiSelectArray.map(object => object.id).includes(choice.id) ) {
-            const newChoice = [{id: choice.id}]
+        if (!this.state.multiSelectArray.map(object => object.id).includes(choice.id)) {
+            const newChoice = [{ id: choice.id }]
 
-            this.setState( (previousState) => {
+            this.setState((previousState) => {
                 return {
                     ...previousState,
                     multiSelectArray: previousState.multiSelectArray.concat(newChoice)
@@ -132,7 +140,7 @@ class App extends React.Component {
             const pos = this.state.multiSelectArray.map(object => object.id).indexOf(choice.id)
             var newMultiSelectArray = this.state.multiSelectArray
             newMultiSelectArray.splice(pos, 1)
-            this.setState( (previousState) => {
+            this.setState((previousState) => {
                 return {
                     ...previousState,
                     multiSelectArray: newMultiSelectArray
@@ -152,7 +160,7 @@ class App extends React.Component {
             }
         });
         console.log(this.state.answers)
-        this.setNextQuestion()
+        this.moveToNextQuestion()
     }
 
     submitMultiClick = async () => {
@@ -188,13 +196,18 @@ class App extends React.Component {
         const { currentQuestionID, questions } = this.state;
         const position = questions.findIndex(question => question.id === currentQuestionID);
 
-        console.log(this.state.areAllQuestionsDisplayed)
-
-        console.log(this.state.currentQuestionType)
+        const test = this.state.questions.map(q => q.id)
+        console.log("are all questions displayed: " + this.state.areAllQuestionsDisplayed)
+        console.log("all questions: " + test)
+        console.log(questions)
+        console.log("current question: " + questions[position].id)
+        console.log("questions type is: " + this.state.currentQuestionType)
 
         if (!this.state.areAllQuestionsDisplayed) { // more questions
             this.setNextQuestion(position);
+            console.log("setNextQuestion called")
             if (this.state.areAllQuestionsDisplayed && this.state.isAllQuestionsAnswered) {
+                console.log("values changed")
                 this.submitObservation()
             }
         } else { // no more questions
@@ -211,6 +224,7 @@ class App extends React.Component {
     }
 
     submitObservation = () => {
+        console.log("submitObs qtype: " + this.state.currentQuestionType)
         const time = new Date().toString().substring(0, 21)
         const place = this.state.place
         const answers = this.state.answers

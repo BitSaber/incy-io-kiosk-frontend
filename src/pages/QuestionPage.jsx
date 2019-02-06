@@ -12,7 +12,7 @@ class QuestionPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            text: '' // current text of the textField
+            text: 'kalkkuna' // current text of the textField
         };
     }
 
@@ -26,23 +26,23 @@ class QuestionPage extends React.Component {
     }
 
     submitMultiButton = () => {
-        return <BigButton onClick= {() => this.props.onSubmitMultiClick()} text="Submit" />
+        return <BigButton onClick={() => this.props.onSubmitMultiClick()} text="Submit" />
     }
 
     renderChoices = () => {
         return this.props.questionChoices.map(questionsChoice => (
-                <BigButton
-                    key={questionsChoice.id}
-                    onClick={() => this.props.onChoiceClick(questionsChoice)}
-                    text={questionsChoice.name}
-                />
-            )
+            <BigButton
+                key={questionsChoice.id}
+                onClick={() => this.props.onChoiceClick(questionsChoice)}
+                text={questionsChoice.name}
+            />
+        )
         )
     }
-
+    //Updates changes made into textfield into state 
     handleChange = (event) => {
         this.setState({
-            value: event.target.value
+            text: event.target.value
         });
     }
 
@@ -79,14 +79,14 @@ class QuestionPage extends React.Component {
 
     submitTextButton = () => {
         return ( // does not render for some reason
-                <div className="center-align txt">
-                    <Grid container direction="row" justify="center">
-                        <BigButton
-                            onClick={() => this.props.onSubmitFreeText(this.state.text)}
-                            text="Submit"
-                        />
-                    </Grid>
-                </div>
+            <div className="center-align txt">
+                <Grid container direction="row" justify="center">
+                    <BigButton
+                        onClick={() => this.props.onSubmitFreeText(this.state.text)}
+                        text="Submit"
+                    />
+                </Grid>
+            </div>
         )
     }
 
