@@ -6,6 +6,9 @@ Documentation     A test suite with a single test clicking that we're not satisf
 Resource          resource.robot
 
 *** Test Cases ***
+Application Launches
+    Open Browser To Kiosk App
+
 Not Satisfied
     Open Browser To Kiosk App
     State You Were Not Satisfied
