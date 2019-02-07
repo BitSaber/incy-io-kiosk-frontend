@@ -27,7 +27,3 @@ State You Were Not Satisfied
 
 App Asks You Why You Were Not Satisfied
     Element Text Should Be  //div[@class='question-div']/span   Miksi et ollut tyytyväinen?
-
-There Should Exist Answers To Click
-    ${nAnswerElems}= Get Element Count css:.question-div + div div>button
-    Should Be True ${nAnswerElems} > 0

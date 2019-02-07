@@ -8,8 +8,6 @@ Resource          resource.robot
 *** Test Cases ***
 Not Satisfied
     Open Browser To Kiosk App
-    There Should Exist Answers To Click
     State You Were Not Satisified
     App Asks You Why You Were Not Satisfied
-    There Should Exist Answers To Click
     [Teardown]    Close Browser
