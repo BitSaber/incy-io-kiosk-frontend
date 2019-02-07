@@ -8,7 +8,7 @@ Resource          resource.robot
 *** Test Cases ***
 Application Launches
     Open Browser To Kiosk App
-    Current Frame Should Contain Oletko tyytyväinen huoneen tarvikkeisiin?
+    Current Frame Should Contain 'Oletko tyytyväinen huoneen tarvikkeisiin?'
 
 Not Satisfied
     Open Browser To Kiosk App
