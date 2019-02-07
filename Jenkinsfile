@@ -58,7 +58,11 @@ pipeline {
                 PATH = "$PATH:/opt/chromedriver/"
             }
             steps {
-                sh 'yarn install && yarn start &'
+                sh 'yarn package'
+                sh 'cd heroku_docker'
+                sh 'yarn install'
+                sh 'cp ../dist/* .'
+                sh 'yarn start &'
                 sh 'sleep 5'
                 sh 'robot __tests__/robot'
             }
