@@ -50,6 +50,14 @@ pipeline {
                 sh 'yarn build'
             }
         }
+        stage('Robot Tests') {
+            agent {
+                label 'google-chrome'
+            }
+            steps {
+                sh 'robot __tests__/robot'
+            }
+        }
         stage('Deploy to staging') {
             when {
                 expression { return GIT_BRANCH == 'master' }
