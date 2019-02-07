@@ -54,6 +54,9 @@ pipeline {
             agent {
                 label 'google-chrome'
             }
+            environment {
+                PATH = "$PATH:/opt/chromedriver/"
+            }
             steps {
                 sh 'robot __tests__/robot'
             }
