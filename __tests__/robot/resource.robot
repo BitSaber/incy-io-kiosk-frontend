@@ -23,7 +23,7 @@ Kiosk App Should Be Open
     Title Should Be    React App
 
 State You Were Not Satisfied
-    Click Button    //button[.//text() = 'Ei']
+    Click Button    xpath: //button[contains(text(), 'Ei')]
 
 App Asks You Why You Were Not Satisfied
     Element Text Should Be  //div[@class='question-div']/span   Miksi et ollut tyytyväinen?
