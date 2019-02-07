@@ -30,3 +30,4 @@ App Asks You Why You Were Not Satisfied
 
 There Should Exist Answers To Click
     ${nAnswerElems} = Get Element Count css:.question-div + div div>button
+    Should Be True ${nAnswerElems} > 0
