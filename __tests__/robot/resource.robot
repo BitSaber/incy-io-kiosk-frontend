@@ -27,3 +27,6 @@ State You Were Not Satisfied
 
 App Asks You Why You Were Not Satisfied
     Element Text Should Be  //div[@class='question-div']/span   Miksi et ollut tyytyväinen?
+
+We should be in initial state
+    Current Frame Should Contain 'Oletko tyytyväinen huoneen tarvikkeisiin?'
