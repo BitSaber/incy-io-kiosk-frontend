@@ -65,7 +65,6 @@ pipeline {
                 sh 'cp ../dist/* ./app/'
                 sh 'yarn start &'
                 sh 'cd ..'
-                sh 'sleep 5'
                 sh 'robot __tests__/robot'
             }
         }
