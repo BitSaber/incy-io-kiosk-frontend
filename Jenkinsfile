@@ -58,7 +58,7 @@ pipeline {
                 PATH = "$PATH:/opt/chromedriver/"
             }
             steps {
-                sh 'yarn start &'
+                sh 'yarn install && yarn start &'
                 sh 'sleep 5'
                 sh 'robot __tests__/robot'
             }
