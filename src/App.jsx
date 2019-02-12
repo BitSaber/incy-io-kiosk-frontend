@@ -92,7 +92,6 @@ class App extends React.Component {
         // Sets the question with the predetermined position as the new current question and gets the questions choices from the API.
         const newQuestionID = this.state.questions.find( question => question.position === newPosition).id
         const questionType = this.state.questions.find(question => question.id === newQuestionID).type
-        console.log('Uuden kysymyksen tyyppi: ', questionType)
         this.setState({
             currentQuestionID: newQuestionID,
             currentQuestionType: questionType
@@ -151,7 +150,6 @@ class App extends React.Component {
                 }
             }
         });
-        console.log(this.state.answers)
         this.setNextQuestion()
     }
 
@@ -187,11 +185,6 @@ class App extends React.Component {
     moveToNextQuestion = () => {
         const { currentQuestionID, questions } = this.state;
         const position = questions.findIndex(question => question.id === currentQuestionID);
-
-        console.log(this.state.areAllQuestionsDisplayed)
-
-        console.log(this.state.currentQuestionType)
-
         if (!this.state.areAllQuestionsDisplayed) { // more questions
             this.setNextQuestion(position);
             if (this.state.areAllQuestionsDisplayed && this.state.isAllQuestionsAnswered) {
