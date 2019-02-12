@@ -6,7 +6,8 @@ import PropTypes from 'prop-types'
 
 import BigButton from '../components/BigButton';
 import '../css/style.css';
-
+//import { withStyles } from '@material-ui/core/styles';
+import ToggleButtons from '../components/ToggleButtons';
 
 class QuestionPage extends React.Component {
     constructor(props) {
@@ -29,7 +30,7 @@ class QuestionPage extends React.Component {
         return <BigButton onClick={() => this.props.onSubmitMultiClick()} text="Submit" />
     }
 
-    renderChoices = () => {
+    renderSelect = () => {
         return this.props.questionChoices.map(questionsChoice => (
             <BigButton
                 key={questionsChoice.id}
@@ -37,6 +38,14 @@ class QuestionPage extends React.Component {
                 text={questionsChoice.name}
             />
         )
+        )
+    }
+
+    renderMultiselect = () => {
+        return this.props.questionChoices.map(choice => (
+            <ToggleButtons key={choice.id} choice={choice} onChoiceClick={this.props.onChoiceClick} />
+        )
+
         )
     }
     //Updates changes made into textfield into state 
@@ -70,8 +79,10 @@ class QuestionPage extends React.Component {
     }
 
     renderQuestionElements = (questionType) => {
-        if (questionType === "select" || questionType === "multi-select") {
-            return this.renderChoices()
+        if (questionType === "select") {
+            return this.renderSelect()
+        } else if (questionType === "multi-select") {
+            return this.renderMultiselect()
         } else if (questionType === "str") {
             return this.renderTextField()
         }
@@ -99,6 +110,7 @@ class QuestionPage extends React.Component {
     }
 
     render() { //TODO: attributes of class txt should be implemented with material UI
+
         return (
             <div>
                 <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img> </div>

@@ -1,5 +1,4 @@
 import React from 'react';
-import FreeText from './components/FreeText'
 import questionService from './service'
 import ThankYouPage from './pages/ThankYouPage';
 import QuestionPage from './pages/QuestionPage';
@@ -159,8 +158,10 @@ class App extends React.Component {
                 }
             }
         });
+
         console.log(this.state.answers)
         this.moveToNextQuestion()
+
     }
 
     submitMultiClick = async () => {
@@ -195,7 +196,6 @@ class App extends React.Component {
     moveToNextQuestion = () => {
         const { currentQuestionID, questions } = this.state;
         const position = questions.findIndex(question => question.id === currentQuestionID);
-
         const test = this.state.questions.map(q => q.id)
         console.log("are all questions displayed: " + this.state.areAllQuestionsDisplayed)
         console.log("all questions: " + test)
@@ -267,6 +267,7 @@ class App extends React.Component {
         }
 
         return (
+
             <QuestionPage
                 question={question}
                 questionChoices={this.state.currentQuestionChoices}
