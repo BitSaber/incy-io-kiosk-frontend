@@ -1,51 +1,57 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-// import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-// import Typography from '@material-ui/core/Typography';
-// import Grid from '@material-ui/core/Grid';
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import React from "react";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+// import Typography from "@material-ui/core/Typography";
+// import Grid from "@material-ui/core/Grid";
+import ToggleButton from "@material-ui/lab/ToggleButton";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+// import TextContainer from "/BigButton";
 
 const styles = theme => ({
-  toggleContainer: {
-    height: 56,
-    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    margin: `${theme.spacing.unit}px 0`,
-    background: theme.palette.background.default,
-  },
+    button: {
+        background: '#055679',
+        height: '100%',
+        padding: '55px 60px',
+        color: '#ffffff',
+        fontSize: '16px',
+        fontWeight: 'bold'
+    },
+
+    toggleContainer: {
+        margin: '10px',
+        borderRadius: '4px'
+    }
 });
 
 class ToggleButtons extends React.Component {
-  state = {
-    formats: [],
-  };
 
-  handleFormat = (event, formats) => this.setState({ formats });
+    state = {
+        formats: []
+    };
 
-  render() {
-//    const { classes } = this.props;
-    const { formats } = this.state;
-    return (
-        <ToggleButtonGroup value={formats} exclusive onChange={this.handleFormat}>
-                <ToggleButton
-                key={this.props.choice.id}
-                className={this.props.choice.name}
-                onClick={() => this.props.onChoiceClick}
-                value={this.props.choice.name}>
-                <h2>{this.props.choice.name}</h2>
+    handleFormat = (event, formats) => {
+        this.props.onChoiceClick(this.props.choice)
+        this.setState({ formats })
+    }
+
+    render() {
+        const { formats } = this.state;
+        return (
+            <ToggleButtonGroup className={this.props.classes.toggleContainer} value={formats} onChange={this.handleFormat}>
+                <ToggleButton className={this.props.classes.button}
+                    key={this.props.choice.id}
+                    value={this.props.choice.id}>
+                    <h3>{this.props.choice.name}</h3>
                 </ToggleButton>
-        </ToggleButtonGroup>
-    )
-}
+            </ToggleButtonGroup>
+        );
+    }
 }
 
 ToggleButtons.propTypes = {
-  classes: PropTypes.object.isRequired,
+    choice: PropTypes.object.isRequired,
+    onChoiceClick: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired
 };
 
-//export default withStyles(styles)(ToggleButtons);
-export default ToggleButtons;
+export default withStyles(styles)(ToggleButtons);

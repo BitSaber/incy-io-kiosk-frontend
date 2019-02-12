@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 //import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
-import ToggleButton from '@material-ui/lab/ToggleButton';
+//import ToggleButton from '@material-ui/lab/ToggleButton';
 import BigButton from '../components/BigButton';
 import '../css/style.css';
 //import { withStyles } from '@material-ui/core/styles';
@@ -26,7 +26,7 @@ class QuestionPage extends Component {
                 text={choice.name}
             />;
         case 'multi-select':
-            return <ToggleButtons choice={choice} onChoiceClick={this.props.onChoiceClick(choice)} />
+            return <ToggleButtons choice={choice} onChoiceClick={this.props.onChoiceClick} />
         default:
             return null;
         }

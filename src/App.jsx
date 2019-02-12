@@ -170,7 +170,6 @@ class App extends React.Component {
     moveToNextQuestion = () => {
         const { currentQuestionID, questions } = this.state;
         const position = questions.findIndex(question => question.id === currentQuestionID);
-
         if (!this.state.areAllQuestionsDisplayed) { // more questions
             this.setNextQuestion(position);
             if (this.state.areAllQuestionsDisplayed && this.state.isAllQuestionsAnswered) {
@@ -232,6 +231,7 @@ class App extends React.Component {
         }
 
         return (
+
             <QuestionPage
                 question={question}
                 questionChoices={this.state.currentQuestionChoices}
