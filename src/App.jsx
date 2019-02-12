@@ -1,5 +1,4 @@
 import React from 'react';
-import FreeText from './components/FreeText'
 import questionService from './service'
 import ThankYouPage from './pages/ThankYouPage';
 import QuestionPage from './pages/QuestionPage';

@@ -32,19 +32,19 @@ class QuestionPage extends React.Component {
 
     renderSelect = () => {
         return this.props.questionChoices.map(questionsChoice => (
-                <BigButton
-                    key={questionsChoice.id}
-                    onClick={() => this.props.onChoiceClick(questionsChoice)}
-                    text={questionsChoice.name}
-                />
-            )
+            <BigButton
+                key={questionsChoice.id}
+                onClick={() => this.props.onChoiceClick(questionsChoice)}
+                text={questionsChoice.name}
+            />
+        )
         )
     }
 
     renderMultiselect = () => {
         return this.props.questionChoices.map(choice => (
-                <ToggleButtons choice={choice} onChoiceClick={this.props.onChoiceClick} />
-            )
+            <ToggleButtons key={choice.id} choice={choice} onChoiceClick={this.props.onChoiceClick} />
+        )
         )
     }
 
@@ -89,14 +89,14 @@ class QuestionPage extends React.Component {
 
     submitTextButton = () => {
         return ( // does not render for some reason
-                <div className="center-align txt">
-                    <Grid container direction="row" justify="center">
-                        <BigButton
-                            onClick={() => this.props.onSubmitFreeText(this.state.text)}
-                            text="Submit"
-                        />
-                    </Grid>
-                </div>
+            <div className="center-align txt">
+                <Grid container direction="row" justify="center">
+                    <BigButton
+                        onClick={() => this.props.onSubmitFreeText(this.state.text)}
+                        text="Submit"
+                    />
+                </Grid>
+            </div>
         )
     }
 
