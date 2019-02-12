@@ -7,7 +7,7 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 // import TextContainer from "/BigButton";
 
-const styles = theme => ({
+const styles = ({
     button: {
         background: '#055679',
         height: '100%',
