@@ -23,6 +23,7 @@ class App extends React.Component {
     }
 
     async componentDidMount() {
+        questionService.patchLang('en','English')
         this.setFirstQuestion();
         this.setInfo();
     }
@@ -163,7 +164,7 @@ class App extends React.Component {
     }
 
     changeLanguage = (langId) => {
-        questionService.patchLang(langId)
+        questionService.patchLang('en','English')
     }
 
     render() {

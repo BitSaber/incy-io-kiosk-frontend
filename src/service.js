@@ -53,11 +53,17 @@ const postUrl = `${BASE_API_URL}/${organizationName}/observations/links/${linkNa
 const availableLangUrl = `${BASE_API_URL}/${organizationName}/available-languages`
 const currentLangUrl = `${BASE_API_URL}/${organizationName}/current-language`
 
-const patchLang = (langId) => {
+const patchLang = (langId,langName) => {
     // PATCH the current lang url to given langId
     axios.patch(currentLangUrl,{
-        id: langId
-    })
+        id: langId,
+        name: langName
+    }, { headers: {
+            Cookie: "session_token=0|ec3813d0-1398-4a72-abae-34627357c20e; Domain=.app.incy.io; Secure; HttpOnly; Path=/"
+        }
+    }).then(response => {
+        console.log(response);
+    });
 }
 
 // not used

@@ -3,17 +3,17 @@ import Button from '@material-ui/core/Button';
 import questionService from '../service'
 
 // not sure why const
-const changeLanguage = (langId) => {
-    questionService.patchLang(langId)
+const changeLanguage = (langId,langName) => {
+    questionService.patchLang(langId,langName)
 }
 
 const Language = ({ languages }) => {
     if (languages) {
         return (
             <div>
-                <button><img src="./assets/flags/uk.png" alt="Eng" onClick={() => changeLanguage('en')} /></button>
-                <button><img src="./assets/flags/fi.png" alt="Fi" onClick={() => changeLanguage('fi')} /></button>
-                <button><img src="./assets/flags/swe.png" alt="Swe" onClick={() => changeLanguage('sv')} /></button>
+                <span><img src="/flags/uk.png" alt="Eng" onClick={() => changeLanguage('en','English')} /></span>
+                <span><img src="/flags/fi.png" alt="Fi" onClick={() => changeLanguage('fi','suomi')} /></span>
+                <span><img src="/flags/swe.png" alt="Swe" onClick={() => changeLanguage('sv','svenska')} /></span>
             </div>
         );
     } else {
