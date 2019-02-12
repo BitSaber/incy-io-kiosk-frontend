@@ -13,7 +13,7 @@ class QuestionPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            text: '' // current text of the textField
+            text: 'kalkkuna' // current text of the textField
         };
     }
 
@@ -27,7 +27,7 @@ class QuestionPage extends React.Component {
     }
 
     submitMultiButton = () => {
-        return <BigButton onClick= {() => this.props.onSubmitMultiClick()} text="Submit" />
+        return <BigButton onClick={() => this.props.onSubmitMultiClick()} text="Submit" />
     }
 
     renderSelect = () => {
@@ -45,12 +45,13 @@ class QuestionPage extends React.Component {
         return this.props.questionChoices.map(choice => (
             <ToggleButtons key={choice.id} choice={choice} onChoiceClick={this.props.onChoiceClick} />
         )
+
         )
     }
-
+    //Updates changes made into textfield into state 
     handleChange = (event) => {
         this.setState({
-            value: event.target.value
+            text: event.target.value
         });
     }
 
