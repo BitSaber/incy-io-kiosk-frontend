@@ -1,5 +1,5 @@
 import React from 'react';
-
+import FreeText from './components/FreeText'
 import questionService from './service'
 import ThankYouPage from './pages/ThankYouPage';
 import QuestionPage from './pages/QuestionPage';
@@ -93,22 +93,26 @@ class App extends React.Component {
         // Sets the question with the predetermined position as the new current question and gets the questions choices from the API.
         const newQuestionID = this.state.questions.find( question => question.position === newPosition).id
         const questionType = this.state.questions.find(question => question.id === newQuestionID).type
+        console.log('Uuden kysymyksen tyyppi: ', questionType)
         this.setState({
             currentQuestionID: newQuestionID,
             currentQuestionType: questionType
         });
-        const newChoices = await questionService.getChoices(newQuestionID);
 
-        // Sets an empty answer array for multi select question
-        if (this.state.currentQuestionType === 'multi-select') {
-            this.setState({
-                currentQuestionChoices: newChoices,
-                multiSelectArray: []
-            })
-        } else {
-            this.setState({
-                currentQuestionChoices: newChoices
-            })
+        if (this.state.currentQuestionType !== 'str') {
+            const newChoices = await questionService.getChoices(newQuestionID);
+
+            // Sets an empty answer array for multi select question
+            if (this.state.currentQuestionType === 'multi-select') {
+                this.setState({
+                    currentQuestionChoices: newChoices,
+                    multiSelectArray: []
+                })
+            } else {
+                this.setState({
+                    currentQuestionChoices: newChoices
+                })
+            }
         }
     }
 
@@ -136,6 +140,20 @@ class App extends React.Component {
                 }
             })
         }
+    }
+
+    submitTextAnswer = async (text) => {
+        await this.setState((previousState) => {
+            return {
+                ...previousState,
+                answers: {
+                    ...previousState.answers,
+                    [previousState.currentQuestionID]: text
+                }
+            }
+        });
+        console.log(this.state.answers)
+        this.setNextQuestion()
     }
 
     submitMultiClick = async () => {
@@ -170,6 +188,11 @@ class App extends React.Component {
     moveToNextQuestion = () => {
         const { currentQuestionID, questions } = this.state;
         const position = questions.findIndex(question => question.id === currentQuestionID);
+
+        console.log(this.state.areAllQuestionsDisplayed)
+
+        console.log(this.state.currentQuestionType)
+
         if (!this.state.areAllQuestionsDisplayed) { // more questions
             this.setNextQuestion(position);
             if (this.state.areAllQuestionsDisplayed && this.state.isAllQuestionsAnswered) {
@@ -189,7 +212,7 @@ class App extends React.Component {
     }
 
     submitObservation = () => {
-        const time = new Date().toString().substring(0,21)
+        const time = new Date().toString().substring(0, 21)
         const place = this.state.place
         const answers = this.state.answers
         const category = this.state.category
@@ -236,8 +259,9 @@ class App extends React.Component {
                 question={question}
                 questionChoices={this.state.currentQuestionChoices}
                 onChoiceClick={this.handleChoiceClick}
-                onSubmitMultiClick={this.submitMultiClick}
                 questionType={this.state.currentQuestionType}
+                onSubmitMultiClick={this.submitMultiClick}
+                onSubmitFreeText={this.submitTextAnswer}
             />
         );
     }
