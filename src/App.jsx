@@ -244,6 +244,7 @@ class App extends React.Component {
     }
 
     render() {
+
         const question = this.state.questions.find(question => question.id === this.state.currentQuestionID);
         // question is undefined and we are waiting for it from the server
         if (!question) {
