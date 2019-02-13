@@ -75,15 +75,9 @@ const getChoices = (id) => {
     return getUrl(choicesUrl + id)
 }
 
-<<<<<<< HEAD
 const postObservation = async (data) => { // eslint-disable-line
     axios.post('https://app-staging.incy.io/api/bitsaber-staging/observations/links/staging-place-tarvikkeet', data)
         .catch(error => console.error(error)); // eslint-disable-line
-=======
-const postObservation = async (data) => {
-    axios.post(postUrl, data)
-        .catch(error => console.error(error));
->>>>>>> develop
 };
 
 function findGetParameter(parameterName) {
