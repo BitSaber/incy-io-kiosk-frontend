@@ -75,9 +75,9 @@ const getChoices = (id) => {
     return getUrl(choicesUrl + id)
 }
 
-const postObservation = async (data) => {
+const postObservation = async (data) => { // eslint-disable-line
     axios.post(postUrl, data)
-        .catch(error => console.error(error));
+        .catch(error => console.error(error)); // eslint-disable-line
 };
 
 function findGetParameter(parameterName) {
