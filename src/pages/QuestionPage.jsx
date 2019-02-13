@@ -39,7 +39,7 @@ class QuestionPage extends React.Component {
         )
         )
     }
-    //Updates changes made into textfield into state 
+    //Updates changes made into textfield into state
     handleChange = (event) => {
         this.setState({
             text: event.target.value
