@@ -58,7 +58,6 @@ class QuestionPage extends React.Component {
     // TEXT QUESTION SHOULD ONLY APPEAR WHEN ANSWERED: 'Kahvi' only to multi-answer question
     renderTextField = () => {
         return (
-            <div>
                 <div className="center-align txt">
                     <form>
                         <TextField
@@ -74,7 +73,6 @@ class QuestionPage extends React.Component {
                         />
                     </form>
                 </div>
-            </div>
         )
     }
 
@@ -122,10 +120,10 @@ class QuestionPage extends React.Component {
                         <Grid container direction="row" justify="center">
 
                             {this.renderQuestionElements(this.props.questionType)}
+                            {this.renderSubmitButton(this.props.questionType)}
 
                         </Grid>
                     </div>
-                    {this.renderSubmitButton(this.props.questionType)}
                 </div>
                 <footer className="footer">
                     <footer className="inside">
