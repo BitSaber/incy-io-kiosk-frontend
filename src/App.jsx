@@ -54,8 +54,6 @@ class App extends React.Component {
     checkNextQuestion = (position) => {
         const answerKeys = this.state.answers
         const nextQuestion = this.state.questions.find(question => question.position === position)
-        console.log(answerKeys)
-        console.log(nextQuestion)
         if (nextQuestion.depends_on_question_id === null) {
             return true
         } else if (answerKeys[nextQuestion.depends_on_question_id] !== undefined &&
@@ -77,7 +75,6 @@ class App extends React.Component {
         var flag = true
         // Loop through the questions by position, and determine if the question at hand needs to be displayed
         while (position <= questionsLen && flag) {
-            console.log("does while work?")
             if (this.checkNextQuestion(position)) {
                 flag = false
                 this.setQuestion(position)
@@ -89,7 +86,6 @@ class App extends React.Component {
         if (position >= questionsLen && !flag) {
             this.state.areAllQuestionsDisplayed = true
         } else if (position >= questionsLen && flag) {
-            console.log("THE END")
             this.state.areAllQuestionsDisplayed = true
             this.state.isAllQuestionsAnswered = true
         }
@@ -99,7 +95,6 @@ class App extends React.Component {
         // Sets the question with the predetermined position as the new current question and gets the questions choices from the API.
         const newQuestionID = this.state.questions.find(question => question.position === newPosition).id
         const questionType = this.state.questions.find(question => question.id === newQuestionID).type
-        console.log("setQuestion qtype: " + questionType)
         this.setState({
             currentQuestionID: newQuestionID,
             currentQuestionType: questionType
@@ -158,8 +153,6 @@ class App extends React.Component {
                 }
             }
         });
-
-        console.log(this.state.answers)
         this.moveToNextQuestion()
 
     }
@@ -196,18 +189,10 @@ class App extends React.Component {
     moveToNextQuestion = () => {
         const { currentQuestionID, questions } = this.state;
         const position = questions.findIndex(question => question.id === currentQuestionID);
-        const test = this.state.questions.map(q => q.id)
-        console.log("are all questions displayed: " + this.state.areAllQuestionsDisplayed)
-        console.log("all questions: " + test)
-        console.log(questions)
-        console.log("current question: " + questions[position].id)
-        console.log("questions type is: " + this.state.currentQuestionType)
 
         if (!this.state.areAllQuestionsDisplayed) { // more questions
             this.setNextQuestion(position);
-            console.log("setNextQuestion called")
             if (this.state.areAllQuestionsDisplayed && this.state.isAllQuestionsAnswered) {
-                console.log("values changed")
                 this.submitObservation()
             }
         } else { // no more questions
@@ -224,7 +209,6 @@ class App extends React.Component {
     }
 
     submitObservation = () => {
-        console.log("submitObs qtype: " + this.state.currentQuestionType)
         const time = new Date().toString().substring(0, 21)
         const place = this.state.place
         const answers = this.state.answers

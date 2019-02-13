@@ -48,7 +48,7 @@ class QuestionPage extends React.Component {
 
         )
     }
-    //Updates changes made into textfield into state 
+    //Updates changes made into textfield into state
     handleChange = (event) => {
         this.setState({
             text: event.target.value
@@ -58,21 +58,21 @@ class QuestionPage extends React.Component {
     // TEXT QUESTION SHOULD ONLY APPEAR WHEN ANSWERED: 'Kahvi' only to multi-answer question
     renderTextField = () => {
         return (
-                <div className="center-align txt">
-                    <form>
-                        <TextField
-                            id="outlined-bare"
-                            label="Please add text here"
-                            multiline
-                            rows="20"
-                            margin="normal"
-                            value={this.state.text}
-                            onChange={this.handleChange}
-                            variant="outlined"
-                            style={{ width: 500 }}
-                        />
-                    </form>
-                </div>
+            <div className="center-align txt">
+                <form>
+                    <TextField
+                        id="outlined-bare"
+                        label="Please add text here"
+                        multiline
+                        rows="20"
+                        margin="normal"
+                        value={this.state.text}
+                        onChange={this.handleChange}
+                        variant="outlined"
+                        style={{ width: 500 }}
+                    />
+                </form>
+            </div>
         )
     }
 
