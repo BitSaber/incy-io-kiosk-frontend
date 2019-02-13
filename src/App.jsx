@@ -52,15 +52,19 @@ class App extends React.Component {
     }
 
     checkNextQuestion = (position) => {
-        const answerKeys = this.state.answers
+        //makes an array with all answer ID's
+        const answerIDs = Object.values(this.state.answers).map(function (object) {
+            if (object instanceof Array) {
+                return object.map(x => x.id)
+            }
+            else {
+                return object.id
+            }
+        }).flat()
         const nextQuestion = this.state.questions.find(question => question.position === position)
         if (nextQuestion.depends_on_question_id === null) {
             return true
-        } else if (answerKeys[nextQuestion.depends_on_question_id] !== undefined &&
-            answerKeys[nextQuestion.depends_on_question_id]["id"] === nextQuestion.depends_on_choice_id) {
-            return true
-        } else if (this.state.currentQuestionType === "multi-select" && answerKeys[nextQuestion.depends_on_question_id][0] !== undefined &&
-            answerKeys[nextQuestion.depends_on_question_id][0]["id"] === nextQuestion.depends_on_choice_id) {
+        } else if (answerIDs.includes(nextQuestion.depends_on_choice_id)) {
             return true
         } else {
             return false
