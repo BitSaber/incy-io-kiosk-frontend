@@ -1,19 +1,22 @@
 import React from 'react';
-//import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { TextField } from '@material-ui/core';
 import PropTypes from 'prop-types'
-
 import BigButton from '../components/BigButton';
 import '../css/style.css';
-//import { withStyles } from '@material-ui/core/styles';
 import ToggleButtons from '../components/ToggleButtons';
+
+import {
+    SELECT,
+    MULTI_SELECT,
+    STR,
+} from '../constants/questionTypes';
 
 class QuestionPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            text: 'kalkkuna' // current text of the textField
+            text: '' // current text of the textField
         };
     }
 
@@ -55,7 +58,6 @@ class QuestionPage extends React.Component {
         });
     }
 
-    // TEXT QUESTION SHOULD ONLY APPEAR WHEN ANSWERED: 'Kahvi' only to multi-answer question
     renderTextField = () => {
         return (
             <div className="center-align txt">
@@ -77,11 +79,11 @@ class QuestionPage extends React.Component {
     }
 
     renderQuestionElements = (questionType) => {
-        if (questionType === "select") {
+        if (questionType === SELECT) {
             return this.renderSelect()
-        } else if (questionType === "multi-select") {
+        } else if (questionType === MULTI_SELECT) {
             return this.renderMultiselect()
-        } else if (questionType === "str") {
+        } else if (questionType === STR) {
             return this.renderTextField()
         }
     }
@@ -100,14 +102,14 @@ class QuestionPage extends React.Component {
     }
 
     renderSubmitButton = (questionType) => {
-        if (questionType === "multi-select") {
+        if (questionType === MULTI_SELECT) {
             return this.submitMultiButton()
-        } else if (questionType === "str") {
+        } else if (questionType === STR) {
             return this.submitTextButton()
         }
     }
 
-    render() { //TODO: attributes of class txt should be implemented with material UI
+    render() {
 
         return (
             <div>
