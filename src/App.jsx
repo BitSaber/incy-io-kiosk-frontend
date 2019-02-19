@@ -159,12 +159,18 @@ class App extends React.Component {
         }
     }
 
-    submitTextAnswer = async (text) => {
-        if (text === '' && this.state.currentIsRequired) {
-            this.setState({error: 'This field is required'});
+    showFieldRequired = () => {
+        if (!this.state.error) {
+            this.setState({error: 'This question is required'});
             setTimeout(() => {
                 this.setState({error: null});
             }, 3000);
+        }
+    }
+
+    submitTextAnswer = async (text) => {
+        if (text === '' && this.state.currentIsRequired) {
+            this.showFieldRequired()
         } else {
             await this.setState((previousState) => {
                 return {
@@ -179,18 +185,22 @@ class App extends React.Component {
         }
     }
 
-    submitMultiClick = async () => {
-        // Sets the answer objects state when submitting multi select question
-        await this.setState((previousState) => {
-            return {
-                ...previousState,
-                answers: {
-                    ...previousState.answers,
-                    [previousState.currentQuestionID]: this.state.multiSelectArray
+    submitMultiAnswer = async () => {
+        if (this.state.multiSelectArray.length === 0 && this.state.currentIsRequired) {
+            this.showFieldRequired()
+        } else {
+            // Sets the answer objects state when submitting multi select question
+            await this.setState((previousState) => {
+                return {
+                    ...previousState,
+                    answers: {
+                        ...previousState.answers,
+                        [previousState.currentQuestionID]: this.state.multiSelectArray
+                    }
                 }
-            }
-        })
-        this.moveToNextQuestion()
+            })
+            this.moveToNextQuestion()
+        }
     }
 
     singleAnswerClick = async (choice) => {
@@ -280,7 +290,7 @@ class App extends React.Component {
                 questionChoices={this.state.currentQuestionChoices}
                 onChoiceClick={this.handleChoiceClick}
                 questionType={this.state.currentQuestionType}
-                onSubmitMultiClick={this.submitMultiClick}
+                onSubmitMultiClick={this.submitMultiAnswer}
                 onSubmitFreeText={this.submitTextAnswer}
                 error={this.state.error}
             />

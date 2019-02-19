@@ -26,7 +26,8 @@ class QuestionPage extends React.Component {
         onChoiceClick: PropTypes.func.isRequired,
         questionType: PropTypes.string.isRequired,
         onSubmitMultiClick: PropTypes.func.isRequired,
-        onSubmitFreeText: PropTypes.func.isRequired
+        onSubmitFreeText: PropTypes.func.isRequired,
+        error: PropTypes.string,
     }
 
     submitMultiButton = () => {
@@ -93,12 +94,11 @@ class QuestionPage extends React.Component {
                 <Grid container direction="row" justify="center">
                     <BigButton
                         onClick={() => {
-                                this.props.onSubmitFreeText(this.state.text)
-                                this.setState({
-                                    text: ''
-                                });
-                            }
-                        }
+                            this.props.onSubmitFreeText(this.state.text)
+                            this.setState({
+                                text: ''
+                            });
+                        }}
                         text="Submit"
                     />
                 </Grid>
@@ -121,8 +121,7 @@ class QuestionPage extends React.Component {
                 <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img> </div>
                 <div className="question-div ">
                     <h2 className="txt" variant="h2">{this.props.question.name}</h2>
-                
-                    {this.props.error && <Typography>{this.props.error}</Typography>}
+                    {this.props.error && <Typography variant='h4' color='error'>{this.props.error}</Typography>}
                 </div>
                 <div>
                     <div className="center-align txt">
