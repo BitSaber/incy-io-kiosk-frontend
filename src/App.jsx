@@ -33,24 +33,31 @@ class App extends React.Component {
         const loc = await questionService.getPlace()
         const lang = await questionService.getLanguages()
 
-        const currLang = await questionService.getCurrentLang() // just to check if working
+        const currentLanguage = await questionService.getCurrentLang() // just to check if working
         console.log(lang)
-        console.log(currLang)
         this.setState({
             category: cat[0].id,
             place: loc[0].id,
             languages: lang.map(language => language.id),
+            currentLanguageId: currentLanguage.id
         });
     }
 
+    changeLanguage = async (languageId) => {    
+        await this.setState( {
+            currentLanguageId: languageId
+        }, this.setFirstQuestion)
+    }
+
     setFirstQuestion = async () => {
-        const questions = await questionService.getQuestions();
+        const questions = await questionService.getQuestions(this.state.currentLanguageId);
         const currentQuestionID = questions[0].id;
         this.setState({
             questions: questions,
             currentQuestionID: currentQuestionID,
+            answers: []
         });
-        const choices = await questionService.getChoices(currentQuestionID);
+        const choices = await questionService.getChoices(currentQuestionID, this.state.currentLanguageId);
         this.setState({
             currentQuestionChoices: choices,
         });
@@ -118,7 +125,7 @@ class App extends React.Component {
                 }
             }
         });
-
+        console.log(await questionService.getCurrentLang())
         const { currentQuestionID, questions } = this.state;
         const position = questions.findIndex(question => question.id === currentQuestionID);
 
@@ -163,10 +170,6 @@ class App extends React.Component {
         }, 3000);
     }
 
-    changeLanguage = (langId) => {
-        questionService.patchLang('en','English')
-    }
-
     render() {
 
         const question = this.state.questions.find(question => question.id === this.state.currentQuestionID);
@@ -186,6 +189,7 @@ class App extends React.Component {
                 questionChoices={this.state.currentQuestionChoices}
                 onChoiceClick={this.handleChoiceClick}
                 languages={this.state.languages}
+                onLangClick={this.changeLanguage}
             />
         );
     }

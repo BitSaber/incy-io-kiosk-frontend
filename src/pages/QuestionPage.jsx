@@ -14,6 +14,7 @@ class QuestionPage extends Component {
         questionChoices: PropTypes.arrayOf(PropTypes.object).isRequired,
         onChoiceClick: PropTypes.func.isRequired,
         languages: PropTypes.array.isRequired,
+        onLangClick: PropTypes.func.isRequired
     }
 
 
@@ -21,7 +22,7 @@ class QuestionPage extends Component {
         return (
             <div>
                 <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img>
-                    <Language languages={this.props.languages} />
+                    <Language languages={this.props.languages} onLangClick={this.props.onLangClick} />
                 </div>
                 <div className="question-div ">
                     <Typography class="txt" variant="h2">{this.props.question.name}</Typography>
