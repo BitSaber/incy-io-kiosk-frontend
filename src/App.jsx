@@ -20,7 +20,8 @@ const initialState = {
     areAllQuestionsDisplayed: false,
     categoryId: null,
     placeId: null,
-    multiSelectArray: []
+    multiSelectArray: [],
+    error: null
 }
 
 class App extends React.Component {
@@ -160,7 +161,10 @@ class App extends React.Component {
 
     submitTextAnswer = async (text) => {
         if (text === '' && this.state.currentIsRequired) {
-            alert("Please type an answer.")
+            this.setState({error: 'This field is required'});
+            setTimeout(() => {
+                this.setState({error: null});
+            }, 3000);
         } else {
             await this.setState((previousState) => {
                 return {
@@ -278,6 +282,7 @@ class App extends React.Component {
                 questionType={this.state.currentQuestionType}
                 onSubmitMultiClick={this.submitMultiClick}
                 onSubmitFreeText={this.submitTextAnswer}
+                error={this.state.error}
             />
         );
     }

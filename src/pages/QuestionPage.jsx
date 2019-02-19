@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { TextField } from '@material-ui/core';
+import { TextField, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types'
 import BigButton from '../components/BigButton';
 import '../css/style.css';
@@ -121,6 +121,8 @@ class QuestionPage extends React.Component {
                 <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img> </div>
                 <div className="question-div ">
                     <h2 className="txt" variant="h2">{this.props.question.name}</h2>
+                
+                    {this.props.error && <Typography>{this.props.error}</Typography>}
                 </div>
                 <div>
                     <div className="center-align txt">
