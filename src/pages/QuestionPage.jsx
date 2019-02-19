@@ -92,7 +92,13 @@ class QuestionPage extends React.Component {
             <div className="center-align txt">
                 <Grid container direction="row" justify="center">
                     <BigButton
-                        onClick={() => this.props.onSubmitFreeText(this.state.text)}
+                        onClick={() => {
+                                this.props.onSubmitFreeText(this.state.text)
+                                this.setState({
+                                    text: ''
+                                });
+                            }
+                        }
                         text="Submit"
                     />
                 </Grid>

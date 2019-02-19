@@ -14,6 +14,7 @@ const initialState = {
     currentQuestionID: null,
     currentQuestionType: 'not gotten yet',
     currentQuestionChoices: [],
+    currentIsRequired: false,
     answers: {},
     isAllQuestionsAnswered: false,
     areAllQuestionsDisplayed: false,
@@ -45,9 +46,11 @@ class App extends React.Component {
     setFirstQuestion = async () => {
         const questions = await questionService.getQuestions();
         const currentQuestionID = questions[0].id;
+        const isReq = questions[0].required
         this.setState({
             questions: questions,
             currentQuestionID: currentQuestionID,
+            currentIsRequired: isReq,
         });
         const choices = await questionService.getChoices(currentQuestionID);
         const questionType = questions[0].type
@@ -103,11 +106,14 @@ class App extends React.Component {
 
     setQuestion = (newPosition) => {
         // Sets the question with the predetermined position as the new current question and gets the questions choices from the API.
-        const newQuestionID = this.state.questions.find(question => question.position === newPosition).id
-        const questionType = this.state.questions.find(question => question.id === newQuestionID).type
+        const newQuestion = this.state.questions.find(question => question.position === newPosition)
+        const newQuestionID = newQuestion.id
+        const questionType = newQuestion.type
+        const isReq = newQuestion.required
         this.setState({
             currentQuestionID: newQuestionID,
-            currentQuestionType: questionType
+            currentQuestionType: questionType,
+            currentIsRequired: isReq,
         }, async () => {
             if (this.state.currentQuestionType !== STR) {
                 const newChoices = await questionService.getChoices(newQuestionID);
@@ -153,7 +159,7 @@ class App extends React.Component {
     }
 
     submitTextAnswer = async (text) => {
-        if (text === '') {
+        if (text === '' && this.state.currentIsRequired) {
             alert("Please type an answer.")
         } else {
             await this.setState((previousState) => {
