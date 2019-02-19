@@ -47,10 +47,9 @@ class QuestionPage extends React.Component {
     renderMultiselect = () => {
         return this.props.questionChoices.map(choice => (
             <ToggleButtons key={choice.id} choice={choice} onChoiceClick={this.props.onChoiceClick} />
-        )
-
-        )
+        ))
     }
+
     //Updates changes made into textfield into state
     handleChange = (event) => {
         this.setState({
