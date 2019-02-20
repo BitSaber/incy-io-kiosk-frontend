@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { TextField } from '@material-ui/core';
+import { TextField, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types'
 import BigButton from '../components/BigButton';
 import '../css/style.css';
@@ -29,7 +29,8 @@ class QuestionPage extends React.Component {
         onLangClick: PropTypes.func.isRequired,
         questionType: PropTypes.string.isRequired,
         onSubmitMultiClick: PropTypes.func.isRequired,
-        onSubmitFreeText: PropTypes.func.isRequired
+        onSubmitFreeText: PropTypes.func.isRequired,
+        error: PropTypes.string,
     }
 
     submitMultiButton = () => {
@@ -50,10 +51,9 @@ class QuestionPage extends React.Component {
     renderMultiselect = () => {
         return this.props.questionChoices.map(choice => (
             <ToggleButtons key={choice.id} choice={choice} onChoiceClick={this.props.onChoiceClick} />
-        )
-
-        )
+        ))
     }
+
     //Updates changes made into textfield into state
     handleChange = (event) => {
         this.setState({
@@ -96,7 +96,12 @@ class QuestionPage extends React.Component {
             <div className="center-align txt">
                 <Grid container direction="row" justify="center">
                     <BigButton
-                        onClick={() => this.props.onSubmitFreeText(this.state.text)}
+                        onClick={() => {
+                            this.props.onSubmitFreeText(this.state.text)
+                            this.setState({
+                                text: ''
+                            });
+                        }}
                         text="Submit"
                     />
                 </Grid>
@@ -121,6 +126,7 @@ class QuestionPage extends React.Component {
                 </div>
                 <div className="question-div ">
                     <h2 className="txt" variant="h2">{this.props.question.name}</h2>
+                    {this.props.error && <Typography variant='h4' color='error'>{this.props.error}</Typography>}
                 </div>
                 <div>
                     <div className="center-align txt">
@@ -134,7 +140,7 @@ class QuestionPage extends React.Component {
                 </div>
                 <footer className="footer">
                     <footer className="inside">
-                        <p>Copyright © 2018 BitSaber, Otaniemi, Finland</p>
+                        <div>Copyright © 2018 BitSaber, Otaniemi, Finland</div>
                         <div className="under">
                             <ul>
                                 <li> <a href="https://github.com/BitSaber/incy-io-kiosk-frontend" target="_blank" rel="noopener noreferrer">GitHub</a> </li>
