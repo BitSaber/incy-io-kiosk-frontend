@@ -61,7 +61,7 @@ const postUrl = `${baseUrl}/${organizationName}/observations/links/${linkName}`
 /* A generic function for GETting the data.data from an URL. */
 const getUrl = async (url) => {
     const response = await axios.get(url).catch(err => {
-        console.error(err);
+        console.error(err); // eslint-disable-line
     });
     return response.data.data;
 }

@@ -149,10 +149,8 @@ class App extends React.Component {
             })
         } else {
             const pos = this.state.multiSelectArray.map(object => object.id).indexOf(choice.id)
-            console.log(pos)
             var newMultiSelectArray = this.state.multiSelectArray
             newMultiSelectArray.splice(pos, 1)
-            console.log(newMultiSelectArray)
             this.setState((previousState) => {
                 return {
                     ...previousState,
