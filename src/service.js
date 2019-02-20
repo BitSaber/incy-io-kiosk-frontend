@@ -98,7 +98,7 @@ const getChoices = (id, langId) => {
     })
 }
 
-const postObservation = async (data) => {
+const postObservation = async (data) => { // eslint-disable-line
     axios.post(postUrl, data)
         .catch(error => console.error(error)); // eslint-disable-line
 };

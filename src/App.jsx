@@ -4,9 +4,16 @@ import questionService from './service'
 import ThankYouPage from './pages/ThankYouPage';
 import QuestionPage from './pages/QuestionPage';
 
+import {
+    SELECT,
+    MULTI_SELECT,
+    STR,
+} from './constants/questionTypes';
+
 const initialState = {
     questions: [],
     currentQuestionID: null,
+    currentQuestionType: 'not gotten yet',
     currentQuestionChoices: [],
     answers: {},
     isAllQuestionsAnswered: false,
@@ -14,6 +21,7 @@ const initialState = {
     categoryId: null,
     placeId: null,
     languages: [],
+    multiSelectArray: []
 }
 
 class App extends React.Component {
@@ -57,21 +65,32 @@ class App extends React.Component {
         const questions = await questionService.getQuestions(this.state.currentLanguageId);
         const currentQuestionID = questions[0].id;
         const choices = await questionService.getChoices(currentQuestionID, this.state.currentLanguageId);
+        const questionType = questions[0].type
         this.setState({
             questions: questions,
             currentQuestionID: currentQuestionID,
-            answers: [],
-            currentQuestionChoices: choices
+            answers: {},
+            currentQuestionChoices: choices,
+            currentQuestionType: questionType,
+            isAllQuestionsAnswered: false,
+            areAllQuestionsDisplayed: false
         });
     }
 
     checkNextQuestion = (position) => {
-        const answerKeys = this.state.answers
+        //makes an array with all answer ID's
+        const answerIDs = Object.values(this.state.answers).map(function (object) {
+            if (object instanceof Array) {
+                return object.map(x => x.id)
+            }
+            else {
+                return object.id
+            }
+        }).flat()
         const nextQuestion = this.state.questions.find(question => question.position === position)
         if (nextQuestion.depends_on_question_id === null) {
             return true
-        } else if (answerKeys[nextQuestion.depends_on_question_id] !== undefined &&
-            answerKeys[nextQuestion.depends_on_question_id]["id"] === nextQuestion.depends_on_choice_id) {
+        } else if (answerIDs.includes(nextQuestion.depends_on_choice_id)) {
             return true
         } else {
             return false
@@ -102,20 +121,86 @@ class App extends React.Component {
         }
     }
 
-    setQuestion = async (newPosition) => {
+    setQuestion = (newPosition) => {
         // Sets the question with the predetermined position as the new current question and gets the questions choices from the API.
         const newQuestionID = this.state.questions.find(question => question.position === newPosition).id
+        const questionType = this.state.questions.find(question => question.id === newQuestionID).type
         this.setState({
-            currentQuestionID: newQuestionID
+            currentQuestionID: newQuestionID,
+            currentQuestionType: questionType
+        }, async () => {
+            if (this.state.currentQuestionType !== STR) {
+                const newChoices = await questionService.getChoices(newQuestionID, this.state.currentLanguageId);
+
+                // Sets an empty answer array for multi select question
+                if (this.state.currentQuestionType === MULTI_SELECT) {
+                    this.setState({
+                        currentQuestionChoices: newChoices,
+                        multiSelectArray: []
+                    })
+                } else {
+                    this.setState({
+                        currentQuestionChoices: newChoices
+                    })
+                }
+            }
         });
-        const newChoices = await questionService.getChoices(newQuestionID);
-        this.setState({
-            currentQuestionChoices: newChoices
-        })
     }
 
+    multiAnswerClick = (choice) => {
+        // this is supposed to handle adding new choices to an array
+        // which is then give to submitMultiClick when asnwerer is finished
 
-    handleChoiceClick = async (choice) => {
+        if (!this.state.multiSelectArray.map(object => object.id).includes(choice.id)) {
+            const newChoice = [{ id: choice.id }]
+
+            this.setState((previousState) => {
+                return {
+                    ...previousState,
+                    multiSelectArray: previousState.multiSelectArray.concat(newChoice)
+                }
+            })
+        } else {
+            const pos = this.state.multiSelectArray.map(object => object.id).indexOf(choice.id)
+            const newMultiSelectArray = this.state.multiSelectArray.splice(pos, 1)
+            this.setState((previousState) => {
+                return {
+                    ...previousState,
+                    multiSelectArray: newMultiSelectArray
+                }
+            })
+        }
+    }
+
+    submitTextAnswer = async (text) => {
+        await this.setState((previousState) => {
+            return {
+                ...previousState,
+                answers: {
+                    ...previousState.answers,
+                    [previousState.currentQuestionID]: text
+                }
+            }
+        });
+        this.moveToNextQuestion()
+
+    }
+
+    submitMultiClick = async () => {
+        // Sets the answer objects state when submitting multi select question
+        await this.setState((previousState) => {
+            return {
+                ...previousState,
+                answers: {
+                    ...previousState.answers,
+                    [previousState.currentQuestionID]: this.state.multiSelectArray
+                }
+            }
+        })
+        this.moveToNextQuestion()
+    }
+
+    singleAnswerClick = async (choice) => {
         await this.setState((previousState) => {
             return {
                 ...previousState,
@@ -127,7 +212,10 @@ class App extends React.Component {
                 }
             }
         });
+        this.moveToNextQuestion()
+    }
 
+    moveToNextQuestion = () => {
         const { currentQuestionID, questions } = this.state;
         const position = questions.findIndex(question => question.id === currentQuestionID);
 
@@ -138,6 +226,14 @@ class App extends React.Component {
             }
         } else { // no more questions
             this.submitObservation();
+        }
+    }
+
+    handleChoiceClick = (choice) => {
+        if (this.state.currentQuestionType === SELECT) {
+            this.singleAnswerClick(choice)
+        } else if (this.state.currentQuestionType === MULTI_SELECT) {
+            this.multiAnswerClick(choice) // should moveToNextQuestion only when pressed 'ready' or 'submit' or whatever
         }
     }
 
@@ -175,7 +271,6 @@ class App extends React.Component {
     render() {
 
         const question = this.state.questions.find(question => question.id === this.state.currentQuestionID);
-
         // question is undefined and we are waiting for it from the server
         if (!question) {
             return null;
@@ -186,12 +281,16 @@ class App extends React.Component {
         }
 
         return (
+
             <QuestionPage
                 question={question}
                 questionChoices={this.state.currentQuestionChoices}
                 onChoiceClick={this.handleChoiceClick}
                 languages={this.state.languages}
                 onLangClick={this.changeLanguage}
+                questionType={this.state.currentQuestionType}
+                onSubmitMultiClick={this.submitMultiClick}
+                onSubmitFreeText={this.submitTextAnswer}
             />
         );
     }
