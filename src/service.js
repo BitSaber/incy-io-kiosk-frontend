@@ -53,21 +53,6 @@ const postUrl = `${BASE_API_URL}/${organizationName}/observations/links/${linkNa
 const availableLangUrl = `${BASE_API_URL}/${organizationName}/available-languages`
 const currentLangUrl = `${BASE_API_URL}/${organizationName}/current-language`
 
-
-const patchLang = (langId,langName) => {
-    // PATCH the current lang url to given langId
-    console.log (langId)
-    axios.patch(currentLangUrl,{
-        id: langId,
-        name: langName
-    }, { headers: {
-            "Accept-Language": (langId + ';q=1')
-        }
-    }).then(response => {
-        console.log(response);
-    });
-}
-
 // not used
 const getCurrentLang = () => {
     return getUrl(currentLangUrl)
@@ -76,7 +61,7 @@ const getCurrentLang = () => {
 /* A generic function for GETting the data.data from an URL. */
 const getUrl = async (url, headers) => {
     const response = await axios.get(url, headers).catch(err => {
-        console.error(err);
+        console.error(err); // eslint-disable-line
     });
     return response.data.data;
 }
@@ -89,33 +74,33 @@ const getCategory = (langId) => {
     return getUrl(categoryUrl, { headers: {
         "Accept-Language": (langId + ';q=1')
     }
-})
+    })
 }
 
 const getPlace = (langId) => {
     return getUrl(placeUrl, { headers: {
         "Accept-Language": (langId + ';q=1')
     }
-})
+    })
 }
 
 const getQuestions = (langId) => {
     return getUrl(questionsUrl, { headers: {
         "Accept-Language": (langId + ';q=1')
     }
-})
+    })
 }
 
 const getChoices = (id, langId) => {
     return getUrl(choicesUrl + id, { headers: {
         "Accept-Language": (langId + ';q=1')
     }
-})
+    })
 }
 
 const postObservation = async (data) => {
     axios.post(postUrl, data)
-        .catch(error => console.error(error));
+        .catch(error => console.error(error)); // eslint-disable-line
 };
 
 function findGetParameter(parameterName) {
@@ -131,4 +116,4 @@ function findGetParameter(parameterName) {
     return result;
 }
 
-export default { getUrl, getCategory, getPlace, getLanguages, getQuestions, getChoices, postObservation, patchLang, getCurrentLang };
+export default { getUrl, getCategory, getPlace, getLanguages, getQuestions, getChoices, postObservation, getCurrentLang };

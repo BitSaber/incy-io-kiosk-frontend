@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {DEFAULT_LANG_ID} from './constants/defaults';
 import questionService from './service'
 import ThankYouPage from './pages/ThankYouPage';
 import QuestionPage from './pages/QuestionPage';
@@ -23,8 +23,6 @@ class App extends React.Component {
     }
 
     async componentDidMount() {
-        questionService.patchLang('en','English')
-        this.setFirstQuestion();
         this.setInfo();
     }
 
@@ -33,17 +31,23 @@ class App extends React.Component {
         const loc = await questionService.getPlace()
         const lang = await questionService.getLanguages()
 
-        const currentLanguage = await questionService.getCurrentLang() // just to check if working
-        console.log(lang)
+        // Sets the default language as the language, and changes it if default not included in API's languages
+        var langId = DEFAULT_LANG_ID
+        if (!lang.includes(DEFAULT_LANG_ID)) {
+            langId = lang[0].id
+        }
+
+        // Sets the state with necessary attributes fetched from the API, and calls setFirstQuestion after
         this.setState({
             category: cat[0].id,
             place: loc[0].id,
             languages: lang.map(language => language.id),
-            currentLanguageId: currentLanguage.id
-        });
+            currentLanguageId: langId
+        }, this.setFirstQuestion );
     }
 
-    changeLanguage = async (languageId) => {    
+    changeLanguage = async (languageId) => {
+        // Sets the chosen language as the new language and returns to the first question
         await this.setState( {
             currentLanguageId: languageId
         }, this.setFirstQuestion)
@@ -52,14 +56,12 @@ class App extends React.Component {
     setFirstQuestion = async () => {
         const questions = await questionService.getQuestions(this.state.currentLanguageId);
         const currentQuestionID = questions[0].id;
+        const choices = await questionService.getChoices(currentQuestionID, this.state.currentLanguageId);
         this.setState({
             questions: questions,
             currentQuestionID: currentQuestionID,
-            answers: []
-        });
-        const choices = await questionService.getChoices(currentQuestionID, this.state.currentLanguageId);
-        this.setState({
-            currentQuestionChoices: choices,
+            answers: [],
+            currentQuestionChoices: choices
         });
     }
 
@@ -125,7 +127,7 @@ class App extends React.Component {
                 }
             }
         });
-        console.log(await questionService.getCurrentLang())
+
         const { currentQuestionID, questions } = this.state;
         const position = questions.findIndex(question => question.id === currentQuestionID);
 

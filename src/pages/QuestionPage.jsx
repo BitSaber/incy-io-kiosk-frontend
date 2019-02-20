@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types'
 
@@ -25,7 +24,7 @@ class QuestionPage extends Component {
                     <Language languages={this.props.languages} onLangClick={this.props.onLangClick} />
                 </div>
                 <div className="question-div ">
-                    <Typography class="txt" variant="h2">{this.props.question.name}</Typography>
+                    <h2 className="txt" variant="h2">{this.props.question.name}</h2>
                 </div>
 
                 <div>
