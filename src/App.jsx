@@ -14,12 +14,14 @@ const initialState = {
     currentQuestionID: null,
     currentQuestionType: 'not gotten yet',
     currentQuestionChoices: [],
+    currentIsRequired: false,
     answers: {},
     isAllQuestionsAnswered: false,
     areAllQuestionsDisplayed: false,
     categoryId: null,
     placeId: null,
-    multiSelectArray: []
+    multiSelectArray: [],
+    error: null
 }
 
 class App extends React.Component {
@@ -45,9 +47,11 @@ class App extends React.Component {
     setFirstQuestion = async () => {
         const questions = await questionService.getQuestions();
         const currentQuestionID = questions[0].id;
+        const isReq = questions[0].required
         this.setState({
             questions: questions,
             currentQuestionID: currentQuestionID,
+            currentIsRequired: isReq,
         });
         const choices = await questionService.getChoices(currentQuestionID);
         const questionType = questions[0].type
@@ -103,11 +107,14 @@ class App extends React.Component {
 
     setQuestion = (newPosition) => {
         // Sets the question with the predetermined position as the new current question and gets the questions choices from the API.
-        const newQuestionID = this.state.questions.find(question => question.position === newPosition).id
-        const questionType = this.state.questions.find(question => question.id === newQuestionID).type
+        const newQuestion = this.state.questions.find(question => question.position === newPosition)
+        const newQuestionID = newQuestion.id
+        const questionType = newQuestion.type
+        const isReq = newQuestion.required
         this.setState({
             currentQuestionID: newQuestionID,
-            currentQuestionType: questionType
+            currentQuestionType: questionType,
+            currentIsRequired: isReq,
         }, async () => {
             if (this.state.currentQuestionType !== STR) {
                 const newChoices = await questionService.getChoices(newQuestionID);
@@ -152,32 +159,48 @@ class App extends React.Component {
         }
     }
 
-    submitTextAnswer = async (text) => {
-        await this.setState((previousState) => {
-            return {
-                ...previousState,
-                answers: {
-                    ...previousState.answers,
-                    [previousState.currentQuestionID]: text
-                }
-            }
-        });
-        this.moveToNextQuestion()
-
+    showFieldRequired = () => {
+        if (!this.state.error) {
+            this.setState({error: 'This question is required'});
+            setTimeout(() => {
+                this.setState({error: null});
+            }, 3000);
+        }
     }
 
-    submitMultiClick = async () => {
-        // Sets the answer objects state when submitting multi select question
-        await this.setState((previousState) => {
-            return {
-                ...previousState,
-                answers: {
-                    ...previousState.answers,
-                    [previousState.currentQuestionID]: this.state.multiSelectArray
+    submitTextAnswer = async (text) => {
+        if (text === '' && this.state.currentIsRequired) {
+            this.showFieldRequired()
+        } else {
+            await this.setState((previousState) => {
+                return {
+                    ...previousState,
+                    answers: {
+                        ...previousState.answers,
+                        [previousState.currentQuestionID]: text
+                    }
                 }
-            }
-        })
-        this.moveToNextQuestion()
+            });
+            this.moveToNextQuestion()
+        }
+    }
+
+    submitMultiAnswer = async () => {
+        if (this.state.multiSelectArray.length === 0 && this.state.currentIsRequired) {
+            this.showFieldRequired()
+        } else {
+            // Sets the answer objects state when submitting multi select question
+            await this.setState((previousState) => {
+                return {
+                    ...previousState,
+                    answers: {
+                        ...previousState.answers,
+                        [previousState.currentQuestionID]: this.state.multiSelectArray
+                    }
+                }
+            })
+            this.moveToNextQuestion()
+        }
     }
 
     singleAnswerClick = async (choice) => {
@@ -213,7 +236,7 @@ class App extends React.Component {
         if (this.state.currentQuestionType === SELECT) {
             this.singleAnswerClick(choice)
         } else if (this.state.currentQuestionType === MULTI_SELECT) {
-            this.multiAnswerClick(choice) // should moveToNextQuestion only when pressed 'ready' or 'submit' or whatever
+            this.multiAnswerClick(choice)
         }
     }
 
@@ -267,8 +290,9 @@ class App extends React.Component {
                 questionChoices={this.state.currentQuestionChoices}
                 onChoiceClick={this.handleChoiceClick}
                 questionType={this.state.currentQuestionType}
-                onSubmitMultiClick={this.submitMultiClick}
+                onSubmitMultiClick={this.submitMultiAnswer}
                 onSubmitFreeText={this.submitTextAnswer}
+                error={this.state.error}
             />
         );
     }
