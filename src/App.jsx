@@ -140,7 +140,7 @@ class App extends React.Component {
 
         if (!this.state.multiSelectArray.map(object => object.id).includes(choice.id)) {
             const newChoice = [{ id: choice.id }]
-
+            console.log(this.state.multiSelectArray)
             this.setState((previousState) => {
                 return {
                     ...previousState,
@@ -149,8 +149,8 @@ class App extends React.Component {
             })
         } else {
             const pos = this.state.multiSelectArray.map(object => object.id).indexOf(choice.id)
-            var newMultiSelectArray = this.state.multiSelectArray
-            newMultiSelectArray.splice(pos, 1)
+            const newMultiSelectArray = this.state.multiSelectArray.filter((_, i) => i !== pos)
+            console.log(newMultiSelectArray)
             this.setState((previousState) => {
                 return {
                     ...previousState,
