@@ -135,7 +135,7 @@ class QuestionPage extends React.Component {
                 </div>
                 <footer className="footer">
                     <footer className="inside">
-                        <p>Copyright © 2018 BitSaber, Otaniemi, Finland</p>
+                        <div>Copyright © 2018 BitSaber, Otaniemi, Finland</div>
                         <div className="under">
                             <ul>
                                 <li> <a href="https://github.com/BitSaber/incy-io-kiosk-frontend" target="_blank" rel="noopener noreferrer">GitHub</a> </li>
