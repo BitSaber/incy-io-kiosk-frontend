@@ -7,12 +7,13 @@ import {
     SELECT,
     MULTI_SELECT,
     STR,
+    UNITIALIZED as QUESTION_TYPE_UNINITIALIZED
 } from './constants/questionTypes';
 
 const initialState = {
     questions: [],
     currentQuestionID: null,
-    currentQuestionType: 'not gotten yet',
+    currentQuestionType: QUESTION_TYPE_UNINITIALIZED,
     currentQuestionChoices: [],
     currentIsRequired: false,
     answers: {},
@@ -64,7 +65,7 @@ class App extends React.Component {
     checkNextQuestion = (position) => {
         //makes an array with all answer ID's
         const answerIDs = Object.values(this.state.answers).map(function (object) {
-            if (object instanceof Array) {
+            if (Array.isArray(object)) {
                 return object.map(x => x.id)
             }
             else {
@@ -140,7 +141,6 @@ class App extends React.Component {
 
         if (!this.state.multiSelectArray.map(object => object.id).includes(choice.id)) {
             const newChoice = [{ id: choice.id }]
-            console.log(this.state.multiSelectArray)
             this.setState((previousState) => {
                 return {
                     ...previousState,
@@ -150,7 +150,6 @@ class App extends React.Component {
         } else {
             const pos = this.state.multiSelectArray.map(object => object.id).indexOf(choice.id)
             const newMultiSelectArray = this.state.multiSelectArray.filter((_, i) => i !== pos)
-            console.log(newMultiSelectArray)
             this.setState((previousState) => {
                 return {
                     ...previousState,
