@@ -56,6 +56,7 @@ pipeline {
             }
             steps {
                 sh "echo 'We are on branch ${GIT_REALBRANCH}'"
+                sh "git rev-parse --abbrev-ref HEAD"
             }
         }
         stage('Deploy to staging') {
