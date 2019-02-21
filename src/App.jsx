@@ -98,11 +98,11 @@ class App extends React.Component {
             }
         }
         // Check if the last displayed question still needs an answer, or if the thank you page can be displayed
-        if (position >= questionsLen && !flag) {
+        if (position >= questionsLen) {
             this.state.areAllQuestionsDisplayed = true
-        } else if (position >= questionsLen && flag) {
-            this.state.areAllQuestionsDisplayed = true
-            this.state.isAllQuestionsAnswered = true
+            if (flag) {
+                this.state.isAllQuestionsAnswered = true
+            }
         }
     }
 
@@ -169,7 +169,7 @@ class App extends React.Component {
     }
 
     submitTextAnswer = async (text) => {
-        if (text === '' && this.state.currentIsRequired) {
+        if ((''+text).trim() === '' && this.state.currentIsRequired) {
             this.showFieldRequired()
         } else {
             await this.setState((previousState) => {
