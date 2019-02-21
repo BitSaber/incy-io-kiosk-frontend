@@ -97,7 +97,7 @@ class App extends React.Component {
             }
         }
         // Check if the last displayed question still needs an answer, or if the thank you page can be displayed
-        if (position >= questionsLen && !flag) {
+        if (position >= questionsLen) {
             if (!flag) {
                 this.state.areAllQuestionsDisplayed = true
             } else {
