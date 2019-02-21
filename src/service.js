@@ -1,21 +1,103 @@
 import axios from 'axios';
+import Cookie from 'js-cookie';
 
-const questionsUrl = 'https://app-staging.incy.io/api/bitsaber-staging/observation-questions/links/staging-place-tarvikkeet';
-const choisesUrl = 'https://app-staging.incy.io/api/bitsaber-staging/observation-questions-choices/links/staging-place-tarvikkeet/';
+import {
+    DEFAULT_ORG_NAME,
+    DEFAULT_LINK_NAME,
+    DEFAULT_BASE_API_URL
+} from './constants/defaults';
 
-const getQuestions = async () => {
-    const response = await axios.get(questionsUrl);
+import {
+    ORG_NAME_COOKIE,
+    LINK_NAME_COOKIE,
+    BASE_URL_COOKIE,
+    BASE_URL_PARAM,
+    ORG_NAME_URLPARAM,
+    LINK_NAME_URLPARAM,
+} from './constants/config';
+
+const getValueFromCookieUrlOrDefaultAndCache = (defaultValue, urlParam, cookieName) => {
+    const maybeValueFromUrl = findGetParameter(urlParam)
+    if(maybeValueFromUrl !== null && typeof maybeValueFromUrl === 'string') {
+        // We're passing in a parameter, if empty, reset.
+        if(maybeValueFromUrl === '' && typeof Cookie.get(cookieName) !== 'undefined') {
+            Cookie.remove(cookieName)
+        } else {
+            Cookie.set(cookieName, maybeValueFromUrl);
+            return maybeValueFromUrl;
+        }
+    }
+    const maybeValueFromCookie = Cookie.get(cookieName);
+    if(typeof maybeValueFromCookie === 'string' && maybeValueFromCookie !== '')
+        return maybeValueFromCookie;
+    return defaultValue;
+}
+
+const organizationName = getValueFromCookieUrlOrDefaultAndCache(
+    DEFAULT_ORG_NAME,
+    ORG_NAME_URLPARAM,
+    ORG_NAME_COOKIE
+)
+
+const linkName = getValueFromCookieUrlOrDefaultAndCache(
+    DEFAULT_LINK_NAME,
+    LINK_NAME_URLPARAM,
+    LINK_NAME_COOKIE
+)
+
+const baseUrl = getValueFromCookieUrlOrDefaultAndCache(
+    DEFAULT_BASE_API_URL,
+    BASE_URL_PARAM,
+    BASE_URL_COOKIE
+)
+
+/* The open API links */
+const questionsUrl = `${baseUrl}/${organizationName}/observation-questions/links/${linkName}`;
+const choicesUrl = `${baseUrl}/${organizationName}/observation-questions-choices/links/${linkName}/`;
+const categoryUrl = `${baseUrl}/${organizationName}/observation-categories/links/${linkName}`;
+const placeUrl = `${baseUrl}/${organizationName}/places/links/${linkName}`;
+const postUrl = `${baseUrl}/${organizationName}/observations/links/${linkName}`
+
+/* A generic function for GETting the data.data from an URL. */
+const getUrl = async (url) => {
+    const response = await axios.get(url).catch(err => {
+        console.error(err); // eslint-disable-line
+    });
     return response.data.data;
-};
+}
 
-const getChoices = async (id) => {
-    const response =  await axios.get(choisesUrl + id);
-    return response.data.data;
-};
+const getCategory = () => {
+    return getUrl(categoryUrl)
+}
+
+const getPlace = () => {
+    return getUrl(placeUrl)
+}
+
+const getQuestions = () => {
+    return getUrl(questionsUrl)
+}
+
+const getChoices = (id) => {
+    return getUrl(choicesUrl + id)
+}
 
 const postObservation = async (data) => { // eslint-disable-line
-    axios.post('https://app-staging.incy.io/api/bitsaber-staging/observations/links/staging-place-tarvikkeet', data)
-        .catch(error => console.error(error));
+    axios.post(postUrl, data)
+        .catch(error => console.error(error)); // eslint-disable-line
 };
 
-export default { getQuestions, getChoices, postObservation };
+function findGetParameter(parameterName) {
+    var result = null,
+        tmp = [];
+    location.search
+        .substr(1)
+        .split("&")
+        .forEach(function (item) {
+            tmp = item.split("=");
+            if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+        });
+    return result;
+}
+
+export default { getUrl, getCategory, getPlace, getQuestions, getChoices, postObservation };
