@@ -86,6 +86,7 @@ class QuestionPage extends React.Component {
         } else if (questionType === STR) {
             return this.renderTextField()
         }
+        return
     }
 
     submitTextButton = () => {
@@ -112,6 +113,7 @@ class QuestionPage extends React.Component {
         } else if (questionType === STR) {
             return this.submitTextButton()
         }
+        return
     }
 
     render() {
