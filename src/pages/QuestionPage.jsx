@@ -4,7 +4,6 @@ import { TextField, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types'
 import BigButton from '../components/BigButton';
 import '../css/style.css';
-import Language from '../components/Language';
 import ToggleButtons from '../components/ToggleButtons';
 
 import {
@@ -25,8 +24,6 @@ class QuestionPage extends React.Component {
         question: PropTypes.object.isRequired,
         questionChoices: PropTypes.arrayOf(PropTypes.object).isRequired,
         onChoiceClick: PropTypes.func.isRequired,
-        languages: PropTypes.array.isRequired,
-        onLangClick: PropTypes.func.isRequired,
         questionType: PropTypes.string.isRequired,
         onSubmitMultiClick: PropTypes.func.isRequired,
         onSubmitFreeText: PropTypes.func.isRequired,
@@ -121,9 +118,7 @@ class QuestionPage extends React.Component {
 
         return (
             <div>
-                <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img>
-                    <Language languages={this.props.languages} onLangClick={this.props.onLangClick} />
-                </div>
+                <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img> </div>
                 <div className="question-div ">
                     <h2 className="txt" variant="h2">{this.props.question.name}</h2>
                     {this.props.error && <Typography variant='h4' color='error'>{this.props.error}</Typography>}

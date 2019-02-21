@@ -57,52 +57,29 @@ const choicesUrl = `${baseUrl}/${organizationName}/observation-questions-choices
 const categoryUrl = `${baseUrl}/${organizationName}/observation-categories/links/${linkName}`;
 const placeUrl = `${baseUrl}/${organizationName}/places/links/${linkName}`;
 const postUrl = `${baseUrl}/${organizationName}/observations/links/${linkName}`
-const availableLangUrl = `${baseUrl}/${organizationName}/available-languages`
-const currentLangUrl = `${baseUrl}/${organizationName}/current-language`
-
-// not used
-const getCurrentLang = () => {
-    return getUrl(currentLangUrl)
-}
 
 /* A generic function for GETting the data.data from an URL. */
-const getUrl = async (url, headers) => {
-    const response = await axios.get(url, headers).catch(err => {
+const getUrl = async (url) => {
+    const response = await axios.get(url).catch(err => {
         console.error(err); // eslint-disable-line
     });
     return response.data.data;
 }
 
-const getLanguages = () => {
-    return getUrl(availableLangUrl)
+const getCategory = () => {
+    return getUrl(categoryUrl)
 }
 
-const getCategory = (langId) => {
-    return getUrl(categoryUrl, { headers: {
-        "Accept-Language": (langId + ';q=1')
-    }
-    })
+const getPlace = () => {
+    return getUrl(placeUrl)
 }
 
-const getPlace = (langId) => {
-    return getUrl(placeUrl, { headers: {
-        "Accept-Language": (langId + ';q=1')
-    }
-    })
+const getQuestions = () => {
+    return getUrl(questionsUrl)
 }
 
-const getQuestions = (langId) => {
-    return getUrl(questionsUrl, { headers: {
-        "Accept-Language": (langId + ';q=1')
-    }
-    })
-}
-
-const getChoices = (id, langId) => {
-    return getUrl(choicesUrl + id, { headers: {
-        "Accept-Language": (langId + ';q=1')
-    }
-    })
+const getChoices = (id) => {
+    return getUrl(choicesUrl + id)
 }
 
 const postObservation = async (data) => { // eslint-disable-line
@@ -123,4 +100,4 @@ function findGetParameter(parameterName) {
     return result;
 }
 
-export default { getUrl, getCategory, getPlace, getLanguages, getQuestions, getChoices, postObservation, getCurrentLang };
+export default { getUrl, getCategory, getPlace, getQuestions, getChoices, postObservation };
