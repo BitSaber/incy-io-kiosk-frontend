@@ -55,6 +55,8 @@ pipeline {
                 GIT_REALBRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
             }
             steps {
+                sh "printenv"
+                sh "echo \"${env.BRANCH_NAME}\""
                 sh "echo 'We are on branch ${GIT_REALBRANCH}'"
                 sh "git rev-parse --abbrev-ref HEAD"
             }
