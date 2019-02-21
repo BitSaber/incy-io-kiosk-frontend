@@ -50,6 +50,11 @@ pipeline {
         /*         sh 'yarn build' */
         /*     } */
         /* } */
+        stage('Debug') {
+            steps {
+                sh "echo 'We are on branch ${GIT_BRANCH}'"
+            }
+        }
         stage('Deploy to staging') {
             when {
                 expression { return GIT_BRANCH == 'jenkins-deploy' }
