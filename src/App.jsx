@@ -7,12 +7,13 @@ import {
     SELECT,
     MULTI_SELECT,
     STR,
+    UNITIALIZED as QUESTION_TYPE_UNINITIALIZED
 } from './constants/questionTypes';
 
 const initialState = {
     questions: [],
     currentQuestionID: null,
-    currentQuestionType: 'not gotten yet',
+    currentQuestionType: QUESTION_TYPE_UNINITIALIZED,
     currentQuestionChoices: [],
     currentIsRequired: false,
     answers: {},
@@ -64,7 +65,7 @@ class App extends React.Component {
     checkNextQuestion = (position) => {
         //makes an array with all answer ID's
         const answerIDs = Object.values(this.state.answers).map(function (object) {
-            if (Object.isArray(object)) {
+            if (Array.isArray(object)) {
                 return object.map(x => x.id)
             }
             else {
