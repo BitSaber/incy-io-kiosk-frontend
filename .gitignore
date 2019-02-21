@@ -50,3 +50,5 @@ yarn-error.log*
 /dist
 /yarn.lock
 /test-report.xml
+
+.vscode/
