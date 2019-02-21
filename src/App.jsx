@@ -51,7 +51,7 @@ class App extends React.Component {
             currentQuestionChoices: choices
         });
     }
-
+ 
     checkNextQuestion = (position) => {
         const answerKeys = this.state.answers
         const nextQuestion = this.state.questions.find( question => question.position === position)

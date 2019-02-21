@@ -59,11 +59,12 @@ overflow-y:hidden;
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 140px;
+  height: 100px;
   background-color: #044460;
-color: #ffffff;
-font-size: 10px;
-letter-spacing: 1px;
+  color: #ffffff;
+  font-size: 10px;
+  letter-spacing: 1px;
+	text-align: center;
 }
 
 .skipped {

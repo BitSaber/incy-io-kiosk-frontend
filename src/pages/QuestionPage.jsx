@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types'
 
 import BigButton from '../components/BigButton';
+import SkipButton from '../components/SkipButton';
 import '../css/style.css';
 
 
@@ -41,9 +42,9 @@ class QuestionPage extends Component {
                     <div className="skipped">
                       { // TODO: button location and style
                           !this.props.currentIsRequired &&
-                              <BigButton
+                              <SkipButton
                                   onClick={() => this.props.skipClick()}
-                                  text={"> Skip >"}
+                                  text={"Skip"}
                                   />
                       }
                     </div>
@@ -52,12 +53,6 @@ class QuestionPage extends Component {
                 <footer className="footer">
                     <footer className="inside">
                         <p>Copyright © 2018 BitSaber, Otaniemi, Finland</p>
-
-                        <div className="under">
-                            <ul>
-                                <li> <a href="https://github.com/BitSaber/incy-io-kiosk-frontend" target="_blank" rel="noopener noreferrer">GitHub</a> </li>
-                            </ul>
-                        </div>
                     </footer>
                 </footer>
 
