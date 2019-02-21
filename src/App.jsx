@@ -64,7 +64,7 @@ class App extends React.Component {
     checkNextQuestion = (position) => {
         //makes an array with all answer ID's
         const answerIDs = Object.values(this.state.answers).map(function (object) {
-            if (object.isArray) {
+            if (Object.isArray(object)) {
                 return object.map(x => x.id)
             }
             else {
@@ -98,10 +98,8 @@ class App extends React.Component {
         }
         // Check if the last displayed question still needs an answer, or if the thank you page can be displayed
         if (position >= questionsLen) {
-            if (!flag) {
-                this.state.areAllQuestionsDisplayed = true
-            } else {
-                this.state.areAllQuestionsDisplayed = true
+            this.state.areAllQuestionsDisplayed = true
+            if (flag) {
                 this.state.isAllQuestionsAnswered = true
             }
         }
