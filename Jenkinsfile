@@ -51,8 +51,11 @@ pipeline {
         /*     } */
         /* } */
         stage('Debug') {
+            environment {
+                GIT_REALBRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+            }
             steps {
-                sh "echo 'We are on branch ${GIT_BRANCH}'"
+                sh "echo 'We are on branch ${GIT_REALBRANCH}'"
             }
         }
         stage('Deploy to staging') {
