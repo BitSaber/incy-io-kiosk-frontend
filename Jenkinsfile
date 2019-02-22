@@ -5,7 +5,7 @@ pipeline {
     environment {
         NODEJS_HOME = '/opt/tools/nodejs/node-v11.4.0-linux-x64'
         PATH = "/opt/tools/yarn/yarn-v1.12.3/bin:/opt/tools/nodejs/node-v11.4.0-linux-x64/bin:$PATH"
-        DO_AUTODEPLOY_PROD = false
+        DO_AUTODEPLOY_PROD = true
     }
     stages {
         stage('Install Dependencies') {
