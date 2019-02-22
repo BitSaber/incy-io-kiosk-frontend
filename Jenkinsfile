@@ -67,7 +67,7 @@ pipeline {
         }
         stage('Deploy to production') {
             when {
-                expression { return env.BRANCH_NAME == 'master' && DO_AUTODEPLOY_prod == true }
+                expression { return env.BRANCH_NAME == 'master' && DO_AUTODEPLOY_PROD == true }
             }
             steps {
                 withCredentials([file(credentialsId: '770b87fe-7835-4a6d-a769-2a7879c12b76', variable: 'HEROKUCREDS')]) {
