@@ -50,17 +50,6 @@ pipeline {
                 sh 'yarn build'
             }
         }
-        stage('Debug') {
-            environment {
-                GIT_REALBRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-            }
-            steps {
-                sh "printenv"
-                sh "echo \"${env.BRANCH_NAME}\""
-                sh "echo 'We are on branch ${GIT_REALBRANCH}'"
-                sh "git rev-parse --abbrev-ref HEAD"
-            }
-        }
         stage('Deploy to staging') {
             when {
                 expression { return env.BRANCH_NAME == 'develop' }
@@ -78,7 +67,7 @@ pipeline {
         }
         stage('Deploy to production') {
             when {
-                expression { return env.BRANCH_NAME == 'master' && DO_AUTODEPLOY_prod == true }
+                expression { return env.BRANCH_NAME == 'master' && DO_AUTODEPLOY_PROD == true }
             }
             steps {
                 withCredentials([file(credentialsId: '770b87fe-7835-4a6d-a769-2a7879c12b76', variable: 'HEROKUCREDS')]) {
