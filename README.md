@@ -16,9 +16,11 @@ When making pull requests and branches, [Jenkins](https://jenkins.bitsaber.net) 
 
 ### Jenkins Pipeline
 
+Below you will find an example of our CI pipeline
+
 ![Jenkins CI Pipeline](docs/img/jenkins-pipeline-example.png?raw=true "Jenkins CI Pipeline")
 
 
 ## Author
 
-BitSaber Team
+[BitSaber](https://github.com/BitSaber/incy-io-kiosk-frontend/graphs/contributors)
