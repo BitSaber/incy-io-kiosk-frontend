@@ -5,7 +5,7 @@ pipeline {
     environment {
         NODEJS_HOME = '/opt/tools/nodejs/node-v11.4.0-linux-x64'
         PATH = "/opt/tools/yarn/yarn-v1.12.3/bin:/opt/tools/nodejs/node-v11.4.0-linux-x64/bin:$PATH"
-        GIT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+        DO_AUTODEPLOY_PROD = true
     }
     stages {
         stage('Install Dependencies') {
@@ -52,7 +52,7 @@ pipeline {
         }
         stage('Deploy to staging') {
             when {
-                expression { return GIT_BRANCH == 'master' }
+                expression { return env.BRANCH_NAME == 'develop' }
             }
             steps {
                 withCredentials([file(credentialsId: '770b87fe-7835-4a6d-a769-2a7879c12b76', variable: 'HEROKUCREDS')]) {
@@ -62,6 +62,21 @@ pipeline {
                     sh 'docker build .'
                     sh 'heroku container:push web --app incy-io-kiosk-staging'
                     sh 'heroku container:release web --app incy-io-kiosk-staging'
+                }
+            }
+        }
+        stage('Deploy to production') {
+            when {
+                expression { return env.BRANCH_NAME == 'master' && DO_AUTODEPLOY_PROD == true }
+            }
+            steps {
+                withCredentials([file(credentialsId: '770b87fe-7835-4a6d-a769-2a7879c12b76', variable: 'HEROKUCREDS')]) {
+                    sh 'cp "$HEROKUCREDS" ~/.netrc'
+                    sh 'cd heroku_docker'
+                    sh 'heroku container:login'
+                    sh 'docker build .'
+                    sh 'heroku container:push web --app incy-io-kiosk-production'
+                    sh 'heroku container:release web --app incy-io-kiosk-production'
                 }
             }
         }
