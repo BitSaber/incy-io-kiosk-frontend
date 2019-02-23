@@ -30,13 +30,13 @@ In case you are running your browser from a different computer than you are runn
 
 When hopping different branches, it might be a good idea to run `rm -rf node_modules && yarn install` to have a clean set of dependencies.
 
-## CI
+## CI/CD
 
 When making pull requests and branches, [Jenkins](https://jenkins.bitsaber.net/job/BitSaber/job/incy-io-kiosk-frontend/) accompanied by [SonarQube](https://sonar.bitsaber.net/dashboard?id=INCY-IO-KIOSK-FRONTEND) will automatically verify that the code is good enough. Jenkins also won't let you merge anything unless the [CI](https://en.wikipedia.org/wiki/Continuous_integration) pipeline succeeds.
 
 ### Jenkins Pipeline
 
-Below you will find an example of our CI pipeline
+Below you will find an example of our CI/CD pipeline
 
 ![Jenkins CI Pipeline](docs/img/jenkins-pipeline-example.png?raw=true "Jenkins CI Pipeline")
 
