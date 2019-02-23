@@ -17,7 +17,6 @@
 [![Bugs](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=bugs)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
 [![Vulnerabilities](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=vulnerabilities)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
 [![Technical Debt Ratio](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=sqale_debt_ratio)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
-[![Technical Debt Ratio](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=sqale_debt_ratio)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
 [![New Maintainability Rating](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=new_maintainability_rating)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
 [![New Reliability Rating](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=new_reliability_rating)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
 [![New Security Rating](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=new_security_rating)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
