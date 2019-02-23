@@ -1,5 +1,26 @@
 # Kiosk Frontend
 [![Build Status](https://jenkins.bitsaber.net/buildStatus/icon?job=BitSaber/incy-io-kiosk-frontend/master)](https://jenkins.bitsaber.net/job/BitSaber/incy-io-kiosk-frontend/master)
+[![Quality Gate](https://sonar.bitsaber.net/api/badges/gate?key=INCY-IO-KIOSK-FRONTEND)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
+[![Lines](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=lines)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
+[![Percentage of comments](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=comment_lines_density)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
+[![Complexity to function](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=function_complexity)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
+[![Test errors](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=test_errors)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
+[![Test failures](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=test_failures)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
+[![Test success density](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=test_success_density)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
+[![Unti Test Coverage](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=coverage)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
+[![Integration Test Coverage](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=it_coverage)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
+[![Overall Test Coverage](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=overall_coverage)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
+[![Duplicated Lines Density](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=duplicated_lines_density)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
+[![Blocker Violations](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=blocker_violations)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
+[![Critical Violations](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=critical_violations)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
+[![Code Smells](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=code_smells)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
+[![Bugs](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=bugs)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
+[![Vulnerabilities](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=vulnerabilities)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
+[![Technical Debt Ratio](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=sqale_debt_ratio)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
+[![Technical Debt Ratio](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=sqale_debt_ratio)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
+[![New Maintainability Rating](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=new_maintainability_rating)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
+[![New Reliability Rating](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=new_reliability_rating)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
+[![New Security Rating](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=new_security_rating)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
 
 This repository holds the open source code for a Kiosk frontend application.
 
