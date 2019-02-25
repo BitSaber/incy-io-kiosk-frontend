@@ -1,7 +1,7 @@
 import React from 'react';
-//import Typography from '@material-ui/core/Typography';
 
-const ThankYouPage = () => ( //TODO: attributes of class txt should be implemented with material UI
+// TODO: attributes of class txt should be implemented with material UI
+const ThankYouPage = () => (
     <div>
         <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img> </div>
         <div className="answer-div">
