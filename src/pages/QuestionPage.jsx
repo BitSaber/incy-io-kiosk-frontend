@@ -10,6 +10,7 @@ import {
     SELECT,
     MULTI_SELECT,
     STR,
+    UNINITIALIZED as QUESTION_TYPE_UNINITIALIZED
 } from '../constants/questionTypes';
 
 class QuestionPage extends React.Component {
@@ -41,8 +42,7 @@ class QuestionPage extends React.Component {
                 onClick={() => this.props.onChoiceClick(questionsChoice)}
                 text={questionsChoice.name}
             />
-        )
-        )
+        ))
     }
 
     renderMultiselect = () => {
@@ -85,12 +85,15 @@ class QuestionPage extends React.Component {
             return this.renderMultiselect()
         } else if (questionType === STR) {
             return this.renderTextField()
+        } else if(questionType === QUESTION_TYPE_UNINITIALIZED) {
+            return null;
+        } else {
+            throw `Invalid Question type '${questionType}'`
         }
-        return
     }
 
     submitTextButton = () => {
-        return ( // does not render for some reason
+        return ( // XXX: does not render for some reason
             <div className="center-align txt">
                 <Grid container direction="row" justify="center">
                     <BigButton
@@ -107,13 +110,26 @@ class QuestionPage extends React.Component {
         )
     }
 
+    questionHasSubmitButton = (questionType) => {
+        const questionsWithSubmitButtons = [
+            MULTI_SELECT,
+            STR,
+        ]
+        return questionsWithSubmitButtons.indexOf(questionType) !== -1;
+    }
+
     renderSubmitButton = (questionType) => {
-        if (questionType === MULTI_SELECT) {
+        if (!this.questionHasSubmitButton(questionType)) {
+            return null
+        } else if (questionType === MULTI_SELECT) {
             return this.submitMultiButton()
         } else if (questionType === STR) {
             return this.submitTextButton()
+        } else if(questionType === QUESTION_TYPE_UNINITIALIZED) {
+            return (<div>Loading, please wait...</div>)
+        } else {
+            throw `Invalid Question type '${questionType}'`
         }
-        return
     }
 
     render() {

@@ -7,7 +7,7 @@ import {
     SELECT,
     MULTI_SELECT,
     STR,
-    UNITIALIZED as QUESTION_TYPE_UNINITIALIZED
+    UNINITIALIZED as QUESTION_TYPE_UNINITIALIZED
 } from './constants/questionTypes';
 
 const initialState = {
