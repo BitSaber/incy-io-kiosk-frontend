@@ -4,12 +4,14 @@ import Cookie from 'js-cookie';
 import {
     DEFAULT_ORG_NAME,
     DEFAULT_LINK_NAME,
+    DEFAULT_BASE_API_URL
 } from './constants/defaults';
 
 import {
-    BASE_API_URL,
     ORG_NAME_COOKIE,
     LINK_NAME_COOKIE,
+    BASE_URL_COOKIE,
+    BASE_URL_PARAM,
     ORG_NAME_URLPARAM,
     LINK_NAME_URLPARAM,
 } from './constants/config';
@@ -43,15 +45,20 @@ const linkName = getValueFromCookieUrlOrDefaultAndCache(
     LINK_NAME_COOKIE
 )
 
+const baseUrl = getValueFromCookieUrlOrDefaultAndCache(
+    DEFAULT_BASE_API_URL,
+    BASE_URL_PARAM,
+    BASE_URL_COOKIE
+)
 
 /* The open API links */
-const questionsUrl = `${BASE_API_URL}/${organizationName}/observation-questions/links/${linkName}`;
-const choicesUrl = `${BASE_API_URL}/${organizationName}/observation-questions-choices/links/${linkName}/`;
-const categoryUrl = `${BASE_API_URL}/${organizationName}/observation-categories/links/${linkName}`;
-const placeUrl = `${BASE_API_URL}/${organizationName}/places/links/${linkName}`;
-const postUrl = `${BASE_API_URL}/${organizationName}/observations/links/${linkName}`;
-const availableLangUrl = `${BASE_API_URL}/${organizationName}/available-languages`
-const currentLangUrl = `${BASE_API_URL}/${organizationName}/current-language`
+const questionsUrl = `${baseUrl}/${organizationName}/observation-questions/links/${linkName}`;
+const choicesUrl = `${baseUrl}/${organizationName}/observation-questions-choices/links/${linkName}/`;
+const categoryUrl = `${baseUrl}/${organizationName}/observation-categories/links/${linkName}`;
+const placeUrl = `${baseUrl}/${organizationName}/places/links/${linkName}`;
+const postUrl = `${baseUrl}/${organizationName}/observations/links/${linkName}`
+const availableLangUrl = `${baseUrl}/${organizationName}/available-languages`
+const currentLangUrl = `${baseUrl}/${organizationName}/current-language`
 
 // not used
 const getCurrentLang = () => {
