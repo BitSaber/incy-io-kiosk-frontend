@@ -63,11 +63,13 @@ class App extends React.Component {
 
     setFirstQuestion = async () => {
         const questions = await questionService.getQuestions(this.state.currentLanguageId);
+        const questionsSorted = questions.sort( (object1, object2) => object1.id - object2.id )
         const currentQuestionID = questions[0].id;
         const choices = await questionService.getChoices(currentQuestionID, this.state.currentLanguageId);
         const questionType = questions[0].type
+
         this.setState({
-            questions: questions,
+            questions: questionsSorted,
             currentQuestionID: currentQuestionID,
             answers: {},
             currentQuestionChoices: choices,
@@ -257,8 +259,7 @@ class App extends React.Component {
             isAllQuestionsAnswered: true,
         });
 
-        this.setFirstQuestion();
-        this.setCatAndLoc();
+        this.setInfo();
 
         setTimeout(() => {
             this.setState({
@@ -291,6 +292,7 @@ class App extends React.Component {
                 questionType={this.state.currentQuestionType}
                 onSubmitMultiClick={this.submitMultiClick}
                 onSubmitFreeText={this.submitTextAnswer}
+                questionPos={this.state.questions.findIndex(question => question.id === this.state.currentQuestionID)}
             />
         );
     }

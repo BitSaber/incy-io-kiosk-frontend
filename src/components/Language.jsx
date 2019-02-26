@@ -17,9 +17,8 @@ const Language = ({ languages, onLangClick } ) => {
                 <span><img src="/flags/swe.png" alt="Swe" onClick={() => onLangClick('sv')} /></span>
             </div>
         );
-    } else {
-        return null;
     }
+
 }
 
 export default Language;

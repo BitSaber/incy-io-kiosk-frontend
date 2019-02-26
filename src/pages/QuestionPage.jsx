@@ -29,7 +29,8 @@ class QuestionPage extends React.Component {
         onLangClick: PropTypes.func.isRequired,
         questionType: PropTypes.string.isRequired,
         onSubmitMultiClick: PropTypes.func.isRequired,
-        onSubmitFreeText: PropTypes.func.isRequired
+        onSubmitFreeText: PropTypes.func.isRequired,
+        questionPos: PropTypes.number.isRequired
     }
 
     submitMultiButton = () => {
@@ -112,14 +113,21 @@ class QuestionPage extends React.Component {
         }
     }
 
+    renderLanguageButtons = () => {
+        if (this.props.questionPos === 0) {
+            return <Language languages={this.props.languages} onLangClick={this.props.onLangClick} />
+        }
+        return
+    }
+
     render() {
 
         return (
             <div>
                 <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img>
-                    <Language languages={this.props.languages} onLangClick={this.props.onLangClick} />
+
                 </div>
-                <div className="question-div ">
+                <div className="question-div">
                     <h2 className="txt" variant="h2">{this.props.question.name}</h2>
                 </div>
                 <div>
@@ -132,6 +140,7 @@ class QuestionPage extends React.Component {
                         </Grid>
                     </div>
                 </div>
+                {this.renderLanguageButtons()}
                 <footer className="footer">
                     <footer className="inside">
                         <p>Copyright © 2018 BitSaber, Otaniemi, Finland</p>
