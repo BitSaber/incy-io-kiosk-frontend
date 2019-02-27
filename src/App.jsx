@@ -1,4 +1,5 @@
 import React from 'react';
+import {DEFAULT_LANG_ID} from './constants/defaults';
 import questionService from './service'
 import ThankYouPage from './pages/ThankYouPage';
 import QuestionPage from './pages/QuestionPage';
@@ -21,6 +22,7 @@ const initialState = {
     areAllQuestionsDisplayed: false,
     categoryId: null,
     placeId: null,
+    languages: [],
     multiSelectArray: [],
     error: null
 }
@@ -32,31 +34,47 @@ class App extends React.Component {
     }
 
     async componentDidMount() {
-        this.setFirstQuestion();
-        this.setCatAndLoc();
+        this.setInfo();
     }
 
-    setCatAndLoc = async () => {
+    setInfo = async () => { // better name ideas?
         const cat = await questionService.getCategory()
         const loc = await questionService.getPlace()
+        const lang = await questionService.getLanguages()
+
+        // Sets the default language as the language, and changes it if default not included in API's languages
+        let langId = DEFAULT_LANG_ID
+        if (!lang.includes(DEFAULT_LANG_ID)) {
+            langId = lang[0].id
+        }
+
+        // Sets the state with necessary attributes fetched from the API, and calls setFirstQuestion after
         this.setState({
             category: cat[0].id,
             place: loc[0].id,
-        });
+            languages: lang.map(language => language.id),
+            currentLanguageId: langId
+        }, this.setFirstQuestion );
+    }
+
+    changeLanguage = async (languageId) => {
+        // Sets the chosen language as the new language and returns to the first question
+        await this.setState( {
+            currentLanguageId: languageId
+        }, this.setFirstQuestion)
     }
 
     setFirstQuestion = async () => {
-        const questions = await questionService.getQuestions();
+        const questions = await questionService.getQuestions(this.state.currentLanguageId);
+        const questionsSorted = questions.sort( (object1, object2) => object1.id - object2.id )
         const currentQuestionID = questions[0].id;
+        const choices = await questionService.getChoices(currentQuestionID, this.state.currentLanguageId);
+        const questionType = questions[0].type
         const isReq = questions[0].required
         this.setState({
-            questions: questions,
+            questions: questionsSorted,
             currentQuestionID: currentQuestionID,
             currentIsRequired: isReq,
-        });
-        const choices = await questionService.getChoices(currentQuestionID);
-        const questionType = questions[0].type
-        this.setState({
             currentQuestionChoices: choices,
             currentQuestionType: questionType
         });
@@ -118,7 +136,7 @@ class App extends React.Component {
             currentIsRequired: isReq,
         }, async () => {
             if (this.state.currentQuestionType !== STR) {
-                const newChoices = await questionService.getChoices(newQuestionID);
+                const newChoices = await questionService.getChoices(newQuestionID, this.state.currentLanguageId);
 
                 // Sets an empty answer array for multi select question
                 if (this.state.currentQuestionType === MULTI_SELECT) {
@@ -260,8 +278,7 @@ class App extends React.Component {
             isAllQuestionsAnswered: true,
         });
 
-        this.setFirstQuestion();
-        this.setCatAndLoc();
+        this.setInfo();
 
         setTimeout(() => {
             this.setState({
@@ -289,9 +306,12 @@ class App extends React.Component {
                 question={question}
                 questionChoices={this.state.currentQuestionChoices}
                 onChoiceClick={this.handleChoiceClick}
+                languages={this.state.languages}
+                onLangClick={this.changeLanguage}
                 questionType={this.state.currentQuestionType}
                 onSubmitMultiClick={this.submitMultiAnswer}
                 onSubmitFreeText={this.submitTextAnswer}
+                questionPos={this.state.questions.findIndex(question => question.id === this.state.currentQuestionID)}
                 error={this.state.error}
             />
         );
