@@ -1,12 +1,5 @@
-import React from 'react'
-// import Button from '@material-ui/core/Button';
-// import questionService from '../service'
-// import App from '../App'
+import React from 'react';
 
-// not sure why const
-// const changeLanguage = (langId,langName) => {
-//     questionService.patchLang(langId,langName)
-// }
 
 const Language = ({ languages, onLangClick } ) => {
     if (languages) {

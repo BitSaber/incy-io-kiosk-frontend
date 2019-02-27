@@ -43,7 +43,7 @@ class App extends React.Component {
         const lang = await questionService.getLanguages()
 
         // Sets the default language as the language, and changes it if default not included in API's languages
-        var langId = DEFAULT_LANG_ID
+        let langId = DEFAULT_LANG_ID
         if (!lang.includes(DEFAULT_LANG_ID)) {
             langId = lang[0].id
         }

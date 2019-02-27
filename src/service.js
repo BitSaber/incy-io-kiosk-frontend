@@ -58,12 +58,6 @@ const categoryUrl = `${baseUrl}/${organizationName}/observation-categories/links
 const placeUrl = `${baseUrl}/${organizationName}/places/links/${linkName}`;
 const postUrl = `${baseUrl}/${organizationName}/observations/links/${linkName}`
 const availableLangUrl = `${baseUrl}/${organizationName}/available-languages`
-const currentLangUrl = `${baseUrl}/${organizationName}/current-language`
-
-// not used
-const getCurrentLang = () => {
-    return getUrl(currentLangUrl)
-}
 
 /* A generic function for GETting the data.data from an URL. */
 const getUrl = async (url, headers) => {
@@ -123,4 +117,4 @@ function findGetParameter(parameterName) {
     return result;
 }
 
-export default { getUrl, getCategory, getPlace, getLanguages, getQuestions, getChoices, postObservation, getCurrentLang };
+export default { getUrl, getCategory, getPlace, getLanguages, getQuestions, getChoices, postObservation };
