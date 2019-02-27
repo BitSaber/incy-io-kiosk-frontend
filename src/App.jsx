@@ -161,7 +161,7 @@ class App extends React.Component {
 
     showFieldRequired = () => {
         if (!this.state.error) {
-            this.setState({error: 'This question is required'});
+            this.setState({error: true});
             setTimeout(() => {
                 this.setState({error: null});
             }, 3000);

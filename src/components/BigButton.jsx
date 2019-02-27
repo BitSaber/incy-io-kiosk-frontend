@@ -24,13 +24,13 @@ const BigButton = ({ onClick, text }) => {
         return (
             <ButtonContainer>
                 <Button className="newButton" variant="contained" onClick={onClick}>
-                    <h2>
+                    <TextContainer>
                         <FormattedMessage id="bigbutton.submit"
                             defaultMessage="Submit"
                             description="Submit button text"
                             values={{ what: 'react-intl' }}
                         />
-                    </h2>
+                    </TextContainer>
                 </Button>
             </ButtonContainer>
         )
