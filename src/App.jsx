@@ -62,9 +62,13 @@ class App extends React.Component {
         });
     }
 
+    /**
+     * @description Checks if next question should be shown or not
+     * @returns true if next question should be shown, else {false}
+     */
     checkNextQuestion = (position) => {
-        //makes an array with all answer ID's
-        const answerIDs = Object.values(this.state.answers).map(function (object) {
+        // makes an array with all answer ID's
+        const allAnsweredAnswerIDs = Object.values(this.state.answers).map(function (object) {
             if (Array.isArray(object)) {
                 return object.map(x => x.id)
             }
@@ -74,20 +78,23 @@ class App extends React.Component {
         }).flat()
         const nextQuestion = this.state.questions.find(question => question.position === position)
         if (nextQuestion.depends_on_question_id === null) {
-            return true
-        } else if (answerIDs.includes(nextQuestion.depends_on_choice_id)) {
-            return true
+            // next question is not dependent on any previous choice => question is shown
+            return true;
+        } else if (allAnsweredAnswerIDs.includes(nextQuestion.depends_on_choice_id)) {
+            // next question is dependent on previous choice that was selected => question is shown
+            return true;
         } else {
-            return false
+            // next question is dependent on a choice that was not selected => question is not shown
+            return false;
         }
     }
 
     setNextQuestion = async () => {
         // finds the next question to display
-        const questionsLen = this.state.questions.length
-        var position = this.state.questions.find(
+        const questionsLen = this.state.questions.length;
+        let position = this.state.questions.find(
             question => question.id === this.state.currentQuestionID).position + 1
-        var flag = true
+        let flag = true
         // Loop through the questions by position, and determine if the question at hand needs to be displayed
         while (position <= questionsLen && flag) {
             if (this.checkNextQuestion(position)) {
