@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import BigButton from '../components/BigButton';
 import '../css/style.css';
 import ToggleButtons from '../components/ToggleButtons';
+import {FormattedMessage} from 'react-intl';
 
 import {
     SELECT,

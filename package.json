@@ -8,6 +8,7 @@
     "axios": "^0.18.0",
     "jest": "^23.6.0",
     "prop-types": "^15.7.2",
+    "punycode": "^2.1.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-intl": "^2.8.0",

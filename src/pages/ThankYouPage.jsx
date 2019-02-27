@@ -7,7 +7,7 @@ const ThankYouPage = () => (
         <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img> </div>
         <div className="answer-div">
             <h2 className="txt" variant="h2">
-                <FormattedMessage id="app.thankyou"
+                <FormattedMessage id="thankyou.phrase"
                     defaultMessage="Thank you for the feedback!"
                     description="Thank you text on thank you page"
                     values={{ what: 'react-intl' }}
