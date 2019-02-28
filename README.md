@@ -65,7 +65,7 @@ Configure PATH and start dev server:
 ```
 PATH="/opt/tools/yarn/yarn-v1.12.3/bin:/opt/tools/nodejs/node-v11.4.0-linux-x64/bin:$PATH"
 cd incy-io-kiosk-frontend
-yarn start &
+yarn start &>/dev/null &
 ```
 
 Run robot
@@ -77,7 +77,7 @@ robot __tests__/robot
 Stop the docker image:
 
 ```
-docker stop jenkins.docker-robot-chrome
+docker stop jenkins-docker-robot-chrome
 ```
 
 ## Authors
