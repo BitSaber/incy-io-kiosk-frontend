@@ -48,13 +48,6 @@ class App extends React.Component {
         }, this.setFirstQuestion );
     }
 
-    changeLanguage = async (languageId) => {
-        // Sets the chosen language as the new language and returns to the first question
-        await this.setState( {
-            currentLanguageId: languageId
-        }, this.setFirstQuestion)
-    }
-
     setFirstQuestion = async () => {
         const { currentLanguageId } = this.props;
 
