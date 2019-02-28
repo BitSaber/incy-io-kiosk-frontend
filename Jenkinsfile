@@ -65,6 +65,15 @@ pipeline {
                 /* sh 'cp ../dist/1* ./app/' */
                 sh 'yarn start &'
                 sh 'robot __tests__/robot'
+                step([
+                    $class : 'RobotPublisher',
+                    outputPath : outputDirectory,
+                    outputFileName : "*.xml",
+                    disableArchiveOutput : false,
+                    passThreshold : 100,
+                    unstableThreshold: 95.0,
+                    otherFiles : "*.png",
+                ])
             }
         }
         stage('Deploy to staging') {
