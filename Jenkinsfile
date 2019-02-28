@@ -44,11 +44,6 @@ pipeline {
                 sh 'yarn lint'
             }
         }
-        stage('Build Project') {
-            steps {
-                sh 'yarn build'
-            }
-        }
         stage('Robot Tests') {
             agent {
                 label 'google-chrome'
@@ -76,6 +71,11 @@ pipeline {
                     unstableThreshold: 95.0,
                     otherFiles : "*.png"
                 ])
+            }
+        }
+        stage('Build Project') {
+            steps {
+                sh 'yarn build'
             }
         }
         stage('Deploy to staging') {
