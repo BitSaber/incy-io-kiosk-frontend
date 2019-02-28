@@ -4,6 +4,7 @@ import { TextField, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types'
 import BigButton from '../components/BigButton';
 import '../css/style.css';
+import Language from '../components/Language';
 import ToggleButtons from '../components/ToggleButtons';
 import {FormattedMessage} from 'react-intl';
 
@@ -26,9 +27,12 @@ class QuestionPage extends React.Component {
         question: PropTypes.object.isRequired,
         questionChoices: PropTypes.arrayOf(PropTypes.object).isRequired,
         onChoiceClick: PropTypes.func.isRequired,
+        languages: PropTypes.array.isRequired,
+        onLangClick: PropTypes.func.isRequired,
         questionType: PropTypes.string.isRequired,
         onSubmitMultiClick: PropTypes.func.isRequired,
         onSubmitFreeText: PropTypes.func.isRequired,
+        questionPos: PropTypes.number.isRequired,
         error: PropTypes.bool,
     }
 
@@ -133,12 +137,19 @@ class QuestionPage extends React.Component {
         }
     }
 
+    renderLanguageButtons = () => {
+        if (this.props.questionPos === 0) {
+            return <Language languages={this.props.languages} onLangClick={this.props.onLangClick} />
+        }
+        return
+    }
+
     render() {
 
         return (
             <div>
                 <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img> </div>
-                <div className="question-div ">
+                <div className="question-div">
                     <h2 className="txt" variant="h2">{this.props.question.name}</h2>
                     {this.props.error && <Typography variant='h4' color='error'>
                         <FormattedMessage id="questionpage.required"
@@ -158,6 +169,7 @@ class QuestionPage extends React.Component {
                         </Grid>
                     </div>
                 </div>
+                {this.renderLanguageButtons()}
                 <footer className="footer">
                     <footer className="inside">
                         <div>Copyright © 2018 BitSaber, Otaniemi, Finland</div>
