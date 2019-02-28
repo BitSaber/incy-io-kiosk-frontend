@@ -56,11 +56,15 @@ docker run \
 
 Attach to it:
 
-`docker exec -it jenkins-docker-robot-chrome su - jenkins`
+```
+docker exec -it jenkins-docker-robot-chrome su - jenkins
+```
 
 Stop the docker image:
 
-`docker stop jenkins.docker-robot-chrome`
+```
+docker stop jenkins.docker-robot-chrome
+```
 
 ## Authors
 
