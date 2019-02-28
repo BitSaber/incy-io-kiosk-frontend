@@ -1,5 +1,6 @@
 {
     "thankyou.phrase": "Thank you for the feedback!",
-    "bigbutton.submit": "Send",
+    "submitbutton": "Send",
+    "skipbutton": "Skip",
     "questionpage.required": "This field is required!"
 }

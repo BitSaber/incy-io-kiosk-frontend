@@ -1,5 +1,5 @@
 import React from 'react';
-import {DEFAULT_LANG_ID} from './constants/defaults';
+import { DEFAULT_LANG_ID } from './constants/defaults';
 import questionService from './service'
 import ThankYouPage from './pages/ThankYouPage';
 import QuestionPage from './pages/QuestionPage';
@@ -54,19 +54,19 @@ class App extends React.Component {
             place: loc[0].id,
             languages: lang.map(language => language.id),
             currentLanguageId: langId
-        }, this.setFirstQuestion );
+        }, this.setFirstQuestion);
     }
 
     changeLanguage = async (languageId) => {
         // Sets the chosen language as the new language and returns to the first question
-        await this.setState( {
+        await this.setState({
             currentLanguageId: languageId
         }, this.setFirstQuestion)
     }
 
     setFirstQuestion = async () => {
         const questions = await questionService.getQuestions(this.state.currentLanguageId);
-        const questionsSorted = questions.sort( (object1, object2) => object1.id - object2.id )
+        const questionsSorted = questions.sort((object1, object2) => object1.id - object2.id)
         const currentQuestionID = questions[0].id;
         const choices = await questionService.getChoices(currentQuestionID, this.state.currentLanguageId);
         const questionType = questions[0].type
@@ -79,7 +79,7 @@ class App extends React.Component {
             currentQuestionType: questionType
         });
     }
- 
+
     checkNextQuestion = (position) => {
         //makes an array with all answer ID's
         const answerIDs = Object.values(this.state.answers).map(function (object) {
@@ -179,15 +179,15 @@ class App extends React.Component {
 
     showFieldRequired = () => {
         if (!this.state.error) {
-            this.setState({error: true});
+            this.setState({ error: true });
             setTimeout(() => {
-                this.setState({error: null});
+                this.setState({ error: null });
             }, 3000);
         }
     }
 
     submitTextAnswer = async (text) => {
-        if ((''+text).trim() === '' && this.state.currentIsRequired) {
+        if (('' + text).trim() === '' && this.state.currentIsRequired) {
             this.showFieldRequired()
         } else {
             await this.setState((previousState) => {
