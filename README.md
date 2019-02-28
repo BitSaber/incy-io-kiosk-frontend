@@ -40,6 +40,23 @@ Below you will find an example of our CI/CD pipeline
 
 ![Jenkins CI Pipeline](docs/img/jenkins-pipeline-example.png?raw=true "Jenkins CI Pipeline")
 
+### Robot Framework
+
+Run in a docker:
+
+```
+docker run \
+    --name jenkins-docker-robot-chrome
+    -v $(pwd):/home/jenkins/incy-io-kiosk-frontend \
+    --rm \
+    -d \
+    --privileged \
+    docker.bitsaber.net/devops/jenkins-chrome-71:latest
+```
+
+Attach to it:
+
+`docker exec -it jenkins-docker-robot-chrome su - jenkins`
 
 ## Authors
 
