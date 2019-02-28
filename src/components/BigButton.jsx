@@ -2,7 +2,6 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles';
 import '../css/style.css';
 import {FormattedMessage} from 'react-intl';
 

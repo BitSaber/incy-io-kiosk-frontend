@@ -79,7 +79,7 @@ class App extends React.Component {
             currentQuestionType: questionType
         });
     }
- 
+
     checkNextQuestion = (position) => {
         //makes an array with all answer ID's
         const answerIDs = Object.values(this.state.answers).map(function (object) {

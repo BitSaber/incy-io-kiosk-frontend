@@ -172,13 +172,13 @@ class QuestionPage extends React.Component {
                         </Grid>
                     </div>
                     <div className="skipped">
-                      { // TODO: button location and style
-                          !this.props.currentIsRequired &&
-                              <SkipButton
-                                  onClick={() => this.props.skipClick()}
-                                  text={"Skip"}
-                                  />
-                      }
+                        { // TODO: button location and style
+                            !this.props.currentIsRequired &&
+                            <SkipButton
+                                onClick={() => this.props.skipClick()}
+                                text={"Skip"}
+                            />
+                        }
                     </div>
 
                 </div>
