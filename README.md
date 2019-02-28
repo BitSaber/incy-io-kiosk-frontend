@@ -42,11 +42,11 @@ Below you will find an example of our CI/CD pipeline
 
 ### Robot Framework
 
-Run in a docker:
+Start the docker image:
 
 ```
 docker run \
-    --name jenkins-docker-robot-chrome
+    --name jenkins-docker-robot-chrome \
     -v $(pwd):/home/jenkins/incy-io-kiosk-frontend \
     --rm \
     -d \
@@ -57,6 +57,10 @@ docker run \
 Attach to it:
 
 `docker exec -it jenkins-docker-robot-chrome su - jenkins`
+
+Stop the docker image:
+
+`docker stop jenkins.docker-robot-chrome`
 
 ## Authors
 
