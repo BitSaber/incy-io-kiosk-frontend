@@ -1,5 +1,6 @@
 {
     "thankyou.phrase": "Kiitos palautteestasi!",
-    "bigbutton.submit": "Lähetä",
+    "submitbutton": "Lähetä",
+    "skipbutton": "Seuraavaan",
     "questionpage.required": "Tämä kysymys on pakollinen!"
 }

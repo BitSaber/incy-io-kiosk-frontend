@@ -31,7 +31,7 @@ const SubmitButton = ({ onClick }) => {
         <ButtonContainer>
             <Button className="submitButton" variant="contained" onClick={onClick}>
                 <SubmitContainer>
-                    <FormattedMessage id="bigbutton.submit"
+                    <FormattedMessage id="submitbutton"
                         defaultMessage="Submit"
                         description="Submit button text"
                         values={{ what: 'react-intl' }}
