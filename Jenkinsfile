@@ -54,16 +54,16 @@ pipeline {
                 label 'google-chrome'
             }
             environment {
-                PATH = "$PATH:/opt/chromedriver/"
+                PATH =
+                "$PATH:/opt/tools/yarn/yarn-v1.12.3/bin:/opt/tools/nodejs/node-v11.4.0-linux-x64/bin:/opt/chromedriver/"
             }
             steps {
-                sh 'yarn install && yarn build'
-                sh 'cd heroku_docker'
                 sh 'yarn install'
-                sh 'mkdir app'
-                sh 'cp ../dist/* ./app/'
+                /* sh 'cd heroku_docker' */
+                /* sh 'yarn install' */
+                /* sh 'mkdir app' */
+                /* sh 'cp ../dist/1* ./app/' */
                 sh 'yarn start &'
-                sh 'cd ..'
                 sh 'robot __tests__/robot'
             }
         }

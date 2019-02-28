@@ -52,3 +52,5 @@ yarn-error.log*
 /test-report.xml
 
 .vscode/
+
+selenium-screenshot-*.png
