@@ -40,7 +40,7 @@ Below you will find an example of our CI/CD pipeline
 
 ![Jenkins CI Pipeline](docs/img/jenkins-pipeline-example.png?raw=true "Jenkins CI Pipeline")
 
-### Robot Framework
+## Running Robot Tests Outside Jenkins
 
 Start the docker image:
 
