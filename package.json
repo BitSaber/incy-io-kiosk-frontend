@@ -64,6 +64,13 @@
     "testResultsProcessor": "jest-sonar-reporter",
     "setupFiles": [
       "./src/setupTests.js"
-    ]
+    ],
+    "browser": true,
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+        "<rootDir>/src/**/*.{js,jsx}",
+        "!<rootDir>/src/node_modules**"
+    ],
+    "verbose": false
   }
 }
