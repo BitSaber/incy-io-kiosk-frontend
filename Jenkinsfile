@@ -67,11 +67,14 @@ pipeline {
                 sh 'robot __tests__/robot'
                 step([
                     $class : 'RobotPublisher',
+                    outputPath: "./",
                     outputFileName : "output.xml",
                     disableArchiveOutput : false,
+                    reportFileName: "report.html",
+                    logFileName: "log.html",
                     passThreshold : 100,
                     unstableThreshold: 95.0,
-                    otherFiles : "*.png",
+                    otherFiles : "*.png"
                 ])
             }
         }
