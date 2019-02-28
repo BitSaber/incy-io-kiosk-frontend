@@ -2,17 +2,24 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
 import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles';
 import '../css/style.css';
 import {FormattedMessage} from 'react-intl';
 
 export const TextContainer = styled.div`
-    padding:60px 60px;
-    margin:5px;
-    text-decoration:none;
-    text-shadow:0px 1px 0px #005667;
-    color: #ffffff;
-    font-size:19px;
-    font-weight:bold;
+  padding:20px 10px;
+  margin:5px;
+  text-shadow:0px 0px 0px #005667;
+  color: #ffffff;
+  font-size:18px;
+  font-weight:bold;
+  width: 200px;
+  height: 100px;
+  border: 0px solid #000000;
+  word-wrap: break-word;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const ButtonContainer = styled.div`
@@ -45,9 +52,12 @@ const BigButton = ({ onClick, text }) => {
     }
 };
 
+
 BigButton.propTypes = {
     onClick: PropTypes.func.isRequired,
     text: PropTypes.string.isRequired
 };
+
+
 
 export default BigButton;

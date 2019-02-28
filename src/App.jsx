@@ -79,7 +79,7 @@ class App extends React.Component {
             currentQuestionType: questionType
         });
     }
-
+ 
     checkNextQuestion = (position) => {
         //makes an array with all answer ID's
         const answerIDs = Object.values(this.state.answers).map(function (object) {
@@ -313,6 +313,8 @@ class App extends React.Component {
                 onSubmitFreeText={this.submitTextAnswer}
                 questionPos={this.state.questions.findIndex(question => question.id === this.state.currentQuestionID)}
                 error={this.state.error}
+                currentIsRequired={this.state.currentIsRequired}
+                skipClick={this.moveToNextQuestion}
             />
         );
     }

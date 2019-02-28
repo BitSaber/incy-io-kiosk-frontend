@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import { TextField, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types'
 import BigButton from '../components/BigButton';
+import SkipButton from '../components/SkipButton';
 import '../css/style.css';
 import Language from '../components/Language';
 import ToggleButtons from '../components/ToggleButtons';
@@ -34,6 +35,8 @@ class QuestionPage extends React.Component {
         onSubmitFreeText: PropTypes.func.isRequired,
         questionPos: PropTypes.number.isRequired,
         error: PropTypes.bool,
+        skipClick: PropTypes.func.isRequired,
+        currentIsRequired: PropTypes.bool.isRequired
     }
 
     submitMultiButton = () => {
@@ -168,6 +171,16 @@ class QuestionPage extends React.Component {
 
                         </Grid>
                     </div>
+                    <div className="skipped">
+                      { // TODO: button location and style
+                          !this.props.currentIsRequired &&
+                              <SkipButton
+                                  onClick={() => this.props.skipClick()}
+                                  text={"Skip"}
+                                  />
+                      }
+                    </div>
+
                 </div>
                 {this.renderLanguageButtons()}
                 <footer className="footer">
