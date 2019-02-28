@@ -1,10 +1,9 @@
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 // TODO: attributes of class txt should be implemented with material UI
 const ThankYouPage = () => (
     <div>
-        <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img> </div>
         <div className="answer-div">
             <h2 className="txt" variant="h2">
                 <FormattedMessage id="thankyou.phrase"

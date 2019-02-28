@@ -152,7 +152,6 @@ class QuestionPage extends React.Component {
 
         return (
             <div>
-                <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img> </div>
                 <div className="question-div">
                     <h2 className="txt" variant="h2">{this.props.question.name}</h2>
                     {this.props.error && <Typography variant='h4' color='error'>
