@@ -28,8 +28,6 @@ class QuestionPage extends React.Component {
         question: PropTypes.object.isRequired,
         questionChoices: PropTypes.arrayOf(PropTypes.object).isRequired,
         onChoiceClick: PropTypes.func.isRequired,
-        languages: PropTypes.array.isRequired,
-        onLangClick: PropTypes.func.isRequired,
         questionType: PropTypes.string.isRequired,
         onSubmitMultiClick: PropTypes.func.isRequired,
         onSubmitFreeText: PropTypes.func.isRequired,
@@ -142,7 +140,7 @@ class QuestionPage extends React.Component {
 
     renderLanguageButtons = () => {
         if (this.props.questionPos === 0) {
-            return <Language languages={this.props.languages} onLangClick={this.props.onLangClick} />
+            return <Language />
         }
         return
     }
@@ -152,6 +150,7 @@ class QuestionPage extends React.Component {
         return (
             <div>
                 <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img> </div>
+                {this.renderLanguageButtons()}
                 <div className="question-div">
                     <h2 className="txt" variant="h2">{this.props.question.name}</h2>
                     {this.props.error && <Typography variant='h4' color='error'>
@@ -182,7 +181,6 @@ class QuestionPage extends React.Component {
                     </div>
 
                 </div>
-                {this.renderLanguageButtons()}
                 <footer className="footer">
                     <footer className="inside">
                         <div>Copyright © 2018 BitSaber, Otaniemi, Finland</div>

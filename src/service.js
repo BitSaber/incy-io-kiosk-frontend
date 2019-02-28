@@ -57,7 +57,9 @@ const choicesUrl = `${baseUrl}/${organizationName}/observation-questions-choices
 const categoryUrl = `${baseUrl}/${organizationName}/observation-categories/links/${linkName}`;
 const placeUrl = `${baseUrl}/${organizationName}/places/links/${linkName}`;
 const postUrl = `${baseUrl}/${organizationName}/observations/links/${linkName}`
-const availableLangUrl = `${baseUrl}/${organizationName}/available-languages`
+
+// what should we do about this?
+const availableLangUrl = `${baseUrl}/${organizationName}/available-languages`;
 
 /* A generic function for GETting the data.data from an URL. */
 const getUrl = async (url, headers) => {
@@ -71,6 +73,7 @@ const getLanguages = () => {
     return getUrl(availableLangUrl)
 }
 
+// TODO: headers (the language) should be somehow automatically added to each request
 const getCategory = (langId) => {
     return getUrl(categoryUrl, { headers: {
         "Accept-Language": (langId + ';q=1')

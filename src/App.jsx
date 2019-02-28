@@ -1,9 +1,10 @@
 import React from 'react';
-import {DEFAULT_LANG_ID} from './constants/defaults';
+import { connect } from 'react-redux';
+import { string } from 'prop-types';
+
 import questionService from './service'
 import ThankYouPage from './pages/ThankYouPage';
 import QuestionPage from './pages/QuestionPage';
-
 import {
     SELECT,
     MULTI_SELECT,
@@ -22,7 +23,6 @@ const initialState = {
     areAllQuestionsDisplayed: false,
     categoryId: null,
     placeId: null,
-    languages: [],
     multiSelectArray: [],
     error: null
 }
@@ -40,20 +40,11 @@ class App extends React.Component {
     setInfo = async () => { // better name ideas?
         const cat = await questionService.getCategory()
         const loc = await questionService.getPlace()
-        const lang = await questionService.getLanguages()
-
-        // Sets the default language as the language, and changes it if default not included in API's languages
-        let langId = DEFAULT_LANG_ID
-        if (!lang.includes(DEFAULT_LANG_ID)) {
-            langId = lang[0].id
-        }
 
         // Sets the state with necessary attributes fetched from the API, and calls setFirstQuestion after
         this.setState({
             category: cat[0].id,
             place: loc[0].id,
-            languages: lang.map(language => language.id),
-            currentLanguageId: langId
         }, this.setFirstQuestion );
     }
 
@@ -65,10 +56,12 @@ class App extends React.Component {
     }
 
     setFirstQuestion = async () => {
-        const questions = await questionService.getQuestions(this.state.currentLanguageId);
+        const { currentLanguageId } = this.props;
+
+        const questions = await questionService.getQuestions(currentLanguageId);
         const questionsSorted = questions.sort( (object1, object2) => object1.id - object2.id )
         const currentQuestionID = questions[0].id;
-        const choices = await questionService.getChoices(currentQuestionID, this.state.currentLanguageId);
+        const choices = await questionService.getChoices(currentQuestionID, currentLanguageId);
         const questionType = questions[0].type
         const isReq = questions[0].required
         this.setState({
@@ -301,13 +294,10 @@ class App extends React.Component {
         }
 
         return (
-
             <QuestionPage
                 question={question}
                 questionChoices={this.state.currentQuestionChoices}
                 onChoiceClick={this.handleChoiceClick}
-                languages={this.state.languages}
-                onLangClick={this.changeLanguage}
                 questionType={this.state.currentQuestionType}
                 onSubmitMultiClick={this.submitMultiAnswer}
                 onSubmitFreeText={this.submitTextAnswer}
@@ -320,4 +310,14 @@ class App extends React.Component {
     }
 }
 
-export default App;
+App.propTypes = {
+    currentLanguageId: string.isRequired
+}
+
+const mapStateToProps = state => ({
+    currentLanguageId: state.intl.locale
+});
+
+export default connect(
+    mapStateToProps
+)(App);

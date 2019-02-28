@@ -8,10 +8,13 @@
     "axios": "^0.18.0",
     "jest": "^23.6.0",
     "prop-types": "^15.7.2",
-    "punycode": "^2.1.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-intl": "^2.8.0",
+    "react-intl-redux": "^2.1.0",
+    "react-redux": "^6.0.1",
+    "redux": "^4.0.1",
+    "redux-devtools-extension": "^2.13.8",
     "styled-components": "^4.1.2"
   },
   "scripts": {
