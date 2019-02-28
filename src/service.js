@@ -4,12 +4,14 @@ import Cookie from 'js-cookie';
 import {
     DEFAULT_ORG_NAME,
     DEFAULT_LINK_NAME,
+    DEFAULT_BASE_API_URL
 } from './constants/defaults';
 
 import {
-    BASE_API_URL,
     ORG_NAME_COOKIE,
     LINK_NAME_COOKIE,
+    BASE_URL_COOKIE,
+    BASE_URL_PARAM,
     ORG_NAME_URLPARAM,
     LINK_NAME_URLPARAM,
 } from './constants/config';
@@ -43,18 +45,23 @@ const linkName = getValueFromCookieUrlOrDefaultAndCache(
     LINK_NAME_COOKIE
 )
 
+const baseUrl = getValueFromCookieUrlOrDefaultAndCache(
+    DEFAULT_BASE_API_URL,
+    BASE_URL_PARAM,
+    BASE_URL_COOKIE
+)
 
 /* The open API links */
-const questionsUrl = `${BASE_API_URL}/${organizationName}/observation-questions/links/${linkName}`;
-const choicesUrl = `${BASE_API_URL}/${organizationName}/observation-questions-choices/links/${linkName}/`;
-const categoryUrl = `${BASE_API_URL}/${organizationName}/observation-categories/links/${linkName}`;
-const placeUrl = `${BASE_API_URL}/${organizationName}/places/links/${linkName}`;
-const postUrl = `${BASE_API_URL}/${organizationName}/observations/links/${linkName}`
+const questionsUrl = `${baseUrl}/${organizationName}/observation-questions/links/${linkName}`;
+const choicesUrl = `${baseUrl}/${organizationName}/observation-questions-choices/links/${linkName}/`;
+const categoryUrl = `${baseUrl}/${organizationName}/observation-categories/links/${linkName}`;
+const placeUrl = `${baseUrl}/${organizationName}/places/links/${linkName}`;
+const postUrl = `${baseUrl}/${organizationName}/observations/links/${linkName}`
 
 /* A generic function for GETting the data.data from an URL. */
 const getUrl = async (url) => {
     const response = await axios.get(url).catch(err => {
-        console.error(err);
+        console.error(err); // eslint-disable-line
     });
     return response.data.data;
 }
@@ -75,9 +82,9 @@ const getChoices = (id) => {
     return getUrl(choicesUrl + id)
 }
 
-const postObservation = async (data) => {
+const postObservation = async (data) => { // eslint-disable-line
     axios.post(postUrl, data)
-        .catch(error => console.error(error));
+        .catch(error => console.error(error)); // eslint-disable-line
 };
 
 function findGetParameter(parameterName) {

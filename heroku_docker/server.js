@@ -1,7 +1,6 @@
 'use strict';
 
 const express = require('express');
-console.log(process.env)
 
 // Constants
 const PORT = process.env.PORT || 3000;
