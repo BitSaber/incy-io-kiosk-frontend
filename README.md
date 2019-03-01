@@ -71,7 +71,7 @@ yarn start &>/dev/null &
 Run robot
 
 ```
-robot __tests__/robot
+robot -d robot_reports __tests__/robot
 ```
 
 Stop the docker image:
