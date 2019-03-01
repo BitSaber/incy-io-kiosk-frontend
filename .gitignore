@@ -53,4 +53,5 @@ yarn-error.log*
 
 .vscode/
 
-selenium-screenshot-*.png
+# Robot Framework
+/robot_reports/*

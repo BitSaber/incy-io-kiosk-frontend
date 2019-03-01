@@ -59,10 +59,10 @@ pipeline {
                 /* sh 'mkdir app' */
                 /* sh 'cp ../dist/1* ./app/' */
                 sh 'yarn start &'
-                sh 'robot __tests__/robot'
+                sh 'robot -d robot_reports __tests__/robot'
                 step([
                     $class : 'RobotPublisher',
-                    outputPath: "./",
+                    outputPath: "./robot_reports/",
                     outputFileName : "output.xml",
                     disableArchiveOutput : false,
                     reportFileName: "report.html",
