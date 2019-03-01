@@ -2,25 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { Provider } from 'react-redux';
-import { createStore, combineReducers } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import { IntlProvider } from 'react-intl-redux';
 
 import './index.css';
 import App from './App';
-import intlReducer, { initialState } from './reducers/intlReducer';
 
-const reducer = combineReducers({
-    intl: intlReducer
-});
-
-const store = createStore(
-    reducer,
-    {
-        intl: initialState
-    },
-    composeWithDevTools()
-);
+import store from './store/';
 
 ReactDOM.render(
     <Provider store={store}>
