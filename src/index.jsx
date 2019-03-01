@@ -9,9 +9,11 @@ import { IntlProvider } from 'react-intl-redux';
 import './index.css';
 import App from './App';
 import intlReducer, { initialState } from './reducers/intlReducer';
+import answerReducer from './reducers/answerReducer';
 
 const reducer = combineReducers({
-    intl: intlReducer
+    intl: intlReducer,
+    answers: answerReducer,
 });
 
 const store = createStore(

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { string } from 'prop-types';
+import { string, object, func } from 'prop-types';
 
 import questionService from './service'
 import ThankYouPage from './pages/ThankYouPage';
@@ -11,6 +11,7 @@ import {
     STR,
     UNINITIALIZED as QUESTION_TYPE_UNINITIALIZED
 } from './constants/questionTypes';
+import { addAnswerAction, resetAnswersAction } from './actions/answerActions';
 
 const initialState = {
     questions: [],
@@ -18,7 +19,6 @@ const initialState = {
     currentQuestionType: QUESTION_TYPE_UNINITIALIZED,
     currentQuestionChoices: [],
     currentIsRequired: false,
-    answers: {},
     isAllQuestionsAnswered: false,
     areAllQuestionsDisplayed: false,
     categoryId: null,
@@ -68,7 +68,7 @@ export class App extends React.Component {
 
     checkNextQuestion = (position) => {
         //makes an array with all answer ID's
-        const answerIDs = Object.values(this.state.answers).map(function (object) {
+        const answerIDs = Object.values(this.props.answers).map(function (object) {
             if (Array.isArray(object)) {
                 return object.map(x => x.id)
             }
@@ -175,52 +175,45 @@ export class App extends React.Component {
     }
 
     submitTextAnswer = async (text) => {
+        const { addAnswer } = this.props;
+        const { currentQuestionID } = this.state;
+
         if (('' + text).trim() === '' && this.state.currentIsRequired) {
+            this.showFieldRequired();
+        } else {
+            await addAnswer({
+                questionId: currentQuestionID,
+                answer: text,
+            });
+            this.moveToNextQuestion();
+        }
+    }
+
+    submitMultiAnswer = async () => {
+        const { addAnswer } = this.props;
+        const { currentQuestionID, multiSelectArray, currentIsRequired } = this.state;
+        if (multiSelectArray.length === 0 && currentIsRequired) {
             this.showFieldRequired()
         } else {
-            await this.setState((previousState) => {
-                return {
-                    ...previousState,
-                    answers: {
-                        ...previousState.answers,
-                        [previousState.currentQuestionID]: text
-                    }
-                }
+            await addAnswer({
+                questionId: currentQuestionID,
+                answer: multiSelectArray,
             });
             this.moveToNextQuestion()
         }
     }
 
-    submitMultiAnswer = async () => {
-        if (this.state.multiSelectArray.length === 0 && this.state.currentIsRequired) {
-            this.showFieldRequired()
-        } else {
-            // Sets the answer objects state when submitting multi select question
-            await this.setState((previousState) => {
-                return {
-                    ...previousState,
-                    answers: {
-                        ...previousState.answers,
-                        [previousState.currentQuestionID]: this.state.multiSelectArray
-                    }
-                }
-            })
-            this.moveToNextQuestion()
-        }
-    }
-
     singleAnswerClick = async (choice) => {
-        await this.setState((previousState) => {
-            return {
-                ...previousState,
-                answers: {
-                    ...previousState.answers,
-                    [previousState.currentQuestionID]: {
-                        id: choice.id
-                    }
-                }
-            }
-        });
+        const { addAnswer } = this.props;
+        const { currentQuestionID } = this.state;
+
+        await addAnswer({
+            questionId: currentQuestionID,
+            answer: {
+                id: choice.id
+            },
+        })
+
         this.moveToNextQuestion()
     }
 
@@ -247,9 +240,10 @@ export class App extends React.Component {
     }
 
     submitObservation = () => {
+        const { answers, resetAnswers } = this.props;
+
         const time = new Date().toString().substring(0, 21)
         const place = this.state.place
-        const answers = this.state.answers
         const category = this.state.category
         const data = {
             occurred_at: time,
@@ -260,9 +254,9 @@ export class App extends React.Component {
         }
 
         questionService.postObservation(data);
+        resetAnswers();
 
         this.setState({
-            answers: {}, // prevents the previous answers from being POSTed
             isAllQuestionsAnswered: true,
         });
 
@@ -306,13 +300,23 @@ export class App extends React.Component {
 }
 
 App.propTypes = {
-    currentLanguageId: string.isRequired
+    currentLanguageId: string.isRequired,
+    answers: object.isRequired,
+    addAnswer: func.isRequired,
+    resetAnswers: func.isRequired,
 }
 
 const mapStateToProps = state => ({
-    currentLanguageId: state.intl.locale
+    currentLanguageId: state.intl.locale,
+    answers: state.answers,
 });
 
+const mapDispatchToProps = {
+    addAnswer: addAnswerAction,
+    resetAnswers: resetAnswersAction,
+};
+
 export default connect(
-    mapStateToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(App);
