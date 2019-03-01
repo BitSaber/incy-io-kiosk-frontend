@@ -27,7 +27,7 @@ const initialState = {
     error: null
 }
 
-class App extends React.Component {
+export class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = { ...initialState };
@@ -45,7 +45,7 @@ class App extends React.Component {
         this.setState({
             category: cat[0].id,
             place: loc[0].id,
-        }, this.setFirstQuestion );
+        }, this.setFirstQuestion);
     }
 
     setFirstQuestion = async () => {
@@ -111,6 +111,8 @@ class App extends React.Component {
     }
 
     setQuestion = (newPosition) => {
+        const { currentLanguageId } = this.props;
+
         // Sets the question with the predetermined position as the new current question and gets the questions choices from the API.
         const newQuestion = this.state.questions.find(question => question.position === newPosition)
         const newQuestionID = newQuestion.id
@@ -122,7 +124,7 @@ class App extends React.Component {
             currentIsRequired: isReq,
         }, async () => {
             if (this.state.currentQuestionType !== STR) {
-                const newChoices = await questionService.getChoices(newQuestionID, this.state.currentLanguageId);
+                const newChoices = await questionService.getChoices(newQuestionID, currentLanguageId);
 
                 // Sets an empty answer array for multi select question
                 if (this.state.currentQuestionType === MULTI_SELECT) {
@@ -165,15 +167,15 @@ class App extends React.Component {
 
     showFieldRequired = () => {
         if (!this.state.error) {
-            this.setState({error: true});
+            this.setState({ error: true });
             setTimeout(() => {
-                this.setState({error: null});
+                this.setState({ error: null });
             }, 3000);
         }
     }
 
     submitTextAnswer = async (text) => {
-        if ((''+text).trim() === '' && this.state.currentIsRequired) {
+        if (('' + text).trim() === '' && this.state.currentIsRequired) {
             this.showFieldRequired()
         } else {
             await this.setState((previousState) => {

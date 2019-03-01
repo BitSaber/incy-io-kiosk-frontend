@@ -4,10 +4,11 @@ import { TextField, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types'
 import BigButton from '../components/BigButton';
 import SkipButton from '../components/SkipButton';
+import SubmitButton from '../components/SubmitButton'
 import '../css/style.css';
 import Language from '../components/Language';
 import ToggleButtons from '../components/ToggleButtons';
-import {FormattedMessage} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import {
     SELECT,
@@ -38,7 +39,7 @@ class QuestionPage extends React.Component {
     }
 
     submitMultiButton = () => {
-        return <BigButton onClick={() => this.props.onSubmitMultiClick()} text="Submit" />
+        return <SubmitButton onClick={() => this.props.onSubmitMultiClick()} />
     }
 
     renderSelect = () => {
@@ -65,12 +66,18 @@ class QuestionPage extends React.Component {
     }
 
     renderTextField = () => {
+        const label = (<FormattedMessage id="textfield.placeholder"
+            defaultMessage="Your answer"
+            description="Placeholder on text field"
+            values={{ what: 'react-intl' }}
+        />);
+
         return (
             <div className="center-align txt">
                 <form>
                     <TextField
                         id="outlined-bare"
-                        label="Please add text here"
+                        label={label}
                         multiline
                         rows="20"
                         margin="normal"
@@ -91,7 +98,7 @@ class QuestionPage extends React.Component {
             return this.renderMultiselect()
         } else if (questionType === STR) {
             return this.renderTextField()
-        } else if(questionType === QUESTION_TYPE_UNINITIALIZED) {
+        } else if (questionType === QUESTION_TYPE_UNINITIALIZED) {
             return null;
         } else {
             throw `Invalid Question type '${questionType}'`
@@ -102,7 +109,7 @@ class QuestionPage extends React.Component {
         return ( // XXX: does not render for some reason
             <div className="center-align txt">
                 <Grid container direction="row" justify="center">
-                    <BigButton
+                    <SubmitButton
                         onClick={() => {
                             this.props.onSubmitFreeText(this.state.text)
                             this.setState({
@@ -131,7 +138,7 @@ class QuestionPage extends React.Component {
             return this.submitMultiButton()
         } else if (questionType === STR) {
             return this.submitTextButton()
-        } else if(questionType === QUESTION_TYPE_UNINITIALIZED) {
+        } else if (questionType === QUESTION_TYPE_UNINITIALIZED) {
             return (<div>Loading, please wait...</div>)
         } else {
             throw `Invalid Question type '${questionType}'`
@@ -149,7 +156,6 @@ class QuestionPage extends React.Component {
 
         return (
             <div>
-                <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img> </div>
                 {this.renderLanguageButtons()}
                 <div className="question-div">
                     <h2 className="txt" variant="h2">{this.props.question.name}</h2>
@@ -185,9 +191,7 @@ class QuestionPage extends React.Component {
                     <footer className="inside">
                         <div>Copyright © 2018 BitSaber, Otaniemi, Finland</div>
                         <div className="under">
-                            <ul>
-                                <li> <a href="https://github.com/BitSaber/incy-io-kiosk-frontend" target="_blank" rel="noopener noreferrer">GitHub</a> </li>
-                            </ul>
+                            <div> <a href="https://github.com/BitSaber/incy-io-kiosk-frontend" target="_blank" rel="noopener noreferrer">GitHub</a> </div>
                         </div>
                     </footer>
                 </footer>
