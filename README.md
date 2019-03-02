@@ -40,6 +40,45 @@ Below you will find an example of our CI/CD pipeline
 
 ![Jenkins CI Pipeline](docs/img/jenkins-pipeline-example.png?raw=true "Jenkins CI Pipeline")
 
+## Running Robot Tests Outside Jenkins
+
+Start the docker image:
+
+```
+docker run \
+    --name jenkins-docker-robot-chrome \
+    -v $(pwd):/home/jenkins/incy-io-kiosk-frontend \
+    --rm \
+    -d \
+    --privileged \
+    docker.bitsaber.net/devops/jenkins-chrome-71:latest
+```
+
+Attach to it:
+
+```
+docker exec -it jenkins-docker-robot-chrome su - jenkins
+```
+
+Configure PATH and start dev server:
+
+```
+PATH="/opt/tools/yarn/yarn-v1.12.3/bin:/opt/tools/nodejs/node-v11.4.0-linux-x64/bin:$PATH"
+cd incy-io-kiosk-frontend
+yarn start &>/dev/null &
+```
+
+Run robot
+
+```
+robot -d robot_reports __tests__/robot
+```
+
+Stop the docker image:
+
+```
+docker stop jenkins-docker-robot-chrome
+```
 
 ## Authors
 
