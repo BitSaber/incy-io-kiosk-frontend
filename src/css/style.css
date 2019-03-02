@@ -1,9 +1,9 @@
 body {
 background-color: #ffffff;
- font-family: "Roboto",sans-serif; 
+ font-family: "Roboto",sans-serif;
  color: #ffffff;
  margin: 0px;
-max-width: 1109px;
+ max-width: 11000px;
 }
 
 html {
@@ -15,12 +15,12 @@ overflow-y:hidden;
 	margin:70px auto;
 	width: 100%;
 	height: 90px;
-	background-color: #055679; 
+	background-color: #055679;
 }
 .answer-div {
 	margin:70px auto;
 	height: 90px;
-	background-color: #055679; 
+	background-color: #055679;
 }
 
 .txt {
@@ -61,9 +61,15 @@ overflow-y:hidden;
   width: 100%;
   height: 5rem;
   background-color: #044460;
-color: #ffffff;
-font-size: 10px;
-letter-spacing: 1px;
+  color: #ffffff;
+  font-size: 10px;
+  letter-spacing: 1px;
+	text-align: center;
+}
+
+.skipped {
+  margin:150px;
+  text-align: center;
 }
 
 .inside {
@@ -88,49 +94,12 @@ a:hover{
 
 /* Button for getting questions */
 .newButton {
-	/* -moz-box-shadow: 0px 0px 0px 2px #9fb4f2;
-	-webkit-box-shadow: 0px 0px 0px 2px #9fb4f2;
-	box-shadow: 0px 0px 0px 2px #9fb4f2; */
 	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #055679), color-stop(1, #055679));
-	background:-moz-linear-gradient(top, #055679 5%, #055679 100%);
-	background:-webkit-linear-gradient(top, #055679 5%, #055679 100%);
-	background:-o-linear-gradient(top, #055679 5%, #055679 100%);
-	background:-ms-linear-gradient(top, #055679 5%, #055679 100%);
-	background:linear-gradient(to bottom, #055679 5%, #055679 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#055679', endColorstr='#055679',GradientType=0);
-	background-color:#055679;
-	/* -moz-border-radius:5px;
-	-webkit-border-radius:5px; */
-	/* border-radius:5px; */
-	border:1px solid #ffffff;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:19px;
-	font-weight:bold;
-	padding:60px 60px; 
-	text-decoration:none;
-	text-shadow:0px 1px 0px #005667;
-	margin:10px;
-	white-space: normal;
-	
-}
-.newButton:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #055679), color-stop(1, #055679));
-	background:-moz-linear-gradient(top, #055679 5%, #055679 100%);
-	background:-webkit-linear-gradient(top, #055679 5%, #055679 100%);
-	background:-o-linear-gradient(top, #055679 5%, #055679 100%);
-	background:-ms-linear-gradient(top, #055679 5%, #055679 100%);
-	background:linear-gradient(to bottom, #055679 5%, #055679 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#055679', endColorstr='#055679',GradientType=0);
-	background-color:#055679;
-}
-.newButton:active {
-	position:relative;
-	top:1px;
 }
 
-        
+/* For submit button and skip button */
+.specialButton {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #1eade6), color-stop(1, #1eade6));
+}
 
-        	
+

@@ -1,9 +1,10 @@
 import React from 'react';
-import {DEFAULT_LANG_ID} from './constants/defaults';
+import { connect } from 'react-redux';
+import { string } from 'prop-types';
+
 import questionService from './service'
 import ThankYouPage from './pages/ThankYouPage';
 import QuestionPage from './pages/QuestionPage';
-
 import {
     SELECT,
     MULTI_SELECT,
@@ -22,12 +23,11 @@ const initialState = {
     areAllQuestionsDisplayed: false,
     categoryId: null,
     placeId: null,
-    languages: [],
     multiSelectArray: [],
     error: null
 }
 
-class App extends React.Component {
+export class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = { ...initialState };
@@ -40,35 +40,21 @@ class App extends React.Component {
     setInfo = async () => { // better name ideas?
         const cat = await questionService.getCategory()
         const loc = await questionService.getPlace()
-        const lang = await questionService.getLanguages()
-
-        // Sets the default language as the language, and changes it if default not included in API's languages
-        let langId = DEFAULT_LANG_ID
-        if (!lang.includes(DEFAULT_LANG_ID)) {
-            langId = lang[0].id
-        }
 
         // Sets the state with necessary attributes fetched from the API, and calls setFirstQuestion after
         this.setState({
             category: cat[0].id,
             place: loc[0].id,
-            languages: lang.map(language => language.id),
-            currentLanguageId: langId
-        }, this.setFirstQuestion );
-    }
-
-    changeLanguage = async (languageId) => {
-        // Sets the chosen language as the new language and returns to the first question
-        await this.setState( {
-            currentLanguageId: languageId
-        }, this.setFirstQuestion)
+        }, this.setFirstQuestion);
     }
 
     setFirstQuestion = async () => {
-        const questions = await questionService.getQuestions(this.state.currentLanguageId);
+        const { currentLanguageId } = this.props;
+
+        const questions = await questionService.getQuestions(currentLanguageId);
         const questionsSorted = questions.sort( (object1, object2) => object1.id - object2.id )
         const currentQuestionID = questions[0].id;
-        const choices = await questionService.getChoices(currentQuestionID, this.state.currentLanguageId);
+        const choices = await questionService.getChoices(currentQuestionID, currentLanguageId);
         const questionType = questions[0].type
         const isReq = questions[0].required
         this.setState({
@@ -125,6 +111,8 @@ class App extends React.Component {
     }
 
     setQuestion = (newPosition) => {
+        const { currentLanguageId } = this.props;
+
         // Sets the question with the predetermined position as the new current question and gets the questions choices from the API.
         const newQuestion = this.state.questions.find(question => question.position === newPosition)
         const newQuestionID = newQuestion.id
@@ -136,7 +124,7 @@ class App extends React.Component {
             currentIsRequired: isReq,
         }, async () => {
             if (this.state.currentQuestionType !== STR) {
-                const newChoices = await questionService.getChoices(newQuestionID, this.state.currentLanguageId);
+                const newChoices = await questionService.getChoices(newQuestionID, currentLanguageId);
 
                 // Sets an empty answer array for multi select question
                 if (this.state.currentQuestionType === MULTI_SELECT) {
@@ -179,15 +167,15 @@ class App extends React.Component {
 
     showFieldRequired = () => {
         if (!this.state.error) {
-            this.setState({error: 'This question is required'});
+            this.setState({ error: true });
             setTimeout(() => {
-                this.setState({error: null});
+                this.setState({ error: null });
             }, 3000);
         }
     }
 
     submitTextAnswer = async (text) => {
-        if ((''+text).trim() === '' && this.state.currentIsRequired) {
+        if (('' + text).trim() === '' && this.state.currentIsRequired) {
             this.showFieldRequired()
         } else {
             await this.setState((previousState) => {
@@ -301,21 +289,30 @@ class App extends React.Component {
         }
 
         return (
-
             <QuestionPage
                 question={question}
                 questionChoices={this.state.currentQuestionChoices}
                 onChoiceClick={this.handleChoiceClick}
-                languages={this.state.languages}
-                onLangClick={this.changeLanguage}
                 questionType={this.state.currentQuestionType}
                 onSubmitMultiClick={this.submitMultiAnswer}
                 onSubmitFreeText={this.submitTextAnswer}
                 questionPos={this.state.questions.findIndex(question => question.id === this.state.currentQuestionID)}
                 error={this.state.error}
+                currentIsRequired={this.state.currentIsRequired}
+                skipClick={this.moveToNextQuestion}
             />
         );
     }
 }
 
-export default App;
+App.propTypes = {
+    currentLanguageId: string.isRequired
+}
+
+const mapStateToProps = state => ({
+    currentLanguageId: state.intl.locale
+});
+
+export default connect(
+    mapStateToProps
+)(App);
