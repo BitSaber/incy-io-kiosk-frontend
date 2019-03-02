@@ -3,13 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^3.6.1",
-    "@material-ui/lab": "^3.0.0-alpha.30",
-    "axios": "^0.18.0",
-    "jest": "^23.6.0",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
-    "styled-components": "^4.1.2"
   },
   "scripts": {
     "start": "webpack-dev-server --hot --inline --config webpack.dev.js --progress",
@@ -48,13 +41,27 @@
     "identity-obj-proxy": "^3.0.0",
     "jest-sonar-reporter": "^2.0.0",
     "js-cookie": "^2.2.0",
+    "redux-thunk": "^2.3.0",
     "style-loader": "^0.23.1",
     "uglifyjs-webpack-plugin": "^2.0.1",
     "webpack": "^4.26.1",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.10",
     "webpack-merge": "^4.1.4",
-    "webpack-shell-plugin": "^0.5.0"
+    "webpack-shell-plugin": "^0.5.0",
+    "@material-ui/core": "^3.6.1",
+    "@material-ui/lab": "^3.0.0-alpha.30",
+    "axios": "^0.18.0",
+    "jest": "^23.6.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-intl": "^2.8.0",
+    "react-intl-redux": "^2.1.0",
+    "react-redux": "^6.0.1",
+    "redux": "^4.0.1",
+    "redux-devtools-extension": "^2.13.8",
+    "styled-components": "^4.1.2"
   },
   "jest": {
     "moduleNameMapper": {
@@ -68,8 +75,8 @@
     "browser": true,
     "collectCoverage": true,
     "collectCoverageFrom": [
-        "<rootDir>/src/**/*.{js,jsx}",
-        "!<rootDir>/src/node_modules**"
+      "<rootDir>/src/**/*.{js,jsx}",
+      "!<rootDir>/src/node_modules**"
     ],
     "verbose": false
   }
