@@ -6,7 +6,7 @@ import BigButton from '../components/BigButton';
 import SkipButton from '../components/SkipButton';
 import SubmitButton from '../components/SubmitButton'
 import '../css/style.css';
-import Language from '../components/Language';
+import Language from '../containers/Language';
 import ToggleButtons from '../components/ToggleButtons';
 import { FormattedMessage } from 'react-intl';
 

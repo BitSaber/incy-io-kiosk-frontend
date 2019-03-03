@@ -44,6 +44,35 @@ pipeline {
                 sh 'yarn lint'
             }
         }
+        stage('Robot Tests') {
+            agent {
+                label 'google-chrome'
+            }
+            environment {
+                PATH =
+                "$PATH:/opt/tools/yarn/yarn-v1.12.3/bin:/opt/tools/nodejs/node-v11.4.0-linux-x64/bin:/opt/chromedriver/"
+            }
+            steps {
+                sh 'yarn install'
+                /* sh 'cd heroku_docker' */
+                /* sh 'yarn install' */
+                /* sh 'mkdir app' */
+                /* sh 'cp ../dist/1* ./app/' */
+                sh 'yarn start &'
+                sh 'robot -d robot_reports __tests__/robot'
+                step([
+                    $class : 'RobotPublisher',
+                    outputPath: "./robot_reports/",
+                    outputFileName : "output.xml",
+                    disableArchiveOutput : false,
+                    reportFileName: "report.html",
+                    logFileName: "log.html",
+                    passThreshold : 100,
+                    unstableThreshold: 95.0,
+                    otherFiles : "*.png"
+                ])
+            }
+        }
         stage('Build Project') {
             steps {
                 sh 'yarn build'
