@@ -54,7 +54,9 @@ pipeline {
                 PATH = "$PATH:/opt/chromedriver/"
             }
             steps {
+                sh 'ls -la'
                 sh 'cd heroku_docker'
+                sh 'ls -la'
                 sh 'cp -r ../dist ./app'
                 sh 'cd ..'
                 sh 'docker build --tag incy-io-kiosk-frontend .'
