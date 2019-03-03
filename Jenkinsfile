@@ -55,12 +55,10 @@ pipeline {
             }
             steps {
                 sh 'cd heroku_docker'
-                sh 'yarn install'
-                sh 'mkdir app'
-                sh 'cp ../dist/* ./app/'
+                sh 'cp -r ../dist ./app'
                 sh 'cd ..'
                 sh 'docker build --tag incy-io-kiosk-frontend .'
-                sh 'docker run --name incy-io-kiosk-frontend -p 3000:3000 incy-io-kiosk-frontend'
+                sh 'docker run -d --name incy-io-kiosk-frontend -p 3000:3000 incy-io-kiosk-frontend'
                 sh 'robot -d robot_reports __tests__/robot'
                 sh 'docker stop incy-io-kiosk-frontend'
                 step([
