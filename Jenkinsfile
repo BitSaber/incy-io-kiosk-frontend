@@ -45,21 +45,19 @@ pipeline {
             }
         }
         stage('Robot Tests') {
-            agent {
-                label 'google-chrome'
-            }
             environment {
-                PATH =
-                "$PATH:/opt/tools/yarn/yarn-v1.12.3/bin:/opt/tools/nodejs/node-v11.4.0-linux-x64/bin:/opt/chromedriver/"
+                PATH = "$PATH:/opt/chromedriver/"
             }
             steps {
+                sh 'cd heroku_docker'
                 sh 'yarn install'
-                /* sh 'cd heroku_docker' */
-                /* sh 'yarn install' */
-                /* sh 'mkdir app' */
-                /* sh 'cp ../dist/1* ./app/' */
-                sh 'yarn start &'
+                sh 'mkdir app'
+                sh 'cp ../dist/* ./app/'
+                sh 'cd ..'
+                sh 'docker build --tag incy-io-kiosk-frontend .'
+                sh 'docker run --name incy-io-kiosk-frontend -p 3000:3000 incy-io-kiosk-frontend'
                 sh 'robot -d robot_reports __tests__/robot'
+                sh 'docker stop incy-io-kiosk-frontend'
                 step([
                     $class : 'RobotPublisher',
                     outputPath: "./robot_reports/",
