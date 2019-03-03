@@ -54,13 +54,7 @@ pipeline {
                 PATH = "$PATH:/opt/chromedriver/"
             }
             steps {
-                sh 'ls -la'
-                sh 'cd heroku_docker'
-                sh 'pwd'
-                sh 'ls -la'
-                sh 'cp -r ../dist ./app'
-                sh 'cd ..'
-                sh 'pwd'
+                sh 'cp -r dist heroku_docker/app'
                 sh 'docker build --tag incy-io-kiosk-frontend .'
                 sh 'docker run -d --name incy-io-kiosk-frontend -p 3000:3000 incy-io-kiosk-frontend'
                 sh 'robot -d robot_reports __tests__/robot'
