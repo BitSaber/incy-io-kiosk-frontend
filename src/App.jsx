@@ -11,7 +11,6 @@ import {
     STR,
     UNINITIALIZED as QUESTION_TYPE_UNINITIALIZED
 } from './constants/questionTypes';
-import { addAnswerAction, resetAnswersAction } from './actions/answerActions';
 
 const initialState = {
     questions: [],
@@ -311,12 +310,4 @@ const mapStateToProps = state => ({
     answers: state.answers,
 });
 
-const mapDispatchToProps = {
-    addAnswer: addAnswerAction,
-    resetAnswers: resetAnswersAction,
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(App);
+export default connect(mapStateToProps)(App);
