@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { string, object, func } from 'prop-types';
 
 import questionService from './service'
@@ -305,9 +304,4 @@ App.propTypes = {
     resetAnswers: func.isRequired,
 }
 
-const mapStateToProps = state => ({
-    currentLanguageId: state.intl.locale,
-    answers: state.answers,
-});
-
-export default connect(mapStateToProps)(App);
+export default App;

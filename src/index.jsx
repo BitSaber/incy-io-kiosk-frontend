@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { IntlProvider } from 'react-intl-redux';
 
 import './index.css';
-import App from './App';
+import App from './containers/App';
 
 import store from './store/';
 
