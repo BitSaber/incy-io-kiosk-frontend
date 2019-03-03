@@ -1,4 +1,4 @@
-import { getQuestionsAction, GET_QUESTIONS } from "../../src/actions/questionActions";
+import { setQuestionsAction, SET_QUESTIONS } from "../../src/actions/questionActions";
 
 // we mock the service so that we can return custom data
 jest.mock("../../src/service", () => {
@@ -24,14 +24,14 @@ jest.mock("../../src/service", () => {
 });
 
 describe("questionActions", () => {
-    it("should get and sort the questions", async () => {
-        const action = await getQuestionsAction("en");
+    it("should get, sort and set the questions", async () => {
+        const action = await setQuestionsAction("en");
         const mockDispatch = jest.fn();
         await action(mockDispatch);
 
         expect(mockDispatch).toHaveBeenCalledTimes(1);
         expect(mockDispatch.mock.calls[0][0]).toEqual({
-            type: GET_QUESTIONS,
+            type: SET_QUESTIONS,
             payload: [
                 {
                     id: 5201,

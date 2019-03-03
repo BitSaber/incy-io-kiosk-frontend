@@ -33,8 +33,8 @@ class App extends React.Component {
     async componentDidMount() {
         this.setInfo();
 
-        const { getQuestions, currentLanguageId } = this.props;
-        getQuestions(currentLanguageId);
+        const { setQuestions, currentLanguageId } = this.props;
+        setQuestions(currentLanguageId);
     }
 
     setInfo = async () => { // better name ideas?
@@ -309,7 +309,7 @@ App.propTypes = {
     addAnswer: func.isRequired,
     resetAnswers: func.isRequired,
     questions: object.isRequired,
-    getQuestions: func.isRequired,
+    setQuestions: func.isRequired,
 }
 
 export default App;

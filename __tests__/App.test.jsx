@@ -4,7 +4,7 @@ import App from '../src/App';
 
 describe('<App />', () => {
     it('should set the initial state correctly in constructor.', () => {
-        const getQuestions = jest.fn();
+        const setQuestions = jest.fn();
 
         const component = shallow(
             <App
@@ -12,7 +12,7 @@ describe('<App />', () => {
                 answers={{}}
                 addAnswer={jest.fn()}
                 resetAnswers={jest.fn()}
-                getQuestions={getQuestions}
+                setQuestions={setQuestions}
                 questions={{ allQuestions: [] }}
             />
         );
@@ -21,18 +21,18 @@ describe('<App />', () => {
         expect(component.state().isAllQuestionsAnswered).toEqual(false);
     });
 
-    it('should call getQuestions on componentDidMount()', () => {
-        const getQuestions = jest.fn();
+    it('should call setQuestions on componentDidMount()', () => {
+        const setQuestions = jest.fn();
         shallow(
             <App
                 currentLanguageId="en"
                 answers={{}}
                 addAnswer={jest.fn()}
                 resetAnswers={jest.fn()}
-                getQuestions={getQuestions}
+                setQuestions={setQuestions}
                 questions={{ allQuestions: [] }}
             />
         );
-        expect(getQuestions.mock.toBeCalled)
+        expect(setQuestions.mock.toBeCalled)
     });
 })

@@ -1,5 +1,5 @@
 import { addAnswerAction, resetAnswersAction } from '../actions/answerActions';
-import { getQuestionsAction } from '../actions/questionActions';
+import { setQuestionsAction } from '../actions/questionActions';
 import { connect } from 'react-redux';
 import App from '../App';
 
@@ -12,7 +12,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     addAnswer: addAnswerAction,
     resetAnswers: resetAnswersAction,
-    getQuestions: getQuestionsAction,
+    setQuestions: setQuestionsAction,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
