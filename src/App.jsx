@@ -12,7 +12,6 @@ import {
 } from './constants/questionTypes';
 
 const initialState = {
-    questions: [],
     currentQuestionID: null,
     currentQuestionType: QUESTION_TYPE_UNINITIALIZED,
     currentQuestionChoices: [],
@@ -25,7 +24,7 @@ const initialState = {
     error: null
 }
 
-export class App extends React.Component {
+class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = { ...initialState };
@@ -33,6 +32,9 @@ export class App extends React.Component {
 
     async componentDidMount() {
         this.setInfo();
+
+        const { setQuestions, currentLanguageId } = this.props;
+        setQuestions(currentLanguageId);
     }
 
     setInfo = async () => { // better name ideas?
@@ -48,15 +50,13 @@ export class App extends React.Component {
 
     setFirstQuestion = async () => {
         const { currentLanguageId } = this.props;
+        const { allQuestions } = this.props.questions;
 
-        const questions = await questionService.getQuestions(currentLanguageId);
-        const questionsSorted = questions.sort( (object1, object2) => object1.id - object2.id )
-        const currentQuestionID = questions[0].id;
+        const currentQuestionID = allQuestions[0].id;
         const choices = await questionService.getChoices(currentQuestionID, currentLanguageId);
-        const questionType = questions[0].type
-        const isReq = questions[0].required
+        const questionType = allQuestions[0].type
+        const isReq = allQuestions[0].required
         this.setState({
-            questions: questionsSorted,
             currentQuestionID: currentQuestionID,
             currentIsRequired: isReq,
             currentQuestionChoices: choices,
@@ -65,6 +65,8 @@ export class App extends React.Component {
     }
 
     checkNextQuestion = (position) => {
+        const { allQuestions } = this.props.questions;
+
         //makes an array with all answer ID's
         const answerIDs = Object.values(this.props.answers).map(function (object) {
             if (Array.isArray(object)) {
@@ -74,7 +76,7 @@ export class App extends React.Component {
                 return object.id
             }
         }).flat()
-        const nextQuestion = this.state.questions.find(question => question.position === position)
+        const nextQuestion = allQuestions.find(question => question.position === position)
         if (nextQuestion.depends_on_question_id === null) {
             return true
         } else if (answerIDs.includes(nextQuestion.depends_on_choice_id)) {
@@ -85,9 +87,10 @@ export class App extends React.Component {
     }
 
     setNextQuestion = async () => {
+        const { allQuestions } = this.props.questions;
         // finds the next question to display
-        const questionsLen = this.state.questions.length
-        var position = this.state.questions.find(
+        const questionsLen = allQuestions.length
+        var position = allQuestions.find(
             question => question.id === this.state.currentQuestionID).position + 1
         var flag = true
         // Loop through the questions by position, and determine if the question at hand needs to be displayed
@@ -109,10 +112,11 @@ export class App extends React.Component {
     }
 
     setQuestion = (newPosition) => {
-        const { currentLanguageId } = this.props;
+        const { currentLanguageId, questions } = this.props;
+        const { allQuestions } = questions;
 
         // Sets the question with the predetermined position as the new current question and gets the questions choices from the API.
-        const newQuestion = this.state.questions.find(question => question.position === newPosition)
+        const newQuestion = allQuestions.find(question => question.position === newPosition)
         const newQuestionID = newQuestion.id
         const questionType = newQuestion.type
         const isReq = newQuestion.required
@@ -216,8 +220,9 @@ export class App extends React.Component {
     }
 
     moveToNextQuestion = () => {
-        const { currentQuestionID, questions } = this.state;
-        const position = questions.findIndex(question => question.id === currentQuestionID);
+        const { currentQuestionID } = this.state;
+        const { allQuestions } = this.props.questions;
+        const position = allQuestions.findIndex(question => question.id === currentQuestionID);
 
         if (!this.state.areAllQuestionsDisplayed) { // more questions
             this.setNextQuestion(position);
@@ -269,8 +274,9 @@ export class App extends React.Component {
     }
 
     render() {
+        const { allQuestions} = this.props.questions;
 
-        const question = this.state.questions.find(question => question.id === this.state.currentQuestionID);
+        const question = allQuestions.find(question => question.id === this.state.currentQuestionID);
         // question is undefined and we are waiting for it from the server
         if (!question) {
             return null;
@@ -288,7 +294,7 @@ export class App extends React.Component {
                 questionType={this.state.currentQuestionType}
                 onSubmitMultiClick={this.submitMultiAnswer}
                 onSubmitFreeText={this.submitTextAnswer}
-                questionPos={this.state.questions.findIndex(question => question.id === this.state.currentQuestionID)}
+                questionPos={allQuestions.findIndex(question => question.id === this.state.currentQuestionID)}
                 error={this.state.error}
                 currentIsRequired={this.state.currentIsRequired}
                 skipClick={this.moveToNextQuestion}
@@ -302,6 +308,8 @@ App.propTypes = {
     answers: object.isRequired,
     addAnswer: func.isRequired,
     resetAnswers: func.isRequired,
+    questions: object.isRequired,
+    setQuestions: func.isRequired,
 }
 
 export default App;
