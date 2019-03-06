@@ -32,10 +32,11 @@ class App extends React.Component {
 
         const { setFunfacts, setQuestions, currentLanguageId } = this.props;
         setFunfacts(currentLanguageId)
-        setQuestions(currentLanguageId);
-        this.setFirstQuestion
+        await setQuestions(currentLanguageId);
+
+        this.setFirstQuestion()
     }
-    
+
 
     setFirstQuestion = async () => {
         const { currentLanguageId } = this.props;
@@ -252,7 +253,8 @@ class App extends React.Component {
             isAllQuestionsAnswered: true,
         });
 
-        this.setInfo();
+        this.props.setFunfacts(this.props.currentLanguageId);
+        this.setFirstQuestion;
 
         setTimeout(() => {
             this.setState({
@@ -263,6 +265,7 @@ class App extends React.Component {
     }
 
     render() {
+        console.log(this.state.currentQuestionID)
         const { allQuestions} = this.props.questions;
 
         const question = allQuestions.find(question => question.id === this.state.currentQuestionID);
