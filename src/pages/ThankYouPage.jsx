@@ -17,9 +17,6 @@ const ThankYouPage = () => (
         <footer className="footer">
             <footer className="inside">
                 <div>Copyright © 2018 BitSaber, Otaniemi, Finland</div>
-                <div className="under">
-                    <div> <a href="https://github.com/BitSaber/incy-io-kiosk-frontend" target="_blank" rel="noopener noreferrer">GitHub</a> </div>
-                </div>
             </footer>
         </footer>
 
