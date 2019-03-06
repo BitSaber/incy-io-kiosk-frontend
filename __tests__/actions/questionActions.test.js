@@ -4,16 +4,16 @@ import { setQuestionsAction, SET_QUESTIONS } from "../../src/actions/questionAct
 jest.mock("../../src/service", () => {
     const mockQuestions = [
         {
-            id: 5205,
+            position: 2,
         },
         {
-            id: 5206,
+            position: 3,
         },
         {
-            id: 5207,
+            position: 4,
         },
         {
-            id: 5201,
+            position: 1,
         }
     ];
     const mockGetQuestions = jest.fn();
@@ -34,16 +34,16 @@ describe("questionActions", () => {
             type: SET_QUESTIONS,
             payload: [
                 {
-                    id: 5201,
+                    position: 1,
                 },
                 {
-                    id: 5205,
+                    position: 2,
                 },
                 {
-                    id: 5206,
+                    position: 3,
                 },
                 {
-                    id: 5207,
+                    position: 4,
                 },
             ],
         });
