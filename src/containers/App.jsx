@@ -4,7 +4,7 @@ import { setFunfactsAction } from '../actions/funfactsActions';
 import { connect } from 'react-redux';
 import App from '../App';
 
-const mapStateToProps = state => console.log(state) || ({
+const mapStateToProps = state => ({
     currentLanguageId: state.intl.locale,
     answers: state.answers,
     questions: state.questions,

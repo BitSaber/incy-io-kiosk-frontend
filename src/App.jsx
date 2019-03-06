@@ -31,7 +31,7 @@ class App extends React.Component {
     async componentDidMount() {
 
         const { setFunfacts, setQuestions, currentLanguageId } = this.props;
-        setFunfacts(currentLanguageId)
+        await setFunfacts(currentLanguageId)
         await setQuestions(currentLanguageId);
 
         this.setFirstQuestion()
@@ -234,15 +234,12 @@ class App extends React.Component {
 
     submitObservation = () => {
         const { answers, resetAnswers, place, category } = this.props;
-
         const time = new Date().toString().substring(0, 21)
-        const placeA = place.data
-        const categoryA = category.data
         const data = {
             occurred_at: time,
-            place: placeA,
+            place: place.data[0].id,
             deadline: null,
-            category: categoryA,
+            category: category.data[0].id,
             answers: answers
         }
 
@@ -265,7 +262,6 @@ class App extends React.Component {
     }
 
     render() {
-        console.log(this.state.currentQuestionID)
         const { allQuestions} = this.props.questions;
 
         const question = allQuestions.find(question => question.id === this.state.currentQuestionID);
@@ -303,7 +299,8 @@ App.propTypes = {
     questions: object.isRequired,
     setQuestions: func.isRequired,
     place: object.isRequired,
-    category: object.isRequired
+    category: object.isRequired,
+    setFunfacts: func.isRequired
 }
 
 export default App;
