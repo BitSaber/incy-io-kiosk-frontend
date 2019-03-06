@@ -1,5 +1,5 @@
 import React from 'react';
-import { string, object, func } from 'prop-types';
+import { string, object, func, bool } from 'prop-types';
 
 import questionService from './service'
 import ThankYouPage from './pages/ThankYouPage';
@@ -16,8 +16,6 @@ const initialState = {
     currentQuestionType: QUESTION_TYPE_UNINITIALIZED,
     currentQuestionChoices: [],
     currentIsRequired: false,
-    isAllQuestionsAnswered: false,
-    areAllQuestionsDisplayed: false,
     categoryId: null,
     placeId: null,
     multiSelectArray: [],
@@ -87,7 +85,7 @@ class App extends React.Component {
     }
 
     setNextQuestion = async () => {
-        const { allQuestions } = this.props.questions;
+        const { questions: { allQuestions }, setAllAnswered, setAllDisplayed } = this.props;
         // finds the next question to display
         const questionsLen = allQuestions.length
         var position = allQuestions.find(
@@ -104,9 +102,9 @@ class App extends React.Component {
         }
         // Check if the last displayed question still needs an answer, or if the thank you page can be displayed
         if (position >= questionsLen) {
-            this.state.areAllQuestionsDisplayed = true
+            setAllAnswered(true)
             if (flag) {
-                this.state.isAllQuestionsAnswered = true
+                setAllDisplayed(true)
             }
         }
     }
@@ -221,12 +219,17 @@ class App extends React.Component {
 
     moveToNextQuestion = () => {
         const { currentQuestionID } = this.state;
-        const { allQuestions } = this.props.questions;
+        const {
+            questions: { allQuestions },
+            flags: { isAllQuestionsAnswered, isAllQuestionsDisplayed }
+        } = this.props;
         const position = allQuestions.findIndex(question => question.id === currentQuestionID);
 
-        if (!this.state.areAllQuestionsDisplayed) { // more questions
+        console.log(this.props)
+
+        if (!isAllQuestionsDisplayed) { // more questions
             this.setNextQuestion(position);
-            if (this.state.areAllQuestionsDisplayed && this.state.isAllQuestionsAnswered) {
+            if (isAllQuestionsDisplayed && isAllQuestionsAnswered) {
                 this.submitObservation()
             }
         } else { // no more questions
@@ -243,7 +246,7 @@ class App extends React.Component {
     }
 
     submitObservation = () => {
-        const { answers, resetAnswers } = this.props;
+        const { answers, resetAnswers, setAllAnswered, setAllDisplayed } = this.props;
 
         const time = new Date().toString().substring(0, 21)
         const place = this.state.place
@@ -259,22 +262,18 @@ class App extends React.Component {
         questionService.postObservation(data);
         resetAnswers();
 
-        this.setState({
-            isAllQuestionsAnswered: true,
-        });
+        setAllAnswered(true);
 
         this.setInfo();
 
         setTimeout(() => {
-            this.setState({
-                isAllQuestionsAnswered: false,
-                areAllQuestionsDisplayed: false
-            });
+            setAllAnswered(false);
+            setAllDisplayed(false);
         }, 3000);
     }
 
     render() {
-        const { allQuestions} = this.props.questions;
+        const { questions: { allQuestions }, flags: {isAllQuestionsAnswered} } = this.props;
 
         const question = allQuestions.find(question => question.id === this.state.currentQuestionID);
         // question is undefined and we are waiting for it from the server
@@ -282,7 +281,7 @@ class App extends React.Component {
             return null;
         }
 
-        if (this.state.isAllQuestionsAnswered) {
+        if (isAllQuestionsAnswered) {
             return <ThankYouPage />;
         }
 
@@ -310,6 +309,10 @@ App.propTypes = {
     resetAnswers: func.isRequired,
     questions: object.isRequired,
     setQuestions: func.isRequired,
+    isAllQuestionsAnswered: bool.isRequired,
+    isAllQuestionsDisplayed: bool.isRequired,
+    setAllAnswered: func.isRequired,
+    setAllDisplayed: func.isRequired,
 }
 
 export default App;
