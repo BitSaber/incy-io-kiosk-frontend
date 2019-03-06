@@ -1,5 +1,7 @@
-export const SET_QUESTIONS = 'SET_QUESTIONS';
 import service from '../service';
+
+export const SET_QUESTIONS = 'SET_QUESTIONS';
+export const SET_CURRENT_QUESTION = 'SET_CURRENT_QUESTION';
 
 export const setQuestionsAction = (langId) => {
     return async (dispatch) => {
@@ -11,6 +13,11 @@ export const setQuestionsAction = (langId) => {
         });
     };
 };
+
+export const setCurrentQuestionAction = (question) => ({
+    type: SET_CURRENT_QUESTION,
+    payload: question
+});
 
 export default {
     setQuestionsAction,
