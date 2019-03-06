@@ -18,8 +18,6 @@ const initialState = {
     currentIsRequired: false,
     isAllQuestionsAnswered: false,
     areAllQuestionsDisplayed: false,
-    categoryId: null,
-    placeId: null,
     multiSelectArray: [],
     error: null
 }
@@ -31,22 +29,13 @@ class App extends React.Component {
     }
 
     async componentDidMount() {
-        this.setInfo();
 
-        const { setQuestions, currentLanguageId } = this.props;
+        const { setFunfacts, setQuestions, currentLanguageId } = this.props;
+        setFunfacts(currentLanguageId)
         setQuestions(currentLanguageId);
+        this.setFirstQuestion
     }
-
-    setInfo = async () => { // better name ideas?
-        const cat = await questionService.getCategory()
-        const loc = await questionService.getPlace()
-
-        // Sets the state with necessary attributes fetched from the API, and calls setFirstQuestion after
-        this.setState({
-            category: cat[0].id,
-            place: loc[0].id,
-        }, this.setFirstQuestion);
-    }
+    
 
     setFirstQuestion = async () => {
         const { currentLanguageId } = this.props;
@@ -243,16 +232,16 @@ class App extends React.Component {
     }
 
     submitObservation = () => {
-        const { answers, resetAnswers } = this.props;
+        const { answers, resetAnswers, place, category } = this.props;
 
         const time = new Date().toString().substring(0, 21)
-        const place = this.state.place
-        const category = this.state.category
+        const placeA = place.data
+        const categoryA = category.data
         const data = {
             occurred_at: time,
-            place: place,
+            place: placeA,
             deadline: null,
-            category: category,
+            category: categoryA,
             answers: answers
         }
 
@@ -310,6 +299,8 @@ App.propTypes = {
     resetAnswers: func.isRequired,
     questions: object.isRequired,
     setQuestions: func.isRequired,
+    place: object.isRequired,
+    category: object.isRequired
 }
 
 export default App;
