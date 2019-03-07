@@ -10,6 +10,10 @@ import {
     UNINITIALIZED as QUESTION_TYPE_UNINITIALIZED
 } from './constants/questionTypes';
 
+/**
+ * @description creates the initial state of the app
+ * @returns array with multiple states
+ */
 const initialState = {
     questions: [],
     currentQuestionID: null,
@@ -35,7 +39,9 @@ class App extends React.Component {
         this.setFirstQuestion();
         this.setCatAndLoc();
     }
-
+    /**
+     * @description calls setCatAndLoc function retrieving questions from organisations API 
+     */
     setCatAndLoc = async () => {
         const cat = await questionService.getCategory()
         const loc = await questionService.getPlace()
@@ -45,15 +51,22 @@ class App extends React.Component {
         });
     }
 
+
+    /**
+     * @description waits for API answers and sets currentQuestion to be first and required
+     */
     setFirstQuestion = async () => {
+        // sets first question and awaits questionsService
         const questions = await questionService.getQuestions();
         const currentQuestionID = questions[0].id;
         const isReq = questions[0].required
+        // changing initialStates
         this.setState({
             questions: questions,
             currentQuestionID: currentQuestionID,
             currentIsRequired: isReq,
         });
+        // awaiting the choices from service.js
         const choices = await questionService.getChoices(currentQuestionID);
         const questionType = questions[0].type
         this.setState({
@@ -64,6 +77,7 @@ class App extends React.Component {
 
     /**
      * @description Checks if next question should be shown or not
+     * @param position current question position
      * @returns true if next question should be shown, else {false}
      */
     checkNextQuestion = (position) => {
@@ -89,6 +103,9 @@ class App extends React.Component {
         }
     }
 
+    /**
+     * @description sets the next question visible on the screen
+     */
     setNextQuestion = async () => {
         // finds the next question to display
         const questionsLen = this.state.questions.length;
@@ -113,12 +130,18 @@ class App extends React.Component {
         }
     }
 
+    /** 
+     * @description serves the backend for getting the next question in the question array
+     * @param newPosition the position of the new question
+     * @returns a new state
+    */
     setQuestion = (newPosition) => {
         // Sets the question with the predetermined position as the new current question and gets the questions choices from the API.
         const newQuestion = this.state.questions.find(question => question.position === newPosition)
         const newQuestionID = newQuestion.id
         const questionType = newQuestion.type
         const isReq = newQuestion.required
+        // changes the state of the initialState
         this.setState({
             currentQuestionID: newQuestionID,
             currentQuestionType: questionType,
@@ -142,10 +165,13 @@ class App extends React.Component {
         });
     }
 
+    /**
+     * @description saves multiple answers in an array and gives them to submit
+     * @param choice saves the choices that are clicked on the screen
+     * @returns a changed state with the choices saved in an array 
+     */
     multiAnswerClick = (choice) => {
-        // this is supposed to handle adding new choices to an array
-        // which is then give to submitMultiClick when asnwerer is finished
-
+        // if the answer was NOT selected before, then adds it to the array
         if (!this.state.multiSelectArray.map(object => object.id).includes(choice.id)) {
             const newChoice = [{ id: choice.id }]
             this.setState((previousState) => {
@@ -155,6 +181,7 @@ class App extends React.Component {
                 }
             })
         } else {
+            // if the answer WAS selected before, then removes it from the array
             const pos = this.state.multiSelectArray.map(object => object.id).indexOf(choice.id)
             const newMultiSelectArray = this.state.multiSelectArray.filter((_, i) => i !== pos)
             this.setState((previousState) => {
@@ -166,19 +193,28 @@ class App extends React.Component {
         }
     }
 
+    /**
+     * @description showing the question as required on screen
+     */
     showFieldRequired = () => {
         if (!this.state.error) {
-            this.setState({error: 'This question is required'});
+            // setting the error to be true
+            this.setState({ error: 'This question is required' });
             setTimeout(() => {
-                this.setState({error: null});
+                this.setState({ error: null });
             }, 3000);
         }
     }
-
+    /**
+     * @description subtmits the text answer to the answers in the initial state
+     * @returns new function moving to the next question
+     */
     submitTextAnswer = async (text) => {
-        if ((''+text).trim() === '' && this.state.currentIsRequired) {
+        // checks if the text question is required and shows the required field in that case
+        if (('' + text).trim() === '' && this.state.currentIsRequired) {
             this.showFieldRequired()
         } else {
+            // otherwise changes the state and saves the text
             await this.setState((previousState) => {
                 return {
                     ...previousState,
@@ -192,7 +228,12 @@ class App extends React.Component {
         }
     }
 
+    /**
+     * @description submits multi answers saved in an array
+     * @returns moves to the next questions
+     */
     submitMultiAnswer = async () => {
+        // If the questions is required it shows the required field
         if (this.state.multiSelectArray.length === 0 && this.state.currentIsRequired) {
             this.showFieldRequired()
         } else {
@@ -210,6 +251,10 @@ class App extends React.Component {
         }
     }
 
+
+    /**
+     * @description simply answers an question and moves to next
+     */
     singleAnswerClick = async (choice) => {
         await this.setState((previousState) => {
             return {
@@ -225,6 +270,9 @@ class App extends React.Component {
         this.moveToNextQuestion()
     }
 
+    /**
+     * @description submits the observations and shows the next question 
+     */
     moveToNextQuestion = () => {
         const { currentQuestionID, questions } = this.state;
         const position = questions.findIndex(question => question.id === currentQuestionID);
@@ -239,6 +287,10 @@ class App extends React.Component {
         }
     }
 
+
+    /**
+     * @description checks what type question is and calls the right function for the type
+     */
     handleChoiceClick = (choice) => {
         if (this.state.currentQuestionType === SELECT) {
             this.singleAnswerClick(choice)
@@ -247,6 +299,9 @@ class App extends React.Component {
         }
     }
 
+    /**
+     * @description submits the observation to the API and POSTs it
+     */
     submitObservation = () => {
         const time = new Date().toString().substring(0, 21)
         const place = this.state.place
@@ -259,14 +314,14 @@ class App extends React.Component {
             category: category,
             answers: answers
         }
-
+        // calls the service.js postObservation to API
         questionService.postObservation(data);
 
         this.setState({
             answers: {}, // prevents the previous answers from being POSTed
             isAllQuestionsAnswered: true,
         });
-
+        // sets the new state to begin all over
         this.setFirstQuestion();
         this.setCatAndLoc();
 
