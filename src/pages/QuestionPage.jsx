@@ -30,11 +30,18 @@ class QuestionPage extends React.Component {
         onSubmitFreeText: PropTypes.func.isRequired,
         error: PropTypes.string,
     }
-
+    /**
+     * @description rendering the button on the screen
+     * @returns button with text and submit function
+     */
     submitMultiButton = () => {
         return <BigButton onClick={() => this.props.onSubmitMultiClick()} text="Submit" />
     }
 
+    /**
+     * @description rendering the selection method
+     * @returns button
+     */
     renderSelect = () => {
         return this.props.questionChoices.map(questionsChoice => (
             <BigButton
@@ -44,7 +51,10 @@ class QuestionPage extends React.Component {
             />
         ))
     }
-
+    /**
+     * @description renders a toggle button for multiselect questions
+     * @returns togglebutton with function
+     */
     renderMultiselect = () => {
         return this.props.questionChoices.map(choice => (
             <ToggleButtons key={choice.id} choice={choice} onChoiceClick={this.props.onChoiceClick} />
@@ -58,6 +68,9 @@ class QuestionPage extends React.Component {
         });
     }
 
+    /**
+     * @description renders a textfield 
+     */
     renderTextField = () => {
         return (
             <div className="center-align txt">
@@ -78,6 +91,10 @@ class QuestionPage extends React.Component {
         )
     }
 
+
+    /**
+     * @description renders different question elements depending on question type
+     */
     renderQuestionElements = (questionType) => {
         if (questionType === SELECT) {
             return this.renderSelect()
@@ -85,13 +102,16 @@ class QuestionPage extends React.Component {
             return this.renderMultiselect()
         } else if (questionType === STR) {
             return this.renderTextField()
-        } else if(questionType === QUESTION_TYPE_UNINITIALIZED) {
+        } else if (questionType === QUESTION_TYPE_UNINITIALIZED) {
             return null;
         } else {
             throw `Invalid Question type '${questionType}'`
         }
     }
 
+    /**
+     * @description a text button for submitting free text from @function renderTextField
+     */
     submitTextButton = () => {
         return ( // XXX: does not render for some reason
             <div className="center-align txt">
@@ -117,7 +137,9 @@ class QuestionPage extends React.Component {
         ]
         return questionsWithSubmitButtons.indexOf(questionType) !== -1;
     }
-
+    /**
+     * @description renders different submit button depending on the question type
+     */
     renderSubmitButton = (questionType) => {
         if (!this.questionHasSubmitButton(questionType)) {
             return null
@@ -125,7 +147,7 @@ class QuestionPage extends React.Component {
             return this.submitMultiButton()
         } else if (questionType === STR) {
             return this.submitTextButton()
-        } else if(questionType === QUESTION_TYPE_UNINITIALIZED) {
+        } else if (questionType === QUESTION_TYPE_UNINITIALIZED) {
             return (<div>Loading, please wait...</div>)
         } else {
             throw `Invalid Question type '${questionType}'`
