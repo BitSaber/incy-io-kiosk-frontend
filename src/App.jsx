@@ -1,5 +1,5 @@
 import React from 'react';
-import { string, object, func } from 'prop-types';
+import { string, object, func, shape, array } from 'prop-types';
 
 import questionService from './service'
 import ThankYouPage from './pages/ThankYouPage';
@@ -42,16 +42,18 @@ class App extends React.Component {
         const { currentLanguageId } = this.props;
         const { allQuestions } = this.props.questions;
 
-        const currentQuestionID = allQuestions[0].id;
-        const choices = await questionService.getChoices(currentQuestionID, currentLanguageId);
-        const questionType = allQuestions[0].type
-        const isReq = allQuestions[0].required
-        this.setState({
-            currentQuestionID: currentQuestionID,
-            currentIsRequired: isReq,
-            currentQuestionChoices: choices,
-            currentQuestionType: questionType
-        });
+        if (allQuestions.length > 0) {
+            const currentQuestionID = allQuestions[0].id;
+            const choices = await questionService.getChoices(currentQuestionID, currentLanguageId);
+            const questionType = allQuestions[0].type
+            const isReq = allQuestions[0].required
+            this.setState({
+                currentQuestionID: currentQuestionID,
+                currentIsRequired: isReq,
+                currentQuestionChoices: choices,
+                currentQuestionType: questionType
+            });
+        }
     }
 
     checkNextQuestion = (position) => {
@@ -233,13 +235,13 @@ class App extends React.Component {
     }
 
     submitObservation = () => {
-        const { answers, resetAnswers, place, category } = this.props;
+        const { answers, resetAnswers, funfacts } = this.props;
         const time = new Date().toString().substring(0, 21)
         const data = {
             occurred_at: time,
-            place: place.data[0].id,
+            place: funfacts.place[0].id,
             deadline: null,
-            category: category.data[0].id,
+            category: funfacts.category[0].id,
             answers: answers
         }
 
@@ -298,8 +300,10 @@ App.propTypes = {
     resetAnswers: func.isRequired,
     questions: object.isRequired,
     setQuestions: func.isRequired,
-    place: object.isRequired,
-    category: object.isRequired,
+    funfacts: shape({
+        place: array.isRequired,
+        category: array.isRequired,
+    }),
     setFunfacts: func.isRequired
 }
 

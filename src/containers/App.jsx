@@ -8,8 +8,7 @@ const mapStateToProps = state => ({
     currentLanguageId: state.intl.locale,
     answers: state.answers,
     questions: state.questions,
-    place: state.funfacts.place,
-    category: state.funfacts.category
+    funfacts: state.funfacts,
 });
 
 const mapDispatchToProps = {

@@ -9,7 +9,7 @@ export const setFunfactsAction = (langId) => {
 
         dispatch({
             type: SET_FUNFACTS,
-            payload: {category, place}
+            payload: { category, place }
         });
     };
 };
