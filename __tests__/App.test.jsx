@@ -1,13 +1,39 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { App } from '../src/App';
+import App from '../src/App';
 
 describe('<App />', () => {
     it('should set the initial state correctly in constructor.', () => {
-        const newApp = shallow(<App currentLanguageId="en" answers={{}} addAnswer={jest.fn()} resetAnswers={jest.fn()} />);
-        expect(newApp.state().questions).toEqual([]);
-        expect(newApp.state().currentQuestionID).toEqual(null);
-        expect(newApp.state().currentQuestionChoices).toEqual([]);
-        expect(newApp.state().isAllQuestionsAnswered).toEqual(false);
-    })
+        const setQuestions = jest.fn();
+
+        const component = shallow(
+            <App
+                currentLanguageId="en"
+                answers={{}}
+                addAnswer={jest.fn()}
+                resetAnswers={jest.fn()}
+                setQuestions={setQuestions}
+                setCurrentQuestion={jest.fn()}
+                questions={{ allQuestions: [] }}
+            />
+        );
+        expect(component.state().currentQuestionChoices).toEqual([]);
+        expect(component.state().isAllQuestionsAnswered).toEqual(false);
+    });
+
+    it('should call setQuestions on componentDidMount()', () => {
+        const setQuestions = jest.fn();
+        shallow(
+            <App
+                currentLanguageId="en"
+                answers={{}}
+                addAnswer={jest.fn()}
+                resetAnswers={jest.fn()}
+                setQuestions={setQuestions}
+                setCurrentQuestion={jest.fn()}
+                questions={{ allQuestions: [] }}
+            />
+        );
+        expect(setQuestions.mock.toBeCalled)
+    });
 })

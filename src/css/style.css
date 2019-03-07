@@ -59,7 +59,7 @@ overflow-y:hidden;
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 5rem;
+  height: 4rem;
   background-color: #044460;
   color: #ffffff;
   font-size: 10px;
@@ -73,7 +73,7 @@ overflow-y:hidden;
 }
 
 .inside {
-	height: 35px;
+	height: 1rem;
 	width: 1009px;
 	margin:auto;
 	text-align: center;
