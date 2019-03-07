@@ -4,16 +4,17 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import intlReducer, { initialState as initialStateIntl } from '../reducers/intlReducer';
 import answerReducer from '../reducers/answerReducer';
-import freetextReducer from '../reducers/freetextReducer'
+import uiReducer from '../reducers/uiReducer'
 
 const initialState = {
-    intl: initialStateIntl
+    intl: initialStateIntl,
+    ui: { freeText: { text: "" } }
 }
 
 const combinedReducers = combineReducers({
     intl: intlReducer,
     answers: answerReducer,
-    textAnswer: freetextReducer
+    ui: uiReducer
 });
 
 const composedMiddleware = composeWithDevTools(

@@ -1,28 +1,22 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl';
 import { TextField } from '@material-ui/core';
+import { string } from 'prop-types'
 
-
-
-const label = (<FormattedMessage id="textfield.placeholder"
-    defaultMessage="Your answer"
-    description="Placeholder on text field"
-    values={{ what: 'react-intl' }}
-/>);
-
-class FreeText extends React.Component {
+export default class FreeText extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            text: '' // current text of the textField
-        };
     }
 
-    handleChange = (event) => {
-        this.setState({
-            text: event.target.value
-        });
+    static propTypes = {
+        text: string.isRequired
     }
+
+    static label = (<FormattedMessage id="textfield.placeholder"
+        defaultMessage="Your answer"
+        description="Placeholder on text field"
+        values={{ what: 'react-intl' }}
+    />);
 
     render() {
         return (
@@ -30,11 +24,11 @@ class FreeText extends React.Component {
                 <form>
                     <TextField
                         id="outlined-bare"
-                        label={label}
+                        label={this.label}
                         multiline
                         rows="20"
                         margin="normal"
-                        value={this.state.text}
+                        value={this.props.text}
                         onChange={this.handleChange}
                         variant="outlined"
                         style={{ width: 500 }}

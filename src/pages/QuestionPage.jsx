@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { TextField, Typography } from '@material-ui/core';
-import FreeText from '../components/FreeText'
+import { Typography } from '@material-ui/core';
+import FreeText from '../containers/FreeText'
 import PropTypes from 'prop-types'
 import BigButton from '../components/BigButton';
 import SkipButton from '../components/SkipButton';
@@ -88,7 +88,7 @@ class QuestionPage extends React.Component {
                 <Grid container direction="row" justify="center">
                     <SubmitButton
                         onClick={() => {
-                            this.props.onSubmitFreeText(this.state.text)
+                            this.props.onSubmitFreeText(this.state.text) //onClick should dispatch an action
                             this.setState({
                                 text: ''
                             });

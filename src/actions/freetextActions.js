@@ -1,10 +1,7 @@
-export const TEXT_SEND = 'TEXT_SEND'
 
-export const textSendAction = text => ({
-    type: TEXT_SEND,
-    payload: text,
+export const onTextChangeAction = text => ({
+    type: TEXT_CHANGE,
+    text: text,
 });
 
-export default {
-    textChangeAction
-}
+
