@@ -4,4 +4,9 @@ export const onTextChangeAction = text => ({
     text: text,
 });
 
+export const submitTextAction = text => ({
+    type: TEXT_SUBMIT,
+    text: text,
+})
+
 

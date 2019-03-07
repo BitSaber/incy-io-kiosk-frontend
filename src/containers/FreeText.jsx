@@ -1,6 +1,6 @@
 import { connect, dispatch } from 'react-redux';
 import FreeText from '../components/FreeText'
-import { onTextChangeAction } from '../actions/freetextActions'
+import { onTextChangeAction } from '../actions/UiActions'
 
 const mapStateToProps = state => ({
     text: state.ui.freeText.text
