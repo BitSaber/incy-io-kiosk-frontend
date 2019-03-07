@@ -1,5 +1,5 @@
 import React from 'react';
-import { string, object, func, bool } from 'prop-types';
+import { string, object, func, bool, shape } from 'prop-types';
 
 import questionService from './service'
 import ThankYouPage from './pages/ThankYouPage';
@@ -82,13 +82,6 @@ class App extends React.Component {
         } else {
             return false
         }
-    }
-
-    logFlags = () => {
-        console.log(
-            'isAllAns: ',this.props.flags.isAllQuestionsAnswered,
-            'isAllDis: ',this.props.flags.isAllQuestionsDisplayed
-        )
     }
 
     setNextQuestion = async () => {
@@ -224,13 +217,13 @@ class App extends React.Component {
         this.moveToNextQuestion()
     }
 
-    moveToNextQuestion = () => {
+    moveToNextQuestion = async () => {
         const { currentQuestionID } = this.state;
         const { questions: { allQuestions } } = this.props;
         const position = allQuestions.findIndex(question => question.id === currentQuestionID);
 
         if (!this.props.flags.isAllQuestionsDisplayed) { // more questions
-            this.setNextQuestion(position);
+            await this.setNextQuestion(position);
             if (this.props.flags.isAllQuestionsDisplayed && this.props.flags.isAllQuestionsAnswered) {
                 this.submitObservation()
             }
@@ -275,7 +268,7 @@ class App extends React.Component {
     }
 
     render() {
-        const { questions: { allQuestions }, flags: {isAllQuestionsAnswered} } = this.props;
+        const { questions: { allQuestions } } = this.props;
 
         const question = allQuestions.find(question => question.id === this.state.currentQuestionID);
         // question is undefined and we are waiting for it from the server
@@ -283,7 +276,7 @@ class App extends React.Component {
             return null;
         }
 
-        if (isAllQuestionsAnswered) {
+        if (this.props.flags.isAllQuestionsAnswered) {
             return <ThankYouPage />;
         }
 
@@ -311,8 +304,10 @@ App.propTypes = {
     resetAnswers: func.isRequired,
     questions: object.isRequired,
     setQuestions: func.isRequired,
-    isAllQuestionsAnswered: bool.isRequired,
-    isAllQuestionsDisplayed: bool.isRequired,
+    flags: shape({
+        isAllQuestionsAnswered: bool.isRequired,
+        isAllQuestionsDisplayed: bool.isRequired    
+    }).isRequired,
     setAllAnswered: func.isRequired,
     setAllDisplayed: func.isRequired,
 }
