@@ -14,11 +14,13 @@ describe('<App />', () => {
                 resetAnswers={jest.fn()}
                 setQuestions={setQuestions}
                 questions={{ allQuestions: [] }}
+                setAllAnswered={jest.fn()}
+                setAllDisplayed={jest.fn()}
+                flags={{ isAllQuestionsAnswered: false, isAllQuestionsDisplayed: false }}
             />
         );
         expect(component.state().currentQuestionID).toEqual(null);
         expect(component.state().currentQuestionChoices).toEqual([]);
-        expect(component.state().isAllQuestionsAnswered).toEqual(false);
     });
 
     it('should call setQuestions on componentDidMount()', () => {
@@ -31,6 +33,9 @@ describe('<App />', () => {
                 resetAnswers={jest.fn()}
                 setQuestions={setQuestions}
                 questions={{ allQuestions: [] }}
+                setAllAnswered={jest.fn()}
+                setAllDisplayed={jest.fn()}
+                flags={{ isAllQuestionsAnswered: false, isAllQuestionsDisplayed: false }}
             />
         );
         expect(setQuestions.mock.toBeCalled)
