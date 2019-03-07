@@ -1,6 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { TextField, Typography } from '@material-ui/core';
+import FreeText from '../components/FreeText'
 import PropTypes from 'prop-types'
 import BigButton from '../components/BigButton';
 import SkipButton from '../components/SkipButton';
@@ -20,9 +21,6 @@ import {
 class QuestionPage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            text: '' // current text of the textField
-        };
     }
 
     static propTypes = {
@@ -66,29 +64,7 @@ class QuestionPage extends React.Component {
     }
 
     renderTextField = () => {
-        const label = (<FormattedMessage id="textfield.placeholder"
-            defaultMessage="Your answer"
-            description="Placeholder on text field"
-            values={{ what: 'react-intl' }}
-        />);
-
-        return (
-            <div className="center-align txt">
-                <form>
-                    <TextField
-                        id="outlined-bare"
-                        label={label}
-                        multiline
-                        rows="20"
-                        margin="normal"
-                        value={this.state.text}
-                        onChange={this.handleChange}
-                        variant="outlined"
-                        style={{ width: 500 }}
-                    />
-                </form>
-            </div>
-        )
+        return <FreeText />
     }
 
     renderQuestionElements = (questionType) => {
@@ -106,6 +82,7 @@ class QuestionPage extends React.Component {
     }
 
     submitTextButton = () => {
+
         return ( // XXX: does not render for some reason
             <div className="center-align txt">
                 <Grid container direction="row" justify="center">

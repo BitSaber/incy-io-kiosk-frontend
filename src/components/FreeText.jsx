@@ -2,13 +2,15 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl';
 import { TextField } from '@material-ui/core';
 
+
+
 const label = (<FormattedMessage id="textfield.placeholder"
     defaultMessage="Your answer"
     description="Placeholder on text field"
     values={{ what: 'react-intl' }}
 />);
 
-class FreeText extends Component {
+class FreeText extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
