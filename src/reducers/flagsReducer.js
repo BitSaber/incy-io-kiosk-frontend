@@ -7,18 +7,18 @@ const initialState = {
 
 const reducer = (state=initialState, action) => {
     switch (action.type) {
-        case SET_ALL_ANSWERED: 
-            return {
-                ...state,
-                isAllQuestionsAnswered: action.payload
-            }
-        case SET_ALL_DISPLAYED:
-            return {
-                ...state,
-                isAllQuestionsDisplayed: action.payload
-            }
-        default:
-            return state;
+    case SET_ALL_ANSWERED:
+        return {
+            ...state,
+            isAllQuestionsAnswered: action.payload
+        }
+    case SET_ALL_DISPLAYED:
+        return {
+            ...state,
+            isAllQuestionsDisplayed: action.payload
+        }
+    default:
+        return state;
     }
 }
 

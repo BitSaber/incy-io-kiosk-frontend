@@ -306,7 +306,7 @@ App.propTypes = {
     setQuestions: func.isRequired,
     flags: shape({
         isAllQuestionsAnswered: bool.isRequired,
-        isAllQuestionsDisplayed: bool.isRequired    
+        isAllQuestionsDisplayed: bool.isRequired
     }).isRequired,
     setAllAnswered: func.isRequired,
     setAllDisplayed: func.isRequired,
