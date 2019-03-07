@@ -1,5 +1,5 @@
 import React from 'react';
-import { string, object, func, bool, shape } from 'prop-types';
+import { string, object, func, bool, shape, array } from 'prop-types';
 
 import questionService from './service'
 import ThankYouPage from './pages/ThankYouPage';
@@ -8,14 +8,10 @@ import {
     SELECT,
     MULTI_SELECT,
     STR,
-    UNINITIALIZED as QUESTION_TYPE_UNINITIALIZED
 } from './constants/questionTypes';
 
 const initialState = {
-    currentQuestionID: null,
-    currentQuestionType: QUESTION_TYPE_UNINITIALIZED,
     currentQuestionChoices: [],
-    currentIsRequired: false,
     categoryId: null,
     placeId: null,
     multiSelectArray: [],
@@ -47,18 +43,16 @@ class App extends React.Component {
     }
 
     setFirstQuestion = async () => {
-        const { currentLanguageId } = this.props;
+        const { currentLanguageId, setCurrentQuestion } = this.props;
         const { allQuestions } = this.props.questions;
 
-        const currentQuestionID = allQuestions[0].id;
-        const choices = await questionService.getChoices(currentQuestionID, currentLanguageId);
-        const questionType = allQuestions[0].type
-        const isReq = allQuestions[0].required
+        const currentQuestion = allQuestions[0];
+        setCurrentQuestion(currentQuestion);
+
+        const choices = await questionService.getChoices(currentQuestion.id, currentLanguageId);
+
         this.setState({
-            currentQuestionID: currentQuestionID,
-            currentIsRequired: isReq,
             currentQuestionChoices: choices,
-            currentQuestionType: questionType
         });
     }
 
@@ -85,11 +79,11 @@ class App extends React.Component {
     }
 
     setNextQuestion = async () => {
-        const { questions: { allQuestions }, setAllAnswered, setAllDisplayed } = this.props;
+        const { questions: { allQuestions, currentQuestion }, setAllAnswered, setAllDisplayed } = this.props;
         // finds the next question to display
         const questionsLen = allQuestions.length
         var position = allQuestions.find(
-            question => question.id === this.state.currentQuestionID).position + 1
+            question => question.id === currentQuestion.id).position + 1
         var flag = true
         // Loop through the questions by position, and determine if the question at hand needs to be displayed
         while (position <= questionsLen && flag) {
@@ -109,36 +103,28 @@ class App extends React.Component {
         }
     }
 
-    setQuestion = (newPosition) => {
-        const { currentLanguageId, questions } = this.props;
+    setQuestion = async (newPosition) => {
+        const { currentLanguageId, questions, setCurrentQuestion } = this.props;
         const { allQuestions } = questions;
 
-        // Sets the question with the predetermined position as the new current question and gets the questions choices from the API.
         const newQuestion = allQuestions.find(question => question.position === newPosition)
-        const newQuestionID = newQuestion.id
-        const questionType = newQuestion.type
-        const isReq = newQuestion.required
-        this.setState({
-            currentQuestionID: newQuestionID,
-            currentQuestionType: questionType,
-            currentIsRequired: isReq,
-        }, async () => {
-            if (this.state.currentQuestionType !== STR) {
-                const newChoices = await questionService.getChoices(newQuestionID, currentLanguageId);
+        setCurrentQuestion(newQuestion);
 
-                // Sets an empty answer array for multi select question
-                if (this.state.currentQuestionType === MULTI_SELECT) {
-                    this.setState({
-                        currentQuestionChoices: newChoices,
-                        multiSelectArray: []
-                    })
-                } else {
-                    this.setState({
-                        currentQuestionChoices: newChoices
-                    })
-                }
+        if (newQuestion.type !== STR) {
+            const newChoices = await questionService.getChoices(newQuestion.id, currentLanguageId);
+
+            // Sets an empty answer array for multi select question
+            if (newQuestion.type === MULTI_SELECT) {
+                this.setState({
+                    currentQuestionChoices: newChoices,
+                    multiSelectArray: []
+                })
+            } else {
+                this.setState({
+                    currentQuestionChoices: newChoices
+                })
             }
-        });
+        }
     }
 
     multiAnswerClick = (choice) => {
@@ -175,14 +161,14 @@ class App extends React.Component {
     }
 
     submitTextAnswer = async (text) => {
-        const { addAnswer } = this.props;
-        const { currentQuestionID } = this.state;
+        const { addAnswer, questions } = this.props;
+        const { currentQuestion } = questions;
 
-        if (('' + text).trim() === '' && this.state.currentIsRequired) {
+        if (('' + text).trim() === '' && currentQuestion.required) {
             this.showFieldRequired();
         } else {
             await addAnswer({
-                questionId: currentQuestionID,
+                questionId: currentQuestion.id,
                 answer: text,
             });
             this.moveToNextQuestion();
@@ -190,13 +176,15 @@ class App extends React.Component {
     }
 
     submitMultiAnswer = async () => {
-        const { addAnswer } = this.props;
-        const { currentQuestionID, multiSelectArray, currentIsRequired } = this.state;
-        if (multiSelectArray.length === 0 && currentIsRequired) {
+        const { addAnswer, questions } = this.props;
+        const { currentQuestion } = questions;
+
+        const { multiSelectArray } = this.state;
+        if (multiSelectArray.length === 0 && currentQuestion.required) {
             this.showFieldRequired()
         } else {
             await addAnswer({
-                questionId: currentQuestionID,
+                questionId: currentQuestion.id,
                 answer: multiSelectArray,
             });
             this.moveToNextQuestion()
@@ -204,11 +192,11 @@ class App extends React.Component {
     }
 
     singleAnswerClick = async (choice) => {
-        const { addAnswer } = this.props;
-        const { currentQuestionID } = this.state;
+        const { addAnswer, questions } = this.props;
+        const { currentQuestion } = questions;
 
         await addAnswer({
-            questionId: currentQuestionID,
+            questionId: currentQuestion.id,
             answer: {
                 id: choice.id
             },
@@ -218,9 +206,8 @@ class App extends React.Component {
     }
 
     moveToNextQuestion = async () => {
-        const { currentQuestionID } = this.state;
-        const { questions: { allQuestions } } = this.props;
-        const position = allQuestions.findIndex(question => question.id === currentQuestionID);
+        const { allQuestions, currentQuestion } = this.props.questions;
+        const position = allQuestions.findIndex(question => question.id === currentQuestion.id);
 
         if (!this.props.flags.isAllQuestionsDisplayed) { // more questions
             await this.setNextQuestion(position);
@@ -233,9 +220,10 @@ class App extends React.Component {
     }
 
     handleChoiceClick = (choice) => {
-        if (this.state.currentQuestionType === SELECT) {
+        const { currentQuestion } = this.props.questions;
+        if (currentQuestion.type === SELECT) {
             this.singleAnswerClick(choice)
-        } else if (this.state.currentQuestionType === MULTI_SELECT) {
+        } else if (currentQuestion.type === MULTI_SELECT) {
             this.multiAnswerClick(choice)
         }
     }
@@ -268,11 +256,9 @@ class App extends React.Component {
     }
 
     render() {
-        const { questions: { allQuestions } } = this.props;
+        const { allQuestions, currentQuestion } = this.props.questions;
 
-        const question = allQuestions.find(question => question.id === this.state.currentQuestionID);
-        // question is undefined and we are waiting for it from the server
-        if (!question) {
+        if (!currentQuestion) {
             return null;
         }
 
@@ -282,15 +268,15 @@ class App extends React.Component {
 
         return (
             <QuestionPage
-                question={question}
+                question={currentQuestion}
                 questionChoices={this.state.currentQuestionChoices}
                 onChoiceClick={this.handleChoiceClick}
-                questionType={this.state.currentQuestionType}
+                questionType={currentQuestion.type}
                 onSubmitMultiClick={this.submitMultiAnswer}
                 onSubmitFreeText={this.submitTextAnswer}
-                questionPos={allQuestions.findIndex(question => question.id === this.state.currentQuestionID)}
+                questionPos={allQuestions.findIndex(question => question.id === currentQuestion.id)}
                 error={this.state.error}
-                currentIsRequired={this.state.currentIsRequired}
+                currentIsRequired={currentQuestion.required}
                 skipClick={this.moveToNextQuestion}
             />
         );
@@ -302,7 +288,10 @@ App.propTypes = {
     answers: object.isRequired,
     addAnswer: func.isRequired,
     resetAnswers: func.isRequired,
-    questions: object.isRequired,
+    questions: shape({
+        allQuestions: array.isRequired,
+        currentQuestion: object,
+    }).isRequired,
     setQuestions: func.isRequired,
     flags: shape({
         isAllQuestionsAnswered: bool.isRequired,
@@ -310,6 +299,7 @@ App.propTypes = {
     }).isRequired,
     setAllAnswered: func.isRequired,
     setAllDisplayed: func.isRequired,
+    setCurrentQuestion: func.isRequired,
 }
 
 export default App;

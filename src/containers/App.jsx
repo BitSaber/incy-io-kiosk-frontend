@@ -1,8 +1,9 @@
-import { addAnswerAction, resetAnswersAction } from '../actions/answerActions';
-import { setQuestionsAction } from '../actions/questionActions';
 import { setAllAnsweredAction, setAllDisplayedAction } from '../actions/flagActions';
 import { connect } from 'react-redux';
+
 import App from '../App';
+import { setQuestionsAction, setCurrentQuestionAction } from '../actions/questionActions';
+import { addAnswerAction, resetAnswersAction } from '../actions/answerActions';
 
 const mapStateToProps = state => ({
     currentLanguageId: state.intl.locale,
@@ -17,6 +18,7 @@ const mapDispatchToProps = {
     setQuestions: setQuestionsAction,
     setAllAnswered: setAllAnsweredAction,
     setAllDisplayed: setAllDisplayedAction,
+    setCurrentQuestion: setCurrentQuestionAction,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -13,13 +13,13 @@ describe('<App />', () => {
                 addAnswer={jest.fn()}
                 resetAnswers={jest.fn()}
                 setQuestions={setQuestions}
+                setCurrentQuestion={jest.fn()}
                 questions={{ allQuestions: [] }}
                 setAllAnswered={jest.fn()}
                 setAllDisplayed={jest.fn()}
                 flags={{ isAllQuestionsAnswered: false, isAllQuestionsDisplayed: false }}
             />
         );
-        expect(component.state().currentQuestionID).toEqual(null);
         expect(component.state().currentQuestionChoices).toEqual([]);
     });
 
@@ -32,6 +32,7 @@ describe('<App />', () => {
                 addAnswer={jest.fn()}
                 resetAnswers={jest.fn()}
                 setQuestions={setQuestions}
+                setCurrentQuestion={jest.fn()}
                 questions={{ allQuestions: [] }}
                 setAllAnswered={jest.fn()}
                 setAllDisplayed={jest.fn()}
