@@ -84,6 +84,13 @@ class App extends React.Component {
         }
     }
 
+    logFlags = () => {
+        console.log(
+            'isAllAns: ',this.props.flags.isAllQuestionsAnswered,
+            'isAllDis: ',this.props.flags.isAllQuestionsDisplayed
+        )
+    }
+
     setNextQuestion = async () => {
         const { questions: { allQuestions }, setAllAnswered, setAllDisplayed } = this.props;
         // finds the next question to display
@@ -102,9 +109,9 @@ class App extends React.Component {
         }
         // Check if the last displayed question still needs an answer, or if the thank you page can be displayed
         if (position >= questionsLen) {
-            setAllAnswered(true)
+            setAllDisplayed(true)
             if (flag) {
-                setAllDisplayed(true)
+                setAllAnswered(true)
             }
         }
     }
@@ -225,7 +232,9 @@ class App extends React.Component {
         } = this.props;
         const position = allQuestions.findIndex(question => question.id === currentQuestionID);
 
-        console.log(this.props)
+        //console.log(this.props)
+        this.logFlags()
+
 
         if (!isAllQuestionsDisplayed) { // more questions
             this.setNextQuestion(position);
