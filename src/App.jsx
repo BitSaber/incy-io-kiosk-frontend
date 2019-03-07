@@ -226,19 +226,12 @@ class App extends React.Component {
 
     moveToNextQuestion = () => {
         const { currentQuestionID } = this.state;
-        const {
-            questions: { allQuestions },
-            flags: { isAllQuestionsAnswered, isAllQuestionsDisplayed }
-        } = this.props;
+        const { questions: { allQuestions } } = this.props;
         const position = allQuestions.findIndex(question => question.id === currentQuestionID);
 
-        //console.log(this.props)
-        this.logFlags()
-
-
-        if (!isAllQuestionsDisplayed) { // more questions
+        if (!this.props.flags.isAllQuestionsDisplayed) { // more questions
             this.setNextQuestion(position);
-            if (isAllQuestionsDisplayed && isAllQuestionsAnswered) {
+            if (this.props.flags.isAllQuestionsDisplayed && this.props.flags.isAllQuestionsAnswered) {
                 this.submitObservation()
             }
         } else { // no more questions
