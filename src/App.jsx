@@ -241,7 +241,7 @@ class App extends React.Component {
         });
 
         this.props.setFunfacts(this.props.currentLanguageId);
-        this.setFirstQuestion;
+        this.setFirstQuestion();
 
         setTimeout(() => {
             this.setState({
