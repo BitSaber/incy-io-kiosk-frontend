@@ -1,7 +1,8 @@
-import { addAnswerAction, resetAnswersAction } from '../actions/answerActions';
-import { setQuestionsAction } from '../actions/questionActions';
-import { setFunfactsAction } from '../actions/funfactsActions';
 import { connect } from 'react-redux';
+
+import { addAnswerAction, resetAnswersAction } from '../actions/answerActions';
+import { setQuestionsAction, setCurrentQuestionAction } from '../actions/questionActions';
+import { setFunfactsAction } from '../actions/funfactsActions';
 import App from '../App';
 
 const mapStateToProps = state => ({
@@ -15,7 +16,8 @@ const mapDispatchToProps = {
     addAnswer: addAnswerAction,
     resetAnswers: resetAnswersAction,
     setQuestions: setQuestionsAction,
-    setFunfacts: setFunfactsAction
+    setFunfacts: setFunfactsAction,
+    setCurrentQuestion: setCurrentQuestionAction,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
