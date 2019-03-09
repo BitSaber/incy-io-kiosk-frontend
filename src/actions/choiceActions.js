@@ -1,6 +1,5 @@
 import service from '../service';
-
-export const SET_CHOICES = 'SET_CHOICES';
+import { SET_CHOICES } from '../constants/actions';
 
 export const setChoicesAction = (questionId, langId) => {
     return async (dispatch) => {

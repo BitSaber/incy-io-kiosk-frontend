@@ -1,4 +1,4 @@
-import { SET_CHOICES } from '../actions/choiceActions';
+import { SET_CHOICES } from "../constants/actions";
 
 const initialState = {
     currentChoices: [],
