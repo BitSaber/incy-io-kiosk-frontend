@@ -37,11 +37,18 @@ class QuestionPage extends React.Component {
         currentIsRequired: PropTypes.bool.isRequired,
         text: string.isRequired
     }
-
+    /**
+     * @description rendering the button on the screen
+     * @returns button with text and submit function
+     */
     submitMultiButton = () => {
         return <SubmitButton onClick={() => this.props.onSubmitMultiClick()} />
     }
 
+    /**
+     * @description rendering the selection method
+     * @returns button
+     */
     renderSelect = () => {
         return this.props.questionChoices.map(questionsChoice => (
             <BigButton
@@ -51,7 +58,10 @@ class QuestionPage extends React.Component {
             />
         ))
     }
-
+    /**
+     * @description renders a toggle button for multiselect questions
+     * @returns togglebutton with function
+     */
     renderMultiselect = () => {
         return this.props.questionChoices.map(choice => (
             <ToggleButtons key={choice.id} choice={choice} onChoiceClick={this.props.onChoiceClick} />
@@ -62,6 +72,10 @@ class QuestionPage extends React.Component {
         return <FreeText />
     }
 
+
+    /**
+     * @description renders different question elements depending on question type
+     */
     renderQuestionElements = (questionType) => {
         if (questionType === SELECT) {
             return this.renderSelect()
@@ -76,6 +90,9 @@ class QuestionPage extends React.Component {
         }
     }
 
+    /**
+     * @description a text button for submitting free text from @function renderTextField
+     */
     submitTextButton = () => {
         return ( // XXX: does not render for some reason
             <div className="center-align txt">
@@ -98,7 +115,9 @@ class QuestionPage extends React.Component {
         ]
         return questionsWithSubmitButtons.indexOf(questionType) !== -1;
     }
-
+    /**
+     * @description renders different submit button depending on the question type
+     */
     renderSubmitButton = (questionType) => {
         if (!this.questionHasSubmitButton(questionType)) {
             return null
