@@ -16,6 +16,9 @@ import {
     UNINITIALIZED as QUESTION_TYPE_UNINITIALIZED
 } from '../constants/questionTypes';
 
+
+// #0078CC
+// #2B4141
 const style = {
     basic: {
         backgroundColor: '#0078CC',
@@ -35,25 +38,17 @@ const style = {
         justifyContent: 'center',
         height: 184,
         textAlign: 'center',
-        margin: 138,
-        marginLeft: 0,
-        marginRight: 0,
-        marginBottom: 45,
-    },
-    middleDiv: {
-        marginTop: 0,
-        marginLeft: 0,
-        marginRight: 0,
-        marginBottom: 400,
     },
     textDiv: {
-        borderColor: `'#0078CC' !important`,
         width: 500,
-        backgroundColor: '#0496FF',
+        backgroundColor: '#ffffff',
         color: `'#ffffff'!important`,
         fontWeight: 'bold',
         borderRadius: 30,
         border: 'none'
+    },
+    error: {
+        fontWeight: 'bold',
     }
 
 }
@@ -125,7 +120,7 @@ class QuestionPage extends React.Component {
                         margin="normal"
                         value={this.state.text}
                         onChange={this.handleChange}
-                        variant="outlined"
+                        InputProps={{ disableUnderline: true }}
                         style={style.textDiv}
                     />
                 </form>
@@ -194,25 +189,26 @@ class QuestionPage extends React.Component {
     render() {
 
         return (
-            <Grid style={style.basic}>
+            <Grid container spacing={8} style={style.basic}>
                 <Grid container
                     alignItems="center"
                     style={style.questionDiv}>
                     <Typography style={style.textStyle}> {this.props.question.name}</Typography>
-                    {this.props.error && <Typography variant='h4' color='error'>
-                        <FormattedMessage id="questionpage.required"
-                            defaultMessage="This field is required!"
-                            description="Requirement text"
-                            values={{ what: 'react-intl' }}
-                        />
-                    </Typography>}
+
                 </Grid>
 
                 <Grid container
                     direction="column"
                     justify="space-between"
                     alignItems="center"
-                    spacing={16} style={style.middleDiv}>
+                    spacing={32} >
+                    <Grid item xs={12} md={12} xl={12}>{this.props.error && <Typography style={style.error} variant='h4' color='error'>
+                        <FormattedMessage id="questionpage.required"
+                            defaultMessage="This field is required!"
+                            description="Requirement text"
+                            values={{ what: 'react-intl' }}
+                        />
+                    </Typography>}</Grid>
                     {this.renderQuestionElements(this.props.questionType)}
                 </Grid>
 
@@ -220,7 +216,7 @@ class QuestionPage extends React.Component {
                     direction="column"
                     justify="space-between"
                     alignItems="center"
-                    spacing={8} >
+                    spacing={16} >
                     <Grid item xs={12} md={12} xl={12}>
                         {this.renderSubmitButton(this.props.questionType)}
                     </Grid>

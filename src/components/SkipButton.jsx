@@ -6,7 +6,8 @@ import { FormattedMessage } from 'react-intl';
 const style = {
     buttonStyle: {
         backgroundColor: '#0496FF',
-        width: 750,
+        width: 300,
+        height: 70,
         fontSize: 35,
         color: '#ffffff',
         borderRadius: 30,

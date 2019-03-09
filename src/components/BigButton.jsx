@@ -8,7 +8,7 @@ const style = {
     buttonStyle: {
         width: 900,
         backgroundColor: '#0496FF',
-        height: 75,
+        height: 100,
         borderRadius: 30,
     },
     textStyle: {

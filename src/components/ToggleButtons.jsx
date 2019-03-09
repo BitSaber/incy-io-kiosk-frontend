@@ -9,9 +9,10 @@ const style = {
     buttonStyle: {
         width: 900,
         backgroundColor: '#0496FF',
-        height: 75,
+        height: 100,
         borderRadius: 30,
     },
+
     textStyle: {
         fontSize: 35,
         color: '#ffffff',
@@ -23,12 +24,14 @@ const style = {
 class ToggleButtons extends React.Component {
 
     state = {
-        formats: []
+        formats: [],
+        backgroundColor: '#ffffff'
     };
 
     handleFormat = (event, formats) => {
         this.props.onChoiceClick(this.props.choice)
         this.setState({ formats })
+
     }
 
     render() {

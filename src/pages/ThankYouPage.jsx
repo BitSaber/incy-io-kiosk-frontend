@@ -23,7 +23,7 @@ const style = {
         marginRight: 'auto',
     },
 }
-// TODO: attributes of class txt should be implemented with material UI
+
 const ThankYouPage = () => (
     <div style={style.basic}>
         <div style={style.thankYouDiv} >

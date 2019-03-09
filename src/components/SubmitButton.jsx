@@ -7,10 +7,10 @@ import { Typography } from '@material-ui/core';
 
 const style = {
     buttonStyle: {
-        width: 750,
         backgroundColor: '#0496FF',
         justifyContent: 'center',
-        height: 65,
+        width: 300,
+        height: 70,
         borderRadius: 30,
 
     },
