@@ -1,0 +1,5 @@
+export const SET_QUESTIONS = 'SET_QUESTIONS';
+export const SET_CURRENT_QUESTION = 'SET_CURRENT_QUESTION';
+export const ADD_ANSWER = 'ADD_ANSWER';
+export const RESET_ANSWERS = 'RESET_ANSWERS';
+export const SET_CHOICES = 'SET_CHOICES';
