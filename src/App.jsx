@@ -145,12 +145,9 @@ class App extends React.Component {
             // if the answer WAS selected before, then removes it from the array
             const pos = this.state.multiSelectArray.map(object => object.id).indexOf(choice.id)
             const newMultiSelectArray = this.state.multiSelectArray.filter((_, i) => i !== pos)
-            this.setState((previousState) => {
-                return {
-                    multiSelectArray: newMultiSelectArray,
-                    ...previousState,
-                }
-            })
+            this.setState({
+                multiSelectArray: newMultiSelectArray,
+            });
         }
     }
 
