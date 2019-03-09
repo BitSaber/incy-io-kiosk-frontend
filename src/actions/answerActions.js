@@ -1,5 +1,4 @@
-export const ADD_ANSWER = 'ADD_ANSWER';
-export const RESET_ANSWERS = 'RESET_ANSWERS';
+import { ADD_ANSWER, RESET_ANSWERS } from "../constants/actions";
 
 export const addAnswerAction = answer => ({
     type: ADD_ANSWER,
