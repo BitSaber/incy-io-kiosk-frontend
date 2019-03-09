@@ -16,7 +16,7 @@ import {
     UNINITIALIZED as QUESTION_TYPE_UNINITIALIZED
 } from '../constants/questionTypes';
 
-const styles = {
+const style = {
     basic: {
         backgroundColor: '#0078CC',
         height: '100vh',
@@ -44,13 +44,18 @@ const styles = {
         marginTop: 0,
         marginLeft: 0,
         marginRight: 0,
-        marginBottom: 450,
+        marginBottom: 400,
     },
-    bottomDiv: {
-
-
-
+    textDiv: {
+        borderColor: `'#0078CC' !important`,
+        width: 500,
+        backgroundColor: '#0496FF',
+        color: `'#ffffff'!important`,
+        fontWeight: 'bold',
+        borderRadius: 30,
+        border: 'none'
     }
+
 }
 
 class QuestionPage extends React.Component {
@@ -113,7 +118,7 @@ class QuestionPage extends React.Component {
             <div className="center-align txt">
                 <form>
                     <TextField
-                        id="outlined-bare"
+                        id="bare"
                         label={label}
                         multiline
                         rows="20"
@@ -121,7 +126,7 @@ class QuestionPage extends React.Component {
                         value={this.state.text}
                         onChange={this.handleChange}
                         variant="outlined"
-                        style={{ width: 500 }}
+                        style={style.textDiv}
                     />
                 </form>
             </div>
@@ -189,14 +194,11 @@ class QuestionPage extends React.Component {
     render() {
 
         return (
-            <div style={styles.basic}>
-
+            <Grid style={style.basic}>
                 <Grid container
                     alignItems="center"
-                    style={styles.questionDiv}>
-
-
-                    <Typography style={styles.textStyle}> {this.props.question.name}</Typography>
+                    style={style.questionDiv}>
+                    <Typography style={style.textStyle}> {this.props.question.name}</Typography>
                     {this.props.error && <Typography variant='h4' color='error'>
                         <FormattedMessage id="questionpage.required"
                             defaultMessage="This field is required!"
@@ -204,24 +206,25 @@ class QuestionPage extends React.Component {
                             values={{ what: 'react-intl' }}
                         />
                     </Typography>}
-
                 </Grid>
 
                 <Grid container
                     direction="column"
-                    justify="center"
-                    alignItems="center" style={styles.middleDiv}>
-                    <Grid item xs={12}>
-                        {this.renderQuestionElements(this.props.questionType)}
-                    </Grid>
+                    justify="space-between"
+                    alignItems="center"
+                    spacing={16} style={style.middleDiv}>
+                    {this.renderQuestionElements(this.props.questionType)}
                 </Grid>
 
                 <Grid container
                     direction="column"
-                    justify="center"
-                    alignItems="center" style={styles.bottomDiv}>
-                    <Grid item xs={12}>
+                    justify="space-between"
+                    alignItems="center"
+                    spacing={8} >
+                    <Grid item xs={12} md={12} xl={12}>
                         {this.renderSubmitButton(this.props.questionType)}
+                    </Grid>
+                    <Grid item xs={12} md={12} xl={12}>
                         {
                             !this.props.currentIsRequired &&
                             <SkipButton
@@ -233,9 +236,7 @@ class QuestionPage extends React.Component {
                     </Grid>
                 </Grid>
 
-
-
-            </div>
+            </Grid>
         )
     }
 }

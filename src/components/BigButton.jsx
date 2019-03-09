@@ -8,8 +8,6 @@ const style = {
     buttonStyle: {
         width: 900,
         backgroundColor: '#0496FF',
-        marginTop: 13.5,
-        marginBottom: 15,
         height: 75,
         borderRadius: 30,
     },
@@ -23,11 +21,11 @@ const style = {
 
 const BigButton = ({ onClick, text }) => {
     return (
-        <Grid item xs={12}>
+        <Grid item xs={12} md={12} xl={12} >
             <Button style={style.buttonStyle} variant="contained" onClick={onClick}>
                 <Typography style={style.textStyle}>{text}</Typography>
             </Button>
-        </Grid>
+        </Grid >
     )
 };
 

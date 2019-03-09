@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-const styles = {
+const style = {
     basic: {
         backgroundColor: '#0078CC',
         height: '100vh',
@@ -25,8 +25,8 @@ const styles = {
 }
 // TODO: attributes of class txt should be implemented with material UI
 const ThankYouPage = () => (
-    <div style={styles.basic}>
-        <div style={styles.thankYouDiv} >
+    <div style={style.basic}>
+        <div style={style.thankYouDiv} >
             <h2 variant="h2">
                 <FormattedMessage id="thankyou.phrase"
                     defaultMessage="Thank you for the feedback!"

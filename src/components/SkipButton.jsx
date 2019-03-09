@@ -3,18 +3,19 @@ import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl';
 
-const styles = {
+const style = {
     buttonStyle: {
         backgroundColor: '#0496FF',
-        width: 600,
+        width: 750,
         fontSize: 35,
         color: '#ffffff',
         borderRadius: 30,
+        fontWeight: 'bold',
     }
 }
 
 const SkipButton = ({ onClick }) => (
-    <Button style={styles.buttonStyle} variant="contained" onClick={onClick}>
+    <Button style={style.buttonStyle} variant="contained" onClick={onClick}>
         <FormattedMessage id="skipbutton"
             defaultMessage="Skip"
             description="Skip button text"

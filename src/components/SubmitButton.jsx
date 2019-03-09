@@ -1,8 +1,8 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types'
-
 import { FormattedMessage } from 'react-intl';
+import { Typography } from '@material-ui/core';
 
 
 const style = {
@@ -24,11 +24,11 @@ const style = {
 const SubmitButton = ({ onClick }) => {
     return (
         <Button variant="contained" style={style.buttonStyle} onClick={onClick}>
-            <FormattedMessage id="submitbutton"
+            <Typography style={style.textStyle}><FormattedMessage id="submitbutton"
                 defaultMessage="Submit"
                 description="Submit button text"
                 values={{ what: 'react-intl' }}
-            />
+            /></Typography>
         </Button>
     )
 }
