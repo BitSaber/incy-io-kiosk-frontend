@@ -1,5 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
+// import GridList from '@material-ui/core/GridList';
 import { TextField, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types'
 import BigButton from '../components/BigButton';
@@ -17,7 +18,54 @@ import {
     UNINITIALIZED as QUESTION_TYPE_UNINITIALIZED
 } from '../constants/questionTypes';
 
+
+const styles = {
+    basic: {
+        backgroundColor: '#0078CC',
+        height: '100vh',
+        overflow: 'hidden',
+        alignItems: 'center',
+        fontFamily: 'Roboto',
+    },
+    questionDiv: {
+        backgroundColor: '#0496FF',
+        fullWidth: true,
+        display: 'flex',
+        justifyContent: 'center',
+        color: '#ffffff',
+        height: 184,
+        textAlign: 'center',
+        fontSize: 35,
+        margin: 138,
+        marginLeft: 0,
+        marginRight: 0,
+        marginBottom: 45,
+    },
+    skipped: {
+
+        textAlign: 'center'
+    },
+    answerDiv: {
+
+    },
+    middleDiv: {
+        marginTop: 0,
+        marginLeft: 0,
+        marginRight: 0,
+        marginBottom: 450,
+    },
+    bottomDiv: {
+        backgroundColor: '#0496FF',
+        width: 600,
+        borderRadius: 30,
+        display: 'inline',
+        float: 'none',
+
+    }
+}
+
 class QuestionPage extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -152,13 +200,14 @@ class QuestionPage extends React.Component {
         return
     }
 
+
     render() {
 
         return (
-            <div>
-                {this.renderLanguageButtons()}
-                <div className="question-div">
-                    <h2 className="txt" variant="h2">{this.props.question.name}</h2>
+            <div style={styles.basic}>
+
+                <div style={styles.questionDiv}>
+                    <h2>{this.props.question.name}</h2>
                     {this.props.error && <Typography variant='h4' color='error'>
                         <FormattedMessage id="questionpage.required"
                             defaultMessage="This field is required!"
@@ -167,17 +216,19 @@ class QuestionPage extends React.Component {
                         />
                     </Typography>}
                 </div>
-                <div>
-                    <div className="center-align txt">
-                        <Grid container direction="row" justify="center">
 
+                <div style={styles.middleDiv}>
+                    <div >
+                        <Grid container justify="center" >
                             {this.renderQuestionElements(this.props.questionType)}
-                            {this.renderSubmitButton(this.props.questionType)}
-
                         </Grid>
                     </div>
-                    <div className="skipped">
-                        { // TODO: button location and style
+                </div>
+
+                <Grid container justify="center">
+                    <div style={styles.skipped}>
+                        {this.renderSubmitButton(this.props.questionType)}
+                        {
                             !this.props.currentIsRequired &&
                             <SkipButton
                                 onClick={() => this.props.skipClick()}
@@ -185,17 +236,9 @@ class QuestionPage extends React.Component {
                             />
                         }
                     </div>
-
-                </div>
-                <footer className="footer">
-                    <footer className="inside">
-                        <div>Copyright © 2018 BitSaber, Otaniemi, Finland</div>
-                    </footer>
-                </footer>
-
+                </Grid>
+                {this.renderLanguageButtons()}
             </div>
-
-
         )
     }
 }

@@ -1,24 +1,46 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
+
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 
-const styles = ({
-    button: {
-        background: '#055679',
-        height: '100%',
-        padding: '55px 60px',
+
+
+// const styles = ({
+//     button: {
+//         background: '#055679',
+//         height: '100%',
+//         padding: '55px 60px',
+//         color: '#ffffff',
+//         fontSize: '16px',
+//         fontWeight: 'bold'
+//     },
+
+//     toggleContainer: {
+//         margin: '10px',
+//         borderRadius: '4px'
+//     }
+// });
+
+const style = {
+    buttonStyle: {
+        width: 900,
+        backgroundColor: '#0496FF',
+        marginTop: 13.5,
+        marginBottom: 15,
+        display: 'flex',
+        justifyContent: 'center',
+        height: 100,
+        borderRadius: 30,
+    },
+    textStyle: {
+        fontSize: 35,
+        fontFamily: "Roboto",
         color: '#ffffff',
-        fontSize: '16px',
-        fontWeight: 'bold'
+
     },
 
-    toggleContainer: {
-        margin: '10px',
-        borderRadius: '4px'
-    }
-});
+}
 
 class ToggleButtons extends React.Component {
 
@@ -34,8 +56,8 @@ class ToggleButtons extends React.Component {
     render() {
         const { formats } = this.state;
         return (
-            <ToggleButtonGroup className={this.props.classes.toggleContainer} value={formats} onChange={this.handleFormat}>
-                <ToggleButton className={this.props.classes.button}
+            <ToggleButtonGroup style={style.buttonStyle} value={formats} onChange={this.handleFormat}>
+                <ToggleButton style={style.textStyle}
                     key={this.props.choice.id}
                     value={this.props.choice.id}>
                     <h3>{this.props.choice.name}</h3>
@@ -48,7 +70,8 @@ class ToggleButtons extends React.Component {
 ToggleButtons.propTypes = {
     choice: PropTypes.object.isRequired,
     onChoiceClick: PropTypes.func.isRequired,
-    classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(ToggleButtons);
+
+
+export default ToggleButtons;
