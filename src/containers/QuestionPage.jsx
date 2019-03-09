@@ -8,7 +8,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = () => {
     return {
-        //onSubmitFreeText: () => dispatch(submitText()) 
+        //onSubmitFreeText: () => dispatch(submitText())
     }
 }
 
