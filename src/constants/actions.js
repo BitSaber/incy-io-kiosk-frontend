@@ -7,3 +7,4 @@ export const TEXT_CHANGE = 'TEXT_CHANGE';
 export const TEXT_SUBMIT = 'TEXT_SUBMIT';
 export const SET_ALL_ANSWERED = 'SET_ALL_ANSWERED';
 export const SET_ALL_DISPLAYED = 'SET_ALL_DISPLAYED';
+export const SET_SHOW_ERROR = 'SET_SHOW_ERROR';
