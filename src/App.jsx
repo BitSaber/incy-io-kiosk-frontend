@@ -12,7 +12,6 @@ import {
 
 const initialState = {
     multiSelectArray: [],
-    error: null
 }
 
 class App extends React.Component {
@@ -133,10 +132,13 @@ class App extends React.Component {
     }
 
     showFieldRequired = () => {
-        if (!this.state.error) {
-            this.setState({ error: true });
+        console.log(this.props.setShowError)
+        const { setShowError } = this.props
+        if (!this.props.flags.showError) {
+            console.log(':D')
+            setShowError(true)
             setTimeout(() => {
-                this.setState({ error: null });
+                setShowError(false)
             }, 3000);
         }
     }
@@ -255,7 +257,7 @@ class App extends React.Component {
                 onSubmitMultiClick={this.submitMultiAnswer}
                 onSubmitFreeText={this.submitTextAnswer}
                 questionPos={allQuestions.findIndex(question => question.id === currentQuestion.id)}
-                error={this.state.error}
+                error={this.props.flags.showError}
                 currentIsRequired={currentQuestion.required}
                 skipClick={this.moveToNextQuestion}
             />
@@ -275,10 +277,12 @@ App.propTypes = {
     setQuestions: func.isRequired,
     flags: shape({
         isAllQuestionsAnswered: bool.isRequired,
-        isAllQuestionsDisplayed: bool.isRequired
+        isAllQuestionsDisplayed: bool.isRequired,
+        showError: bool.isRequired,
     }).isRequired,
     setAllAnswered: func.isRequired,
     setAllDisplayed: func.isRequired,
+    setShowError: func.isRequired,
     setCurrentQuestion: func.isRequired,
     context: shape({
         place: array.isRequired,

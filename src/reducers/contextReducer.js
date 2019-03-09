@@ -1,6 +1,5 @@
 
-import { SET_CATEGORY, SET_PLACE } from '../actions/contextActions';
-
+import { SET_CATEGORY, SET_PLACE } from '../constants/actions';
 const initialState = {
     place: [{ id: 0,  }],
     category: [{ id: 0, }],

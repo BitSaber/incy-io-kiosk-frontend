@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Typography } from '@material-ui/core';
 import FreeText from '../containers/FreeText'
-import PropTypes from 'prop-types'
+import { string, object, func, bool, arrayOf, number } from 'prop-types';
 import BigButton from '../components/BigButton';
 import SkipButton from '../components/SkipButton';
 import SubmitButton from '../components/SubmitButton'
@@ -10,7 +10,6 @@ import '../css/style.css';
 import Language from '../containers/Language';
 import ToggleButtons from '../components/ToggleButtons';
 import { FormattedMessage } from 'react-intl';
-import { string } from 'prop-types'
 
 import {
     SELECT,
@@ -25,17 +24,17 @@ class QuestionPage extends React.Component {
     }
 
     static propTypes = {
-        question: PropTypes.object.isRequired,
-        questionChoices: PropTypes.arrayOf(PropTypes.object).isRequired,
-        onChoiceClick: PropTypes.func.isRequired,
-        questionType: PropTypes.string.isRequired,
-        onSubmitMultiClick: PropTypes.func.isRequired,
-        onSubmitFreeText: PropTypes.func.isRequired,
-        questionPos: PropTypes.number.isRequired,
-        error: PropTypes.bool,
-        skipClick: PropTypes.func.isRequired,
-        currentIsRequired: PropTypes.bool.isRequired,
-        text: string.isRequired
+        question: object.isRequired,
+        questionChoices: arrayOf(object).isRequired,
+        onChoiceClick: func.isRequired,
+        questionType: string.isRequired,
+        onSubmitMultiClick: func.isRequired,
+        onSubmitFreeText: func.isRequired,
+        questionPos: number.isRequired,
+        showError: bool.isRequired,
+        skipClick: func.isRequired,
+        currentIsRequired: bool.isRequired,
+        text: string.isRequired,
     }
 
     submitMultiButton = () => {
@@ -127,7 +126,7 @@ class QuestionPage extends React.Component {
                 {this.renderLanguageButtons()}
                 <div className="question-div">
                     <h2 className="txt" variant="h2">{this.props.question.name}</h2>
-                    {this.props.error && <Typography variant='h4' color='error'>
+                    {this.props.showError && <Typography variant='h4' color='error'>
                         <FormattedMessage id="questionpage.required"
                             defaultMessage="This field is required!"
                             description="Requirement text"
