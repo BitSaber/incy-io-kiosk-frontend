@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { addAnswerAction, resetAnswersAction } from '../actions/answerActions';
 import { setQuestionsAction, setCurrentQuestionAction } from '../actions/questionActions';
 import { setCategoryAction, setPlaceAction } from '../actions/contextActions';
-import { setChoicesAction } from '../actions/choiceActions';
+import { setAvailableChoicesAction } from '../actions/choiceActions';
 import App from '../App';
 
 const mapStateToProps = state => ({
@@ -25,7 +25,7 @@ const mapDispatchToProps = {
     setAllAnswered: setAllAnsweredAction,
     setAllDisplayed: setAllDisplayedAction,
     setCurrentQuestion: setCurrentQuestionAction,
-    setCurrentChoices: setChoicesAction,
+    setAvailableChoices: setAvailableChoicesAction,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

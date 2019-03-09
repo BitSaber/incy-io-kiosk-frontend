@@ -5,18 +5,18 @@ describe('choiceReducer', () => {
     it('should set the initial state', () => {
         const state = reducer(undefined, { type: 'TEST' });
         expect(state).toEqual({
-            currentChoices: []
+            availableChoices: []
         });
     })
 
     it('should set the choices', () => {
         const state = reducer(undefined, { type: SET_CHOICES, payload: [{ id: 1 }] });
         expect(state).toEqual({
-            currentChoices: [{ id: 1 }]
+            availableChoices: [{ id: 1 }]
         });
         const nextState = reducer(state, { type: SET_CHOICES, payload: [{ id: 2 }] });
         expect(nextState).toEqual({
-            currentChoices: [{ id: 2 }]
+            availableChoices: [{ id: 2 }]
         });
     });
 });

@@ -36,7 +36,7 @@ describe('<App />', () => {
                 resetAnswers={jest.fn()}
                 setQuestions={setQuestions}
                 setCurrentQuestion={jest.fn()}
-                setCurrentChoices={jest.fn()}
+                setAvailableChoices={jest.fn()}
                 questions={{ allQuestions: [] }}
                 context={{ place: [], category: [] }}
                 setPlace={jest.fn()}
@@ -44,7 +44,7 @@ describe('<App />', () => {
                 setAllAnswered={jest.fn()}
                 setAllDisplayed={jest.fn()}
                 flags={{ isAllQuestionsAnswered: false, isAllQuestionsDisplayed: false }}
-                choices={{ currentChoices: [] }}
+                choices={{ availableChoices: [] }}
             />
         );
         expect(setQuestions.mock.toBeCalled)

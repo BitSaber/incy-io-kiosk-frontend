@@ -32,13 +32,13 @@ class App extends React.Component {
 
 
     setFirstQuestion = async () => {
-        const { currentLanguageId, setCurrentQuestion, setCurrentChoices } = this.props;
+        const { currentLanguageId, setCurrentQuestion, setAvailableChoices } = this.props;
         const { allQuestions } = this.props.questions;
 
         if (allQuestions.length > 0) {
             const currentQuestion = allQuestions[0];
             setCurrentQuestion(currentQuestion);
-            setCurrentChoices(currentQuestion.id, currentLanguageId);
+            setAvailableChoices(currentQuestion.id, currentLanguageId);
         }
     }
 
@@ -90,14 +90,14 @@ class App extends React.Component {
     }
 
     setQuestion = async (newPosition) => {
-        const { currentLanguageId, questions, setCurrentQuestion, setCurrentChoices } = this.props;
+        const { currentLanguageId, questions, setCurrentQuestion, setAvailableChoices } = this.props;
         const { allQuestions } = questions;
 
         const newQuestion = allQuestions.find(question => question.position === newPosition)
         setCurrentQuestion(newQuestion);
 
         if (newQuestion.type !== STR) {
-            setCurrentChoices(newQuestion.id, currentLanguageId);
+            setAvailableChoices(newQuestion.id, currentLanguageId);
 
             // Sets an empty answer array for multi select question
             if (newQuestion.type === MULTI_SELECT) {
@@ -236,7 +236,7 @@ class App extends React.Component {
 
     render() {
         const { allQuestions, currentQuestion } = this.props.questions;
-        const { currentChoices } = this.props.choices;
+        const { availableChoices } = this.props.choices;
 
         if (!currentQuestion) {
             return null;
@@ -249,7 +249,7 @@ class App extends React.Component {
         return (
             <QuestionPage
                 question={currentQuestion}
-                questionChoices={currentChoices}
+                questionChoices={availableChoices}
                 onChoiceClick={this.handleChoiceClick}
                 questionType={currentQuestion.type}
                 onSubmitMultiClick={this.submitMultiAnswer}
@@ -286,7 +286,7 @@ App.propTypes = {
     }),
     setCategory: func.isRequired,
     setPlace: func.isRequired,
-    setCurrentChoices: func.isRequired,
+    setAvailableChoices: func.isRequired,
     choices: object.isRequired,
 }
 
