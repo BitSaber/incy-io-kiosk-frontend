@@ -1,19 +1,19 @@
-import { connect, dispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import FreeText from '../components/FreeText'
 import { onTextChangeAction } from '../actions/UiActions'
 
-const mapStateToProps = state => ({
-    text: state.ui.freeText.text
-});
+const mapStateToProps = state => {
+    return {
+        text: state.ui.freeText.text
+    }
+};
 
-const handleChange = (event) => {
-    dispatch(
-        onTextChangeAction(event.target.value)
-    );
-}
-
-const mapDispatchToProps = {
-    handleChange: handleChange
+const mapDispatchToProps = dispatch => {
+    return {
+        handleChange: event => dispatch(
+            onTextChangeAction(event.target.value)
+        )
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FreeText);

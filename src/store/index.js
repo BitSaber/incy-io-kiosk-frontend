@@ -4,11 +4,11 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import intlReducer, { initialState as initialStateIntl } from '../reducers/intlReducer';
 import answerReducer from '../reducers/answerReducer';
-import uiReducer from '../reducers/uiReducer'
+import uiReducer from '../reducers/UiReducers'
 
 const initialState = {
     intl: initialStateIntl,
-    ui: { freeText: { text: "" } }
+    //ui: { freeText: { text: "" } }
 }
 
 const combinedReducers = combineReducers({

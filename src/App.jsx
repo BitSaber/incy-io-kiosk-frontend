@@ -3,7 +3,7 @@ import { string, object, func } from 'prop-types';
 
 import questionService from './service'
 import ThankYouPage from './pages/ThankYouPage';
-import QuestionPage from './pages/QuestionPage';
+import QuestionPage from './containers/QuestionPage';
 import {
     SELECT,
     MULTI_SELECT,
@@ -50,7 +50,7 @@ export class App extends React.Component {
         const { currentLanguageId } = this.props;
 
         const questions = await questionService.getQuestions(currentLanguageId);
-        const questionsSorted = questions.sort( (object1, object2) => object1.id - object2.id )
+        const questionsSorted = questions.sort((object1, object2) => object1.id - object2.id)
         const currentQuestionID = questions[0].id;
         const choices = await questionService.getChoices(currentQuestionID, currentLanguageId);
         const questionType = questions[0].type
@@ -156,8 +156,8 @@ export class App extends React.Component {
             const newMultiSelectArray = this.state.multiSelectArray.filter((_, i) => i !== pos)
             this.setState((previousState) => {
                 return {
+                    multiSelectArray: newMultiSelectArray,
                     ...previousState,
-                    multiSelectArray: newMultiSelectArray
                 }
             })
         }

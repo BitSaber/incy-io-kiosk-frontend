@@ -10,6 +10,7 @@ import '../css/style.css';
 import Language from '../containers/Language';
 import ToggleButtons from '../components/ToggleButtons';
 import { FormattedMessage } from 'react-intl';
+import { string } from 'prop-types'
 
 import {
     SELECT,
@@ -33,7 +34,8 @@ class QuestionPage extends React.Component {
         questionPos: PropTypes.number.isRequired,
         error: PropTypes.bool,
         skipClick: PropTypes.func.isRequired,
-        currentIsRequired: PropTypes.bool.isRequired
+        currentIsRequired: PropTypes.bool.isRequired,
+        text: string.isRequired
     }
 
     submitMultiButton = () => {
@@ -56,13 +58,6 @@ class QuestionPage extends React.Component {
         ))
     }
 
-    //Updates changes made into textfield into state
-    handleChange = (event) => {
-        this.setState({
-            text: event.target.value
-        });
-    }
-
     renderTextField = () => {
         return <FreeText />
     }
@@ -82,16 +77,12 @@ class QuestionPage extends React.Component {
     }
 
     submitTextButton = () => {
-
         return ( // XXX: does not render for some reason
             <div className="center-align txt">
                 <Grid container direction="row" justify="center">
                     <SubmitButton
                         onClick={() => {
-                            this.props.onSubmitFreeText(this.state.text) //onClick should dispatch an action
-                            this.setState({
-                                text: ''
-                            });
+                            this.props.onSubmitFreeText(this.props.text) //onClick should dispatch an action
                         }}
                         text="Submit"
                     />

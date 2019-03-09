@@ -29,7 +29,7 @@ export default class FreeText extends React.Component {
                         rows="20"
                         margin="normal"
                         value={this.props.text}
-                        onChange={this.handleChange}
+                        onChange={this.props.handleChange}
                         variant="outlined"
                         style={{ width: 500 }}
                     />

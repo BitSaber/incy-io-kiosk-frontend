@@ -1,3 +1,4 @@
+import { TEXT_CHANGE } from '../constants/Actions'
 
 export const onTextChangeAction = text => ({
     type: TEXT_CHANGE,
