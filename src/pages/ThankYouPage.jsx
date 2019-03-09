@@ -3,8 +3,7 @@ import { FormattedMessage } from 'react-intl';
 
 const style = {
     basic: {
-
-
+        overflow: 'hidden',
         fontFamily: 'Roboto',
     },
     thankYouDiv: {

@@ -192,7 +192,7 @@ class QuestionPage extends React.Component {
 
         return (
             <div style={style.body}>
-                <Grid container spacing={8} style={style.basic}>
+                <Grid container style={style.basic}>
 
                     <Grid container
                         justify="center"
@@ -220,9 +220,8 @@ class QuestionPage extends React.Component {
 
                     <Grid container
                         direction="column"
-
                         justify="center"
-                        alignItems="stretch"
+                        alignItems="center"
                         spacing={16} >
                         <Grid item xs={12} md={12} xl={12}>
                             {this.renderSubmitButton(this.props.questionType)}
