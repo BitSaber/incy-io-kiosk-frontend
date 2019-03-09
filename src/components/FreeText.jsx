@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl';
 import { TextField } from '@material-ui/core';
-import { string } from 'prop-types'
+import { string, func } from 'prop-types'
 
 export default class FreeText extends React.Component {
     constructor(props) {
@@ -9,7 +9,8 @@ export default class FreeText extends React.Component {
     }
 
     static propTypes = {
-        text: string.isRequired
+        text: string.isRequired,
+        handleChange: func.isRequired,
     }
 
     static label = (<FormattedMessage id="textfield.placeholder"
@@ -36,6 +37,6 @@ export default class FreeText extends React.Component {
                 </form>
             </div>
         )
-    };
+    }
 }
 
