@@ -7,7 +7,7 @@ import { Typography } from '@material-ui/core';
 
 const style = {
     buttonStyle: {
-        width: 900,
+        width: 700,
         backgroundColor: '#0496FF',
         height: 100,
         borderRadius: 30,

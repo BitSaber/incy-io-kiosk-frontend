@@ -15,7 +15,7 @@ const style = {
         justifyContent: 'center',
         color: '#ffffff',
         height: 184,
-        width: 1000,
+        width: '100%',
         textAlign: 'center',
         fontSize: 40,
         marginTop: 450,

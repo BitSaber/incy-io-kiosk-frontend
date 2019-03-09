@@ -20,13 +20,15 @@ import {
 // #0078CC
 // #2B4141
 const style = {
-    basic: {
+    body: {
+        maxHeight: '3000px',
         backgroundColor: '#0078CC',
+    },
+    basic: {
         height: '100vh',
-        width: '100%',
-        overflow: 'hidden',
         alignItems: 'center',
         fontFamily: 'Roboto',
+        overflow: 'auto'
     },
     textStyle: {
         color: '#ffffff',
@@ -191,50 +193,55 @@ class QuestionPage extends React.Component {
     render() {
 
         return (
-            <Grid container spacing={8} zeroMinWidth style={style.basic}>
-                <Grid container
-                    alignItems="center"
-                    style={style.questionDiv}>
-                    <Typography style={style.textStyle}> {this.props.question.name}</Typography>
+            <div style={style.body}>
+                <Grid container spacing={8} style={style.basic}>
 
-                </Grid>
+                    <Grid container
+                        justify="center"
+                        alignItems="center"
+                        style={style.questionDiv}>
+                        <Typography style={style.textStyle}> {this.props.question.name}</Typography>
 
-                <Grid container
-                    direction="column"
-                    justify="space-between"
-                    alignItems="center"
-                    spacing={32} >
-                    <Grid item xs={12} md={12} xl={12}>{this.props.error && <Typography style={style.error} variant='h4' color='error'>
-                        <FormattedMessage id="questionpage.required"
-                            defaultMessage="This field is required!"
-                            description="Requirement text"
-                            values={{ what: 'react-intl' }}
-                        />
-                    </Typography>}</Grid>
-                    {this.renderQuestionElements(this.props.questionType)}
-                </Grid>
-
-                <Grid container
-                    direction="column"
-                    justify="space-between"
-                    alignItems="center"
-                    spacing={16} >
-                    <Grid item xs={12} md={12} xl={12}>
-                        {this.renderSubmitButton(this.props.questionType)}
                     </Grid>
-                    <Grid item xs={12} md={12} xl={12}>
-                        {
-                            !this.props.currentIsRequired &&
-                            <SkipButton
-                                onClick={() => this.props.skipClick()}
-                                text={"Skip"}
+
+                    <Grid container
+                        direction="column"
+                        justify="center"
+                        alignItems="center"
+                        spacing={24} >
+
+                        <Grid item xs={12} md={12} xl={12}>{this.props.error && <Typography style={style.error} variant='h4' color='error'>
+                            <FormattedMessage id="questionpage.required"
+                                defaultMessage="This field is required!"
+                                description="Requirement text"
+                                values={{ what: 'react-intl' }}
                             />
-                        }
-                        {this.renderLanguageButtons()}
+                        </Typography>}</Grid>
+                        {this.renderQuestionElements(this.props.questionType)}
                     </Grid>
-                </Grid>
 
-            </Grid>
+                    <Grid container
+                        direction="column"
+                        justify="center"
+                        alignItems="center"
+                        spacing={16} >
+                        <Grid item xs={12} md={12} xl={12}>
+                            {this.renderSubmitButton(this.props.questionType)}
+                        </Grid>
+                        <Grid item xs={12} md={12} xl={12}>
+                            {
+                                !this.props.currentIsRequired &&
+                                <SkipButton
+                                    onClick={() => this.props.skipClick()}
+                                    text={"Skip"}
+                                />
+                            }
+                            {this.renderLanguageButtons()}
+                        </Grid>
+                    </Grid>
+
+                </Grid>
+            </div>
         )
     }
 }
