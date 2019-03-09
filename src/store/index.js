@@ -7,11 +7,11 @@ import answerReducer from '../reducers/answerReducer';
 import uiReducer from '../reducers/UiReducers'
 import questionReducer from '../reducers/questionReducer';
 import contextReducer from '../reducers/contextReducer';
+import flagsReducer from '../reducers/flagsReducer';
 import choiceReducer from '../reducers/choiceReducer';
 
 const initialState = {
     intl: initialStateIntl,
-    //ui: { freeText: { text: "" } }
 }
 
 const combinedReducers = combineReducers({
@@ -20,6 +20,7 @@ const combinedReducers = combineReducers({
     ui: uiReducer,
     questions: questionReducer,
     context: contextReducer,
+    flags: flagsReducer,
     choices: choiceReducer,
 });
 

@@ -1,3 +1,4 @@
+import { setAllAnsweredAction, setAllDisplayedAction } from '../actions/flagActions';
 import { connect } from 'react-redux';
 
 import { addAnswerAction, resetAnswersAction } from '../actions/answerActions';
@@ -11,6 +12,7 @@ const mapStateToProps = state => ({
     answers: state.answers,
     questions: state.questions,
     context: state.context,
+    flags: state.flags,
     choices: state.choices,
 });
 
@@ -20,6 +22,8 @@ const mapDispatchToProps = {
     setQuestions: setQuestionsAction,
     setCategory: setCategoryAction,
     setPlace: setPlaceAction,
+    setAllAnswered: setAllAnsweredAction,
+    setAllDisplayed: setAllDisplayedAction,
     setCurrentQuestion: setCurrentQuestionAction,
     setCurrentChoices: setChoicesAction,
 }

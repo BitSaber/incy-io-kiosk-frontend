@@ -26,28 +26,6 @@ jest.mock("../src/service", () => {
 });
 
 describe('<App />', () => {
-    it('should set the initial state correctly in constructor.', () => {
-        const setQuestions = jest.fn();
-
-        const component = shallow(
-            <App
-                currentLanguageId="en"
-                answers={{}}
-                addAnswer={jest.fn()}
-                resetAnswers={jest.fn()}
-                setQuestions={setQuestions}
-                setCurrentQuestion={jest.fn()}
-                setCurrentChoices={jest.fn()}
-                questions={{ allQuestions: [] }}
-                context={{ place: [], category: [] }}
-                setPlace={jest.fn()}
-                setCategory={jest.fn()}
-                choices={{ currentChoices: [] }}
-            />
-        );
-        expect(component.state().isAllQuestionsAnswered).toEqual(false);
-    });
-
     it('should call setQuestions on componentDidMount()', () => {
         const setQuestions = jest.fn();
         shallow(
@@ -63,6 +41,9 @@ describe('<App />', () => {
                 context={{ place: [], category: [] }}
                 setPlace={jest.fn()}
                 setCategory={jest.fn()}
+                setAllAnswered={jest.fn()}
+                setAllDisplayed={jest.fn()}
+                flags={{ isAllQuestionsAnswered: false, isAllQuestionsDisplayed: false }}
                 choices={{ currentChoices: [] }}
             />
         );
