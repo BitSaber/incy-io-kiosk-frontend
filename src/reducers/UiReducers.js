@@ -1,4 +1,4 @@
-import { TEXT_CHANGE, TEXT_SUBMIT } from '../constants/actions'
+import { TEXT_CHANGE } from '../constants/actions'
 //import { submitTextAnswer } from '../App' WILL BE USED LATER
 
 const initialState = {
