@@ -3,7 +3,7 @@ import { string, object, func, shape, array } from 'prop-types';
 
 import questionService from './service'
 import ThankYouPage from './pages/ThankYouPage';
-import QuestionPage from './pages/QuestionPage';
+import QuestionPage from './containers/QuestionPage';
 import {
     SELECT,
     MULTI_SELECT,
@@ -135,8 +135,8 @@ class App extends React.Component {
             const newMultiSelectArray = this.state.multiSelectArray.filter((_, i) => i !== pos)
             this.setState((previousState) => {
                 return {
+                    multiSelectArray: newMultiSelectArray,
                     ...previousState,
-                    multiSelectArray: newMultiSelectArray
                 }
             })
         }

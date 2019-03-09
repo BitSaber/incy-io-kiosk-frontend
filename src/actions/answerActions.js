@@ -1,5 +1,6 @@
 import { ADD_ANSWER, RESET_ANSWERS } from "../constants/actions";
 
+// XXX: Why are these not dispatched?
 export const addAnswerAction = answer => ({
     type: ADD_ANSWER,
     payload: {
