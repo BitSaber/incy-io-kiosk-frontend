@@ -21,7 +21,6 @@ const styles = {
         marginTop: 450,
         marginLeft: 'auto',
         marginRight: 'auto',
-
     },
 }
 // TODO: attributes of class txt should be implemented with material UI

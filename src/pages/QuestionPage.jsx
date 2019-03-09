@@ -1,12 +1,10 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-// import GridList from '@material-ui/core/GridList';
 import { TextField, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types'
 import BigButton from '../components/BigButton';
 import SkipButton from '../components/SkipButton';
 import SubmitButton from '../components/SubmitButton'
-import '../css/style.css';
 import Language from '../containers/Language';
 import ToggleButtons from '../components/ToggleButtons';
 import { FormattedMessage } from 'react-intl';
@@ -18,7 +16,6 @@ import {
     UNINITIALIZED as QUESTION_TYPE_UNINITIALIZED
 } from '../constants/questionTypes';
 
-
 const styles = {
     basic: {
         backgroundColor: '#0078CC',
@@ -29,7 +26,6 @@ const styles = {
     },
     questionDiv: {
         backgroundColor: '#0496FF',
-        fullWidth: true,
         display: 'flex',
         justifyContent: 'center',
         color: '#ffffff',
@@ -41,25 +37,17 @@ const styles = {
         marginRight: 0,
         marginBottom: 45,
     },
-    skipped: {
-
-        textAlign: 'center'
-    },
-    answerDiv: {
-
-    },
     middleDiv: {
+        direction: "column",
         marginTop: 0,
         marginLeft: 0,
         marginRight: 0,
         marginBottom: 450,
     },
     bottomDiv: {
-        backgroundColor: '#0496FF',
-        width: 600,
-        borderRadius: 30,
-        display: 'inline',
-        float: 'none',
+        display: 'block',
+        backgroundColor: '#0078CC',
+        justifyContent: 'center',
 
     }
 }
@@ -155,19 +143,15 @@ class QuestionPage extends React.Component {
 
     submitTextButton = () => {
         return ( // XXX: does not render for some reason
-            <div className="center-align txt">
-                <Grid container direction="row" justify="center">
-                    <SubmitButton
-                        onClick={() => {
-                            this.props.onSubmitFreeText(this.state.text)
-                            this.setState({
-                                text: ''
-                            });
-                        }}
-                        text="Submit"
-                    />
-                </Grid>
-            </div>
+            <SubmitButton
+                onClick={() => {
+                    this.props.onSubmitFreeText(this.state.text)
+                    this.setState({
+                        text: ''
+                    });
+                }}
+                text="Submit"
+            />
         )
     }
 
@@ -206,27 +190,38 @@ class QuestionPage extends React.Component {
         return (
             <div style={styles.basic}>
 
-                <div style={styles.questionDiv}>
-                    <h2>{this.props.question.name}</h2>
-                    {this.props.error && <Typography variant='h4' color='error'>
-                        <FormattedMessage id="questionpage.required"
-                            defaultMessage="This field is required!"
-                            description="Requirement text"
-                            values={{ what: 'react-intl' }}
-                        />
-                    </Typography>}
-                </div>
+                <Grid container
+                    direction="column"
+                    justify="center"
+                    alignItems="center"
+                    style={styles.questionDiv}>
 
-                <div style={styles.middleDiv}>
-                    <div >
-                        <Grid container justify="center" >
-                            {this.renderQuestionElements(this.props.questionType)}
-                        </Grid>
-                    </div>
-                </div>
+                    <Grid item xs={12}>
+                        <h2>{this.props.question.name}</h2>
+                        {this.props.error && <Typography variant='h4' color='error'>
+                            <FormattedMessage id="questionpage.required"
+                                defaultMessage="This field is required!"
+                                description="Requirement text"
+                                values={{ what: 'react-intl' }}
+                            />
+                        </Typography>}
+                    </Grid>
+                </Grid>
 
-                <Grid container justify="center">
-                    <div style={styles.skipped}>
+                <Grid container
+                    direction="column"
+                    justify="center"
+                    alignItems="center" style={styles.middleDiv}>
+                    <Grid item xs={12}>
+                        {this.renderQuestionElements(this.props.questionType)}
+                    </Grid>
+                </Grid>
+
+                <Grid container
+                    direction="column"
+                    justify="center"
+                    alignItems="center" style={styles.bottomDiv}>
+                    <Grid item xs={12}>
                         {this.renderSubmitButton(this.props.questionType)}
                         {
                             !this.props.currentIsRequired &&
@@ -235,9 +230,12 @@ class QuestionPage extends React.Component {
                                 text={"Skip"}
                             />
                         }
-                    </div>
+                        {this.renderLanguageButtons()}
+                    </Grid>
                 </Grid>
-                {this.renderLanguageButtons()}
+
+
+
             </div>
         )
     }

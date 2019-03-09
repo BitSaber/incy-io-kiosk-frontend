@@ -1,6 +1,5 @@
 import React from 'react';
 import { string, object, func, shape, array } from 'prop-types';
-
 import questionService from './service'
 import ThankYouPage from './pages/ThankYouPage';
 import QuestionPage from './pages/QuestionPage';
