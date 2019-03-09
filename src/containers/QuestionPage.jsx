@@ -6,7 +6,7 @@ const mapStateToProps = (state, ownProps) => ({
     text: state.ui.freeText.text,
 });
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = () => {
     return {
         //onSubmitFreeText: () => dispatch(submitText()) 
     }
