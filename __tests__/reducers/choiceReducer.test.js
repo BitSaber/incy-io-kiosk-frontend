@@ -1,5 +1,5 @@
 import reducer from '../../src/reducers/choiceReducer';
-import { SET_CHOICES } from "../../src/constants/actions";
+import { SET_AVAILABLE_CHOICES } from "../../src/constants/actions";
 
 describe('choiceReducer', () => {
     it('should set the initial state', () => {
@@ -10,11 +10,11 @@ describe('choiceReducer', () => {
     })
 
     it('should set the choices', () => {
-        const state = reducer(undefined, { type: SET_CHOICES, payload: [{ id: 1 }] });
+        const state = reducer(undefined, { type: SET_AVAILABLE_CHOICES, payload: [{ id: 1 }] });
         expect(state).toEqual({
             availableChoices: [{ id: 1 }]
         });
-        const nextState = reducer(state, { type: SET_CHOICES, payload: [{ id: 2 }] });
+        const nextState = reducer(state, { type: SET_AVAILABLE_CHOICES, payload: [{ id: 2 }] });
         expect(nextState).toEqual({
             availableChoices: [{ id: 2 }]
         });
