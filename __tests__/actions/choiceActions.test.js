@@ -1,4 +1,5 @@
-import { setChoicesAction, SET_CHOICES } from "../../src/actions/choiceActions";
+import { setChoicesAction } from "../../src/actions/choiceActions";
+import { SET_CHOICES } from "../../src/constants/actions";
 
 // we mock the service so that we can return custom data
 jest.mock("../../src/service", () => {

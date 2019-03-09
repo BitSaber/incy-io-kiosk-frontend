@@ -1,5 +1,5 @@
 import reducer from '../../src/reducers/choiceReducer';
-import { SET_CHOICES } from "../../src/actions/choiceActions";
+import { SET_CHOICES } from "../../src/constants/actions";
 
 describe('choiceReducer', () => {
     it('should set the initial state', () => {
