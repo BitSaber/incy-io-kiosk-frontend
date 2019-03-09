@@ -132,10 +132,8 @@ class App extends React.Component {
     }
 
     showFieldRequired = () => {
-        console.log(this.props.setShowError)
         const { setShowError } = this.props
         if (!this.props.flags.showError) {
-            console.log(':D')
             setShowError(true)
             setTimeout(() => {
                 setShowError(false)
