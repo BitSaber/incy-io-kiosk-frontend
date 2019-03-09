@@ -11,8 +11,6 @@ import {
 } from './constants/questionTypes';
 
 const initialState = {
-    categoryId: null,
-    placeId: null,
     multiSelectArray: [],
     error: null
 }
@@ -24,30 +22,24 @@ class App extends React.Component {
     }
 
     async componentDidMount() {
-        this.setInfo();
+        const { setCategory, setPlace, setQuestions, currentLanguageId } = this.props;
+        await setCategory(currentLanguageId);
+        await setPlace(currentLanguageId);
+        await setQuestions(currentLanguageId);
 
-        const { setQuestions, currentLanguageId } = this.props;
-        setQuestions(currentLanguageId);
+        this.setFirstQuestion()
     }
 
-    setInfo = async () => { // better name ideas?
-        const cat = await questionService.getCategory()
-        const loc = await questionService.getPlace()
-
-        // Sets the state with necessary attributes fetched from the API, and calls setFirstQuestion after
-        this.setState({
-            category: cat[0].id,
-            place: loc[0].id,
-        }, this.setFirstQuestion);
-    }
 
     setFirstQuestion = async () => {
         const { currentLanguageId, setCurrentQuestion, setCurrentChoices } = this.props;
         const { allQuestions } = this.props.questions;
 
-        const currentQuestion = allQuestions[0];
-        setCurrentQuestion(currentQuestion);
-        setCurrentChoices(currentQuestion.id, currentLanguageId);
+        if (allQuestions.length > 0) {
+            const currentQuestion = allQuestions[0];
+            setCurrentQuestion(currentQuestion);
+            setCurrentChoices(currentQuestion.id, currentLanguageId);
+        }
     }
 
     checkNextQuestion = (position) => {
@@ -218,16 +210,14 @@ class App extends React.Component {
     }
 
     submitObservation = () => {
-        const { answers, resetAnswers, setAllAnswered, setAllDisplayed } = this.props;
+        const { answers, resetAnswers, setAllAnswered, setAllDisplayed, context } = this.props;
 
         const time = new Date().toString().substring(0, 21)
-        const place = this.state.place
-        const category = this.state.category
         const data = {
             occurred_at: time,
-            place: place,
+            place: context.place[0].id,
             deadline: null,
-            category: category,
+            category: context.category[0].id,
             answers: answers
         }
 
@@ -236,7 +226,7 @@ class App extends React.Component {
 
         setAllAnswered(true);
 
-        this.setInfo();
+        this.setFirstQuestion();
 
         setTimeout(() => {
             setAllAnswered(false);
@@ -290,6 +280,12 @@ App.propTypes = {
     setAllAnswered: func.isRequired,
     setAllDisplayed: func.isRequired,
     setCurrentQuestion: func.isRequired,
+    context: shape({
+        place: array.isRequired,
+        category: array.isRequired,
+    }),
+    setCategory: func.isRequired,
+    setPlace: func.isRequired,
     setCurrentChoices: func.isRequired,
     choices: object.isRequired,
 }
