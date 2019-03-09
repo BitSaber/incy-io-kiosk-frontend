@@ -1,5 +1,5 @@
 import React from 'react';
-import { string, object, func, shape, array } from 'prop-types';
+import { string, object, func, bool, shape, array } from 'prop-types';
 
 import questionService from './service'
 import ThankYouPage from './pages/ThankYouPage';
@@ -11,8 +11,6 @@ import {
 } from './constants/questionTypes';
 
 const initialState = {
-    isAllQuestionsAnswered: false,
-    areAllQuestionsDisplayed: false,
     categoryId: null,
     placeId: null,
     multiSelectArray: [],
@@ -75,7 +73,7 @@ class App extends React.Component {
     }
 
     setNextQuestion = async () => {
-        const { allQuestions, currentQuestion } = this.props.questions;
+        const { questions: { allQuestions, currentQuestion }, setAllAnswered, setAllDisplayed } = this.props;
         // finds the next question to display
         const questionsLen = allQuestions.length
         var position = allQuestions.find(
@@ -92,9 +90,9 @@ class App extends React.Component {
         }
         // Check if the last displayed question still needs an answer, or if the thank you page can be displayed
         if (position >= questionsLen) {
-            this.state.areAllQuestionsDisplayed = true
+            setAllDisplayed(true)
             if (flag) {
-                this.state.isAllQuestionsAnswered = true
+                setAllAnswered(true)
             }
         }
     }
@@ -196,13 +194,13 @@ class App extends React.Component {
         this.moveToNextQuestion()
     }
 
-    moveToNextQuestion = () => {
+    moveToNextQuestion = async () => {
         const { allQuestions, currentQuestion } = this.props.questions;
         const position = allQuestions.findIndex(question => question.id === currentQuestion.id);
 
-        if (!this.state.areAllQuestionsDisplayed) { // more questions
-            this.setNextQuestion(position);
-            if (this.state.areAllQuestionsDisplayed && this.state.isAllQuestionsAnswered) {
+        if (!this.props.flags.isAllQuestionsDisplayed) { // more questions
+            await this.setNextQuestion(position);
+            if (this.props.flags.isAllQuestionsDisplayed && this.props.flags.isAllQuestionsAnswered) {
                 this.submitObservation()
             }
         } else { // no more questions
@@ -220,7 +218,7 @@ class App extends React.Component {
     }
 
     submitObservation = () => {
-        const { answers, resetAnswers } = this.props;
+        const { answers, resetAnswers, setAllAnswered, setAllDisplayed } = this.props;
 
         const time = new Date().toString().substring(0, 21)
         const place = this.state.place
@@ -236,17 +234,13 @@ class App extends React.Component {
         questionService.postObservation(data);
         resetAnswers();
 
-        this.setState({
-            isAllQuestionsAnswered: true,
-        });
+        setAllAnswered(true);
 
         this.setInfo();
 
         setTimeout(() => {
-            this.setState({
-                isAllQuestionsAnswered: false,
-                areAllQuestionsDisplayed: false
-            });
+            setAllAnswered(false);
+            setAllDisplayed(false);
         }, 3000);
     }
 
@@ -258,19 +252,13 @@ class App extends React.Component {
             return null;
         }
 
-        const question = allQuestions.find(question => question.id === currentQuestion.id);
-        // question is undefined and we are waiting for it from the server
-        if (!question) {
-            return null;
-        }
-
-        if (this.state.isAllQuestionsAnswered) {
+        if (this.props.flags.isAllQuestionsAnswered) {
             return <ThankYouPage />;
         }
 
         return (
             <QuestionPage
-                question={question}
+                question={currentQuestion}
                 questionChoices={currentChoices}
                 onChoiceClick={this.handleChoiceClick}
                 questionType={currentQuestion.type}
@@ -295,6 +283,12 @@ App.propTypes = {
         currentQuestion: object,
     }).isRequired,
     setQuestions: func.isRequired,
+    flags: shape({
+        isAllQuestionsAnswered: bool.isRequired,
+        isAllQuestionsDisplayed: bool.isRequired
+    }).isRequired,
+    setAllAnswered: func.isRequired,
+    setAllDisplayed: func.isRequired,
     setCurrentQuestion: func.isRequired,
     setCurrentChoices: func.isRequired,
     choices: object.isRequired,
