@@ -25,9 +25,9 @@ class App extends React.Component {
     }
 
     async componentDidMount() {
-
-        const { setContext, setQuestions, currentLanguageId } = this.props;
-        await setContext(currentLanguageId)
+        const { setCategory, setPlace, setQuestions, currentLanguageId } = this.props;
+        await setCategory(currentLanguageId);
+        await setPlace(currentLanguageId);
         await setQuestions(currentLanguageId);
 
         this.setFirstQuestion()
@@ -240,7 +240,6 @@ class App extends React.Component {
             isAllQuestionsAnswered: true,
         });
 
-        this.props.setContext(this.props.currentLanguageId);
         this.setFirstQuestion();
 
         setTimeout(() => {
@@ -300,7 +299,8 @@ App.propTypes = {
         place: array.isRequired,
         category: array.isRequired,
     }),
-    setContext: func.isRequired,
+    setCategory: func.isRequired,
+    setPlace: func.isRequired,
 }
 
 export default App;
