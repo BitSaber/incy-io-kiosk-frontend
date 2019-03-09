@@ -11,7 +11,6 @@ import {
 } from './constants/questionTypes';
 
 const initialState = {
-    currentQuestionChoices: [],
     isAllQuestionsAnswered: false,
     areAllQuestionsDisplayed: false,
     categoryId: null,
@@ -45,17 +44,12 @@ class App extends React.Component {
     }
 
     setFirstQuestion = async () => {
-        const { currentLanguageId, setCurrentQuestion } = this.props;
+        const { currentLanguageId, setCurrentQuestion, setCurrentChoices } = this.props;
         const { allQuestions } = this.props.questions;
 
         const currentQuestion = allQuestions[0];
         setCurrentQuestion(currentQuestion);
-
-        const choices = await questionService.getChoices(currentQuestion.id, currentLanguageId);
-
-        this.setState({
-            currentQuestionChoices: choices,
-        });
+        setCurrentChoices(currentQuestion.id, currentLanguageId);
     }
 
     checkNextQuestion = (position) => {
@@ -106,24 +100,19 @@ class App extends React.Component {
     }
 
     setQuestion = async (newPosition) => {
-        const { currentLanguageId, questions, setCurrentQuestion } = this.props;
+        const { currentLanguageId, questions, setCurrentQuestion, setCurrentChoices } = this.props;
         const { allQuestions } = questions;
 
         const newQuestion = allQuestions.find(question => question.position === newPosition)
         setCurrentQuestion(newQuestion);
 
         if (newQuestion.type !== STR) {
-            const newChoices = await questionService.getChoices(newQuestion.id, currentLanguageId);
+            setCurrentChoices(newQuestion.id, currentLanguageId);
 
             // Sets an empty answer array for multi select question
             if (newQuestion.type === MULTI_SELECT) {
                 this.setState({
-                    currentQuestionChoices: newChoices,
                     multiSelectArray: []
-                })
-            } else {
-                this.setState({
-                    currentQuestionChoices: newChoices
                 })
             }
         }
@@ -263,6 +252,7 @@ class App extends React.Component {
 
     render() {
         const { allQuestions, currentQuestion } = this.props.questions;
+        const { currentChoices } = this.props.choices;
 
         if (!currentQuestion) {
             return null;
@@ -281,7 +271,7 @@ class App extends React.Component {
         return (
             <QuestionPage
                 question={question}
-                questionChoices={this.state.currentQuestionChoices}
+                questionChoices={currentChoices}
                 onChoiceClick={this.handleChoiceClick}
                 questionType={currentQuestion.type}
                 onSubmitMultiClick={this.submitMultiAnswer}
@@ -306,6 +296,8 @@ App.propTypes = {
     }).isRequired,
     setQuestions: func.isRequired,
     setCurrentQuestion: func.isRequired,
+    setCurrentChoices: func.isRequired,
+    choices: object.isRequired,
 }
 
 export default App;

@@ -6,6 +6,7 @@ import intlReducer, { initialState as initialStateIntl } from '../reducers/intlR
 import answerReducer from '../reducers/answerReducer';
 import uiReducer from '../reducers/UiReducers'
 import questionReducer from '../reducers/questionReducer';
+import choiceReducer from '../reducers/choiceReducer';
 
 const initialState = {
     intl: initialStateIntl,
@@ -17,6 +18,7 @@ const combinedReducers = combineReducers({
     answers: answerReducer,
     ui: uiReducer,
     questions: questionReducer,
+    choices: choiceReducer,
 });
 
 const composedMiddleware = composeWithDevTools(

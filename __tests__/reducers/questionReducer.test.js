@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import reducer from '../../src/reducers/questionReducer';
-import { SET_QUESTIONS, SET_CURRENT_QUESTION } from '../../src/actions/questionActions';
+import { SET_QUESTIONS, SET_CURRENT_QUESTION } from '../../src/constants/actions';
 
 describe('questionReducer', () => {
     it('should set the initial state', () => {
