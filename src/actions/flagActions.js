@@ -1,5 +1,4 @@
-export const SET_ALL_ANSWERED = 'SET_ALL_ANSWERED';
-export const SET_ALL_DISPLAYED = 'SET_ALL_DISPLAYED';
+import { SET_ALL_ANSWERED, SET_ALL_DISPLAYED } from "../constants/actions";
 
 export const setAllAnsweredAction = value => ({
     type: SET_ALL_ANSWERED,

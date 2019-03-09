@@ -1,4 +1,4 @@
-import { SET_ALL_ANSWERED, SET_ALL_DISPLAYED } from '../actions/flagActions';
+import { SET_ALL_ANSWERED, SET_ALL_DISPLAYED } from '../constants/actions';
 
 const initialState = {
     isAllQuestionsAnswered: false,

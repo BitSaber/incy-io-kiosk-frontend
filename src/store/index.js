@@ -11,7 +11,6 @@ import choiceReducer from '../reducers/choiceReducer';
 
 const initialState = {
     intl: initialStateIntl,
-    //ui: { freeText: { text: "" } }
 }
 
 const combinedReducers = combineReducers({
