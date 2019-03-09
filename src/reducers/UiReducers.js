@@ -1,5 +1,5 @@
 import { TEXT_CHANGE, TEXT_SUBMIT } from '../constants/actions'
-import { submitTextAnswer } from '../App'
+//import { submitTextAnswer } from '../App'
 
 const initialState = {
     freeText: { text: "" }
@@ -13,7 +13,7 @@ const reducer = (state = initialState, action) => {
         }
     }
     else if (action.type === TEXT_SUBMIT) {
-        return submitTextAnswer(action.text)
+        //    return submitTextAnswer(action.text)
     }
 
     return state
