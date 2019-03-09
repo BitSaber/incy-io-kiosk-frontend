@@ -1,4 +1,4 @@
-import { ADD_ANSWER, RESET_ANSWERS } from '../actions/answerActions';
+import { ADD_ANSWER, RESET_ANSWERS } from "../constants/actions";
 
 const reducer = (state={}, action) => {
     if (action.type === ADD_ANSWER) {

@@ -1,6 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { TextField, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
+import FreeText from '../containers/FreeText'
 import PropTypes from 'prop-types'
 import BigButton from '../components/BigButton';
 import SkipButton from '../components/SkipButton';
@@ -9,6 +10,7 @@ import '../css/style.css';
 import Language from '../containers/Language';
 import ToggleButtons from '../components/ToggleButtons';
 import { FormattedMessage } from 'react-intl';
+import { string } from 'prop-types'
 
 import {
     SELECT,
@@ -20,9 +22,6 @@ import {
 class QuestionPage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            text: '' // current text of the textField
-        };
     }
 
     static propTypes = {
@@ -35,7 +34,8 @@ class QuestionPage extends React.Component {
         questionPos: PropTypes.number.isRequired,
         error: PropTypes.bool,
         skipClick: PropTypes.func.isRequired,
-        currentIsRequired: PropTypes.bool.isRequired
+        currentIsRequired: PropTypes.bool.isRequired,
+        text: string.isRequired
     }
 
     submitMultiButton = () => {
@@ -58,37 +58,8 @@ class QuestionPage extends React.Component {
         ))
     }
 
-    //Updates changes made into textfield into state
-    handleChange = (event) => {
-        this.setState({
-            text: event.target.value
-        });
-    }
-
     renderTextField = () => {
-        const label = (<FormattedMessage id="textfield.placeholder"
-            defaultMessage="Your answer"
-            description="Placeholder on text field"
-            values={{ what: 'react-intl' }}
-        />);
-
-        return (
-            <div className="center-align txt">
-                <form>
-                    <TextField
-                        id="outlined-bare"
-                        label={label}
-                        multiline
-                        rows="20"
-                        margin="normal"
-                        value={this.state.text}
-                        onChange={this.handleChange}
-                        variant="outlined"
-                        style={{ width: 500 }}
-                    />
-                </form>
-            </div>
-        )
+        return <FreeText />
     }
 
     renderQuestionElements = (questionType) => {
@@ -111,10 +82,7 @@ class QuestionPage extends React.Component {
                 <Grid container direction="row" justify="center">
                     <SubmitButton
                         onClick={() => {
-                            this.props.onSubmitFreeText(this.state.text)
-                            this.setState({
-                                text: ''
-                            });
+                            this.props.onSubmitFreeText(this.props.text) //onClick should dispatch an action
                         }}
                         text="Submit"
                     />

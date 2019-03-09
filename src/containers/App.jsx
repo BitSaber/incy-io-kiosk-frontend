@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { addAnswerAction, resetAnswersAction } from '../actions/answerActions';
 import { setQuestionsAction, setCurrentQuestionAction } from '../actions/questionActions';
 import { setCategoryAction, setPlaceAction } from '../actions/contextActions';
+import { setChoicesAction } from '../actions/choiceActions';
 import App from '../App';
 
 const mapStateToProps = state => ({
@@ -10,6 +11,7 @@ const mapStateToProps = state => ({
     answers: state.answers,
     questions: state.questions,
     context: state.context,
+    choices: state.choices,
 });
 
 const mapDispatchToProps = {
@@ -19,6 +21,7 @@ const mapDispatchToProps = {
     setCategory: setCategoryAction,
     setPlace: setPlaceAction,
     setCurrentQuestion: setCurrentQuestionAction,
+    setCurrentChoices: setChoicesAction,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

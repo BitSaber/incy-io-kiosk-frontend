@@ -1,7 +1,7 @@
 {
-    "thankyou.phrase": "Tack ska du ha!",
+    "thankyou.phrase": "Tack för svaret!",
     "submitbutton": "Skicka",
     "skipbutton": "Skip",
-    "questionpage.required": "Den här fråga är obligatorisk!",
+    "questionpage.required": "Den här frågan är obligatorisk!",
     "textfield.placeholder": "Ditt svar"
 }

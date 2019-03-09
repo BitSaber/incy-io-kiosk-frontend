@@ -37,13 +37,14 @@ describe('<App />', () => {
                 resetAnswers={jest.fn()}
                 setQuestions={setQuestions}
                 setCurrentQuestion={jest.fn()}
+                setCurrentChoices={jest.fn()}
                 questions={{ allQuestions: [] }}
                 context={{ place: [], category: [] }}
                 setPlace={jest.fn()}
                 setCategory={jest.fn()}
+                choices={{ currentChoices: [] }}
             />
         );
-        expect(component.state().currentQuestionChoices).toEqual([]);
         expect(component.state().isAllQuestionsAnswered).toEqual(false);
     });
 
@@ -57,10 +58,12 @@ describe('<App />', () => {
                 resetAnswers={jest.fn()}
                 setQuestions={setQuestions}
                 setCurrentQuestion={jest.fn()}
+                setCurrentChoices={jest.fn()}
                 questions={{ allQuestions: [] }}
                 context={{ place: [], category: [] }}
                 setPlace={jest.fn()}
                 setCategory={jest.fn()}
+                choices={{ currentChoices: [] }}
             />
         );
         expect(setQuestions.mock.toBeCalled)

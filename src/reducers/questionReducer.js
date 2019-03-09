@@ -1,4 +1,4 @@
-import { SET_QUESTIONS, SET_CURRENT_QUESTION } from '../actions/questionActions';
+import { SET_QUESTIONS, SET_CURRENT_QUESTION } from "../constants/actions";
 
 const initialState = {
     allQuestions: [],

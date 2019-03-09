@@ -1,7 +1,6 @@
 import service from '../service';
 
-export const SET_QUESTIONS = 'SET_QUESTIONS';
-export const SET_CURRENT_QUESTION = 'SET_CURRENT_QUESTION';
+import { SET_QUESTIONS, SET_CURRENT_QUESTION } from '../constants/actions';
 
 export const setQuestionsAction = (langId) => {
     return async (dispatch) => {
