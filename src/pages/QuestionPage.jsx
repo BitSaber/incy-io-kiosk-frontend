@@ -24,30 +24,31 @@ const styles = {
         alignItems: 'center',
         fontFamily: 'Roboto',
     },
+    textStyle: {
+        color: '#ffffff',
+        fontSize: 40,
+        fontWeight: 'bold',
+    },
     questionDiv: {
         backgroundColor: '#0496FF',
         display: 'flex',
         justifyContent: 'center',
-        color: '#ffffff',
         height: 184,
         textAlign: 'center',
-        fontSize: 35,
         margin: 138,
         marginLeft: 0,
         marginRight: 0,
         marginBottom: 45,
     },
     middleDiv: {
-        direction: "column",
         marginTop: 0,
         marginLeft: 0,
         marginRight: 0,
         marginBottom: 450,
     },
     bottomDiv: {
-        display: 'block',
-        backgroundColor: '#0078CC',
-        justifyContent: 'center',
+
+
 
     }
 }
@@ -191,21 +192,19 @@ class QuestionPage extends React.Component {
             <div style={styles.basic}>
 
                 <Grid container
-                    direction="column"
-                    justify="center"
                     alignItems="center"
                     style={styles.questionDiv}>
 
-                    <Grid item xs={12}>
-                        <h2>{this.props.question.name}</h2>
-                        {this.props.error && <Typography variant='h4' color='error'>
-                            <FormattedMessage id="questionpage.required"
-                                defaultMessage="This field is required!"
-                                description="Requirement text"
-                                values={{ what: 'react-intl' }}
-                            />
-                        </Typography>}
-                    </Grid>
+
+                    <Typography style={styles.textStyle}> {this.props.question.name}</Typography>
+                    {this.props.error && <Typography variant='h4' color='error'>
+                        <FormattedMessage id="questionpage.required"
+                            defaultMessage="This field is required!"
+                            description="Requirement text"
+                            values={{ what: 'react-intl' }}
+                        />
+                    </Typography>}
+
                 </Grid>
 
                 <Grid container

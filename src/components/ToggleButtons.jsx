@@ -13,13 +13,12 @@ const style = {
         marginBottom: 15,
         height: 75,
         borderRadius: 30,
-        fontSize: 35,
-
     },
     textStyle: {
         fontSize: 35,
         color: '#ffffff',
         fontWeight: 'bold',
+        justifyContent: 'center'
     },
 
 }
