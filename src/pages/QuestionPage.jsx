@@ -23,6 +23,7 @@ const style = {
     basic: {
         backgroundColor: '#0078CC',
         height: '100vh',
+        width: '100%',
         overflow: 'hidden',
         alignItems: 'center',
         fontFamily: 'Roboto',
@@ -36,6 +37,7 @@ const style = {
         backgroundColor: '#0496FF',
         display: 'flex',
         justifyContent: 'center',
+        width: '100%',
         height: 184,
         textAlign: 'center',
     },
@@ -189,7 +191,7 @@ class QuestionPage extends React.Component {
     render() {
 
         return (
-            <Grid container spacing={8} style={style.basic}>
+            <Grid container spacing={8} zeroMinWidth style={style.basic}>
                 <Grid container
                     alignItems="center"
                     style={style.questionDiv}>
