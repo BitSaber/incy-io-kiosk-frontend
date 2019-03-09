@@ -6,6 +6,7 @@ import intlReducer, { initialState as initialStateIntl } from '../reducers/intlR
 import answerReducer from '../reducers/answerReducer';
 import uiReducer from '../reducers/UiReducers'
 import questionReducer from '../reducers/questionReducer';
+import contextReducer from '../reducers/contextReducer';
 import flagsReducer from '../reducers/flagsReducer';
 import choiceReducer from '../reducers/choiceReducer';
 
@@ -18,6 +19,7 @@ const combinedReducers = combineReducers({
     answers: answerReducer,
     ui: uiReducer,
     questions: questionReducer,
+    context: contextReducer,
     flags: flagsReducer,
     choices: choiceReducer,
 });
