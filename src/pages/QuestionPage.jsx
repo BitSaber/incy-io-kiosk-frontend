@@ -1,10 +1,16 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { TextField, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
+import FreeText from '../containers/FreeText'
 import PropTypes from 'prop-types'
 import BigButton from '../components/BigButton';
+import SkipButton from '../components/SkipButton';
+import SubmitButton from '../components/SubmitButton'
 import '../css/style.css';
+import Language from '../containers/Language';
 import ToggleButtons from '../components/ToggleButtons';
+import { FormattedMessage } from 'react-intl';
+import { string } from 'prop-types'
 
 import {
     SELECT,
@@ -16,9 +22,6 @@ import {
 class QuestionPage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            text: '' // current text of the textField
-        };
     }
 
     static propTypes = {
@@ -28,14 +31,18 @@ class QuestionPage extends React.Component {
         questionType: PropTypes.string.isRequired,
         onSubmitMultiClick: PropTypes.func.isRequired,
         onSubmitFreeText: PropTypes.func.isRequired,
-        error: PropTypes.string,
+        questionPos: PropTypes.number.isRequired,
+        error: PropTypes.bool,
+        skipClick: PropTypes.func.isRequired,
+        currentIsRequired: PropTypes.bool.isRequired,
+        text: string.isRequired
     }
     /**
      * @description rendering the button on the screen
      * @returns button with text and submit function
      */
     submitMultiButton = () => {
-        return <BigButton onClick={() => this.props.onSubmitMultiClick()} text="Submit" />
+        return <SubmitButton onClick={() => this.props.onSubmitMultiClick()} />
     }
 
     /**
@@ -61,34 +68,8 @@ class QuestionPage extends React.Component {
         ))
     }
 
-    //Updates changes made into textfield into state
-    handleChange = (event) => {
-        this.setState({
-            text: event.target.value
-        });
-    }
-
-    /**
-     * @description renders a textfield 
-     */
     renderTextField = () => {
-        return (
-            <div className="center-align txt">
-                <form>
-                    <TextField
-                        id="outlined-bare"
-                        label="Please add text here"
-                        multiline
-                        rows="20"
-                        margin="normal"
-                        value={this.state.text}
-                        onChange={this.handleChange}
-                        variant="outlined"
-                        style={{ width: 500 }}
-                    />
-                </form>
-            </div>
-        )
+        return <FreeText />
     }
 
 
@@ -116,12 +97,9 @@ class QuestionPage extends React.Component {
         return ( // XXX: does not render for some reason
             <div className="center-align txt">
                 <Grid container direction="row" justify="center">
-                    <BigButton
+                    <SubmitButton
                         onClick={() => {
-                            this.props.onSubmitFreeText(this.state.text)
-                            this.setState({
-                                text: ''
-                            });
+                            this.props.onSubmitFreeText(this.props.text) //onClick should dispatch an action
                         }}
                         text="Submit"
                     />
@@ -154,14 +132,27 @@ class QuestionPage extends React.Component {
         }
     }
 
+    renderLanguageButtons = () => {
+        if (this.props.questionPos === 0) {
+            return <Language />
+        }
+        return
+    }
+
     render() {
 
         return (
             <div>
-                <div className="center-align"><img src="/planblogo_color.jpg" className="logo"></img> </div>
-                <div className="question-div ">
+                {this.renderLanguageButtons()}
+                <div className="question-div">
                     <h2 className="txt" variant="h2">{this.props.question.name}</h2>
-                    {this.props.error && <Typography variant='h4' color='error'>{this.props.error}</Typography>}
+                    {this.props.error && <Typography variant='h4' color='error'>
+                        <FormattedMessage id="questionpage.required"
+                            defaultMessage="This field is required!"
+                            description="Requirement text"
+                            values={{ what: 'react-intl' }}
+                        />
+                    </Typography>}
                 </div>
                 <div>
                     <div className="center-align txt">
@@ -172,15 +163,20 @@ class QuestionPage extends React.Component {
 
                         </Grid>
                     </div>
+                    <div className="skipped">
+                        { // TODO: button location and style
+                            !this.props.currentIsRequired &&
+                            <SkipButton
+                                onClick={() => this.props.skipClick()}
+                                text={"Skip"}
+                            />
+                        }
+                    </div>
+
                 </div>
                 <footer className="footer">
                     <footer className="inside">
                         <div>Copyright © 2018 BitSaber, Otaniemi, Finland</div>
-                        <div className="under">
-                            <ul>
-                                <li> <a href="https://github.com/BitSaber/incy-io-kiosk-frontend" target="_blank" rel="noopener noreferrer">GitHub</a> </li>
-                            </ul>
-                        </div>
                     </footer>
                 </footer>
 

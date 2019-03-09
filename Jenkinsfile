@@ -49,6 +49,29 @@ pipeline {
                 sh 'yarn build'
             }
         }
+        stage('Robot Tests') {
+            environment {
+                PATH = "$PATH:/opt/chromedriver/"
+            }
+            steps {
+                sh 'cp -r dist heroku_docker/app'
+                sh 'docker build --tag incy-io-kiosk-frontend .'
+                sh 'docker run -d --name incy-io-kiosk-frontend -p 3000:3000 incy-io-kiosk-frontend'
+                sh 'robot -d robot_reports __tests__/robot'
+                sh 'docker stop incy-io-kiosk-frontend'
+                step([
+                    $class : 'RobotPublisher',
+                    outputPath: "./robot_reports/",
+                    outputFileName : "output.xml",
+                    disableArchiveOutput : false,
+                    reportFileName: "report.html",
+                    logFileName: "log.html",
+                    passThreshold : 100,
+                    unstableThreshold: 95.0,
+                    otherFiles : "*.png"
+                ])
+            }
+        }
         stage('Deploy to staging') {
             when {
                 expression { return env.BRANCH_NAME == 'develop' }

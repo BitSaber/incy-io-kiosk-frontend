@@ -4,31 +4,40 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types'
 import '../css/style.css';
 
+/* Used also in SubmitButton */
 export const TextContainer = styled.div`
-    padding:60px 60px;
+    padding:20px 10px;
     margin:5px;
-    text-decoration:none;
-    text-shadow:0px 1px 0px #005667;
     color: #ffffff;
-    font-size:19px;
+    font-size:18px;
     font-weight:bold;
+    width: 200px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
-const ButtonContainer = styled.div`
+export const ButtonContainer = styled.div`
     margin:8px;
 `;
 
-const BigButton = ({ onClick, text }) => (
-    <ButtonContainer>
-        <Button className="newButton" variant="contained" onClick={onClick}>
-            <TextContainer>{text}</TextContainer>
-        </Button>
-    </ButtonContainer>
-);
+const BigButton = ({ onClick, text }) => {
+    return (
+        <ButtonContainer>
+            <Button className="newButton" variant="contained" onClick={onClick}>
+                <TextContainer>{text}</TextContainer>
+            </Button>
+        </ButtonContainer>
+    )
+};
+
 
 BigButton.propTypes = {
     onClick: PropTypes.func.isRequired,
     text: PropTypes.string.isRequired
 };
+
+
 
 export default BigButton;

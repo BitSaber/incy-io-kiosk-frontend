@@ -58,28 +58,48 @@ const categoryUrl = `${baseUrl}/${organizationName}/observation-categories/links
 const placeUrl = `${baseUrl}/${organizationName}/places/links/${linkName}`;
 const postUrl = `${baseUrl}/${organizationName}/observations/links/${linkName}`
 
+// what should we do about this?
+const availableLangUrl = `${baseUrl}/${organizationName}/available-languages`;
+
 /* A generic function for GETting the data.data from an URL. */
-const getUrl = async (url) => {
-    const response = await axios.get(url).catch(err => {
+const getUrl = async (url, headers) => {
+    const response = await axios.get(url, headers).catch(err => {
         console.error(err); // eslint-disable-line
     });
     return response.data.data;
 }
 
-const getCategory = () => {
-    return getUrl(categoryUrl)
+const getLanguages = () => {
+    return getUrl(availableLangUrl)
 }
 
-const getPlace = () => {
-    return getUrl(placeUrl)
+// TODO: headers (the language) should be somehow automatically added to each request
+const getCategory = (langId) => {
+    return getUrl(categoryUrl, { headers: {
+        "Accept-Language": (langId + ';q=1')
+    }
+    })
 }
 
-const getQuestions = () => {
-    return getUrl(questionsUrl)
+const getPlace = (langId) => {
+    return getUrl(placeUrl, { headers: {
+        "Accept-Language": (langId + ';q=1')
+    }
+    })
 }
 
-const getChoices = (id) => {
-    return getUrl(choicesUrl + id)
+const getQuestions = (langId) => {
+    return getUrl(questionsUrl, { headers: {
+        "Accept-Language": (langId + ';q=1')
+    }
+    })
+}
+
+const getChoices = (id, langId) => {
+    return getUrl(choicesUrl + id, { headers: {
+        "Accept-Language": (langId + ';q=1')
+    }
+    })
 }
 
 const postObservation = async (data) => { // eslint-disable-line
@@ -100,4 +120,4 @@ function findGetParameter(parameterName) {
     return result;
 }
 
-export default { getUrl, getCategory, getPlace, getQuestions, getChoices, postObservation };
+export default { getUrl, getCategory, getPlace, getLanguages, getQuestions, getChoices, postObservation };

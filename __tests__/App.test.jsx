@@ -2,14 +2,51 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import App from '../src/App';
 
+// we mock the service so that we can return custom data
+jest.mock("../src/service", () => {
+    const mockQuestions = [
+        {
+            position: 2,
+        },
+        {
+            position: 3,
+        },
+        {
+            position: 4,
+        },
+        {
+            position: 1,
+        }
+    ];
+    const mockGetQuestions = jest.fn();
+    mockGetQuestions.mockReturnValue(mockQuestions);
+    return {
+        getQuestions: mockGetQuestions
+    };
+});
+
 describe('<App />', () => {
-    it('should set the initial state correctly in constructor.', () => {
-        const newApp = shallow(<App />);
-        console.log('Initial state of component \'App\':', newApp.state());
-        expect(newApp.state().questions).toEqual([]);
-        expect(newApp.state().currentQuestionID).toEqual(null);
-        expect(newApp.state().currentQuestionChoices).toEqual([]);
-        expect(newApp.state().answers).toEqual({});
-        expect(newApp.state().isAllQuestionsAnswered).toEqual(false);
-    })
+    it('should call setQuestions on componentDidMount()', () => {
+        const setQuestions = jest.fn();
+        shallow(
+            <App
+                currentLanguageId="en"
+                answers={{}}
+                addAnswer={jest.fn()}
+                resetAnswers={jest.fn()}
+                setQuestions={setQuestions}
+                setCurrentQuestion={jest.fn()}
+                setCurrentChoices={jest.fn()}
+                questions={{ allQuestions: [] }}
+                context={{ place: [], category: [] }}
+                setPlace={jest.fn()}
+                setCategory={jest.fn()}
+                setAllAnswered={jest.fn()}
+                setAllDisplayed={jest.fn()}
+                flags={{ isAllQuestionsAnswered: false, isAllQuestionsDisplayed: false }}
+                choices={{ currentChoices: [] }}
+            />
+        );
+        expect(setQuestions.mock.toBeCalled)
+    });
 })
