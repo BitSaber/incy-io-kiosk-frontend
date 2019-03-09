@@ -3,7 +3,7 @@ import { string, object, func, bool, shape, array } from 'prop-types';
 
 import questionService from './service'
 import ThankYouPage from './pages/ThankYouPage';
-import QuestionPage from './pages/QuestionPage';
+import QuestionPage from './containers/QuestionPage';
 import {
     SELECT,
     MULTI_SELECT,
@@ -11,7 +11,6 @@ import {
 } from './constants/questionTypes';
 
 const initialState = {
-    currentQuestionChoices: [],
     categoryId: null,
     placeId: null,
     multiSelectArray: [],
@@ -43,17 +42,12 @@ class App extends React.Component {
     }
 
     setFirstQuestion = async () => {
-        const { currentLanguageId, setCurrentQuestion } = this.props;
+        const { currentLanguageId, setCurrentQuestion, setCurrentChoices } = this.props;
         const { allQuestions } = this.props.questions;
 
         const currentQuestion = allQuestions[0];
         setCurrentQuestion(currentQuestion);
-
-        const choices = await questionService.getChoices(currentQuestion.id, currentLanguageId);
-
-        this.setState({
-            currentQuestionChoices: choices,
-        });
+        setCurrentChoices(currentQuestion.id, currentLanguageId);
     }
 
     checkNextQuestion = (position) => {
@@ -104,24 +98,19 @@ class App extends React.Component {
     }
 
     setQuestion = async (newPosition) => {
-        const { currentLanguageId, questions, setCurrentQuestion } = this.props;
+        const { currentLanguageId, questions, setCurrentQuestion, setCurrentChoices } = this.props;
         const { allQuestions } = questions;
 
         const newQuestion = allQuestions.find(question => question.position === newPosition)
         setCurrentQuestion(newQuestion);
 
         if (newQuestion.type !== STR) {
-            const newChoices = await questionService.getChoices(newQuestion.id, currentLanguageId);
+            setCurrentChoices(newQuestion.id, currentLanguageId);
 
             // Sets an empty answer array for multi select question
             if (newQuestion.type === MULTI_SELECT) {
                 this.setState({
-                    currentQuestionChoices: newChoices,
                     multiSelectArray: []
-                })
-            } else {
-                this.setState({
-                    currentQuestionChoices: newChoices
                 })
             }
         }
@@ -144,8 +133,8 @@ class App extends React.Component {
             const newMultiSelectArray = this.state.multiSelectArray.filter((_, i) => i !== pos)
             this.setState((previousState) => {
                 return {
+                    multiSelectArray: newMultiSelectArray,
                     ...previousState,
-                    multiSelectArray: newMultiSelectArray
                 }
             })
         }
@@ -257,6 +246,7 @@ class App extends React.Component {
 
     render() {
         const { allQuestions, currentQuestion } = this.props.questions;
+        const { currentChoices } = this.props.choices;
 
         if (!currentQuestion) {
             return null;
@@ -269,7 +259,7 @@ class App extends React.Component {
         return (
             <QuestionPage
                 question={currentQuestion}
-                questionChoices={this.state.currentQuestionChoices}
+                questionChoices={currentChoices}
                 onChoiceClick={this.handleChoiceClick}
                 questionType={currentQuestion.type}
                 onSubmitMultiClick={this.submitMultiAnswer}
@@ -300,6 +290,8 @@ App.propTypes = {
     setAllAnswered: func.isRequired,
     setAllDisplayed: func.isRequired,
     setCurrentQuestion: func.isRequired,
+    setCurrentChoices: func.isRequired,
+    choices: object.isRequired,
 }
 
 export default App;
