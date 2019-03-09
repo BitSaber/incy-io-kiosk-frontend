@@ -2,21 +2,21 @@ import { connect } from 'react-redux';
 
 import { addAnswerAction, resetAnswersAction } from '../actions/answerActions';
 import { setQuestionsAction, setCurrentQuestionAction } from '../actions/questionActions';
-import { setFunfactsAction } from '../actions/funfactsActions';
+import { setContextAction } from '../actions/contextActions';
 import App from '../App';
 
 const mapStateToProps = state => ({
     currentLanguageId: state.intl.locale,
     answers: state.answers,
     questions: state.questions,
-    funfacts: state.funfacts,
+    context: state.context,
 });
 
 const mapDispatchToProps = {
     addAnswer: addAnswerAction,
     resetAnswers: resetAnswersAction,
     setQuestions: setQuestionsAction,
-    setFunfacts: setFunfactsAction,
+    setContext: setContextAction,
     setCurrentQuestion: setCurrentQuestionAction,
 }
 

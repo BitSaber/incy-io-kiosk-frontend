@@ -1,5 +1,5 @@
 
-import { SET_FUNFACTS } from '../actions/funfactsActions';
+import { SET_CONTEXT } from '../actions/contextActions';
 
 const initialState = {
     place: [{
@@ -9,7 +9,7 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
-    if (action.type === SET_FUNFACTS) {
+    if (action.type === SET_CONTEXT) {
         return {
             ...state,
             place: action.payload.place,

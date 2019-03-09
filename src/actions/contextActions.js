@@ -1,19 +1,19 @@
 
 import service from '../service';
-export const SET_FUNFACTS = "SET_FUNFACTS";
+export const SET_CONTEXT = "SET_CONTEXT";
 
-export const setFunfactsAction = (langId) => {
+export const setContextAction = (langId) => {
     return async (dispatch) => {
         const category = await service.getCategory(langId);
         const place = await service.getPlace(langId);
 
         dispatch({
-            type: SET_FUNFACTS,
+            type: SET_CONTEXT,
             payload: { category, place }
         });
     };
 };
 
 export default {
-    setFunfactsAction
+    setContextAction
 };
