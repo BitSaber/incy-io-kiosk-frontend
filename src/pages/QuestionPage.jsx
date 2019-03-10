@@ -178,12 +178,14 @@ class QuestionPage extends React.Component {
             <div style={style.body}>
                 <Grid container style={style.basic}>
 
-                    <Grid container
+                    <Grid
+                        id="question-test-id"
+                        container
                         justify="center"
                         alignItems="center"
-                        style={style.questionDiv}>
+                        style={style.questionDiv}
+                    >
                         <Typography style={style.textStyle}> {this.props.question.name}</Typography>
-
                     </Grid>
 
                     <Grid container
