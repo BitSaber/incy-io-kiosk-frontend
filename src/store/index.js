@@ -4,16 +4,24 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import intlReducer, { initialState as initialStateIntl } from '../reducers/intlReducer';
 import answerReducer from '../reducers/answerReducer';
+import uiReducer from '../reducers/UiReducers'
 import questionReducer from '../reducers/questionReducer';
+import contextReducer from '../reducers/contextReducer';
+import flagsReducer from '../reducers/flagsReducer';
+import choiceReducer from '../reducers/choiceReducer';
 
 const initialState = {
-    intl: initialStateIntl
+    intl: initialStateIntl,
 }
 
 const combinedReducers = combineReducers({
     intl: intlReducer,
     answers: answerReducer,
+    ui: uiReducer,
     questions: questionReducer,
+    context: contextReducer,
+    flags: flagsReducer,
+    choices: choiceReducer,
 });
 
 const composedMiddleware = composeWithDevTools(

@@ -1,6 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { TextField, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
+import FreeText from '../containers/FreeText'
 import PropTypes from 'prop-types'
 import BigButton from '../components/BigButton';
 import SkipButton from '../components/SkipButton';
@@ -8,6 +9,7 @@ import SubmitButton from '../components/SubmitButton'
 import Language from '../containers/Language';
 import ToggleButtons from '../components/ToggleButtons';
 import { FormattedMessage } from 'react-intl';
+import { string } from 'prop-types'
 
 import {
     SELECT,
@@ -42,13 +44,6 @@ const style = {
         display: 'flex',
         height: '10%',
     },
-    textDiv: {
-        width: 500,
-        backgroundColor: '#ffffff',
-        fontWeight: 'bold',
-        borderRadius: 30,
-        border: 'none'
-    },
     error: {
         fontWeight: 'bold',
     }
@@ -59,9 +54,6 @@ class QuestionPage extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            text: '' // current text of the textField
-        };
     }
 
     static propTypes = {
@@ -74,13 +66,21 @@ class QuestionPage extends React.Component {
         questionPos: PropTypes.number.isRequired,
         error: PropTypes.bool,
         skipClick: PropTypes.func.isRequired,
-        currentIsRequired: PropTypes.bool.isRequired
+        currentIsRequired: PropTypes.bool.isRequired,
+        text: string.isRequired
     }
-
+    /**
+     * @description rendering the button on the screen
+     * @returns button with text and submit function
+     */
     submitMultiButton = () => {
         return <SubmitButton onClick={() => this.props.onSubmitMultiClick()} />
     }
 
+    /**
+     * @description rendering the selection method
+     * @returns button
+     */
     renderSelect = () => {
         return this.props.questionChoices.map(questionsChoice => (
             <BigButton
@@ -90,46 +90,24 @@ class QuestionPage extends React.Component {
             />
         ))
     }
-
+    /**
+     * @description renders a toggle button for multiselect questions
+     * @returns togglebutton with function
+     */
     renderMultiselect = () => {
         return this.props.questionChoices.map(choice => (
             <ToggleButtons key={choice.id} choice={choice} onChoiceClick={this.props.onChoiceClick} />
         ))
     }
 
-    //Updates changes made into textfield into state
-    handleChange = (event) => {
-        this.setState({
-            text: event.target.value
-        });
-    }
-
     renderTextField = () => {
-        const label = (<FormattedMessage id="textfield.placeholder"
-            defaultMessage="Your answer"
-            description="Placeholder on text field"
-            values={{ what: 'react-intl' }}
-        />);
-
-        return (
-            <div className="center-align txt">
-                <form>
-                    <TextField
-                        id="bare"
-                        label={label}
-                        multiline
-                        rows="20"
-                        margin="normal"
-                        value={this.state.text}
-                        onChange={this.handleChange}
-                        InputProps={{ disableUnderline: true }}
-                        style={style.textDiv}
-                    />
-                </form>
-            </div>
-        )
+        return <FreeText />
     }
 
+
+    /**
+     * @description renders different question elements depending on question type
+     */
     renderQuestionElements = (questionType) => {
         if (questionType === SELECT) {
             return this.renderSelect()
@@ -144,17 +122,21 @@ class QuestionPage extends React.Component {
         }
     }
 
+    /**
+     * @description a text button for submitting free text from @function renderTextField
+     */
     submitTextButton = () => {
         return ( // XXX: does not render for some reason
-            <SubmitButton
-                onClick={() => {
-                    this.props.onSubmitFreeText(this.state.text)
-                    this.setState({
-                        text: ''
-                    });
-                }}
-                text="Submit"
-            />
+            <div className="center-align txt">
+                <Grid container direction="row" justify="center">
+                    <SubmitButton
+                        onClick={() => {
+                            this.props.onSubmitFreeText(this.props.text) //onClick should dispatch an action
+                        }}
+                        text="Submit"
+                    />
+                </Grid>
+            </div>
         )
     }
 
@@ -165,7 +147,9 @@ class QuestionPage extends React.Component {
         ]
         return questionsWithSubmitButtons.indexOf(questionType) !== -1;
     }
-
+    /**
+     * @description renders different submit button depending on the question type
+     */
     renderSubmitButton = (questionType) => {
         if (!this.questionHasSubmitButton(questionType)) {
             return null
