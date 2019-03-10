@@ -14,7 +14,6 @@ import {
  * @description the initial state of the app
  */
 const initialState = {
-    multiSelectArray: [],
     error: null
 }
 
@@ -123,31 +122,6 @@ class App extends React.Component {
                     multiSelectArray: []
                 })
             }
-        }
-    }
-
-    /**
-     * @description saves multiple answers in an array and gives them to submit
-     * @param choice saves the choices that are clicked on the screen
-     * @returns a changed state with the choices saved in an array
-     */
-    multiAnswerClick = (choice) => {
-        // if the answer was NOT selected before, then adds it to the array
-        if (!this.state.multiSelectArray.map(object => object.id).includes(choice.id)) {
-            const newChoice = [{ id: choice.id }]
-            this.setState((previousState) => {
-                return {
-                    ...previousState,
-                    multiSelectArray: previousState.multiSelectArray.concat(newChoice)
-                }
-            })
-        } else {
-            // if the answer WAS selected before, then removes it from the array
-            const pos = this.state.multiSelectArray.map(object => object.id).indexOf(choice.id)
-            const newMultiSelectArray = this.state.multiSelectArray.filter((_, i) => i !== pos)
-            this.setState({
-                multiSelectArray: newMultiSelectArray,
-            });
         }
     }
 
@@ -306,7 +280,6 @@ class App extends React.Component {
                 error={this.state.error}
                 currentIsRequired={currentQuestion.required}
                 skipClick={this.moveToNextQuestion}
-                multiSelectArray={this.state.multiSelectArray}
             />
         );
     }

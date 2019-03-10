@@ -2,12 +2,12 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Typography } from '@material-ui/core';
 import FreeText from '../containers/FreeText'
-import PropTypes, { array } from 'prop-types'
+import PropTypes from 'prop-types'
 import BigButton from '../components/BigButton';
 import SkipButton from '../components/SkipButton';
 import SubmitButton from '../components/SubmitButton'
 import Language from '../containers/Language';
-import MultiSelect from '../components/MultiSelect';
+import MultiSelect from '../containers/MultiSelect';
 import { FormattedMessage } from 'react-intl';
 import { string } from 'prop-types'
 
@@ -68,7 +68,6 @@ class QuestionPage extends React.Component {
         skipClick: PropTypes.func.isRequired,
         currentIsRequired: PropTypes.bool.isRequired,
         text: string.isRequired,
-        multiSelectArray: array.isRequired,
     }
     /**
      * @description rendering the button on the screen
@@ -93,11 +92,7 @@ class QuestionPage extends React.Component {
     }
 
     renderMultiselect = () => (
-        <MultiSelect
-            choices={this.props.questionChoices}
-            multiSelectArray={this.props.multiSelectArray}
-            onChoiceClick={this.props.onChoiceClick}
-        />
+        <MultiSelect />
     );
 
     renderTextField = () => {
