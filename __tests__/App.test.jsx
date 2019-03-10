@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import App from '../src/App';
+import App from '../src/components/App';
 
 // we mock the service so that we can return custom data
 jest.mock("../src/service", () => {
