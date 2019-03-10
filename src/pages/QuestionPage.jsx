@@ -2,13 +2,12 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Typography } from '@material-ui/core';
 import FreeText from '../containers/FreeText'
-import PropTypes from 'prop-types'
+import PropTypes, { array } from 'prop-types'
 import BigButton from '../components/BigButton';
 import SkipButton from '../components/SkipButton';
 import SubmitButton from '../components/SubmitButton'
-import '../css/style.css';
 import Language from '../containers/Language';
-import ToggleButtons from '../components/ToggleButtons';
+import MultiSelect from '../components/MultiSelect';
 import { FormattedMessage } from 'react-intl';
 import { string } from 'prop-types'
 
@@ -19,7 +18,40 @@ import {
     UNINITIALIZED as QUESTION_TYPE_UNINITIALIZED
 } from '../constants/questionTypes';
 
+
+// #0078CC
+// #2B4141
+const style = {
+    body: {
+        maxHeight: '3000px',
+        backgroundColor: '#0078CC',
+        display: 'block',
+        height: '120vh'
+    },
+    basic: {
+        height: '100%',
+        alignItems: 'center',
+        fontFamily: 'Roboto',
+        overflow: 'hidden'
+    },
+    textStyle: {
+        color: '#ffffff',
+        fontSize: 40,
+        fontWeight: 'bold',
+    },
+    questionDiv: {
+        backgroundColor: '#0496FF',
+        display: 'flex',
+        height: '10%',
+    },
+    error: {
+        fontWeight: 'bold',
+    }
+
+}
+
 class QuestionPage extends React.Component {
+
     constructor(props) {
         super(props);
     }
@@ -35,7 +67,8 @@ class QuestionPage extends React.Component {
         error: PropTypes.bool,
         skipClick: PropTypes.func.isRequired,
         currentIsRequired: PropTypes.bool.isRequired,
-        text: string.isRequired
+        text: string.isRequired,
+        multiSelectArray: array.isRequired,
     }
     /**
      * @description rendering the button on the screen
@@ -58,15 +91,14 @@ class QuestionPage extends React.Component {
             />
         ))
     }
-    /**
-     * @description renders a toggle button for multiselect questions
-     * @returns togglebutton with function
-     */
-    renderMultiselect = () => {
-        return this.props.questionChoices.map(choice => (
-            <ToggleButtons key={choice.id} choice={choice} onChoiceClick={this.props.onChoiceClick} />
-        ))
-    }
+
+    renderMultiselect = () => (
+        <MultiSelect
+            choices={this.props.questionChoices}
+            multiSelectArray={this.props.multiSelectArray}
+            onChoiceClick={this.props.onChoiceClick}
+        />
+    );
 
     renderTextField = () => {
         return <FreeText />
@@ -139,50 +171,61 @@ class QuestionPage extends React.Component {
         return
     }
 
+
     render() {
 
         return (
-            <div>
-                {this.renderLanguageButtons()}
-                <div className="question-div">
-                    <h2 className="txt" variant="h2">{this.props.question.name}</h2>
-                    {this.props.error && <Typography variant='h4' color='error'>
-                        <FormattedMessage id="questionpage.required"
-                            defaultMessage="This field is required!"
-                            description="Requirement text"
-                            values={{ what: 'react-intl' }}
-                        />
-                    </Typography>}
-                </div>
-                <div>
-                    <div className="center-align txt">
-                        <Grid container direction="row" justify="center">
+            <div style={style.body}>
+                <Grid container style={style.basic}>
 
-                            {this.renderQuestionElements(this.props.questionType)}
-                            {this.renderSubmitButton(this.props.questionType)}
+                    <Grid
+                        id="question-test-id"
+                        container
+                        justify="center"
+                        alignItems="center"
+                        style={style.questionDiv}
+                    >
+                        <Typography style={style.textStyle}> {this.props.question.name}</Typography>
+                    </Grid>
 
-                        </Grid>
-                    </div>
-                    <div className="skipped">
-                        { // TODO: button location and style
-                            !this.props.currentIsRequired &&
-                            <SkipButton
-                                onClick={() => this.props.skipClick()}
-                                text={"Skip"}
+                    <Grid container
+                        direction="column"
+                        justify="center"
+                        alignItems="stretch"
+                        spacing={24} >
+
+                        <Grid item xs={12} md={12} xl={12}>{this.props.error && <Typography style={style.error} variant='h4' color='error'>
+                            <FormattedMessage id="questionpage.required"
+                                defaultMessage="This field is required!"
+                                description="Requirement text"
+                                values={{ what: 'react-intl' }}
                             />
-                        }
-                    </div>
+                        </Typography>}</Grid>
+                        {this.renderQuestionElements(this.props.questionType)}
+                    </Grid>
 
-                </div>
-                <footer className="footer">
-                    <footer className="inside">
-                        <div>Copyright © 2018 BitSaber, Otaniemi, Finland</div>
-                    </footer>
-                </footer>
+                    <Grid container
+                        direction="column"
+                        justify="center"
+                        alignItems="center"
+                        spacing={16} >
+                        <Grid item xs={12} md={12} xl={12}>
+                            {this.renderSubmitButton(this.props.questionType)}
+                        </Grid>
+                        <Grid item xs={12} md={12} xl={12}>
+                            {
+                                !this.props.currentIsRequired &&
+                                <SkipButton
+                                    onClick={() => this.props.skipClick()}
+                                    text={"Skip"}
+                                />
+                            }
+                            {this.renderLanguageButtons()}
+                        </Grid>
+                    </Grid>
 
+                </Grid>
             </div>
-
-
         )
     }
 }
