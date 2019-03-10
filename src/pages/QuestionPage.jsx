@@ -23,12 +23,14 @@ const style = {
     body: {
         maxHeight: '3000px',
         backgroundColor: '#0078CC',
+        display: 'block',
+        height: '120vh'
     },
     basic: {
-        height: '100vh',
+        height: '100%',
         alignItems: 'center',
         fontFamily: 'Roboto',
-        overflow: 'auto'
+        overflow: 'hidden'
     },
     textStyle: {
         color: '#ffffff',
@@ -38,15 +40,11 @@ const style = {
     questionDiv: {
         backgroundColor: '#0496FF',
         display: 'flex',
-        justifyContent: 'center',
-        width: '100%',
-        height: 184,
-        textAlign: 'center',
+        height: '10%',
     },
     textDiv: {
         width: 500,
         backgroundColor: '#ffffff',
-        color: `'#ffffff'!important`,
         fontWeight: 'bold',
         borderRadius: 30,
         border: 'none'
@@ -194,7 +192,7 @@ class QuestionPage extends React.Component {
 
         return (
             <div style={style.body}>
-                <Grid container spacing={8} style={style.basic}>
+                <Grid container style={style.basic}>
 
                     <Grid container
                         justify="center"
@@ -207,7 +205,7 @@ class QuestionPage extends React.Component {
                     <Grid container
                         direction="column"
                         justify="center"
-                        alignItems="center"
+                        alignItems="stretch"
                         spacing={24} >
 
                         <Grid item xs={12} md={12} xl={12}>{this.props.error && <Typography style={style.error} variant='h4' color='error'>

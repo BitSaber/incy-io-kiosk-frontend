@@ -3,8 +3,6 @@ import { FormattedMessage } from 'react-intl';
 
 const style = {
     basic: {
-        backgroundColor: '#0078CC',
-        height: '100vh',
         overflow: 'hidden',
         fontFamily: 'Roboto',
     },
@@ -22,20 +20,25 @@ const style = {
         marginLeft: 'auto',
         marginRight: 'auto',
     },
+    body: {
+        backgroundColor: '#0078CC',
+        height: '100vh',
+    }
 }
 
 const ThankYouPage = () => (
-    <div style={style.basic}>
-        <div style={style.thankYouDiv} >
-            <h2 variant="h2">
-                <FormattedMessage id="thankyou.phrase"
-                    defaultMessage="Thank you for the feedback!"
-                    description="Thank you text on thank you page"
-                    values={{ what: 'react-intl' }}
-                />
-            </h2>
+    <div style={style.body}>
+        <div style={style.basic}>
+            <div style={style.thankYouDiv} >
+                <h2 variant="h2">
+                    <FormattedMessage id="thankyou.phrase"
+                        defaultMessage="Thank you for the feedback!"
+                        description="Thank you text on thank you page"
+                        values={{ what: 'react-intl' }}
+                    />
+                </h2>
+            </div>
         </div>
-
 
     </div>
 );

@@ -6,12 +6,11 @@ import Grid from '@material-ui/core/Grid';
 
 const style = {
     buttonStyle: {
-        width: 700,
+        width: '90%',
         backgroundColor: '#0496FF',
         height: 100,
         borderRadius: 30,
-        justifyContent: 'center',
-        textAlign: 'center',
+
     },
     textStyle: {
         fontSize: 35,

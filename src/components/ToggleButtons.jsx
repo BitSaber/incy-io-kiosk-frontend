@@ -7,10 +7,11 @@ import { Typography } from '@material-ui/core';
 
 const style = {
     buttonStyle: {
-        width: 700,
+        width: '90%',
         backgroundColor: '#0496FF',
         height: 100,
         borderRadius: 30,
+        margin: 'auto'
     },
 
     textStyle: {
@@ -25,7 +26,6 @@ class ToggleButtons extends React.Component {
 
     state = {
         formats: [],
-        backgroundColor: '#ffffff'
     };
 
     handleFormat = (event, formats) => {
