@@ -5,7 +5,7 @@ import { addAnswerAction, resetAnswersAction } from '../actions/answerActions';
 import { setQuestionsAction, setCurrentQuestionAction } from '../actions/questionActions';
 import { setCategoryAction, setPlaceAction } from '../actions/contextActions';
 import { setAvailableChoicesAction } from '../actions/choiceActions';
-import App from '../App';
+import App from '../components/App';
 
 const mapStateToProps = state => ({
     currentLanguageId: state.intl.locale,

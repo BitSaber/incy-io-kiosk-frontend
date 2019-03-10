@@ -1,13 +1,13 @@
 import React from 'react';
 import { string, object, func, bool, shape, array } from 'prop-types';
 
-import questionService from './service'
-import ThankYouPage from './pages/ThankYouPage';
-import QuestionPage from './containers/QuestionPage';
+import questionService from '../service'
+import ThankYouPage from '../pages/ThankYouPage';
+import QuestionPage from '../containers/QuestionPage';
 import {
     SELECT,
     STR,
-} from './constants/questionTypes';
+} from '../constants/questionTypes';
 
 /**
  * @description the initial state of the app
@@ -31,6 +31,33 @@ class App extends React.Component {
         this.setFirstQuestion()
     }
 
+
+    static propTypes = {
+        currentLanguageId: string.isRequired,
+        answers: object.isRequired,
+        addAnswer: func.isRequired,
+        resetAnswers: func.isRequired,
+        questions: shape({
+            allQuestions: array.isRequired,
+            currentQuestion: object,
+        }).isRequired,
+        setQuestions: func.isRequired,
+        flags: shape({
+            isAllQuestionsAnswered: bool.isRequired,
+            isAllQuestionsDisplayed: bool.isRequired
+        }).isRequired,
+        setAllAnswered: func.isRequired,
+        setAllDisplayed: func.isRequired,
+        setCurrentQuestion: func.isRequired,
+        context: shape({
+            place: array.isRequired,
+            category: array.isRequired,
+        }),
+        setCategory: func.isRequired,
+        setPlace: func.isRequired,
+        setAvailableChoices: func.isRequired,
+        choices: object.isRequired,
+    }
 
     setFirstQuestion = async () => {
         const { currentLanguageId, setCurrentQuestion, setAvailableChoices } = this.props;
@@ -252,33 +279,6 @@ class App extends React.Component {
             />
         );
     }
-}
-
-App.propTypes = {
-    currentLanguageId: string.isRequired,
-    answers: object.isRequired,
-    addAnswer: func.isRequired,
-    resetAnswers: func.isRequired,
-    questions: shape({
-        allQuestions: array.isRequired,
-        currentQuestion: object,
-    }).isRequired,
-    setQuestions: func.isRequired,
-    flags: shape({
-        isAllQuestionsAnswered: bool.isRequired,
-        isAllQuestionsDisplayed: bool.isRequired
-    }).isRequired,
-    setAllAnswered: func.isRequired,
-    setAllDisplayed: func.isRequired,
-    setCurrentQuestion: func.isRequired,
-    context: shape({
-        place: array.isRequired,
-        category: array.isRequired,
-    }),
-    setCategory: func.isRequired,
-    setPlace: func.isRequired,
-    setAvailableChoices: func.isRequired,
-    choices: object.isRequired,
 }
 
 export default App;
