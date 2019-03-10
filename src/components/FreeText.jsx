@@ -9,7 +9,9 @@ const style = {
         backgroundColor: '#ffffff',
         fontWeight: 'bold',
         borderRadius: 30,
-        border: 'none'
+        border: 'none',
+        paddingLeft: 30,
+        paddingRight: 30,
     },
 };
 
@@ -23,25 +25,27 @@ export default class FreeText extends React.Component {
         handleChange: func.isRequired,
     }
 
-    static label = (<FormattedMessage id="textfield.placeholder"
-        defaultMessage="Your answer"
-        description="Placeholder on text field"
-        values={{ what: 'react-intl' }}
-    />);
-
     render() {
+
+        const label = (
+            <FormattedMessage id="textfield.placeholder"
+                defaultMessage="Your answer"
+                description="Placeholder on text field"
+                values={{ what: 'react-intl' }}
+            />
+        );
+
         return (
             <div className="center-align txt">
                 <form>
                     <TextField
                         id="bare"
-                        label={this.label}
+                        label={label}
                         multiline
                         rows="20"
                         margin="normal"
                         value={this.props.text}
                         onChange={this.props.handleChange}
-                        variant="outlined"
                         InputProps={{ disableUnderline: true }}
                         style={style.textDiv}
                     />
