@@ -2,14 +2,14 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Typography } from '@material-ui/core';
 import FreeText from '../containers/FreeText'
-import PropTypes from 'prop-types'
+import PropTypes, { array } from 'prop-types'
 import BigButton from '../components/BigButton';
 import SkipButton from '../components/SkipButton';
 import SubmitButton from '../components/SubmitButton'
 import Language from '../containers/Language';
 import MultiSelect from '../containers/MultiSelect';
 import { FormattedMessage } from 'react-intl';
-import { string } from 'prop-types'
+import { string, func } from 'prop-types'
 
 import {
     SELECT,
@@ -61,20 +61,45 @@ class QuestionPage extends React.Component {
         questionChoices: PropTypes.arrayOf(PropTypes.object).isRequired,
         onChoiceClick: PropTypes.func.isRequired,
         questionType: PropTypes.string.isRequired,
-        onSubmitMultiClick: PropTypes.func.isRequired,
         onSubmitFreeText: PropTypes.func.isRequired,
         questionPos: PropTypes.number.isRequired,
         error: PropTypes.bool,
-        skipClick: PropTypes.func.isRequired,
+        moveToNextQuestion: PropTypes.func.isRequired,
         currentIsRequired: PropTypes.bool.isRequired,
         text: string.isRequired,
+        addAnswer: func.isRequired,
+        showFieldRequired: func.isRequired,
+        selectedChoices: array.isRequired,
+        setSelectedChoices: func.isRequired,
     }
     /**
      * @description rendering the button on the screen
      * @returns button with text and submit function
      */
     submitMultiButton = () => {
-        return <SubmitButton onClick={() => this.props.onSubmitMultiClick()} />
+        const clickHandler = () => {
+            const {
+                question,
+                selectedChoices,
+                addAnswer,
+                moveToNextQuestion,
+                showFieldRequired,
+                setSelectedChoices,
+            } = this.props;
+
+            if (question.required && selectedChoices.length === 0) {
+                showFieldRequired();
+            } else {
+                addAnswer({
+                    questionId: question.id,
+                    answer: selectedChoices,
+                });
+                setSelectedChoices([])
+                moveToNextQuestion();
+            }
+        };
+
+        return <SubmitButton onClick={clickHandler} />
     }
 
     /**
@@ -211,7 +236,7 @@ class QuestionPage extends React.Component {
                             {
                                 !this.props.currentIsRequired &&
                                 <SkipButton
-                                    onClick={() => this.props.skipClick()}
+                                    onClick={() => this.props.moveToNextQuestion()}
                                     text={"Skip"}
                                 />
                             }

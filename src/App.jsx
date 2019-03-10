@@ -6,7 +6,6 @@ import ThankYouPage from './pages/ThankYouPage';
 import QuestionPage from './containers/QuestionPage';
 import {
     SELECT,
-    MULTI_SELECT,
     STR,
 } from './constants/questionTypes';
 
@@ -115,13 +114,6 @@ class App extends React.Component {
 
         if (newQuestion.type !== STR) {
             setAvailableChoices(newQuestion.id, currentLanguageId);
-
-            // Sets an empty answer array for multi select question
-            if (newQuestion.type === MULTI_SELECT) {
-                this.setState({
-                    multiSelectArray: []
-                })
-            }
         }
     }
 
@@ -155,27 +147,6 @@ class App extends React.Component {
                 answer: text,
             });
             this.moveToNextQuestion();
-        }
-    }
-
-    /**
-     * @description submits multi answers saved in an array
-     * @returns moves to the next questions
-     */
-    submitMultiAnswer = async () => {
-        const { addAnswer, questions } = this.props;
-        const { currentQuestion } = questions;
-
-        const { multiSelectArray } = this.state;
-        // If the questions is required it shows the required field
-        if (multiSelectArray.length === 0 && currentQuestion.required) {
-            this.showFieldRequired()
-        } else {
-            await addAnswer({
-                questionId: currentQuestion.id,
-                answer: multiSelectArray,
-            });
-            this.moveToNextQuestion()
         }
     }
 
@@ -223,8 +194,6 @@ class App extends React.Component {
         const { currentQuestion } = this.props.questions;
         if (currentQuestion.type === SELECT) {
             this.singleAnswerClick(choice)
-        } else if (currentQuestion.type === MULTI_SELECT) {
-            this.multiAnswerClick(choice)
         }
     }
 
@@ -274,12 +243,12 @@ class App extends React.Component {
                 questionChoices={availableChoices}
                 onChoiceClick={this.handleChoiceClick}
                 questionType={currentQuestion.type}
-                onSubmitMultiClick={this.submitMultiAnswer}
                 onSubmitFreeText={this.submitTextAnswer}
                 questionPos={allQuestions.findIndex(question => question.id === currentQuestion.id)}
                 error={this.state.error}
                 currentIsRequired={currentQuestion.required}
-                skipClick={this.moveToNextQuestion}
+                moveToNextQuestion={this.moveToNextQuestion}
+                showFieldRequired={this.showFieldRequired}
             />
         );
     }
