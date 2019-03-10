@@ -1,5 +1,5 @@
-import { setChoicesAction } from "../../src/actions/choiceActions";
-import { SET_CHOICES } from "../../src/constants/actions";
+import { setAvailableChoicesAction } from "../../src/actions/choiceActions";
+import { SET_AVAILABLE_CHOICES } from "../../src/constants/actions";
 
 // we mock the service so that we can return custom data
 jest.mock("../../src/service", () => {
@@ -17,13 +17,13 @@ jest.mock("../../src/service", () => {
 
 describe("choiceActions", () => {
     it("should get and set choices", async () => {
-        const action = await setChoicesAction('1',"en");
+        const action = await setAvailableChoicesAction('1',"en");
         const mockDispatch = jest.fn();
         await action(mockDispatch);
 
         expect(mockDispatch).toHaveBeenCalledTimes(1);
         expect(mockDispatch.mock.calls[0][0]).toEqual({
-            type: SET_CHOICES,
+            type: SET_AVAILABLE_CHOICES,
             payload: [
                 {
                     id: 1
