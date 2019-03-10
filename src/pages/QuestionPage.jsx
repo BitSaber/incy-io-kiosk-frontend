@@ -19,8 +19,6 @@ import {
 } from '../constants/questionTypes';
 
 
-// #0078CC
-// #2B4141
 const style = {
     body: {
         maxHeight: '3000px',
