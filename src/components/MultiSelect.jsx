@@ -37,24 +37,20 @@ class MultiSelect extends React.Component {
     render() {
         const selectedChoiceIds = this.props.selectedChoices.map(selection => selection.id);
 
-        return (
-            <>
-            {this.props.availableChoices.map(choice => {
-                const isSelected = selectedChoiceIds.includes(choice.id);
-                return (
-                    <Grid item xs={12} md={12} xl={12} key={choice.id}>
-                        <Button
-                            variant={isSelected ? 'contained' : 'text'}
-                            style={buttonStyle(isSelected)}
-                            onClick={() => this.handleChoice(choice)}
-                        >
-                            <Typography style={textStyle}>{choice.name}</Typography>
-                        </Button>
-                    </Grid>
-                )
-            })}
-            </>
-        );
+        return this.props.availableChoices.map(choice => {
+            const isSelected = selectedChoiceIds.includes(choice.id);
+            return (
+                <Grid item xs={12} md={12} xl={12} key={choice.id}>
+                    <Button
+                        variant={isSelected ? 'contained' : 'text'}
+                        style={buttonStyle(isSelected)}
+                        onClick={() => this.handleChoice(choice)}
+                    >
+                        <Typography style={textStyle}>{choice.name}</Typography>
+                    </Button>
+                </Grid>
+            )
+        });
     }
 }
 
