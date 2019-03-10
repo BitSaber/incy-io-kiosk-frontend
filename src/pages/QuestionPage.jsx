@@ -2,12 +2,12 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Typography } from '@material-ui/core';
 import FreeText from '../containers/FreeText'
-import PropTypes from 'prop-types'
+import PropTypes, { array } from 'prop-types'
 import BigButton from '../components/BigButton';
 import SkipButton from '../components/SkipButton';
 import SubmitButton from '../components/SubmitButton'
 import Language from '../containers/Language';
-import ToggleButtons from '../components/ToggleButtons';
+import MultiSelect from '../components/MultiSelect';
 import { FormattedMessage } from 'react-intl';
 import { string } from 'prop-types'
 
@@ -67,7 +67,8 @@ class QuestionPage extends React.Component {
         error: PropTypes.bool,
         skipClick: PropTypes.func.isRequired,
         currentIsRequired: PropTypes.bool.isRequired,
-        text: string.isRequired
+        text: string.isRequired,
+        multiSelectArray: array.isRequired,
     }
     /**
      * @description rendering the button on the screen
@@ -90,15 +91,14 @@ class QuestionPage extends React.Component {
             />
         ))
     }
-    /**
-     * @description renders a toggle button for multiselect questions
-     * @returns togglebutton with function
-     */
-    renderMultiselect = () => {
-        return this.props.questionChoices.map(choice => (
-            <ToggleButtons key={choice.id} choice={choice} onChoiceClick={this.props.onChoiceClick} />
-        ))
-    }
+
+    renderMultiselect = () => (
+        <MultiSelect
+            choices={this.props.questionChoices}
+            multiSelectArray={this.props.multiSelectArray}
+            onChoiceClick={this.props.onChoiceClick}
+        />
+    );
 
     renderTextField = () => {
         return <FreeText />
