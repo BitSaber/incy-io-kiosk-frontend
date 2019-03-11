@@ -43,7 +43,8 @@ describe('<App />', () => {
                 setCategory={jest.fn()}
                 setAllAnswered={jest.fn()}
                 setAllDisplayed={jest.fn()}
-                flags={{ isAllQuestionsAnswered: false, isAllQuestionsDisplayed: false }}
+                flags={{ isAllQuestionsAnswered: false, isAllQuestionsDisplayed: false, showError: false }}
+                setShowError={jest.fn()}
                 choices={{ availableChoices: [] }}
             />
         );
