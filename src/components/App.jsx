@@ -2,7 +2,7 @@ import React from 'react';
 import { string, object, func, bool, shape, array } from 'prop-types';
 
 import questionService from '../service'
-import ThankYouPage from '../pages/ThankYouPage';
+import ThankYouPage from '../components/ThankYouPage';
 import QuestionPage from '../containers/QuestionPage';
 import {
     SELECT,
@@ -13,7 +13,7 @@ import {
  * @description the initial state of the app
  */
 const initialState = {
-    error: null
+    error: false
 }
 
 class App extends React.Component {
@@ -150,9 +150,9 @@ class App extends React.Component {
     showFieldRequired = () => {
         if (!this.state.error) {
             // setting the error to be true
-            this.setState({ error: 'This question is required' });
+            this.setState({ error: true });
             setTimeout(() => {
-                this.setState({ error: null });
+                this.setState({ error: false });
             }, 3000);
         }
     }
