@@ -1,21 +1,19 @@
 import React from 'react';
 import { string, object, func, bool, shape, array } from 'prop-types';
 
-import questionService from './service'
-import ThankYouPage from './pages/ThankYouPage';
-import QuestionPage from './containers/QuestionPage';
+import questionService from '../service'
+import ThankYouPage from '../components/ThankYouPage';
+import QuestionPage from '../containers/QuestionPage';
 import {
     SELECT,
-    MULTI_SELECT,
     STR,
-} from './constants/questionTypes';
+} from '../constants/questionTypes';
 
 /**
  * @description the initial state of the app
  */
 const initialState = {
-    multiSelectArray: [],
-    error: null
+    error: false
 }
 
 class App extends React.Component {
@@ -34,14 +32,41 @@ class App extends React.Component {
     }
 
 
+    static propTypes = {
+        currentLanguageId: string.isRequired,
+        answers: object.isRequired,
+        addAnswer: func.isRequired,
+        resetAnswers: func.isRequired,
+        questions: shape({
+            allQuestions: array.isRequired,
+            currentQuestion: object,
+        }).isRequired,
+        setQuestions: func.isRequired,
+        flags: shape({
+            isAllQuestionsAnswered: bool.isRequired,
+            isAllQuestionsDisplayed: bool.isRequired
+        }).isRequired,
+        setAllAnswered: func.isRequired,
+        setAllDisplayed: func.isRequired,
+        setCurrentQuestion: func.isRequired,
+        context: shape({
+            place: array.isRequired,
+            category: array.isRequired,
+        }),
+        setCategory: func.isRequired,
+        setPlace: func.isRequired,
+        setAvailableChoices: func.isRequired,
+        choices: object.isRequired,
+    }
+
     setFirstQuestion = async () => {
-        const { currentLanguageId, setCurrentQuestion, setCurrentChoices } = this.props;
+        const { currentLanguageId, setCurrentQuestion, setAvailableChoices } = this.props;
         const { allQuestions } = this.props.questions;
 
         if (allQuestions.length > 0) {
             const currentQuestion = allQuestions[0];
             setCurrentQuestion(currentQuestion);
-            setCurrentChoices(currentQuestion.id, currentLanguageId);
+            setAvailableChoices(currentQuestion.id, currentLanguageId);
         }
     }
 
@@ -108,46 +133,14 @@ class App extends React.Component {
      * @param newPosition the position of the new question
     */
     setQuestion = async (newPosition) => {
-        const { currentLanguageId, questions, setCurrentQuestion, setCurrentChoices } = this.props;
+        const { currentLanguageId, questions, setCurrentQuestion, setAvailableChoices } = this.props;
         const { allQuestions } = questions;
 
         const newQuestion = allQuestions.find(question => question.position === newPosition)
         setCurrentQuestion(newQuestion);
 
         if (newQuestion.type !== STR) {
-            setCurrentChoices(newQuestion.id, currentLanguageId);
-
-            // Sets an empty answer array for multi select question
-            if (newQuestion.type === MULTI_SELECT) {
-                this.setState({
-                    multiSelectArray: []
-                })
-            }
-        }
-    }
-
-    /**
-     * @description saves multiple answers in an array and gives them to submit
-     * @param choice saves the choices that are clicked on the screen
-     * @returns a changed state with the choices saved in an array
-     */
-    multiAnswerClick = (choice) => {
-        // if the answer was NOT selected before, then adds it to the array
-        if (!this.state.multiSelectArray.map(object => object.id).includes(choice.id)) {
-            const newChoice = [{ id: choice.id }]
-            this.setState((previousState) => {
-                return {
-                    ...previousState,
-                    multiSelectArray: previousState.multiSelectArray.concat(newChoice)
-                }
-            })
-        } else {
-            // if the answer WAS selected before, then removes it from the array
-            const pos = this.state.multiSelectArray.map(object => object.id).indexOf(choice.id)
-            const newMultiSelectArray = this.state.multiSelectArray.filter((_, i) => i !== pos)
-            this.setState({
-                multiSelectArray: newMultiSelectArray,
-            });
+            setAvailableChoices(newQuestion.id, currentLanguageId);
         }
     }
 
@@ -157,9 +150,9 @@ class App extends React.Component {
     showFieldRequired = () => {
         if (!this.state.error) {
             // setting the error to be true
-            this.setState({ error: 'This question is required' });
+            this.setState({ error: true });
             setTimeout(() => {
-                this.setState({ error: null });
+                this.setState({ error: false });
             }, 3000);
         }
     }
@@ -181,27 +174,6 @@ class App extends React.Component {
                 answer: text,
             });
             this.moveToNextQuestion();
-        }
-    }
-
-    /**
-     * @description submits multi answers saved in an array
-     * @returns moves to the next questions
-     */
-    submitMultiAnswer = async () => {
-        const { addAnswer, questions } = this.props;
-        const { currentQuestion } = questions;
-
-        const { multiSelectArray } = this.state;
-        // If the questions is required it shows the required field
-        if (multiSelectArray.length === 0 && currentQuestion.required) {
-            this.showFieldRequired()
-        } else {
-            await addAnswer({
-                questionId: currentQuestion.id,
-                answer: multiSelectArray,
-            });
-            this.moveToNextQuestion()
         }
     }
 
@@ -249,8 +221,6 @@ class App extends React.Component {
         const { currentQuestion } = this.props.questions;
         if (currentQuestion.type === SELECT) {
             this.singleAnswerClick(choice)
-        } else if (currentQuestion.type === MULTI_SELECT) {
-            this.multiAnswerClick(choice)
         }
     }
 
@@ -284,7 +254,7 @@ class App extends React.Component {
 
     render() {
         const { allQuestions, currentQuestion } = this.props.questions;
-        const { currentChoices } = this.props.choices;
+        const { availableChoices } = this.props.choices;
 
         if (!currentQuestion) {
             return null;
@@ -297,45 +267,18 @@ class App extends React.Component {
         return (
             <QuestionPage
                 question={currentQuestion}
-                questionChoices={currentChoices}
+                questionChoices={availableChoices}
                 onChoiceClick={this.handleChoiceClick}
                 questionType={currentQuestion.type}
-                onSubmitMultiClick={this.submitMultiAnswer}
                 onSubmitFreeText={this.submitTextAnswer}
                 questionPos={allQuestions.findIndex(question => question.id === currentQuestion.id)}
                 error={this.state.error}
                 currentIsRequired={currentQuestion.required}
-                skipClick={this.moveToNextQuestion}
+                moveToNextQuestion={this.moveToNextQuestion}
+                showFieldRequired={this.showFieldRequired}
             />
         );
     }
-}
-
-App.propTypes = {
-    currentLanguageId: string.isRequired,
-    answers: object.isRequired,
-    addAnswer: func.isRequired,
-    resetAnswers: func.isRequired,
-    questions: shape({
-        allQuestions: array.isRequired,
-        currentQuestion: object,
-    }).isRequired,
-    setQuestions: func.isRequired,
-    flags: shape({
-        isAllQuestionsAnswered: bool.isRequired,
-        isAllQuestionsDisplayed: bool.isRequired
-    }).isRequired,
-    setAllAnswered: func.isRequired,
-    setAllDisplayed: func.isRequired,
-    setCurrentQuestion: func.isRequired,
-    context: shape({
-        place: array.isRequired,
-        category: array.isRequired,
-    }),
-    setCategory: func.isRequired,
-    setPlace: func.isRequired,
-    setCurrentChoices: func.isRequired,
-    choices: object.isRequired,
 }
 
 export default App;

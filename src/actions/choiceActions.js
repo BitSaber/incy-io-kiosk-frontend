@@ -1,12 +1,17 @@
 import service from '../service';
-import { SET_CHOICES } from '../constants/actions';
+import { SET_AVAILABLE_CHOICES, SET_SELECTED_CHOICES } from '../constants/actions';
 
-export const setChoicesAction = (questionId, langId) => {
+export const setAvailableChoicesAction = (questionId, langId) => {
     return async (dispatch) => {
         const choices = await service.getChoices(questionId, langId);
         dispatch({
-            type: SET_CHOICES,
+            type: SET_AVAILABLE_CHOICES,
             payload: choices,
         });
     };
 };
+
+export const setSelectedChoicesAction = (choices) => ({
+    type: SET_SELECTED_CHOICES,
+    payload: choices,
+});
