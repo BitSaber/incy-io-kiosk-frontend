@@ -10,10 +10,6 @@ import {
 } from '../constants/questionTypes';
 
 class App extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
 
     async componentDidMount() {
         const { setCategory, setPlace, setQuestions, currentLanguageId } = this.props;
@@ -23,7 +19,6 @@ class App extends React.Component {
 
         this.setFirstQuestion()
     }
-
 
     static propTypes = {
         currentLanguageId: string.isRequired,
