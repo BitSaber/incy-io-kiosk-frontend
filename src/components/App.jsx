@@ -39,7 +39,7 @@ class App extends React.Component {
             isAllQuestionsDisplayed: bool.isRequired,
             error: shape({
                 showError: bool.isRequired,
-                message: string.isRequired,
+                messageId: string.isRequired,
             }).isRequired,
         }).isRequired,
         setAllAnswered: func.isRequired,

@@ -77,7 +77,7 @@ class QuestionPage extends React.Component {
         questionPos: number.isRequired,
         error: shape({
             showError: bool.isRequired,
-            message: string.isRequired,
+            messageId: string.isRequired,
         }).isRequired,
         moveToNextQuestion: func.isRequired,
         currentIsRequired: bool.isRequired,
@@ -232,7 +232,7 @@ class QuestionPage extends React.Component {
                         <Grid item xs={12} md={12} xl={12}> {
                             this.props.error.showError &&
                             <Typography style={style.error} variant='h4' color='error'>
-                                <FormattedMessage id={this.props.error.message}
+                                <FormattedMessage id={this.props.error.messageId}
                                     defaultMessage="This field is required!"
                                     description="Requirement text"
                                     values={{ what: 'react-intl' }}

@@ -5,7 +5,7 @@ const initialState = {
     isAllQuestionsDisplayed: false,
     error: {
         showError: false,
-        message: "",
+        messageId: "",
     },
 }
 
@@ -34,7 +34,7 @@ const reducer = (state=initialState, action) => {
             ...state,
             error: {
                 ...state.error,
-                message: action.payload,
+                messageId: action.payload,
             }
         }
     default:

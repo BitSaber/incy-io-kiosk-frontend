@@ -46,7 +46,7 @@ describe('<App />', () => {
                 flags={{
                     isAllQuestionsAnswered: false,
                     isAllQuestionsDisplayed: false,
-                    error: {  showError: false, message: "" }
+                    error: {  showError: false, messageId: "" }
                 }}
                 setShowError={jest.fn()}
                 setErrorMsg={jest.fn()}

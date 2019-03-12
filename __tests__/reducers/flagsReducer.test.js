@@ -10,7 +10,7 @@ describe('flagsReducer', () => {
             isAllQuestionsDisplayed: false,
             error: {
                 showError: false,
-                message: "",
+                messageId: "",
             }
         });
     })
@@ -23,7 +23,7 @@ describe('flagsReducer', () => {
             isAllQuestionsDisplayed: false,
             error: {
                 showError: false,
-                message: "",
+                messageId: "",
             }
         });
     })
@@ -36,7 +36,7 @@ describe('flagsReducer', () => {
             isAllQuestionsDisplayed: true,
             error: {
                 showError: false,
-                message: "",
+                messageId: "",
             }
         });
     })
@@ -49,7 +49,7 @@ describe('flagsReducer', () => {
             isAllQuestionsDisplayed: false,
             error: {
                 showError: true,
-                message: "",
+                messageId: "",
             }
         });
     })
@@ -62,7 +62,7 @@ describe('flagsReducer', () => {
             isAllQuestionsDisplayed: false,
             error: {
                 showError: false,
-                message: "test",
+                messageId: "test",
             }
         });
     })
