@@ -11,6 +11,10 @@ import {
 
 class App extends React.Component {
 
+    /**
+     * @description sets up the context of the questionnaire,
+     * fetches the questions and sets up the first question when the page is first loaded
+     */
     async componentDidMount() {
         const { setCategory, setPlace, setQuestions, currentLanguageId } = this.props;
         await setCategory(currentLanguageId);
@@ -152,8 +156,7 @@ class App extends React.Component {
         }
     }
     /**
-     * @description subtmits the text answer to the answers in the initial state
-     * @returns new function moving to the next question
+     * @description submits the text answer to the answers in the initial state
      */
     submitTextAnswer = async (text) => {
         const { addAnswer, questions } = this.props;
@@ -174,7 +177,8 @@ class App extends React.Component {
 
 
     /**
-     * @description simply answers an question and moves to next
+     * @description simply adds the chosen choice to the
+     * answers array and moves to the next question
      */
     singleAnswerClick = async (choice) => {
         const { addAnswer, questions } = this.props;
@@ -192,7 +196,8 @@ class App extends React.Component {
 
 
     /**
-    * @description submits the observations and shows the next question
+    * @description submits the observation if the questionnaire is finished,
+    * else moves to next question
     */
     moveToNextQuestion = async () => {
         const { allQuestions, currentQuestion } = this.props.questions;
@@ -210,17 +215,19 @@ class App extends React.Component {
 
 
     /**
-     * @description checks what type question is and calls the right function for the type
+     * @description calls `singleAnswerClick` for single select type questions,
+     * else does nothing
      */
     handleChoiceClick = (choice) => {
-        const { currentQuestion } = this.props.questions;
-        if (currentQuestion.type === SELECT) {
+        if (this.props.questions.currentQuestion.type === SELECT) {
             this.singleAnswerClick(choice)
         }
     }
 
     /**
-     * @description submits the observation to the API and POSTs it
+     * @description POSTs the necessary data of the observation to the API and
+     * transitions the program to `ThankYouPage` for 3 seconds, during which
+     * the state is reset so that a new questionnaire can be started
      */
     submitObservation = () => {
         const { answers, resetAnswers, setAllAnswered, setAllDisplayed, context } = this.props;
@@ -267,7 +274,7 @@ class App extends React.Component {
                 questionType={currentQuestion.type}
                 onSubmitFreeText={this.submitTextAnswer}
                 questionPos={allQuestions.findIndex(question => question.id === currentQuestion.id)}
-                error={this.props.flags.showError}
+                error={this.props.flags.error}
                 currentIsRequired={currentQuestion.required}
                 moveToNextQuestion={this.moveToNextQuestion}
                 showFieldRequired={this.showFieldRequired}
