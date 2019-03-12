@@ -9,16 +9,10 @@ import {
     STR,
 } from '../constants/questionTypes';
 
-/**
- * @description the initial state of the app
- */
-const initialState = {
-}
-
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { ...initialState };
+        this.state = {};
     }
 
     async componentDidMount() {
@@ -44,11 +38,15 @@ class App extends React.Component {
         flags: shape({
             isAllQuestionsAnswered: bool.isRequired,
             isAllQuestionsDisplayed: bool.isRequired,
-            showError: bool.isRequired,
+            error: shape({
+                showError: bool.isRequired,
+                message: string.isRequired,
+            }).isRequired,
         }).isRequired,
         setAllAnswered: func.isRequired,
         setAllDisplayed: func.isRequired,
         setShowError: func.isRequired,
+        setErrorMsg: func.isRequired,
         setCurrentQuestion: func.isRequired,
         context: shape({
             place: array.isRequired,
@@ -149,7 +147,8 @@ class App extends React.Component {
      * @description showing the question as required on screen
      */
     showFieldRequired = () => {
-        const { setShowError } = this.props
+        const { setShowError, setErrorMsg } = this.props
+        setErrorMsg("questionpage.required")
         if (!this.props.flags.showError) {
             setShowError(true)
             setTimeout(() => {

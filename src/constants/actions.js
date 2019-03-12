@@ -11,3 +11,4 @@ export const SET_ALL_DISPLAYED = 'SET_ALL_DISPLAYED';
 export const SET_CATEGORY = "SET_CATEGORY";
 export const SET_PLACE = "SET_PLACE";
 export const SET_SHOW_ERROR = 'SET_SHOW_ERROR';
+export const SET_ERROR_MSG = 'SET_ERROR_MSG';

@@ -1,9 +1,12 @@
-import { SET_ALL_ANSWERED, SET_ALL_DISPLAYED, SET_SHOW_ERROR } from '../constants/actions';
+import { SET_ALL_ANSWERED, SET_ALL_DISPLAYED, SET_SHOW_ERROR, SET_ERROR_MSG } from '../constants/actions';
 
 const initialState = {
     isAllQuestionsAnswered: false,
     isAllQuestionsDisplayed: false,
-    showError: false,
+    error: {
+        showError: false,
+        message: "",
+    },
 }
 
 const reducer = (state=initialState, action) => {
@@ -21,7 +24,18 @@ const reducer = (state=initialState, action) => {
     case SET_SHOW_ERROR:
         return {
             ...state,
-            showError: action.payload
+            error: {
+                ...state.error,
+                showError: action.payload,
+            }
+        }
+    case SET_ERROR_MSG:
+        return {
+            ...state,
+            error: {
+                ...state.error,
+                message: action.payload,
+            }
         }
     default:
         return state;

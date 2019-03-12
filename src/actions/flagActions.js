@@ -1,4 +1,4 @@
-import { SET_ALL_ANSWERED, SET_ALL_DISPLAYED, SET_SHOW_ERROR } from "../constants/actions";
+import { SET_ALL_ANSWERED, SET_ALL_DISPLAYED, SET_SHOW_ERROR, SET_ERROR_MSG } from "../constants/actions";
 
 export const setAllAnsweredAction = value => ({
     type: SET_ALL_ANSWERED,
@@ -15,8 +15,7 @@ export const setShowErrorAction = value => ({
     payload: value
 });
 
-export default {
-    setAllAnsweredAction,
-    setAllDisplayedAction,
-    setShowErrorAction,
-};
+export const setErrorMsgAction = value => ({
+    type: SET_ERROR_MSG,
+    payload: value
+});
