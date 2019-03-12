@@ -1,5 +1,5 @@
 import flagsReducer from '../../src/reducers/flagsReducer';
-import { setAllAnsweredAction, setAllDisplayedAction, 
+import { setAllAnsweredAction, setAllDisplayedAction,
     setShowErrorAction, setErrorMsgAction } from '../../src/actions/flagActions';
 
 describe('flagsReducer', () => {
