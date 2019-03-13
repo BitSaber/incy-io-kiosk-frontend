@@ -36,14 +36,12 @@ class App extends React.Component {
         setQuestions: func.isRequired,
         flags: shape({
             isAllQuestionsAnswered: bool.isRequired,
-            isAllQuestionsDisplayed: bool.isRequired,
             error: shape({
                 showError: bool.isRequired,
                 messageId: string.isRequired,
             }).isRequired,
         }).isRequired,
         setAllAnswered: func.isRequired,
-        setAllDisplayed: func.isRequired,
         setShowError: func.isRequired,
         setErrorMsg: func.isRequired,
         setCurrentQuestion: func.isRequired,
@@ -204,7 +202,7 @@ class App extends React.Component {
      * the state is reset so that a new questionnaire can be started
      */
     submitObservation = () => {
-        const { answers, resetAnswers, setAllAnswered, setAllDisplayed, context } = this.props;
+        const { answers, resetAnswers, setAllAnswered, context } = this.props;
 
         const time = new Date().toString().substring(0, 21)
         const data = {
@@ -224,7 +222,6 @@ class App extends React.Component {
 
         setTimeout(() => {
             setAllAnswered(false);
-            setAllDisplayed(false);
         }, 3000);
     }
 

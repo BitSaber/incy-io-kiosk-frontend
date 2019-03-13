@@ -7,7 +7,6 @@ export const SET_SELECTED_CHOICES = 'SET_SELECTED_CHOICES';
 export const TEXT_CHANGE = 'TEXT_CHANGE';
 export const TEXT_SUBMIT = 'TEXT_SUBMIT';
 export const SET_ALL_ANSWERED = 'SET_ALL_ANSWERED';
-export const SET_ALL_DISPLAYED = 'SET_ALL_DISPLAYED';
 export const SET_CATEGORY = "SET_CATEGORY";
 export const SET_PLACE = "SET_PLACE";
 export const SET_SHOW_ERROR = 'SET_SHOW_ERROR';
