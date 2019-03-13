@@ -2,8 +2,7 @@
   "name": "incy-io-kiosk-frontend",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-  },
+  "dependencies": {},
   "scripts": {
     "start": "webpack-dev-server --hot --inline --config webpack.dev.js --progress",
     "build": "webpack --config webpack.prod.js",
@@ -27,6 +26,9 @@
     "@babel/preset-env": "^7.1.6",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
+    "@material-ui/core": "^3.6.1",
+    "@material-ui/lab": "^3.0.0-alpha.30",
+    "axios": "^0.18.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
@@ -40,20 +42,10 @@
     "eslint-plugin-react": "^7.11.1",
     "html-webpack-plugin": "^3.2.0",
     "identity-obj-proxy": "^3.0.0",
+    "jest": "^23.6.0",
+    "jest-prop-type-error": "^1.1.0",
     "jest-sonar-reporter": "^2.0.0",
     "js-cookie": "^2.2.0",
-    "redux-thunk": "^2.3.0",
-    "style-loader": "^0.23.1",
-    "uglifyjs-webpack-plugin": "^2.0.1",
-    "webpack": "^4.26.1",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.10",
-    "webpack-merge": "^4.1.4",
-    "webpack-shell-plugin": "^0.5.0",
-    "@material-ui/core": "^3.6.1",
-    "@material-ui/lab": "^3.0.0-alpha.30",
-    "axios": "^0.18.0",
-    "jest": "^23.6.0",
     "prop-types": "^15.7.2",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
@@ -62,7 +54,15 @@
     "react-redux": "^6.0.1",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",
-    "styled-components": "^4.1.2"
+    "redux-thunk": "^2.3.0",
+    "style-loader": "^0.23.1",
+    "styled-components": "^4.1.2",
+    "uglifyjs-webpack-plugin": "^2.0.1",
+    "webpack": "^4.26.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10",
+    "webpack-merge": "^4.1.4",
+    "webpack-shell-plugin": "^0.5.0"
   },
   "jest": {
     "moduleNameMapper": {
@@ -71,7 +71,8 @@
     },
     "testResultsProcessor": "jest-sonar-reporter",
     "setupFiles": [
-      "./src/setupTests.js"
+      "./src/setupTests.js",
+      "jest-prop-type-error"
     ],
     "browser": true,
     "collectCoverage": true,

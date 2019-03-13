@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import QuestionPage from '../pages/QuestionPage';
+import QuestionPage from '../components/QuestionPage';
 import { addAnswerAction } from '../actions/answerActions';
 import { setSelectedChoicesAction } from '../actions/choiceActions'
 
