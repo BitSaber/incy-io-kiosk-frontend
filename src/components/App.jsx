@@ -123,13 +123,37 @@ class App extends React.Component {
         this.moveToNextQuestion()
     }
 
+    /**
+     * @description Moves the questionnaire to the next question, or submits the answers if no more questions to be answered.
+     */
     moveToNextQuestion = async () => {
         const {
             questions,
-            answers,
             setCurrentQuestion,
             setAvailableChoices,
             currentLanguageId
+        } = this.props;
+        const { allQuestions } = questions;
+
+        const nextPos = this.findNextQuestionPosition()
+
+        if (nextPos !== null) {
+            const nextQuestion = allQuestions.find(question => question.position === nextPos);
+            setAvailableChoices(nextQuestion.id, currentLanguageId)
+            setCurrentQuestion(nextQuestion)
+        } else {
+            this.submitObservation()
+        }
+    }
+
+    /**
+     * @description finds the position of the next question and returns it. If no more questions to display, returns null
+     */
+    findNextQuestionPosition = () => {
+
+        const {
+            questions,
+            answers
         } = this.props;
         const { allQuestions, currentQuestion } = questions;
 
@@ -142,30 +166,26 @@ class App extends React.Component {
             }
         }).flat();
 
-        const currentQuestionPosition = currentQuestion.position;
-        const nextQuestion = allQuestions.find(question => question.position === currentQuestionPosition + 1);
+        let nextQuestionPosition = currentQuestion.position + 1
+        let displayQuestion = false
 
-        let showNextQuestion = false;
-
-        if (nextQuestion) { // there is a next question
-            if (nextQuestion.depends_on_choice_id === null) {
-                // next question is not dependent on a previous selected choice => the question is shown
-                showNextQuestion = true;
-            } else if (answeredChoiceIds.includes(nextQuestion.depends_on_choice_id)) {
-                // next question is dependent on a previously selected choice => the question is shown
-                showNextQuestion = true;
-            }
-            if (showNextQuestion) {
-                setCurrentQuestion(nextQuestion);
-                if (nextQuestion.type !== STR) {
-                    setAvailableChoices(nextQuestion.id, currentLanguageId);
+        while (nextQuestionPosition <= allQuestions.length && !displayQuestion) {
+            const nextQuestion = allQuestions.find(question => question.position === nextQuestionPosition);
+            if (nextQuestion) {
+                if (nextQuestion.depends_on_choice_id === null) {
+                    // next question is not dependent on a previous selected choice => the question is shown
+                    displayQuestion = true;
+                    return nextQuestionPosition
+                } else if (answeredChoiceIds.includes(nextQuestion.depends_on_choice_id)) {
+                    // next question is dependent on a previously selected choice => the question is shown
+                    displayQuestion = true;
+                    return nextQuestionPosition
                 }
-            } else {
-                this.submitObservation();
             }
-        } else {
-            this.submitObservation();
+            nextQuestionPosition += 1
         }
+
+        return null // Returns null if while loop doesn't return a question postion - this means that no more questions to display
     }
 
 
