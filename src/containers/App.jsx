@@ -1,4 +1,5 @@
-import { setAllAnsweredAction, setAllDisplayedAction } from '../actions/flagActions';
+import { setAllAnsweredAction, setAllDisplayedAction,
+    setShowErrorAction, setErrorMsgAction } from '../actions/flagActions';
 import { connect } from 'react-redux';
 
 import { addAnswerAction, resetAnswersAction } from '../actions/answerActions';
@@ -24,6 +25,8 @@ const mapDispatchToProps = {
     setPlace: setPlaceAction,
     setAllAnswered: setAllAnsweredAction,
     setAllDisplayed: setAllDisplayedAction,
+    setShowError: setShowErrorAction,
+    setErrorMsg: setErrorMsgAction,
     setCurrentQuestion: setCurrentQuestionAction,
     setAvailableChoices: setAvailableChoicesAction,
 }
