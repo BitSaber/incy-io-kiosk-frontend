@@ -13,6 +13,9 @@
     "rules": {
         "indent": [2, 4],
         "no-console": 1,
-        "no-trailing-spaces": 2
+        "no-trailing-spaces": 2,
+        "newline-per-chained-call": ["error", {
+            "ignoreChainWithDepth": 2
+        }]
     }
 }
