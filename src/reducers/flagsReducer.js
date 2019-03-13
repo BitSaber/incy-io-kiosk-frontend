@@ -7,7 +7,7 @@ const initialState = {
         showError: false,
         messageId: "",
     },
-}
+};
 
 const reducer = (state=initialState, action) => {
     switch (action.type) {
@@ -15,12 +15,12 @@ const reducer = (state=initialState, action) => {
         return {
             ...state,
             isAllQuestionsAnswered: action.payload
-        }
+        };
     case SET_ALL_DISPLAYED:
         return {
             ...state,
             isAllQuestionsDisplayed: action.payload
-        }
+        };
     case SET_SHOW_ERROR:
         return {
             ...state,
@@ -28,7 +28,7 @@ const reducer = (state=initialState, action) => {
                 ...state.error,
                 showError: action.payload,
             }
-        }
+        };
     case SET_ERROR_MSG:
         return {
             ...state,
@@ -36,10 +36,10 @@ const reducer = (state=initialState, action) => {
                 ...state.error,
                 messageId: action.payload,
             }
-        }
+        };
     default:
         return state;
     }
-}
+};
 
 export default reducer;

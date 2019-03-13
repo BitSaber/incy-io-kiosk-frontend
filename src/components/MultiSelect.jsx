@@ -16,7 +16,7 @@ const textStyle = {
     fontSize: 35,
     color: '#ffffff',
     fontWeight: 'bold',
-}
+};
 
 class MultiSelect extends React.Component {
     handleChoice = (choice) => {
@@ -49,7 +49,7 @@ class MultiSelect extends React.Component {
                         <Typography style={textStyle}>{choice.name}</Typography>
                     </Button>
                 </Grid>
-            )
+            );
         });
     }
 }

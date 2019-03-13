@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 const style = {
@@ -13,7 +13,7 @@ const style = {
         borderRadius: 30,
         fontWeight: 'bold',
     }
-}
+};
 
 const SkipButton = ({ onClick }) => (
     <Button style={style.buttonStyle} variant="contained" onClick={onClick}>

@@ -1,7 +1,7 @@
 import {
     TEXT_CHANGE,
     TEXT_SUBMIT,
-} from '../constants/actions'
+} from '../constants/actions';
 
 export const onTextChangeAction = text => ({
     type: TEXT_CHANGE,
@@ -11,6 +11,6 @@ export const onTextChangeAction = text => ({
 export const submitTextAction = text => ({
     type: TEXT_SUBMIT,
     text: text,
-})
+});
 
 

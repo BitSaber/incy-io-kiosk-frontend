@@ -10,7 +10,7 @@ const reducer = (state = initialState, action) => {
         return {
             ...state,
             category: action.payload
-        }
+        };
     }
     if (action.type === SET_PLACE) {
         return {
@@ -19,7 +19,7 @@ const reducer = (state = initialState, action) => {
         };
     }
 
-    return state
-}
+    return state;
+};
 
 export default reducer;
