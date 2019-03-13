@@ -8,6 +8,7 @@
     "build": "webpack --config webpack.prod.js",
     "clean": "rm -rf ./builds ./dist",
     "lint": "eslint --ext \".js,.jsx\" src/",
+    "esfix": "eslint --fix --ext \".js,.jsx\" src/",
     "test": "jest"
   },
   "browserslist": [
