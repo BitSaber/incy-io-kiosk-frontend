@@ -55,6 +55,7 @@ class App extends React.Component {
         setPlace: func.isRequired,
         setAvailableChoices: func.isRequired,
         choices: object.isRequired,
+        resetText: func.isRequired,
     }
 
     setFirstQuestion = async () => {
@@ -87,7 +88,7 @@ class App extends React.Component {
      * @description submits the text answer to the answers in the initial state
      */
     submitTextAnswer = async (text) => {
-        const { addAnswer, questions } = this.props;
+        const { addAnswer, questions, resetText } = this.props;
         const { currentQuestion } = questions;
 
         // checks if the text question is required and shows the required field in that case
@@ -99,6 +100,7 @@ class App extends React.Component {
                 questionId: currentQuestion.id,
                 answer: text,
             });
+            resetText();
             this.moveToNextQuestion();
         }
     }
@@ -204,7 +206,8 @@ class App extends React.Component {
      * the state is reset so that a new questionnaire can be started
      */
     submitObservation = () => {
-        const { answers, resetAnswers, setAllAnswered, setAllDisplayed, context } = this.props;
+        const { answers, resetAnswers, setAllAnswered,
+            setAllDisplayed, context, resetText } = this.props;
 
         const time = new Date().toString().substring(0, 21)
         const data = {
@@ -219,7 +222,7 @@ class App extends React.Component {
         resetAnswers();
 
         setAllAnswered(true);
-
+        resetText(); // incase the text answer was skipped, the text still gets reset
         this.setFirstQuestion();
 
         setTimeout(() => {
