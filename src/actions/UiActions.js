@@ -1,6 +1,7 @@
 import {
     TEXT_CHANGE,
     TEXT_SUBMIT,
+    TEXT_RESET,
 } from '../constants/actions'
 
 export const onTextChangeAction = text => ({
@@ -13,4 +14,6 @@ export const submitTextAction = text => ({
     text: text,
 })
 
-
+export const resetTextAction = () => ({
+    type: TEXT_RESET
+})
