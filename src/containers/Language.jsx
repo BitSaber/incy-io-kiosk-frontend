@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Language from '../components/Language';
 
 const mapDispatchToProps = {
-    setLocale: setLocaleAction
+    setLocale: setLocaleAction,
 }
 
 export default connect(null, mapDispatchToProps)(Language);

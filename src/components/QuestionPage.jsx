@@ -27,7 +27,7 @@ import {
     SELECT,
     MULTI_SELECT,
     STR,
-    UNINITIALIZED as QUESTION_TYPE_UNINITIALIZED
+    UNINITIALIZED as QUESTION_TYPE_UNINITIALIZED,
 } from '../constants/questionTypes';
 
 
@@ -38,13 +38,13 @@ const style = {
         maxHeight: '3000px',
         backgroundColor: '#0078CC',
         display: 'block',
-        height: '120vh'
+        height: '120vh',
     },
     basic: {
         height: '100%',
         alignItems: 'center',
         fontFamily: 'Roboto',
-        overflow: 'hidden'
+        overflow: 'hidden',
     },
     textStyle: {
         color: '#ffffff',
@@ -58,7 +58,7 @@ const style = {
     },
     error: {
         fontWeight: 'bold',
-    }
+    },
 
 }
 

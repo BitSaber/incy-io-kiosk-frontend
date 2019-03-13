@@ -187,7 +187,7 @@ class App extends React.Component {
         await addAnswer({
             questionId: currentQuestion.id,
             answer: {
-                id: choice.id
+                id: choice.id,
             },
         })
 
@@ -238,7 +238,7 @@ class App extends React.Component {
             place: context.place[0].id,
             deadline: null,
             category: context.category[0].id,
-            answers: answers
+            answers: answers,
         }
         // calls the service.js postObservation to API
         questionService.postObservation(data);

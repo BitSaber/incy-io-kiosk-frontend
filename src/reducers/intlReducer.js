@@ -11,7 +11,7 @@ addLocaleData([...locale_en, ...locale_fi, ...locale_sv]);
 export const initialState = {
     defaultLocale: 'en',
     locale: 'en',
-    messages: messages_en
+    messages: messages_en,
 };
 
 export default intlReducer;

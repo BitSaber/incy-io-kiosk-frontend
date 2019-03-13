@@ -2,20 +2,20 @@ import { SET_ALL_ANSWERED, SET_ALL_DISPLAYED, SET_SHOW_ERROR, SET_ERROR_MSG } fr
 
 export const setAllAnsweredAction = value => ({
     type: SET_ALL_ANSWERED,
-    payload: value
+    payload: value,
 });
 
 export const setAllDisplayedAction = value => ({
     type: SET_ALL_DISPLAYED,
-    payload: value
+    payload: value,
 });
 
 export const setShowErrorAction = value => ({
     type: SET_SHOW_ERROR,
-    payload: value
+    payload: value,
 });
 
 export const setErrorMsgAction = value => ({
     type: SET_ERROR_MSG,
-    payload: value
+    payload: value,
 });

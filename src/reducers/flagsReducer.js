@@ -14,12 +14,12 @@ const reducer = (state=initialState, action) => {
     case SET_ALL_ANSWERED:
         return {
             ...state,
-            isAllQuestionsAnswered: action.payload
+            isAllQuestionsAnswered: action.payload,
         }
     case SET_ALL_DISPLAYED:
         return {
             ...state,
-            isAllQuestionsDisplayed: action.payload
+            isAllQuestionsDisplayed: action.payload,
         }
     case SET_SHOW_ERROR:
         return {
@@ -27,7 +27,7 @@ const reducer = (state=initialState, action) => {
             error: {
                 ...state.error,
                 showError: action.payload,
-            }
+            },
         }
     case SET_ERROR_MSG:
         return {
@@ -35,7 +35,7 @@ const reducer = (state=initialState, action) => {
             error: {
                 ...state.error,
                 messageId: action.payload,
-            }
+            },
         }
     default:
         return state;

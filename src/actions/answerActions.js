@@ -6,7 +6,7 @@ export const addAnswerAction = answer => ({
     payload: {
         questionId: answer.questionId,
         answer: answer.answer,
-    }
+    },
 });
 
 export const resetAnswersAction = () => ({
