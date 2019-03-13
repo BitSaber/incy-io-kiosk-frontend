@@ -51,6 +51,7 @@ describe('<App />', () => {
                 setShowError={jest.fn()}
                 setErrorMsg={jest.fn()}
                 choices={{ availableChoices: [] }}
+                resetText={jest.fn()}
             />
         );
         expect(setQuestions.mock.toBeCalled)
