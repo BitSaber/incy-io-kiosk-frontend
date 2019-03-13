@@ -132,9 +132,12 @@ class App extends React.Component {
             questions,
             setCurrentQuestion,
             setAvailableChoices,
-            currentLanguageId
+            currentLanguageId,
+            resetText
         } = this.props;
-        const { allQuestions } = questions;
+        const { allQuestions, currentQuestion } = questions;
+        if (currentQuestion.type === STR)
+            resetText()
 
         const nextPos = this.findNextQuestionPosition()
 
@@ -151,7 +154,6 @@ class App extends React.Component {
      * @description finds the position of the next question and returns it. If no more questions to display, returns null
      */
     findNextQuestionPosition = () => {
-
         const {
             questions,
             answers
@@ -207,7 +209,7 @@ class App extends React.Component {
      */
     submitObservation = () => {
         const { answers, resetAnswers, setAllAnswered,
-            setAllDisplayed, context, resetText } = this.props;
+            setAllDisplayed, context } = this.props;
 
         const time = new Date().toString().substring(0, 21)
         const data = {
@@ -222,7 +224,6 @@ class App extends React.Component {
         resetAnswers();
 
         setAllAnswered(true);
-        resetText(); // incase the text answer was skipped, the text still gets reset
         this.setFirstQuestion();
 
         setTimeout(() => {
