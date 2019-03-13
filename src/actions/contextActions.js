@@ -1,7 +1,5 @@
 import service from '../service';
-
-export const SET_CATEGORY = "SET_CATEGORY";
-export const SET_PLACE = "SET_PLACE";
+import { SET_CATEGORY, SET_PLACE } from '../constants/actions';
 
 export const setCategoryAction = (langId) => {
     return async (dispatch) => {

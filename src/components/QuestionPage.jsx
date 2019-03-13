@@ -7,6 +7,7 @@ import {
     func,
     bool,
     number,
+    shape,
 } from 'prop-types'
 import Grid from '@material-ui/core/Grid';
 import {
@@ -74,7 +75,10 @@ class QuestionPage extends React.Component {
         questionType: string.isRequired,
         onSubmitFreeText: func.isRequired,
         questionPos: number.isRequired,
-        error: bool,
+        error: shape({
+            showError: bool.isRequired,
+            messageId: string.isRequired,
+        }).isRequired,
         moveToNextQuestion: func.isRequired,
         currentIsRequired: bool.isRequired,
         text: string.isRequired,
@@ -225,13 +229,16 @@ class QuestionPage extends React.Component {
                         alignItems="stretch"
                         spacing={24} >
 
-                        <Grid item xs={12} md={12} xl={12}>{this.props.error && <Typography style={style.error} variant='h4' color='error'>
-                            <FormattedMessage id="questionpage.required"
-                                defaultMessage="This field is required!"
-                                description="Requirement text"
-                                values={{ what: 'react-intl' }}
-                            />
-                        </Typography>}</Grid>
+                        <Grid item xs={12} md={12} xl={12}> {
+                            this.props.error.showError &&
+                            <Typography style={style.error} variant='h4' color='error'>
+                                <FormattedMessage id={this.props.error.messageId}
+                                    defaultMessage="This field is required!"
+                                    description="Requirement text"
+                                    values={{ what: 'react-intl' }}
+                                />
+                            </Typography>
+                        }</Grid>
                         {this.renderQuestionElements(this.props.questionType)}
                     </Grid>
 

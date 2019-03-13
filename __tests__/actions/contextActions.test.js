@@ -1,10 +1,5 @@
-import {
-    setCategoryAction,
-    SET_CATEGORY,
-    setPlaceAction,
-    SET_PLACE
-} from "../../src/actions/contextActions";
-
+import { setCategoryAction, setPlaceAction } from "../../src/actions/contextActions";
+import { SET_CATEGORY, SET_PLACE } from '../../src/constants/actions';
 
 // we mock the service so that we can return custom data
 jest.mock("../../src/service", () => {
