@@ -49,6 +49,21 @@ pipeline {
                 sh 'yarn build'
             }
         }
+        stage('Deploy to local test') {
+            steps {
+                withCredentials([file(credentialsId: '2d6f0282-6e9d-4885-b209-3a8baf6cb797', variable: 'IDRSA')]) {
+                    sh """
+                        cp "$IDRSA" ~/.ssh/id_rsa
+                        chown $(whoami): ~/.ssh/id_rsa
+                        chmod 600 ~/.ssh/id_rsa
+                        ssh-keyscan bitsaber.net > ~/.ssh/known_hosts
+                        DEPLOYDIR=$(echo -n "${GIT_BRANCH}" | sed 's/^origin\///')
+                        echo "USING $DEPLOYDIR"
+                        lftp -e "rm -r -f $DEPLOYDIR; mkdir $DEPLOYDIR; mirror -R dist/ $DEPLOYDIR/; quit;" -u jenkins-dev-deploy, sftp://bitsaber.net/branches
+                        """
+                }
+            }
+        }
         stage('Robot Tests') {
             environment {
                 PATH = "$PATH:/opt/chromedriver/"
