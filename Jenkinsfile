@@ -56,8 +56,8 @@ pipeline {
                     sh 'chown $(whoami): ~/.ssh/id_rsa'
                     sh 'chmod 600 ~/.ssh/id_rsa'
                     sh 'ssh-keyscan bitsaber.net > ~/.ssh/known_hosts'
-                    sh 'echo "USING ${env.BRANCH_NAME}"'
-                    sh 'lftp -e "rm -r -f ${env.BRANCH_NAME}; mkdir ${env.BRANCH_NAME}; mirror -R dist/ ${env.BRANCH_NAME}/; quit;" -u jenkins-dev-deploy, sftp://bitsaber.net/branches'
+                    sh 'echo "USING ${BRANCH_NAME}"'
+                    sh 'lftp -e "rm -r -f ${BRANCH_NAME}; mkdir ${BRANCH_NAME}; mirror -R dist/ ${BRANCH_NAME}/; quit;" -u jenkins-dev-deploy, sftp://bitsaber.net/branches'
                 }
             }
         }
