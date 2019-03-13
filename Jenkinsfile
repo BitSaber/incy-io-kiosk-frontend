@@ -56,7 +56,7 @@ pipeline {
                     sh 'chown $(whoami): ~/.ssh/id_rsa'
                     sh 'chmod 600 ~/.ssh/id_rsa'
                     sh 'ssh-keyscan bitsaber.net > ~/.ssh/known_hosts'
-                    sh 'DEPLOYDIR=$(echo -n "${GIT_BRANCH}" | sed \'s/^origin\///\')'
+                    sh 'DEPLOYDIR=$(echo -n "${GIT_BRANCH}" | sed \'s/^origin\\///\')'
                     sh 'echo "USING $DEPLOYDIR"'
                     sh 'lftp -e "rm -r -f $DEPLOYDIR; mkdir $DEPLOYDIR; mirror -R dist/ $DEPLOYDIR/; quit;" -u jenkins-dev-deploy, sftp://bitsaber.net/branches'
                 }
