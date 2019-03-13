@@ -53,6 +53,7 @@ class App extends React.Component {
         setPlace: func.isRequired,
         setAvailableChoices: func.isRequired,
         choices: object.isRequired,
+        resetText: func.isRequired,
     }
 
     setFirstQuestion = async () => {
@@ -85,7 +86,7 @@ class App extends React.Component {
      * @description submits the text answer to the answers in the initial state
      */
     submitTextAnswer = async (text) => {
-        const { addAnswer, questions } = this.props;
+        const { addAnswer, questions, resetText } = this.props;
         const { currentQuestion } = questions;
 
         // checks if the text question is required and shows the required field in that case
@@ -97,6 +98,7 @@ class App extends React.Component {
                 questionId: currentQuestion.id,
                 answer: text,
             });
+            resetText();
             this.moveToNextQuestion();
         }
     }
@@ -128,9 +130,12 @@ class App extends React.Component {
             questions,
             setCurrentQuestion,
             setAvailableChoices,
-            currentLanguageId
+            currentLanguageId,
+            resetText
         } = this.props;
-        const { allQuestions } = questions;
+        const { allQuestions, currentQuestion } = questions;
+        if (currentQuestion.type === STR)
+            resetText()
 
         const nextPos = this.findNextQuestionPosition()
 
@@ -147,7 +152,6 @@ class App extends React.Component {
      * @description finds the position of the next question and returns it. If no more questions to display, returns null
      */
     findNextQuestionPosition = () => {
-
         const {
             questions,
             answers
@@ -214,7 +218,6 @@ class App extends React.Component {
         resetAnswers();
 
         setAllAnswered(true);
-
         this.setFirstQuestion();
 
         setTimeout(() => {

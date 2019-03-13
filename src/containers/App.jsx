@@ -5,6 +5,7 @@ import { addAnswerAction, resetAnswersAction } from '../actions/answerActions';
 import { setQuestionsAction, setCurrentQuestionAction } from '../actions/questionActions';
 import { setCategoryAction, setPlaceAction } from '../actions/contextActions';
 import { setAvailableChoicesAction } from '../actions/choiceActions';
+import { resetTextAction } from '../actions/UiActions';
 import App from '../components/App';
 
 const mapStateToProps = state => ({
@@ -27,6 +28,7 @@ const mapDispatchToProps = {
     setErrorMsg: setErrorMsgAction,
     setCurrentQuestion: setCurrentQuestionAction,
     setAvailableChoices: setAvailableChoicesAction,
+    resetText: resetTextAction,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
