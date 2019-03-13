@@ -14,5 +14,10 @@
         "indent": [2, 4],
         "no-console": 1,
         "no-trailing-spaces": 2
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
     }
 }
