@@ -84,7 +84,8 @@ class App extends React.Component {
             else {
                 return object.id
             }
-        }).flat()
+        })
+            .flat()
         const nextQuestion = allQuestions.find(question => question.position === position)
         if (nextQuestion.depends_on_question_id === null) {
             // next question is not dependent on any previous choice => question is shown
@@ -232,7 +233,8 @@ class App extends React.Component {
     submitObservation = () => {
         const { answers, resetAnswers, setAllAnswered, setAllDisplayed, context } = this.props;
 
-        const time = new Date().toString().substring(0, 21)
+        const time = new Date().toString()
+            .substring(0, 21)
         const data = {
             occurred_at: time,
             place: context.place[0].id,
