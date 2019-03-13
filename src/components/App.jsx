@@ -164,18 +164,15 @@ class App extends React.Component {
         }).flat();
 
         let nextQuestionPosition = currentQuestion.position + 1
-        let displayQuestion = false
 
-        while (nextQuestionPosition <= allQuestions.length && !displayQuestion) {
+        while (nextQuestionPosition <= allQuestions.length) {
             const nextQuestion = allQuestions.find(question => question.position === nextQuestionPosition);
             if (nextQuestion) {
                 if (nextQuestion.depends_on_choice_id === null) {
                     // next question is not dependent on a previous selected choice => the question is shown
-                    displayQuestion = true;
                     return nextQuestionPosition
                 } else if (answeredChoiceIds.includes(nextQuestion.depends_on_choice_id)) {
                     // next question is dependent on a previously selected choice => the question is shown
-                    displayQuestion = true;
                     return nextQuestionPosition
                 }
             }
