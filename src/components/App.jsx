@@ -21,7 +21,7 @@ class App extends React.Component {
         await setPlace(currentLanguageId);
         await setQuestions(currentLanguageId);
 
-        this.setFirstQuestion()
+        this.setFirstQuestion();
     }
 
     static propTypes = {
@@ -36,14 +36,12 @@ class App extends React.Component {
         setQuestions: func.isRequired,
         flags: shape({
             isAllQuestionsAnswered: bool.isRequired,
-            isAllQuestionsDisplayed: bool.isRequired,
             error: shape({
                 showError: bool.isRequired,
                 messageId: string.isRequired,
             }).isRequired,
         }).isRequired,
         setAllAnswered: func.isRequired,
-        setAllDisplayed: func.isRequired,
         setShowError: func.isRequired,
         setErrorMsg: func.isRequired,
         setCurrentQuestion: func.isRequired,
@@ -55,6 +53,7 @@ class App extends React.Component {
         setPlace: func.isRequired,
         setAvailableChoices: func.isRequired,
         choices: object.isRequired,
+        resetText: func.isRequired,
     }
 
     setFirstQuestion = async () => {
@@ -64,81 +63,9 @@ class App extends React.Component {
         if (allQuestions.length > 0) {
             const currentQuestion = allQuestions[0];
             setCurrentQuestion(currentQuestion);
-            setAvailableChoices(currentQuestion.id, currentLanguageId);
-        }
-    }
-
-    /**
-     * @description Checks if next question should be shown or not
-     * @param position current question position
-     * @returns true if next question should be shown, else {false}
-     */
-    checkNextQuestion = (position) => {
-        const { allQuestions } = this.props.questions;
-
-        //makes an array with all answer ID's
-        const answerIDs = Object.values(this.props.answers).map(function (object) {
-            if (Array.isArray(object)) {
-                return object.map(x => x.id)
+            if (currentQuestion.type !== STR) {
+                setAvailableChoices(currentQuestion.id, currentLanguageId);
             }
-            else {
-                return object.id
-            }
-        }).flat()
-        const nextQuestion = allQuestions.find(question => question.position === position)
-        if (nextQuestion.depends_on_question_id === null) {
-            // next question is not dependent on any previous choice => question is shown
-            return true;
-        } else if (answerIDs.includes(nextQuestion.depends_on_choice_id)) {
-            // next question is dependent on previous choice that was selected => question is shown
-            return true;
-        } else {
-            // next question is dependent on a choice that was not selected => question is not shown
-            return false;
-        }
-    }
-
-    /**
-     * @description sets the next question visible on the screen
-     */
-    setNextQuestion = async () => {
-        const { questions: { allQuestions, currentQuestion }, setAllAnswered, setAllDisplayed } = this.props;
-        // finds the next question to display
-        const questionsLen = allQuestions.length
-        var position = allQuestions.find(
-            question => question.id === currentQuestion.id).position + 1
-        var flag = true
-        // Loop through the questions by position, and determine if the question at hand needs to be displayed
-        while (position <= questionsLen && flag) {
-            if (this.checkNextQuestion(position)) {
-                flag = false
-                this.setQuestion(position)
-            } else {
-                position += 1
-            }
-        }
-        // Check if the last displayed question still needs an answer, or if the thank you page can be displayed
-        if (position >= questionsLen) {
-            setAllDisplayed(true)
-            if (flag) {
-                setAllAnswered(true)
-            }
-        }
-    }
-
-    /**
-     * @description sets the new question
-     * @param newPosition the position of the new question
-    */
-    setQuestion = async (newPosition) => {
-        const { currentLanguageId, questions, setCurrentQuestion, setAvailableChoices } = this.props;
-        const { allQuestions } = questions;
-
-        const newQuestion = allQuestions.find(question => question.position === newPosition)
-        setCurrentQuestion(newQuestion);
-
-        if (newQuestion.type !== STR) {
-            setAvailableChoices(newQuestion.id, currentLanguageId);
         }
     }
 
@@ -159,7 +86,7 @@ class App extends React.Component {
      * @description submits the text answer to the answers in the initial state
      */
     submitTextAnswer = async (text) => {
-        const { addAnswer, questions } = this.props;
+        const { addAnswer, questions, resetText } = this.props;
         const { currentQuestion } = questions;
 
         // checks if the text question is required and shows the required field in that case
@@ -171,6 +98,7 @@ class App extends React.Component {
                 questionId: currentQuestion.id,
                 answer: text,
             });
+            resetText();
             this.moveToNextQuestion();
         }
     }
@@ -194,23 +122,68 @@ class App extends React.Component {
         this.moveToNextQuestion()
     }
 
+    /**
+     * @description Moves the questionnaire to the next question, or submits the answers if no more questions to be answered.
+     */
+    moveToNextQuestion = async () => {
+        const {
+            questions,
+            setCurrentQuestion,
+            setAvailableChoices,
+            currentLanguageId,
+            resetText
+        } = this.props;
+        const { allQuestions, currentQuestion } = questions;
+        if (currentQuestion.type === STR)
+            resetText()
+
+        const nextPos = this.findNextQuestionPosition()
+
+        if (nextPos !== null) {
+            const nextQuestion = allQuestions.find(question => question.position === nextPos);
+            setAvailableChoices(nextQuestion.id, currentLanguageId)
+            setCurrentQuestion(nextQuestion)
+        } else {
+            this.submitObservation()
+        }
+    }
 
     /**
-    * @description submits the observation if the questionnaire is finished,
-    * else moves to next question
-    */
-    moveToNextQuestion = async () => {
-        const { allQuestions, currentQuestion } = this.props.questions;
-        const position = allQuestions.findIndex(question => question.id === currentQuestion.id);
+     * @description finds the position of the next question and returns it. If no more questions to display, returns null
+     */
+    findNextQuestionPosition = () => {
+        const {
+            questions,
+            answers
+        } = this.props;
+        const { allQuestions, currentQuestion } = questions;
 
-        if (!this.props.flags.isAllQuestionsDisplayed) { // more questions
-            await this.setNextQuestion(position);
-            if (this.props.flags.isAllQuestionsDisplayed && this.props.flags.isAllQuestionsAnswered) {
-                this.submitObservation()
+        const answeredChoiceIds = Object.values(answers).map(object => {
+            if (Array.isArray(object)) {
+                return object.map(x => x.id);
             }
-        } else { // no more questions
-            this.submitObservation();
+            else {
+                return object.id;
+            }
+        }).flat();
+
+        let nextQuestionPosition = currentQuestion.position + 1
+
+        while (nextQuestionPosition <= allQuestions.length) {
+            const nextQuestion = allQuestions.find(question => question.position === nextQuestionPosition);
+            if (nextQuestion) {
+                if (nextQuestion.depends_on_choice_id === null) {
+                    // next question is not dependent on a previous selected choice => the question is shown
+                    return nextQuestionPosition
+                } else if (answeredChoiceIds.includes(nextQuestion.depends_on_choice_id)) {
+                    // next question is dependent on a previously selected choice => the question is shown
+                    return nextQuestionPosition
+                }
+            }
+            nextQuestionPosition += 1
         }
+
+        return null // Returns null if while loop doesn't return a question postion - this means that no more questions to display
     }
 
 
@@ -230,7 +203,7 @@ class App extends React.Component {
      * the state is reset so that a new questionnaire can be started
      */
     submitObservation = () => {
-        const { answers, resetAnswers, setAllAnswered, setAllDisplayed, context } = this.props;
+        const { answers, resetAnswers, setAllAnswered, context } = this.props;
 
         const time = new Date().toString().substring(0, 21)
         const data = {
@@ -245,12 +218,10 @@ class App extends React.Component {
         resetAnswers();
 
         setAllAnswered(true);
-
         this.setFirstQuestion();
 
         setTimeout(() => {
             setAllAnswered(false);
-            setAllDisplayed(false);
         }, 3000);
     }
 

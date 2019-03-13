@@ -23,6 +23,7 @@ export default class FreeText extends React.Component {
     static propTypes = {
         text: string.isRequired,
         handleChange: func.isRequired,
+        resetText: func.isRequired,
     }
 
     render() {
