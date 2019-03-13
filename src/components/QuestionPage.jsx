@@ -153,7 +153,7 @@ class QuestionPage extends React.Component {
         } else if (questionType === QUESTION_TYPE_UNINITIALIZED) {
             return null;
         } else {
-            throw `Invalid Question type '${questionType}'`
+            throw new Error(`Invalid Question type '${questionType}'`);
         }
     }
 
@@ -195,7 +195,7 @@ class QuestionPage extends React.Component {
         } else if (questionType === QUESTION_TYPE_UNINITIALIZED) {
             return (<div>Loading, please wait...</div>)
         } else {
-            throw `Invalid Question type '${questionType}'`
+            throw new Error(`Invalid Question type '${questionType}'`);
         }
     }
 
