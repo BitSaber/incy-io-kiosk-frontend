@@ -36,14 +36,12 @@ class App extends React.Component {
         setQuestions: func.isRequired,
         flags: shape({
             isAllQuestionsAnswered: bool.isRequired,
-            isAllQuestionsDisplayed: bool.isRequired,
             error: shape({
                 showError: bool.isRequired,
                 messageId: string.isRequired,
             }).isRequired,
         }).isRequired,
         setAllAnswered: func.isRequired,
-        setAllDisplayed: func.isRequired,
         setShowError: func.isRequired,
         setErrorMsg: func.isRequired,
         setCurrentQuestion: func.isRequired,
@@ -170,18 +168,15 @@ class App extends React.Component {
         }).flat();
 
         let nextQuestionPosition = currentQuestion.position + 1
-        let displayQuestion = false
 
-        while (nextQuestionPosition <= allQuestions.length && !displayQuestion) {
+        while (nextQuestionPosition <= allQuestions.length) {
             const nextQuestion = allQuestions.find(question => question.position === nextQuestionPosition);
             if (nextQuestion) {
                 if (nextQuestion.depends_on_choice_id === null) {
                     // next question is not dependent on a previous selected choice => the question is shown
-                    displayQuestion = true;
                     return nextQuestionPosition
                 } else if (answeredChoiceIds.includes(nextQuestion.depends_on_choice_id)) {
                     // next question is dependent on a previously selected choice => the question is shown
-                    displayQuestion = true;
                     return nextQuestionPosition
                 }
             }
@@ -208,8 +203,7 @@ class App extends React.Component {
      * the state is reset so that a new questionnaire can be started
      */
     submitObservation = () => {
-        const { answers, resetAnswers, setAllAnswered,
-            setAllDisplayed, context } = this.props;
+        const { answers, resetAnswers, setAllAnswered, context } = this.props;
 
         const time = new Date().toString().substring(0, 21)
         const data = {
@@ -228,7 +222,6 @@ class App extends React.Component {
 
         setTimeout(() => {
             setAllAnswered(false);
-            setAllDisplayed(false);
         }, 3000);
     }
 
