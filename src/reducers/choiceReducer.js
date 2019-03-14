@@ -16,7 +16,7 @@ const reducer = (state=initialState, action) => {
     if (action.type === SET_CURRENT_CHOICES) {
         return {
             ...state,
-            currentChoices: action.payload,
+            currentChoices: state.allChoices[action.payload-1],
         };
     }
     if (action.type === SET_SELECTED_CHOICES) {

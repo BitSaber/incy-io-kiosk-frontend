@@ -8,7 +8,6 @@ export const getAllChoicesAction = (questions, langId) => {
         // and dispatch them one by one to an array with all the possible choices
         var i;
         const qLen = questions.length;
-        console.log(questions);
         for (i = 0; i < qLen; i++) {
             const choices = await service.getChoices(questions[i].id, langId);
             dispatch({
@@ -19,9 +18,9 @@ export const getAllChoicesAction = (questions, langId) => {
     };
 };
 
-export const setCurrentChoicesAction = (choices) => ({
+export const setCurrentChoicesAction = (questionPosition) => ({
     type: SET_CURRENT_CHOICES,
-    payload: choices,
+    payload: questionPosition,
 });
 
 export const setSelectedChoicesAction = (choices) => ({

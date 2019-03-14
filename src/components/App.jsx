@@ -17,14 +17,13 @@ class App extends React.Component {
      */
     async componentDidMount() {
         const { setCategory, setPlace, setQuestions,
-            currentLanguageId, getAllChoices, questions } = this.props;
+            currentLanguageId, getAllChoices } = this.props;
         await setCategory(currentLanguageId);
         await setPlace(currentLanguageId);
         await setQuestions(currentLanguageId);
 
-        await getAllChoices(questions.allQuestions, currentLanguageId);
+        await getAllChoices(this.props.questions.allQuestions, currentLanguageId);
         this.setFirstQuestion();
-        console.log(questions.allQuestions);
     }
 
     static propTypes = {
@@ -61,14 +60,14 @@ class App extends React.Component {
     }
 
     setFirstQuestion = async () => {
-        const { currentLanguageId, setCurrentQuestion, setCurrentChoices } = this.props;
+        const { setCurrentQuestion, setCurrentChoices } = this.props;
         const { allQuestions } = this.props.questions;
 
         if (allQuestions.length > 0) {
             const currentQuestion = allQuestions[0];
             setCurrentQuestion(currentQuestion);
             if (currentQuestion.type !== STR) {
-                setCurrentChoices(currentQuestion.id, currentLanguageId);
+                setCurrentChoices(currentQuestion.position);
             }
         }
     }
@@ -127,14 +126,14 @@ class App extends React.Component {
     }
 
     /**
-     * @description Moves the questionnaire to the next question, or submits the answers if no more questions to be answered.
+     * @description Moves the questionnaire to the next question, or submits
+     * the answers if no more questions to be answered.
      */
     moveToNextQuestion = async () => {
         const {
             questions,
             setCurrentQuestion,
             setCurrentChoices,
-            currentLanguageId,
             resetText,
         } = this.props;
         const { allQuestions, currentQuestion } = questions;
@@ -145,7 +144,7 @@ class App extends React.Component {
 
         if (nextPos !== null) {
             const nextQuestion = allQuestions.find(question => question.position === nextPos);
-            setCurrentChoices(nextQuestion.id, currentLanguageId);
+            setCurrentChoices(nextQuestion.position);
             setCurrentQuestion(nextQuestion);
         } else {
             this.submitObservation();
