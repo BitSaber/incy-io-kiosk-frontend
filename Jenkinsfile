@@ -1,4 +1,3 @@
-def lowercaseBranch
 pipeline {
     agent {
         label 'dind'
