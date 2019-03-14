@@ -1,6 +1,7 @@
 //import { setCurrentChoicesAction } from "../../src/actions/choiceActions";
 //import { SET_CURRENT_CHOICES } from "../../src/constants/actions";
 
+// TODO: this test currently does nothing
 // we mock the service so that we can return custom data
 jest.mock("../../src/service", () => {
     const mockChoices = [
@@ -15,7 +16,7 @@ jest.mock("../../src/service", () => {
     };
 });
 
-describe("choiceActions", () => { // TODO: this test currently does nothing
+describe("choiceActions", () => {
     it("should set choices", async () => {
         // setCurrentChoicesAction(1);
         // const mockDispatch = jest.fn();

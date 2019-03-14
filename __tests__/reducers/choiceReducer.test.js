@@ -1,6 +1,7 @@
 // import reducer from '../../src/reducers/choiceReducer';
 // import { SET_AVAILABLE_CHOICES } from "../../src/constants/actions";
 
+// TODO: this test currently does nothing
 describe('choiceReducer', () => {
     it('should set the initial state', () => {
         // const mockChoices = [
