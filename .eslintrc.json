@@ -21,6 +21,9 @@
             "exports": "always-multiline",
             "functions": "ignore"
         }],
+        "no-param-reassign": ["error", {
+            "props": true
+        }],
         "no-lonely-if": "error",
         "no-throw-literal": "error"
     }
