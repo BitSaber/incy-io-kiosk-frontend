@@ -1,12 +1,7 @@
-import { SET_ALL_ANSWERED, SET_ALL_DISPLAYED, SET_SHOW_ERROR, SET_ERROR_MSG } from "../constants/actions";
+import { SET_ALL_ANSWERED, SET_SHOW_ERROR, SET_ERROR_MSG } from "../constants/actions";
 
 export const setAllAnsweredAction = value => ({
     type: SET_ALL_ANSWERED,
-    payload: value,
-});
-
-export const setAllDisplayedAction = value => ({
-    type: SET_ALL_DISPLAYED,
     payload: value,
 });
 

@@ -20,6 +20,8 @@
             "imports": "always-multiline",
             "exports": "always-multiline",
             "functions": "ignore"
-        }]
+        }],
+        "no-lonely-if": "error",
+        "no-throw-literal": "error"
     }
 }
