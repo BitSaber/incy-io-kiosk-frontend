@@ -26,8 +26,10 @@ jest.mock("../src/service", () => {
 });
 
 describe('<App />', () => {
-    it('should call setQuestions on componentDidMount()', () => {
+    it('should call setQuestions, setCategory and setPlace on componentDidMount()', () => {
         const setQuestions = jest.fn();
+        const setCategory = jest.fn();
+        const setPlace = jest.fn();
         shallow(
             <App
                 currentLanguageId="en"
@@ -39,8 +41,8 @@ describe('<App />', () => {
                 setAvailableChoices={jest.fn()}
                 questions={{ allQuestions: [] }}
                 context={{ place: [], category: [] }}
-                setPlace={jest.fn()}
-                setCategory={jest.fn()}
+                setPlace={setPlace}
+                setCategory={setCategory}
                 setAllAnswered={jest.fn()}
                 setAllDisplayed={jest.fn()}
                 flags={{
@@ -55,5 +57,7 @@ describe('<App />', () => {
             />
         );
         expect(setQuestions.mock.toBeCalled)
+        expect(setCategory.mock.toBeCalled)
+        expect(setPlace.mock.toBeCalled)
     });
 })
