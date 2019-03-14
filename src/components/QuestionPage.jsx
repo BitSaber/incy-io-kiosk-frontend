@@ -37,7 +37,7 @@ const style = {
         maxHeight: '3000px',
         backgroundColor: '#0078CC',
         display: 'block',
-        height: '120vh',
+        height: '100vh',
     },
     basic: {
         height: '100%',
@@ -226,7 +226,7 @@ class QuestionPage extends React.Component {
                         direction="column"
                         justify="center"
                         alignItems="stretch"
-                        spacing={24} >
+                        spacing={16} >
 
                         <Grid item xs={12} md={12} xl={12}> {
                             this.props.error.showError &&
