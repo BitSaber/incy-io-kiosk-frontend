@@ -60,38 +60,4 @@ describe('<App />', () => {
         expect(setCategory.mock.toBeCalled)
         expect(setPlace.mock.toBeCalled)
     });
-
-    it('should set the question on position 1 as the current question.', () =>{
-        const setQuestions = jest.fn();
-        const setCategory = jest.fn();
-        const setPlace = jest.fn();
-        shallow(
-            <App
-                currentLanguageId="en"
-                answers={{}}
-                addAnswer={jest.fn()}
-                resetAnswers={jest.fn()}
-                setQuestions={setQuestions}
-                setCurrentQuestion={jest.fn()}
-                setAvailableChoices={jest.fn()}
-                questions={{ allQuestions: [], currentQuestion: {} }}
-                context={{ place: [], category: [] }}
-                setPlace={setPlace}
-                setCategory={setCategory}
-                setAllAnswered={jest.fn()}
-                setAllDisplayed={jest.fn()}
-                flags={{
-                    isAllQuestionsAnswered: false,
-                    isAllQuestionsDisplayed: false,
-                    error: {  showError: false, messageId: "" }
-                }}
-                setShowError={jest.fn()}
-                setErrorMsg={jest.fn()}
-                choices={{ availableChoices: [] }}
-                resetText={jest.fn()}
-            />
-        );
-        expect(questions.currentQuestion).toEqual({position: 1})
-    });
-    })
 })
