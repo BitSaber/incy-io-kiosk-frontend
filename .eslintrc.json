@@ -19,5 +19,8 @@
         "react": {
             "version": "detect"
         }
+        "no-trailing-spaces": 2,
+        "no-lonely-if": "error",
+        "no-throw-literal": "error"
     }
 }
