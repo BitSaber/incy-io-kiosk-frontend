@@ -16,7 +16,7 @@ const reducer = (state=initialState, action) => {
         return {
             ...state,
             selectedChoices: action.payload,
-        }
+        };
     }
     return state;
 };

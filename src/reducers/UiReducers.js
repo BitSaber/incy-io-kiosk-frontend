@@ -1,23 +1,28 @@
-import { TEXT_CHANGE } from '../constants/actions'
+import { TEXT_CHANGE, TEXT_RESET } from '../constants/actions';
 //import { submitTextAnswer } from '../App' WILL BE USED LATER
 
 const initialState = {
-    freeText: { text: "" }
-}
+    freeText: { text: "" },
+};
 
 const reducer = (state = initialState, action) => {
     if (action.type === TEXT_CHANGE) {
         return {
             ...state,
-            freeText: { text: action.text }
-        }
+            freeText: { text: action.text },
+        };
+    } else if (action.type === TEXT_RESET) {
+        return {
+            ...state,
+            freeText: { text: "" },
+        };
     }
     //Will be used later
     /*   else if (action.type === TEXT_SUBMIT) {
            return submitTextAnswer(action.text)
        }*/
 
-    return state
-}
+    return state;
+};
 
 export default reducer;

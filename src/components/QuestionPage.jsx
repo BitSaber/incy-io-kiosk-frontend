@@ -8,15 +8,15 @@ import {
     bool,
     number,
     shape,
-} from 'prop-types'
+} from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import {
     Typography,
 } from '@material-ui/core';
-import FreeText from '../containers/FreeText'
+import FreeText from '../containers/FreeText';
 import BigButton from '../components/BigButton';
 import SkipButton from '../components/SkipButton';
-import SubmitButton from '../components/SubmitButton'
+import SubmitButton from '../components/SubmitButton';
 import Language from '../containers/Language';
 import MultiSelect from '../containers/MultiSelect';
 import {
@@ -27,24 +27,22 @@ import {
     SELECT,
     MULTI_SELECT,
     STR,
-    UNINITIALIZED as QUESTION_TYPE_UNINITIALIZED
+    UNINITIALIZED as QUESTION_TYPE_UNINITIALIZED,
 } from '../constants/questionTypes';
 
 
-// #0078CC
-// #2B4141
 const style = {
     body: {
         maxHeight: '3000px',
         backgroundColor: '#0078CC',
         display: 'block',
-        height: '120vh'
+        height: '120vh',
     },
     basic: {
         height: '100%',
         alignItems: 'center',
         fontFamily: 'Roboto',
-        overflow: 'hidden'
+        overflow: 'hidden',
     },
     textStyle: {
         color: '#ffffff',
@@ -58,9 +56,9 @@ const style = {
     },
     error: {
         fontWeight: 'bold',
-    }
+    },
 
-}
+};
 
 class QuestionPage extends React.Component {
 
@@ -109,12 +107,12 @@ class QuestionPage extends React.Component {
                     questionId: question.id,
                     answer: selectedChoices,
                 });
-                setSelectedChoices([])
+                setSelectedChoices([]);
                 moveToNextQuestion();
             }
         };
 
-        return <SubmitButton onClick={clickHandler} />
+        return <SubmitButton onClick={clickHandler} />;
     }
 
     /**
@@ -128,7 +126,7 @@ class QuestionPage extends React.Component {
                 onClick={() => this.props.onChoiceClick(questionsChoice)}
                 text={questionsChoice.name}
             />
-        ))
+        ));
     }
 
     renderMultiselect = () => (
@@ -136,7 +134,7 @@ class QuestionPage extends React.Component {
     );
 
     renderTextField = () => {
-        return <FreeText />
+        return <FreeText />;
     }
 
 
@@ -145,15 +143,15 @@ class QuestionPage extends React.Component {
      */
     renderQuestionElements = (questionType) => {
         if (questionType === SELECT) {
-            return this.renderSelect()
+            return this.renderSelect();
         } else if (questionType === MULTI_SELECT) {
-            return this.renderMultiselect()
+            return this.renderMultiselect();
         } else if (questionType === STR) {
-            return this.renderTextField()
+            return this.renderTextField();
         } else if (questionType === QUESTION_TYPE_UNINITIALIZED) {
             return null;
         } else {
-            throw `Invalid Question type '${questionType}'`
+            throw new Error(`Invalid Question type '${questionType}'`);
         }
     }
 
@@ -166,20 +164,20 @@ class QuestionPage extends React.Component {
                 <Grid container direction="row" justify="center">
                     <SubmitButton
                         onClick={() => {
-                            this.props.onSubmitFreeText(this.props.text) //onClick should dispatch an action
+                            this.props.onSubmitFreeText(this.props.text); //onClick should dispatch an action
                         }}
                         text="Submit"
                     />
                 </Grid>
             </div>
-        )
+        );
     }
 
     questionHasSubmitButton = (questionType) => {
         const questionsWithSubmitButtons = [
             MULTI_SELECT,
             STR,
-        ]
+        ];
         return questionsWithSubmitButtons.indexOf(questionType) !== -1;
     }
     /**
@@ -187,23 +185,23 @@ class QuestionPage extends React.Component {
      */
     renderSubmitButton = (questionType) => {
         if (!this.questionHasSubmitButton(questionType)) {
-            return null
+            return null;
         } else if (questionType === MULTI_SELECT) {
-            return this.submitMultiButton()
+            return this.submitMultiButton();
         } else if (questionType === STR) {
-            return this.submitTextButton()
+            return this.submitTextButton();
         } else if (questionType === QUESTION_TYPE_UNINITIALIZED) {
-            return (<div>Loading, please wait...</div>)
+            return (<div>Loading, please wait...</div>);
         } else {
-            throw `Invalid Question type '${questionType}'`
+            throw new Error(`Invalid Question type '${questionType}'`);
         }
     }
 
     renderLanguageButtons = () => {
         if (this.props.questionPos === 0) {
-            return <Language />
+            return <Language />;
         }
-        return
+        return;
     }
 
 
@@ -264,7 +262,7 @@ class QuestionPage extends React.Component {
 
                 </Grid>
             </div>
-        )
+        );
     }
 }
 

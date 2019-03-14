@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import MultiSelect from '../components/MultiSelect'
+import MultiSelect from '../components/MultiSelect';
 import { setSelectedChoicesAction } from '../actions/choiceActions';
 
 const mapStateToProps = state => ({

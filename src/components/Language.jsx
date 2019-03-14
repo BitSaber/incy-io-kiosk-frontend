@@ -3,28 +3,28 @@ import { func } from 'prop-types';
 
 export default class Language extends Component {
     constructor(props) {
-        super(props)
+        super(props);
     }
 
     static propTypes = {
-        setLocale: func.isRequired
+        setLocale: func.isRequired,
     }
 
     render() {
-        const setLocale = this.props.setLocale
+        const setLocale = this.props.setLocale;
         return (
             <div>
                 <span>
                     <img src="/flags/uk.png" alt="Eng"
-                        onClick={() => {setLocale('en')}} />
+                        onClick={() => {setLocale('en');}} />
                 </span>
                 <span>
                     <img src="/flags/fi.png" alt="Fi"
-                        onClick={() => {setLocale('fi')}} />
+                        onClick={() => {setLocale('fi');}} />
                 </span>
                 <span>
                     <img src="/flags/swe.png" alt="Swe"
-                        onClick={() => {setLocale('sv')}} />
+                        onClick={() => {setLocale('sv');}} />
                 </span>
             </div>
         );

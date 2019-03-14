@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 
@@ -18,7 +18,7 @@ const style = {
         fontWeight: 'bold',
     },
 
-}
+};
 
 const BigButton = ({ onClick, text }) => {
     return (
@@ -27,12 +27,12 @@ const BigButton = ({ onClick, text }) => {
                 <Typography style={style.textStyle}>{text}</Typography>
             </Button>
         </Grid >
-    )
+    );
 };
 
 BigButton.propTypes = {
     onClick: PropTypes.func.isRequired,
-    text: PropTypes.string.isRequired
+    text: PropTypes.string.isRequired,
 };
 
 export default BigButton;

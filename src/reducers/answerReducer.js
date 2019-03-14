@@ -5,7 +5,7 @@ const reducer = (state={}, action) => {
         return {
             ...state,
             [action.payload.questionId]: action.payload.answer,
-        }
+        };
     }
 
     if (action.type === RESET_ANSWERS) {
@@ -13,6 +13,6 @@ const reducer = (state={}, action) => {
     }
 
     return state;
-}
+};
 
 export default reducer;

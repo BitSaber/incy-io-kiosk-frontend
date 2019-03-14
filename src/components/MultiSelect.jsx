@@ -9,14 +9,14 @@ const buttonStyle = (isSelected) => ({
     backgroundColor: isSelected ? '#4cb4ff' : '#0496FF',
     height: 100,
     borderRadius: 30,
-    margin: 'auto'
+    margin: 'auto',
 });
 
 const textStyle = {
     fontSize: 35,
     color: '#ffffff',
     fontWeight: 'bold',
-}
+};
 
 class MultiSelect extends React.Component {
     handleChoice = (choice) => {
@@ -49,7 +49,7 @@ class MultiSelect extends React.Component {
                         <Typography style={textStyle}>{choice.name}</Typography>
                     </Button>
                 </Grid>
-            )
+            );
         });
     }
 }
