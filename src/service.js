@@ -4,7 +4,7 @@ import Cookie from 'js-cookie';
 import {
     DEFAULT_ORG_NAME,
     DEFAULT_LINK_NAME,
-    DEFAULT_BASE_API_URL
+    DEFAULT_BASE_API_URL,
 } from './constants/defaults';
 
 import {
@@ -75,30 +75,34 @@ const getLanguages = () => {
 
 // TODO: headers (the language) should be somehow automatically added to each request
 const getCategory = (langId) => {
-    return getUrl(categoryUrl, { headers: {
-        "Accept-Language": (langId + ';q=1')
-    }
+    return getUrl(categoryUrl, {
+        headers: {
+            "Accept-Language": (langId + ';q=1'),
+        },
     });
 };
 
 const getPlace = (langId) => {
-    return getUrl(placeUrl, { headers: {
-        "Accept-Language": (langId + ';q=1')
-    }
+    return getUrl(placeUrl, {
+        headers: {
+            "Accept-Language": (langId + ';q=1'),
+        },
     });
 };
 
 const getQuestions = (langId) => {
-    return getUrl(questionsUrl, { headers: {
-        "Accept-Language": (langId + ';q=1')
-    }
+    return getUrl(questionsUrl, {
+        headers: {
+            "Accept-Language": (langId + ';q=1'),
+        },
     });
 };
 
 const getChoices = (id, langId) => {
-    return getUrl(choicesUrl + id, { headers: {
-        "Accept-Language": (langId + ';q=1')
-    }
+    return getUrl(choicesUrl + id, {
+        headers: {
+            "Accept-Language": (langId + ';q=1'),
+        },
     });
 };
 

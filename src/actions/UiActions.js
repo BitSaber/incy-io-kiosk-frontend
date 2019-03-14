@@ -15,5 +15,5 @@ export const submitTextAction = text => ({
 });
 
 export const resetTextAction = () => ({
-    type: TEXT_RESET
-});
+    type: TEXT_RESET,
+})

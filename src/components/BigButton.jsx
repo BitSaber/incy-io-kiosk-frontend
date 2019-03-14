@@ -32,7 +32,7 @@ const BigButton = ({ onClick, text }) => {
 
 BigButton.propTypes = {
     onClick: PropTypes.func.isRequired,
-    text: PropTypes.string.isRequired
+    text: PropTypes.string.isRequired,
 };
 
 export default BigButton;

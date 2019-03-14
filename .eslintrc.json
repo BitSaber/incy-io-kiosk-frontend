@@ -10,17 +10,23 @@
         "plugin:react/recommended"
     ],
     "parser": "babel-eslint",
-    "rules": {
-        "indent": [2, 4],
-        "no-console": 1,
-        "no-trailing-spaces": 2
-    },
     "settings": {
         "react": {
             "version": "detect"
-        },
+        }
+    },
+    "rules": {
+        "indent": [2, 4],
+        "no-console": 1,
         "no-trailing-spaces": 2,
         "semi": ["error", "always"],
+        "comma-dangle": ["error", {
+            "arrays": "always-multiline",
+            "objects": "always-multiline",
+            "imports": "always-multiline",
+            "exports": "always-multiline",
+            "functions": "ignore"
+        }],
         "eol-last": "error",
         "prefer-const": "error",
         "no-param-reassign": ["error", {

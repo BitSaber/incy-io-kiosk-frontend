@@ -12,7 +12,7 @@ const style = {
         color: '#ffffff',
         borderRadius: 30,
         fontWeight: 'bold',
-    }
+    },
 };
 
 const SkipButton = ({ onClick }) => (

@@ -15,7 +15,7 @@ export const setQuestionsAction = (langId) => {
 
 export const setCurrentQuestionAction = (question) => ({
     type: SET_CURRENT_QUESTION,
-    payload: question
+    payload: question,
 });
 
 export default {

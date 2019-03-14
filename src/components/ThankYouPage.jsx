@@ -23,7 +23,7 @@ const style = {
     body: {
         backgroundColor: '#0078CC',
         height: '100vh',
-    }
+    },
 };
 
 const ThankYouPage = () => (

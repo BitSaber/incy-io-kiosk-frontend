@@ -4,7 +4,7 @@ import { onTextChangeAction, resetTextAction } from '../actions/UiActions';
 
 const mapStateToProps = state => {
     return {
-        text: state.ui.freeText.text
+        text: state.ui.freeText.text,
     };
 };
 

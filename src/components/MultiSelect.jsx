@@ -9,7 +9,7 @@ const buttonStyle = (isSelected) => ({
     backgroundColor: isSelected ? '#4cb4ff' : '#0496FF',
     height: 100,
     borderRadius: 30,
-    margin: 'auto'
+    margin: 'auto',
 });
 
 const textStyle = {
