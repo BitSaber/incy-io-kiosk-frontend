@@ -14,6 +14,8 @@
         "indent": [2, 4],
         "no-console": 1,
         "no-trailing-spaces": 2,
-        "prefer-const": "error"
+        "prefer-const": "error",
+        "no-lonely-if": "error",
+        "no-throw-literal": "error"
     }
 }
