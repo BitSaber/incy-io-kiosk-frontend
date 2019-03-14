@@ -15,6 +15,9 @@
         "no-console": 1,
         "no-trailing-spaces": 2,
         "eol-last": "error",
+        "no-param-reassign": ["error", {
+            "props": true
+        }],
         "no-lonely-if": "error",
         "no-throw-literal": "error"
     }
