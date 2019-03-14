@@ -20,6 +20,9 @@
             "version": "detect"
         },
         "no-trailing-spaces": 2,
+        "no-param-reassign": ["error", {
+            "props": true
+        }],
         "no-lonely-if": "error",
         "no-throw-literal": "error"
     }
