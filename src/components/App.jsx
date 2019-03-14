@@ -131,7 +131,7 @@ class App extends React.Component {
             setCurrentQuestion,
             setAvailableChoices,
             currentLanguageId,
-            resetText
+            resetText,
         } = this.props;
         const { allQuestions, currentQuestion } = questions;
         if (currentQuestion.type === STR)
@@ -154,7 +154,7 @@ class App extends React.Component {
     findNextQuestionPosition = () => {
         const {
             questions,
-            answers
+            answers,
         } = this.props;
         const { allQuestions, currentQuestion } = questions;
 

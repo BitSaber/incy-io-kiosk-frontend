@@ -14,7 +14,7 @@ const reducer = (state = initialState, action) => {
     } else if (action.type === TEXT_RESET) {
         return {
             ...state,
-            freeText: { text: "" }
+            freeText: { text: "" },
         }
     }
     //Will be used later

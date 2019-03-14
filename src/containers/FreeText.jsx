@@ -12,7 +12,7 @@ const mapDispatchToProps = dispatch => ({
     handleChange: event => dispatch(
         onTextChangeAction(event.target.value)
     ),
-    resetText: resetTextAction
+    resetText: resetTextAction,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FreeText);
