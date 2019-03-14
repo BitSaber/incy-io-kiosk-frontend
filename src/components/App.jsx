@@ -135,16 +135,16 @@ class App extends React.Component {
         } = this.props;
         const { allQuestions, currentQuestion } = questions;
         if (currentQuestion.type === STR)
-            resetText()
+            resetText();
 
-        const nextPos = this.findNextQuestionPosition()
+        const nextPos = this.findNextQuestionPosition();
 
         if (nextPos !== null) {
             const nextQuestion = allQuestions.find(question => question.position === nextPos);
-            setAvailableChoices(nextQuestion.id, currentLanguageId)
-            setCurrentQuestion(nextQuestion)
+            setAvailableChoices(nextQuestion.id, currentLanguageId);
+            setCurrentQuestion(nextQuestion);
         } else {
-            this.submitObservation()
+            this.submitObservation();
         }
     }
 
@@ -167,23 +167,23 @@ class App extends React.Component {
             }
         }).flat();
 
-        let nextQuestionPosition = currentQuestion.position + 1
+        let nextQuestionPosition = currentQuestion.position + 1;
 
         while (nextQuestionPosition <= allQuestions.length) {
             const nextQuestion = allQuestions.find(question => question.position === nextQuestionPosition);
             if (nextQuestion) {
                 if (nextQuestion.depends_on_choice_id === null) {
                     // next question is not dependent on a previous selected choice => the question is shown
-                    return nextQuestionPosition
+                    return nextQuestionPosition;
                 } else if (answeredChoiceIds.includes(nextQuestion.depends_on_choice_id)) {
                     // next question is dependent on a previously selected choice => the question is shown
-                    return nextQuestionPosition
+                    return nextQuestionPosition;
                 }
             }
-            nextQuestionPosition += 1
+            nextQuestionPosition += 1;
         }
 
-        return null // Returns null if while loop doesn't return a question postion - this means that no more questions to display
+        return null; // Returns null if while loop doesn't return a question postion - this means that no more questions to display
     }
 
 
