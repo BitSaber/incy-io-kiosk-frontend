@@ -14,7 +14,10 @@
         "indent": [2, 4],
         "no-console": 1,
         "no-trailing-spaces": 2,
-        "semi": ["error", "always"]
+        "semi": ["error", "always"],
+        "no-param-reassign": ["error", {
+            "props": true
+        }],
         "no-lonely-if": "error",
         "no-throw-literal": "error"
     }
