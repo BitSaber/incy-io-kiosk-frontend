@@ -20,6 +20,7 @@
             "version": "detect"
         },
         "no-trailing-spaces": 2,
+        "prefer-const": "error",
         "no-param-reassign": ["error", {
             "props": true
         }],
