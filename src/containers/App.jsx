@@ -29,6 +29,6 @@ const mapDispatchToProps = {
     setCurrentQuestion: setCurrentQuestionAction,
     setAvailableChoices: setAvailableChoicesAction,
     resetText: resetTextAction,
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

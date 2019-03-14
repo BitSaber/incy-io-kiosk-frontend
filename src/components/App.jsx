@@ -1,7 +1,7 @@
 import React from 'react';
 import { string, object, func, bool, shape, array } from 'prop-types';
 
-import questionService from '../service'
+import questionService from '../service';
 import ThankYouPage from '../components/ThankYouPage';
 import QuestionPage from '../containers/QuestionPage';
 import {
@@ -73,12 +73,12 @@ class App extends React.Component {
      * @description showing the question as required on screen
      */
     showFieldRequired = () => {
-        const { setShowError, setErrorMsg } = this.props
-        setErrorMsg("questionpage.required")
+        const { setShowError, setErrorMsg } = this.props;
+        setErrorMsg("questionpage.required");
         if (!this.props.flags.showError) {
-            setShowError(true)
+            setShowError(true);
             setTimeout(() => {
-                setShowError(false)
+                setShowError(false);
             }, 3000);
         }
     }
@@ -117,9 +117,9 @@ class App extends React.Component {
             answer: {
                 id: choice.id,
             },
-        })
+        });
 
-        this.moveToNextQuestion()
+        this.moveToNextQuestion();
     }
 
     /**
@@ -135,16 +135,16 @@ class App extends React.Component {
         } = this.props;
         const { allQuestions, currentQuestion } = questions;
         if (currentQuestion.type === STR)
-            resetText()
+            resetText();
 
-        const nextPos = this.findNextQuestionPosition()
+        const nextPos = this.findNextQuestionPosition();
 
         if (nextPos !== null) {
             const nextQuestion = allQuestions.find(question => question.position === nextPos);
-            setAvailableChoices(nextQuestion.id, currentLanguageId)
-            setCurrentQuestion(nextQuestion)
+            setAvailableChoices(nextQuestion.id, currentLanguageId);
+            setCurrentQuestion(nextQuestion);
         } else {
-            this.submitObservation()
+            this.submitObservation();
         }
     }
 
@@ -167,23 +167,23 @@ class App extends React.Component {
             }
         }).flat();
 
-        let nextQuestionPosition = currentQuestion.position + 1
+        let nextQuestionPosition = currentQuestion.position + 1;
 
         while (nextQuestionPosition <= allQuestions.length) {
             const nextQuestion = allQuestions.find(question => question.position === nextQuestionPosition);
             if (nextQuestion) {
                 if (nextQuestion.depends_on_choice_id === null) {
                     // next question is not dependent on a previous selected choice => the question is shown
-                    return nextQuestionPosition
+                    return nextQuestionPosition;
                 } else if (answeredChoiceIds.includes(nextQuestion.depends_on_choice_id)) {
                     // next question is dependent on a previously selected choice => the question is shown
-                    return nextQuestionPosition
+                    return nextQuestionPosition;
                 }
             }
-            nextQuestionPosition += 1
+            nextQuestionPosition += 1;
         }
 
-        return null // Returns null if while loop doesn't return a question postion - this means that no more questions to display
+        return null; // Returns null if while loop doesn't return a question postion - this means that no more questions to display
     }
 
 
@@ -193,7 +193,7 @@ class App extends React.Component {
      */
     handleChoiceClick = (choice) => {
         if (this.props.questions.currentQuestion.type === SELECT) {
-            this.singleAnswerClick(choice)
+            this.singleAnswerClick(choice);
         }
     }
 
@@ -205,14 +205,14 @@ class App extends React.Component {
     submitObservation = () => {
         const { answers, resetAnswers, setAllAnswered, context } = this.props;
 
-        const time = new Date().toString().substring(0, 21)
+        const time = new Date().toString().substring(0, 21);
         const data = {
             occurred_at: time,
             place: context.place[0].id,
             deadline: null,
             category: context.category[0].id,
             answers: answers,
-        }
+        };
         // calls the service.js postObservation to API
         questionService.postObservation(data);
         resetAnswers();

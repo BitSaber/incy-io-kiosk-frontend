@@ -6,9 +6,10 @@ const initialState = {
         showError: false,
         messageId: "",
     },
-}
+};
 
 const reducer = (state=initialState, action) => {
+    // XXX: Do not use switch statements. Use a lookup object or if-else.
     switch (action.type) {
     case SET_ALL_ANSWERED:
         return {
@@ -34,6 +35,6 @@ const reducer = (state=initialState, action) => {
     default:
         return state;
     }
-}
+};
 
 export default reducer;

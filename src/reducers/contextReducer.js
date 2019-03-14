@@ -10,16 +10,15 @@ const reducer = (state = initialState, action) => {
         return {
             ...state,
             category: action.payload,
-        }
-    }
-    if (action.type === SET_PLACE) {
+        };
+    } else if (action.type === SET_PLACE) {
         return {
             ...state,
             place: action.payload,
         };
     }
 
-    return state
-}
+    return state;
+};
 
 export default reducer;

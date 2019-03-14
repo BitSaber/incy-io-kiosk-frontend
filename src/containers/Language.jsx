@@ -4,6 +4,6 @@ import Language from '../components/Language';
 
 const mapDispatchToProps = {
     setLocale: setLocaleAction,
-}
+};
 
 export default connect(null, mapDispatchToProps)(Language);

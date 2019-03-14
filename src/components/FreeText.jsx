@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { TextField } from '@material-ui/core';
-import { string, func } from 'prop-types'
+import { string, func } from 'prop-types';
 
 const style = {
     textDiv: {
@@ -52,7 +52,7 @@ export default class FreeText extends React.Component {
                     />
                 </form>
             </div>
-        )
+        );
     }
 }
 

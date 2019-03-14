@@ -24,7 +24,7 @@ const style = {
         backgroundColor: '#0078CC',
         height: '100vh',
     },
-}
+};
 
 const ThankYouPage = () => (
     <div style={style.body}>
