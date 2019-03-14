@@ -62,7 +62,7 @@ pipeline {
                     sh 'chmod 600 ~/.ssh/id_rsa'
                     sh 'ssh-keyscan bitsaber.net > ~/.ssh/known_hosts'
                     sh 'echo "NONCASED $noncasedBranch"'
-                    sh 'echo "USING $lowercaseBranch"'
+                    sh 'echo "USING ${lowercaseBranch}"'
                     sh "lftp -e \"rm -r -f $lowercaseBranch; mkdir $lowercaseBranch; mirror -R dist/ $lowercaseBranch/; quit;\" -u jenkins-dev-deploy, sftp://bitsaber.net/branches"
                 }
             }
