@@ -1,18 +1,21 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mountWithIntl, loadTranslationObject } from 'enzyme-react-intl';
 import Button from '@material-ui/core/Button';
-
+import en from '../../src/translations/en';
 import SkipButton from '../../src/components/SkipButton';
+
+
+loadTranslationObject(en);
 
 describe('<SkipButton />', () => {
     it('should render the default text', () => {
-        const component = shallow(<SkipButton text = 'Skip' onClick={() => {}} />);
+        const component = mountWithIntl(<SkipButton onClick={jest.fn()} />);
         expect(component.html()).toContain('Skip');
     });
 
-    it('should call the clickHandler when clicked', () => {
+    it('should call the clickHandler', () => {
         const clickHandler = jest.fn();
-        const component = shallow(<SkipButton text = 'Skip' onClick={clickHandler} />);
+        const component = mountWithIntl(<SkipButton onClick={clickHandler} />);
         const button = component.find(Button);
         button.props().onClick();
         expect(clickHandler).toBeCalled();
