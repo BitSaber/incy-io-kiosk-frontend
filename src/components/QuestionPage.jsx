@@ -37,10 +37,10 @@ const style = {
         maxHeight: '3000px',
         backgroundColor: '#0078CC',
         display: 'block',
-        height: '120vh',
+        height: '100vh',
     },
     basic: {
-        height: '100%',
+        height: '70%',
         alignItems: 'center',
         fontFamily: 'Roboto',
         overflow: 'hidden',
