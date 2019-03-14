@@ -16,12 +16,15 @@ class App extends React.Component {
      * fetches the questions and sets up the first question when the page is first loaded
      */
     async componentDidMount() {
-        const { setCategory, setPlace, setQuestions, currentLanguageId } = this.props;
+        const { setCategory, setPlace, setQuestions,
+            currentLanguageId, getAllChoices, questions } = this.props;
         await setCategory(currentLanguageId);
         await setPlace(currentLanguageId);
         await setQuestions(currentLanguageId);
 
+        await getAllChoices(questions.allQuestions, currentLanguageId);
         this.setFirstQuestion();
+        console.log(questions.allQuestions);
     }
 
     static propTypes = {
@@ -51,20 +54,21 @@ class App extends React.Component {
         }),
         setCategory: func.isRequired,
         setPlace: func.isRequired,
-        setAvailableChoices: func.isRequired,
+        setCurrentChoices: func.isRequired,
+        getAllChoices: func.isRequired,
         choices: object.isRequired,
         resetText: func.isRequired,
     }
 
     setFirstQuestion = async () => {
-        const { currentLanguageId, setCurrentQuestion, setAvailableChoices } = this.props;
+        const { currentLanguageId, setCurrentQuestion, setCurrentChoices } = this.props;
         const { allQuestions } = this.props.questions;
 
         if (allQuestions.length > 0) {
             const currentQuestion = allQuestions[0];
             setCurrentQuestion(currentQuestion);
             if (currentQuestion.type !== STR) {
-                setAvailableChoices(currentQuestion.id, currentLanguageId);
+                setCurrentChoices(currentQuestion.id, currentLanguageId);
             }
         }
     }
@@ -129,7 +133,7 @@ class App extends React.Component {
         const {
             questions,
             setCurrentQuestion,
-            setAvailableChoices,
+            setCurrentChoices,
             currentLanguageId,
             resetText,
         } = this.props;
@@ -141,7 +145,7 @@ class App extends React.Component {
 
         if (nextPos !== null) {
             const nextQuestion = allQuestions.find(question => question.position === nextPos);
-            setAvailableChoices(nextQuestion.id, currentLanguageId);
+            setCurrentChoices(nextQuestion.id, currentLanguageId);
             setCurrentQuestion(nextQuestion);
         } else {
             this.submitObservation();
@@ -227,7 +231,7 @@ class App extends React.Component {
 
     render() {
         const { allQuestions, currentQuestion } = this.props.questions;
-        const { availableChoices } = this.props.choices;
+        const { currentChoices } = this.props.choices;
 
         if (!currentQuestion) {
             return null;
@@ -240,7 +244,7 @@ class App extends React.Component {
         return (
             <QuestionPage
                 question={currentQuestion}
-                questionChoices={availableChoices}
+                questionChoices={currentChoices}
                 onChoiceClick={this.handleChoiceClick}
                 questionType={currentQuestion.type}
                 onSubmitFreeText={this.submitTextAnswer}
