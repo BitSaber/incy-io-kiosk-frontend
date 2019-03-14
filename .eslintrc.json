@@ -15,6 +15,7 @@
         "no-console": 1,
         "no-trailing-spaces": 2,
         "semi": ["error", "always"],
+        "prefer-const": "error",
         "no-param-reassign": ["error", {
             "props": true
         }],
