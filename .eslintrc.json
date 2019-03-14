@@ -14,6 +14,7 @@
         "indent": [2, 4],
         "no-console": 1,
         "no-trailing-spaces": 2,
+        "prefer-const": "error",
         "no-param-reassign": ["error", {
             "props": true
         }],
