@@ -21,6 +21,7 @@
             "exports": "always-multiline",
             "functions": "ignore"
         }],
+        "prefer-const": "error",
         "no-param-reassign": ["error", {
             "props": true
         }],
