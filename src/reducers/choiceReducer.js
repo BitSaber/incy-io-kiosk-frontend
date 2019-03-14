@@ -1,4 +1,4 @@
-import { GET_ALL_CHOICES, SET_CURRENT_CHOICES, SET_SELECTED_CHOICES } from "../constants/actions";
+import { RESET_ALL_CHOICES, GET_CHOICES, SET_CURRENT_CHOICES, SET_SELECTED_CHOICES } from "../constants/actions";
 
 const initialState = {
     allChoices: [],
@@ -7,10 +7,16 @@ const initialState = {
 };
 
 const reducer = (state=initialState, action) => {
-    if (action.type === GET_ALL_CHOICES) {
+    if (action.type === GET_CHOICES) {
         return {
             ...state,
             allChoices: [...state.allChoices, action.payload],
+        };
+    }
+    if (action.type === RESET_ALL_CHOICES) {
+        return {
+            ...state,
+            allChoices: [],
         };
     }
     if (action.type === SET_CURRENT_CHOICES) {
