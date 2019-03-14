@@ -1,8 +1,8 @@
-import { TEXT_CHANGE, TEXT_RESET } from '../constants/actions';
-//import { submitTextAnswer } from '../App' WILL BE USED LATER
+import { TEXT_CHANGE, TEXT_RESET, UPDATE_PROGRESS, PROGRESS_RESET } from '../constants/actions';
 
 const initialState = {
     freeText: { text: "" },
+    progress: 0,
 };
 
 const reducer = (state = initialState, action) => {
@@ -17,11 +17,18 @@ const reducer = (state = initialState, action) => {
             freeText: { text: "" },
         };
     }
-    //Will be used later
-    /*   else if (action.type === TEXT_SUBMIT) {
-           return submitTextAnswer(action.text)
-       }*/
-
+    else if (action.type === UPDATE_PROGRESS) {
+        return {
+            ...state,
+            progress: action.progress,
+        };
+    }
+    else if (action.type === PROGRESS_RESET) {
+        return {
+            ...state,
+            progress: 0,
+        };
+    }
     return state;
 };
 

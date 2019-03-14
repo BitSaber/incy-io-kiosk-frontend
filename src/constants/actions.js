@@ -12,3 +12,6 @@ export const SET_CATEGORY = "SET_CATEGORY";
 export const SET_PLACE = "SET_PLACE";
 export const SET_SHOW_ERROR = 'SET_SHOW_ERROR';
 export const SET_ERROR_MSG = 'SET_ERROR_MSG';
+export const UPDATE_PROGRESS = 'UPDATE_PROGRESS';
+export const PROGRESS_RESET = 'PROGRESS_RESET';
+

@@ -13,6 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import {
     Typography,
 } from '@material-ui/core';
+import ProgressBar from '../components/ProgressBar';
 import FreeText from '../containers/FreeText';
 import BigButton from '../components/BigButton';
 import SkipButton from '../components/SkipButton';
@@ -137,6 +138,10 @@ class QuestionPage extends React.Component {
         return <FreeText />;
     }
 
+    renderProgressBar = () => {
+        return <ProgressBar />;
+    }
+
 
     /**
      * @description renders different question elements depending on question type
@@ -210,7 +215,6 @@ class QuestionPage extends React.Component {
         return (
             <div style={style.body}>
                 <Grid container style={style.basic}>
-
                     <Grid
                         id="question-test-id"
                         container
@@ -220,7 +224,6 @@ class QuestionPage extends React.Component {
                     >
                         <Typography style={style.textStyle}> {this.props.question.name}</Typography>
                     </Grid>
-
                     <Grid container
                         direction="column"
                         justify="center"
@@ -239,7 +242,6 @@ class QuestionPage extends React.Component {
                         }</Grid>
                         {this.renderQuestionElements(this.props.questionType)}
                     </Grid>
-
                     <Grid container
                         direction="column"
                         justify="center"
@@ -247,8 +249,9 @@ class QuestionPage extends React.Component {
                         spacing={16} >
                         <Grid item xs={12} md={12} xl={12}>
                             {this.renderSubmitButton(this.props.questionType)}
-                        </Grid>
-                        <Grid item xs={12} md={12} xl={12}>
+                            {this.renderProgressBar()}
+                            <Grid item xs={12} md={12} xl={12}>
+                            </Grid>
                             {
                                 !this.props.currentIsRequired &&
                                 <SkipButton
@@ -259,7 +262,6 @@ class QuestionPage extends React.Component {
                             {this.renderLanguageButtons()}
                         </Grid>
                     </Grid>
-
                 </Grid>
             </div>
         );

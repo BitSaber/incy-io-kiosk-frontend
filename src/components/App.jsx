@@ -1,6 +1,6 @@
 import React from 'react';
 import { string, object, func, bool, shape, array } from 'prop-types';
-
+import ProgressBar from '../components/ProgressBar';
 import questionService from '../service';
 import ThankYouPage from '../components/ThankYouPage';
 import QuestionPage from '../containers/QuestionPage';
