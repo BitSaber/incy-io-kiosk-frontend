@@ -16,12 +16,12 @@ jest.mock("../src/service", () => {
         },
         {
             position: 1,
-        }
+        },
     ];
     const mockGetQuestions = jest.fn();
     mockGetQuestions.mockReturnValue(mockQuestions);
     return {
-        getQuestions: mockGetQuestions
+        getQuestions: mockGetQuestions,
     };
 });
 
@@ -36,7 +36,8 @@ describe('<App />', () => {
                 resetAnswers={jest.fn()}
                 setQuestions={setQuestions}
                 setCurrentQuestion={jest.fn()}
-                setAvailableChoices={jest.fn()}
+                setCurrentChoices={jest.fn()}
+                getAllChoices={jest.fn()}
                 questions={{ allQuestions: [] }}
                 context={{ place: [], category: [] }}
                 setPlace={jest.fn()}
@@ -46,14 +47,14 @@ describe('<App />', () => {
                 flags={{
                     isAllQuestionsAnswered: false,
                     isAllQuestionsDisplayed: false,
-                    error: {  showError: false, messageId: "" }
+                    error: {  showError: false, messageId: "" },
                 }}
                 setShowError={jest.fn()}
                 setErrorMsg={jest.fn()}
-                choices={{ availableChoices: [] }}
+                choices={{ allChoices: [], currentChoices: [], selectedChoices: [] }}
                 resetText={jest.fn()}
             />
         );
-        expect(setQuestions.mock.toBeCalled)
+        expect(setQuestions.mock.toBeCalled);
     });
-})
+});
