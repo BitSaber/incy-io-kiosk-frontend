@@ -7,7 +7,7 @@ export default class Language extends Component {
     }
 
     static propTypes = {
-        setLocale: func.isRequired
+        setLocale: func.isRequired,
     }
 
     render() {

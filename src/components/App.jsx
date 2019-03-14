@@ -115,7 +115,7 @@ class App extends React.Component {
         await addAnswer({
             questionId: currentQuestion.id,
             answer: {
-                id: choice.id
+                id: choice.id,
             },
         })
 
@@ -131,7 +131,7 @@ class App extends React.Component {
             setCurrentQuestion,
             setAvailableChoices,
             currentLanguageId,
-            resetText
+            resetText,
         } = this.props;
         const { allQuestions, currentQuestion } = questions;
         if (currentQuestion.type === STR)
@@ -154,7 +154,7 @@ class App extends React.Component {
     findNextQuestionPosition = () => {
         const {
             questions,
-            answers
+            answers,
         } = this.props;
         const { allQuestions, currentQuestion } = questions;
 
@@ -211,7 +211,7 @@ class App extends React.Component {
             place: context.place[0].id,
             deadline: null,
             category: context.category[0].id,
-            answers: answers
+            answers: answers,
         }
         // calls the service.js postObservation to API
         questionService.postObservation(data);

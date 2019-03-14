@@ -7,12 +7,12 @@ import messages_sv from "../translations/sv.json";
 const messages = {
     'fi': messages_fi,
     'sv': messages_sv,
-    'en': messages_en
+    'en': messages_en,
 };
 
 export const setLocaleAction = (locale) => {
     return updateIntl({
         locale,
-        messages: messages[locale]
+        messages: messages[locale],
     });
 };

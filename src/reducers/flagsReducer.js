@@ -13,24 +13,24 @@ const reducer = (state=initialState, action) => {
     case SET_ALL_ANSWERED:
         return {
             ...state,
-            isAllQuestionsAnswered: action.payload
-        }
+            isAllQuestionsAnswered: action.payload,
+        };
     case SET_SHOW_ERROR:
         return {
             ...state,
             error: {
                 ...state.error,
                 showError: action.payload,
-            }
-        }
+            },
+        };
     case SET_ERROR_MSG:
         return {
             ...state,
             error: {
                 ...state.error,
                 messageId: action.payload,
-            }
-        }
+            },
+        };
     default:
         return state;
     }
