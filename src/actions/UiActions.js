@@ -20,9 +20,9 @@ export const resetTextAction = () => ({
     type: TEXT_RESET,
 });
 
-export const progressUpdateAction = position => ({
+export const progressUpdateAction = progress => ({
     type: UPDATE_PROGRESS,
-    progress: position,
+    progress: progress,
 });
 
 export const progressResetAction = () => ({

@@ -22,23 +22,22 @@ export class ProgressBar extends React.Component {
         isAllQuestionsAnswered: bool.isRequired,
     }
 
-    componentDidMount() {
-        this.timer = setInterval(this.progress, 500);
-    }
+    /* componentDidMount() {
+         this.timer = setInterval(this.progress, 500);
+     }
 
-    componentWillUnmount() {
-        clearInterval(this.timer);
-    }
+     componentWillUnmount() {
+         clearInterval(this.timer);
+     }*/
 
     progress = () => {
-        const { progressUpdate, progressReset, isAllQuestionsAnswered } = this.props;
-        //const currentPos = this.props.currentQuestion.position;
-        //console.log(currentPos)
+        const { progressUpdate, progressReset, isAllQuestionsAnswered, currentQuestion } = this.props;
+        // const currentPos = currentQuestion.position;
         if (isAllQuestionsAnswered) {
             return progressReset();
         } else {
             console.log(progressUpdate);
-            progressUpdate(Math.min(1 * 10), 100);
+            progressUpdate(Math.min(2 * 10, 100));
         }
     };
 
