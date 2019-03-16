@@ -5,7 +5,7 @@ import { addAnswerAction, resetAnswersAction } from '../actions/answerActions';
 import { setQuestionsAction, setCurrentQuestionAction } from '../actions/questionActions';
 import { setCategoryAction, setPlaceAction } from '../actions/contextActions';
 import { setAvailableChoicesAction } from '../actions/choiceActions';
-import { resetTextAction } from '../actions/UiActions';
+import { resetTextAction, progressResetAction, progressUpdateAction } from '../actions/UiActions';
 import App from '../components/App';
 
 const mapStateToProps = state => ({
@@ -15,6 +15,7 @@ const mapStateToProps = state => ({
     context: state.context,
     flags: state.flags,
     choices: state.choices,
+    progress: state.ui.progress,
 });
 
 const mapDispatchToProps = {
@@ -29,6 +30,8 @@ const mapDispatchToProps = {
     setCurrentQuestion: setCurrentQuestionAction,
     setAvailableChoices: setAvailableChoicesAction,
     resetText: resetTextAction,
+    progressUpdate: progressUpdateAction,
+    progressReset: progressResetAction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

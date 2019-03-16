@@ -13,7 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import {
     Typography,
 } from '@material-ui/core';
-import ProgressBar from '../components/ProgressBar';
+import ProgressBar from '../containers/ProgressBar';
 import FreeText from '../containers/FreeText';
 import BigButton from '../components/BigButton';
 import SkipButton from '../components/SkipButton';
@@ -241,7 +241,6 @@ class QuestionPage extends React.Component {
                             </Typography>
                         }</Grid>
                         {this.renderQuestionElements(this.props.questionType)}
-                        {this.renderProgressBar()}
                     </Grid>
                     <Grid container
                         direction="column"

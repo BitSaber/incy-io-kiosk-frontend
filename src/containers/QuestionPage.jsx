@@ -7,7 +7,6 @@ import { setSelectedChoicesAction } from '../actions/choiceActions';
 const mapStateToProps = (state, ownProps) => ({
     ...ownProps,
     text: state.ui.freeText.text,
-    progress: state.ui.progress,
     error: state.flags.error,
     selectedChoices: state.choices.selectedChoices,
 });

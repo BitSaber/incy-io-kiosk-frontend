@@ -2,7 +2,7 @@ import { TEXT_CHANGE, TEXT_RESET, UPDATE_PROGRESS, PROGRESS_RESET } from '../con
 
 const initialState = {
     freeText: { text: "" },
-    progress: 0,
+    progress: 1,
 };
 
 const reducer = (state = initialState, action) => {
