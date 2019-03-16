@@ -114,30 +114,15 @@ class QuestionPage extends React.Component {
     }
 
     /**
-     * @description rendering the selection method
-     * @returns button
-     */
-    renderSelect = () => <Select moveToNextQuestion={this.props.moveToNextQuestion}/>;
-
-    renderMultiselect = () => (
-        <MultiSelect />
-    );
-
-    renderTextField = () => {
-        return <FreeText />;
-    }
-
-
-    /**
      * @description renders different question elements depending on question type
      */
     renderQuestionElements = (questionType) => {
         if (questionType === SELECT) {
-            return this.renderSelect();
+            return <Select moveToNextQuestion={this.props.moveToNextQuestion}/>;
         } else if (questionType === MULTI_SELECT) {
-            return this.renderMultiselect();
+            return <MultiSelect />;
         } else if (questionType === STR) {
-            return this.renderTextField();
+            return <FreeText />;
         } else if (questionType === QUESTION_TYPE_UNINITIALIZED) {
             return null;
         } else {
@@ -191,7 +176,7 @@ class QuestionPage extends React.Component {
         if (this.props.questionPos === 0) {
             return <Language />;
         }
-        return;
+        return null;
     }
 
 
