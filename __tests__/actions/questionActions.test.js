@@ -5,46 +5,57 @@ import { SET_QUESTIONS } from "../../src/constants/actions";
 jest.mock("../../src/service", () => {
     const mockQuestions = [
         {
+            id: 2,
             position: 2,
         },
         {
+            id: 3,
             position: 3,
         },
         {
+            id: 4,
             position: 4,
         },
         {
+            id: 1,
             position: 1,
-        }
+        },
     ];
     const mockGetQuestions = jest.fn();
     mockGetQuestions.mockReturnValue(mockQuestions);
     return {
-        getQuestions: mockGetQuestions
+        getQuestions: mockGetQuestions,
     };
 });
 
 describe("questionActions", () => {
-    it("should get, sort and set the questions", async () => {
+    it("should get, sort, filter by category questions and set the questions", async () => {
         const action = await setQuestionsAction("en");
         const mockDispatch = jest.fn();
-        await action(mockDispatch);
+        const mockGetState = () => ({
+            context: {
+                category: [{
+                    question_ids: [ 1, 2, 3 ],
+                }],
+            },
+        });
+        await action(mockDispatch, mockGetState);
 
         expect(mockDispatch).toHaveBeenCalledTimes(1);
         expect(mockDispatch.mock.calls[0][0]).toEqual({
             type: SET_QUESTIONS,
             payload: [
                 {
+                    id: 1,
                     position: 1,
                 },
                 {
+                    id: 2,
                     position: 2,
                 },
                 {
+                    id: 3,
                     position: 3,
-                },
-                {
-                    position: 4,
                 },
             ],
         });
