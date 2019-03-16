@@ -1,5 +1,5 @@
 import { setQuestionsAction } from "../../src/actions/questionActions";
-import { SET_QUESTIONS } from "../../src/constants/actions";
+//import { SET_QUESTIONS } from "../../src/constants/actions";
 
 // we mock the service so that we can return custom data
 jest.mock("../../src/service", () => {
