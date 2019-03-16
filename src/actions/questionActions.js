@@ -12,7 +12,6 @@ export const setQuestionsAction = (langId) => {
         });
         const { context } = getState();
         const categoryQuestionIDs = context.category[0].question_ids;
-        
         // get all questions
         const questions = await service.getQuestions(langId);
 
