@@ -54,7 +54,6 @@ class App extends React.Component {
         setAvailableChoices: func.isRequired,
         choices: object.isRequired,
         resetText: func.isRequired,
-        progress: number.isRequired,
         progressUpdate: func.isRequired,
         progressReset: func.isRequired,
     }
