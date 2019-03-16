@@ -145,7 +145,7 @@ class App extends React.Component {
 
         if (nextPos !== null) {
             const nextQuestion = allQuestions.find(question => question.position === nextPos);
-            const nextProgressValue = Math.min((nextPos * 100) / questions.allQuestions.length, 100);
+            const nextProgressValue = Math.min((nextPos * 100) / questions.allQuestions.length, 95);
             setAvailableChoices(nextQuestion.id, currentLanguageId);
             setCurrentQuestion(nextQuestion);
             progressUpdate(nextProgressValue);
