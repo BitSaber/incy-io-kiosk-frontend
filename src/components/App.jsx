@@ -1,5 +1,5 @@
 import React from 'react';
-import { string, object, func, bool, shape, array, number } from 'prop-types';
+import { string, object, func, bool, shape, array } from 'prop-types';
 import ProgressBar from '../containers/ProgressBar';
 import questionService from '../service';
 import ThankYouPage from '../components/ThankYouPage';

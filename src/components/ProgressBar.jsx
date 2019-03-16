@@ -24,14 +24,6 @@ class ProgressBar extends React.Component {
         progressReset: func.isRequired,
     }
 
-    /* componentDidMount() {
-         this.timer = setInterval(this.progress, 500);
-     }
-
-     componentWillUnmount() {
-         clearInterval(this.timer);
-     }*/
-
     render() {
         const { classes } = this.props;
         return (

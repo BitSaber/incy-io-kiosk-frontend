@@ -21,7 +21,7 @@ jest.mock("../src/service", () => {
     const mockGetQuestions = jest.fn();
     mockGetQuestions.mockReturnValue(mockQuestions);
     return {
-        getQuestions: mockGetQuestions
+        getQuestions: mockGetQuestions,
     };
 });
 
@@ -48,12 +48,14 @@ describe('<App />', () => {
                 flags={{
                     isAllQuestionsAnswered: false,
                     isAllQuestionsDisplayed: false,
-                    error: {  showError: false, messageId: "" }
+                    error: { showError: false, messageId: "" }
                 }}
                 setShowError={jest.fn()}
                 setErrorMsg={jest.fn()}
                 choices={{ availableChoices: [] }}
                 resetText={jest.fn()}
+                progressUpdate={jest.fn()}
+                progressReset={jest.fn()}
             />
         );
         expect(setQuestions.mock.toBeCalled)
