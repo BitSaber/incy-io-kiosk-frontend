@@ -240,7 +240,7 @@ class App extends React.Component {
             return <ThankYouPage />;
         }
 
-        return (
+        return ( // TODO: some of these props could go straight through container, so why are they passed here
             <QuestionPage
                 question={currentQuestion}
                 questionChoices={currentChoices}
@@ -248,7 +248,6 @@ class App extends React.Component {
                 questionType={currentQuestion.type}
                 onSubmitFreeText={this.submitTextAnswer}
                 questionPos={allQuestions.findIndex(question => question.id === currentQuestion.id)}
-                error={this.props.flags.error}
                 currentIsRequired={currentQuestion.required}
                 moveToNextQuestion={this.moveToNextQuestion}
                 showFieldRequired={this.showFieldRequired}

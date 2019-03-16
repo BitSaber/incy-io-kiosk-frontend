@@ -13,6 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import {
     Typography,
 } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import FreeText from '../containers/FreeText';
 import BigButton from '../components/BigButton';
 import SkipButton from '../components/SkipButton';
@@ -29,7 +30,7 @@ import {
     STR,
     UNINITIALIZED as QUESTION_TYPE_UNINITIALIZED,
 } from '../constants/questionTypes';
-
+import { FINISHED_STATE } from '../constants/loadingStates';
 
 const style = {
     body: {
@@ -84,6 +85,10 @@ class QuestionPage extends React.Component {
         showFieldRequired: func.isRequired,
         selectedChoices: array.isRequired,
         setSelectedChoices: func.isRequired,
+        loadingStates: shape({
+            questions: string.isRequired,
+            choices: string.isRequired,
+        }).isRequired,
     }
     /**
      * @description rendering the button on the screen
@@ -129,9 +134,9 @@ class QuestionPage extends React.Component {
         ));
     }
 
-    renderMultiselect = () => (
-        <MultiSelect />
-    );
+    renderMultiselect = () => {
+        return <MultiSelect />;
+    }
 
     renderTextField = () => {
         return <FreeText />;
@@ -142,16 +147,21 @@ class QuestionPage extends React.Component {
      * @description renders different question elements depending on question type
      */
     renderQuestionElements = (questionType) => {
-        if (questionType === SELECT) {
-            return this.renderSelect();
-        } else if (questionType === MULTI_SELECT) {
-            return this.renderMultiselect();
-        } else if (questionType === STR) {
-            return this.renderTextField();
-        } else if (questionType === QUESTION_TYPE_UNINITIALIZED) {
-            return null;
+        if (this.props.loadingStates.questions === FINISHED_STATE &&
+            this.props.loadingStates.choices === FINISHED_STATE) {
+            if (questionType === SELECT) {
+                return this.renderSelect();
+            } else if (questionType === MULTI_SELECT) {
+                return this.renderMultiselect();
+            } else if (questionType === STR) {
+                return this.renderTextField();
+            } else if (questionType === QUESTION_TYPE_UNINITIALIZED) {
+                return null;
+            } else {
+                throw new Error(`Invalid Question type '${questionType}'`);
+            }
         } else {
-            throw new Error(`Invalid Question type '${questionType}'`);
+            return;
         }
     }
 
@@ -184,26 +194,56 @@ class QuestionPage extends React.Component {
      * @description renders different submit button depending on the question type
      */
     renderSubmitButton = (questionType) => {
-        if (!this.questionHasSubmitButton(questionType)) {
-            return null;
-        } else if (questionType === MULTI_SELECT) {
-            return this.submitMultiButton();
-        } else if (questionType === STR) {
-            return this.submitTextButton();
-        } else if (questionType === QUESTION_TYPE_UNINITIALIZED) {
-            return (<div>Loading, please wait...</div>);
+        if (this.props.loadingStates.questions === FINISHED_STATE &&
+            this.props.loadingStates.choices === FINISHED_STATE) {
+            if (!this.questionHasSubmitButton(questionType)) {
+                return null;
+            } else if (questionType === MULTI_SELECT) {
+                return this.submitMultiButton();
+            } else if (questionType === STR) {
+                return this.submitTextButton();
+            } else if (questionType === QUESTION_TYPE_UNINITIALIZED) {
+                return (<div>Loading, please wait...</div>);
+            } else {
+                throw new Error(`Invalid Question type '${questionType}'`);
+            }
         } else {
-            throw new Error(`Invalid Question type '${questionType}'`);
+            return;
         }
     }
 
     renderLanguageButtons = () => {
-        if (this.props.questionPos === 0) {
-            return <Language />;
+        if (this.props.loadingStates.questions === FINISHED_STATE &&
+            this.props.loadingStates.choices === FINISHED_STATE) {
+            if (this.props.questionPos === 0) {
+                return <Language />;
+            } else {
+                return;
+            }
         }
-        return;
     }
 
+    renderQuestion = () => {
+        if (this.props.loadingStates.questions === FINISHED_STATE &&
+            this.props.loadingStates.choices === FINISHED_STATE) {
+            return <Typography style={style.textStyle}> {this.props.question.name}</Typography>;
+        } else {
+            return <CircularProgress />; // TODO: style
+        }
+    }
+
+    renderSkipButton = () => {
+        if (this.props.loadingStates.questions === FINISHED_STATE &&
+            this.props.loadingStates.choices === FINISHED_STATE) {
+            return !this.props.currentIsRequired &&
+                <SkipButton
+                    onClick={() => this.props.moveToNextQuestion()}
+                    text={"Skip"}
+                />;
+        } else {
+            return;
+        }
+    }
 
     render() {
 
@@ -218,7 +258,7 @@ class QuestionPage extends React.Component {
                         alignItems="center"
                         style={style.questionDiv}
                     >
-                        <Typography style={style.textStyle}> {this.props.question.name}</Typography>
+                        {this.renderQuestion()}
                     </Grid>
 
                     <Grid container
@@ -249,13 +289,7 @@ class QuestionPage extends React.Component {
                             {this.renderSubmitButton(this.props.questionType)}
                         </Grid>
                         <Grid item xs={12} md={12} xl={12}>
-                            {
-                                !this.props.currentIsRequired &&
-                                <SkipButton
-                                    onClick={() => this.props.moveToNextQuestion()}
-                                    text={"Skip"}
-                                />
-                            }
+                            {this.renderSkipButton()}
                             {this.renderLanguageButtons()}
                         </Grid>
                     </Grid>
