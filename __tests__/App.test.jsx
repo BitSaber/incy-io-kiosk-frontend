@@ -55,11 +55,10 @@ describe('<App />', () => {
                 choices={{ availableChoices: [] }}
                 resetText={jest.fn()}
                 progressUpdate={jest.fn()}
-                progressReset={jest.fn()}
             />
         );
-        expect(setQuestions.mock.toBeCalled)
-        expect(setCategory.mock.toBeCalled)
-        expect(setPlace.mock.toBeCalled)
+        expect(setQuestions.mock.toBeCalled);
+        expect(setCategory.mock.toBeCalled);
+        expect(setPlace.mock.toBeCalled);
     });
-})
+});
