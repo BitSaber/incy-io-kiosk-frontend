@@ -15,14 +15,12 @@ import {
 } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FreeText from '../containers/FreeText';
-import BigButton from '../components/BigButton';
 import SkipButton from '../components/SkipButton';
 import SubmitButton from '../components/SubmitButton';
 import Language from '../containers/Language';
 import MultiSelect from '../containers/MultiSelect';
-import {
-    FormattedMessage,
-} from 'react-intl';
+import Select from '../containers/Select';
+import { FormattedMessage } from 'react-intl';
 
 import {
     SELECT,
@@ -120,30 +118,7 @@ class QuestionPage extends React.Component {
                 moveToNextQuestion();
             }
         };
-
         return <SubmitButton onClick={clickHandler} />;
-    }
-
-    /**
-     * @description rendering the selection method
-     * @returns button
-     */
-    renderSelect = () => {
-        return this.props.questionChoices.map(questionsChoice => (
-            <BigButton
-                key={questionsChoice.id}
-                onClick={() => this.props.onChoiceClick(questionsChoice)}
-                text={questionsChoice.name}
-            />
-        ));
-    }
-
-    renderMultiselect = () => {
-        return <MultiSelect />;
-    }
-
-    renderTextField = () => {
-        return <FreeText />;
     }
 
     isDoneLoading = () => {
@@ -159,11 +134,11 @@ class QuestionPage extends React.Component {
     renderQuestionElements = (questionType) => {
         if (this.isDoneLoading()) {
             if (questionType === SELECT) {
-                return this.renderSelect();
+                return <Select moveToNextQuestion={this.props.moveToNextQuestion}/>;
             } else if (questionType === MULTI_SELECT) {
-                return this.renderMultiselect();
+                return <MultiSelect />;
             } else if (questionType === STR) {
-                return this.renderTextField();
+                return <FreeText />;
             } else if (questionType === QUESTION_TYPE_UNINITIALIZED) {
                 return null;
             } else {
