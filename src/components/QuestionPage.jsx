@@ -88,6 +88,10 @@ class QuestionPage extends React.Component {
         loadingStates: shape({
             questions: string.isRequired,
             choices: string.isRequired,
+            context: shape({
+                category: string.isRequired,
+                place: string.isRequired,
+            }).isRequired,
         }).isRequired,
     }
     /**
@@ -142,13 +146,18 @@ class QuestionPage extends React.Component {
         return <FreeText />;
     }
 
+    isDoneLoading = () => {
+        return this.props.loadingStates.questions === FINISHED_STATE &&
+        this.props.loadingStates.choices === FINISHED_STATE &&
+        this.props.loadingStates.context.category === FINISHED_STATE &&
+        this.props.loadingStates.context.place === FINISHED_STATE;
+    }
 
     /**
      * @description renders different question elements depending on question type
      */
     renderQuestionElements = (questionType) => {
-        if (this.props.loadingStates.questions === FINISHED_STATE &&
-            this.props.loadingStates.choices === FINISHED_STATE) {
+        if (this.isDoneLoading()) {
             if (questionType === SELECT) {
                 return this.renderSelect();
             } else if (questionType === MULTI_SELECT) {
@@ -194,8 +203,7 @@ class QuestionPage extends React.Component {
      * @description renders different submit button depending on the question type
      */
     renderSubmitButton = (questionType) => {
-        if (this.props.loadingStates.questions === FINISHED_STATE &&
-            this.props.loadingStates.choices === FINISHED_STATE) {
+        if (this.isDoneLoading()) {
             if (!this.questionHasSubmitButton(questionType)) {
                 return null;
             } else if (questionType === MULTI_SELECT) {
@@ -213,8 +221,7 @@ class QuestionPage extends React.Component {
     }
 
     renderLanguageButtons = () => {
-        if (this.props.loadingStates.questions === FINISHED_STATE &&
-            this.props.loadingStates.choices === FINISHED_STATE) {
+        if (this.isDoneLoading()) {
             if (this.props.questionPos === 0) {
                 return <Language />;
             } else {
@@ -224,8 +231,7 @@ class QuestionPage extends React.Component {
     }
 
     renderQuestion = () => {
-        if (this.props.loadingStates.questions === FINISHED_STATE &&
-            this.props.loadingStates.choices === FINISHED_STATE) {
+        if (this.isDoneLoading()) {
             return <Typography style={style.textStyle}> {this.props.question.name}</Typography>;
         } else {
             return <CircularProgress />; // TODO: style
@@ -233,8 +239,7 @@ class QuestionPage extends React.Component {
     }
 
     renderSkipButton = () => {
-        if (this.props.loadingStates.questions === FINISHED_STATE &&
-            this.props.loadingStates.choices === FINISHED_STATE) {
+        if (this.isDoneLoading()) {
             return !this.props.currentIsRequired &&
                 <SkipButton
                     onClick={() => this.props.moveToNextQuestion()}
