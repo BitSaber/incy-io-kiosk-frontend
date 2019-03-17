@@ -1,5 +1,4 @@
 import { setCategoryAction, setPlaceAction } from "../../src/actions/contextActions";
-import { SET_CATEGORY, SET_PLACE } from '../../src/constants/actions';
 
 // we mock the service so that we can return custom data
 jest.mock("../../src/service", () => {
@@ -8,7 +7,7 @@ jest.mock("../../src/service", () => {
     }];
 
     const mockPlaces = [{
-        id: 1234
+        id: 1234,
     }];
 
     const mockGetCategory = jest.fn();
