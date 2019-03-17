@@ -1,4 +1,5 @@
 import { setCategoryAction, setPlaceAction } from "../../src/actions/contextActions";
+import { SET_CATEGORY, SET_PLACE } from "../../src/constants/actions";
 
 // we mock the service so that we can return custom data
 jest.mock("../../src/service", () => {
@@ -27,12 +28,11 @@ describe('contextActions', () => {
         const mockDispatch = jest.fn();
         await action(mockDispatch);
 
-        // FIXME
         expect(mockDispatch).toHaveBeenCalledTimes(4);
-        // expect(mockDispatch.mock.calls[0][0]).toEqual({
-        //     type: SET_CATEGORY,
-        //     payload: [{ id: 65336, }],
-        // });
+        expect(mockDispatch.mock.calls[2][0]).toEqual({
+            type: SET_CATEGORY,
+            payload: [{ id: 65336 }],
+        });
     });
 
     it('should get the place and set the first one of them', async () => {
@@ -40,10 +40,11 @@ describe('contextActions', () => {
         const mockDispatch = jest.fn();
         await action(mockDispatch);
 
+        // Here we could also test that the loading states are dispatched correctly
         expect(mockDispatch).toHaveBeenCalledTimes(3);
-        // expect(mockDispatch.mock.calls[0][0]).toEqual({
-        //     type: SET_PLACE,
-        //     payload: [{ id: 1234 }],
-        // });
+        expect(mockDispatch.mock.calls[1][0]).toEqual({
+            type: SET_PLACE,
+            payload: [{ id: 1234 }],
+        });
     });
 });
