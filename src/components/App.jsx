@@ -16,11 +16,13 @@ class App extends React.Component {
      * fetches the questions and sets up the first question when the page is first loaded
      */
     async componentDidMount() {
-        const { setCategory, setPlace, setQuestions, currentLanguageId } = this.props;
+        const { setCategory, setPlace, setQuestions,
+            currentLanguageId, getAllChoices } = this.props;
         await setCategory(currentLanguageId);
         await setPlace(currentLanguageId);
         await setQuestions(currentLanguageId);
 
+        await getAllChoices(this.props.questions.allQuestions, currentLanguageId);
         this.setFirstQuestion();
     }
 
@@ -51,20 +53,21 @@ class App extends React.Component {
         }),
         setCategory: func.isRequired,
         setPlace: func.isRequired,
-        setAvailableChoices: func.isRequired,
+        setCurrentChoices: func.isRequired,
+        getAllChoices: func.isRequired,
         choices: object.isRequired,
         resetText: func.isRequired,
     }
 
     setFirstQuestion = async () => {
-        const { currentLanguageId, setCurrentQuestion, setAvailableChoices } = this.props;
+        const { setCurrentQuestion, setCurrentChoices } = this.props;
         const { allQuestions } = this.props.questions;
 
         if (allQuestions.length > 0) {
             const currentQuestion = allQuestions[0];
             setCurrentQuestion(currentQuestion);
             if (currentQuestion.type !== STR) {
-                setAvailableChoices(currentQuestion.id, currentLanguageId);
+                setCurrentChoices(currentQuestion.position);
             }
         }
     }
@@ -123,14 +126,14 @@ class App extends React.Component {
     }
 
     /**
-     * @description Moves the questionnaire to the next question, or submits the answers if no more questions to be answered.
+     * @description Moves the questionnaire to the next question, or submits
+     * the answers if no more questions to be answered.
      */
     moveToNextQuestion = async () => {
         const {
             questions,
             setCurrentQuestion,
-            setAvailableChoices,
-            currentLanguageId,
+            setCurrentChoices,
             resetText,
         } = this.props;
         const { allQuestions, currentQuestion } = questions;
@@ -141,7 +144,7 @@ class App extends React.Component {
 
         if (nextPos !== null) {
             const nextQuestion = allQuestions.find(question => question.position === nextPos);
-            setAvailableChoices(nextQuestion.id, currentLanguageId);
+            setCurrentChoices(nextQuestion.position);
             setCurrentQuestion(nextQuestion);
         } else {
             this.submitObservation();
@@ -227,7 +230,7 @@ class App extends React.Component {
 
     render() {
         const { allQuestions, currentQuestion } = this.props.questions;
-        const { availableChoices } = this.props.choices;
+        const { currentChoices } = this.props.choices;
 
         if (!currentQuestion) {
             return null;
@@ -240,7 +243,7 @@ class App extends React.Component {
         return (
             <QuestionPage
                 question={currentQuestion}
-                questionChoices={availableChoices}
+                questionChoices={currentChoices}
                 onChoiceClick={this.handleChoiceClick}
                 questionType={currentQuestion.type}
                 onSubmitFreeText={this.submitTextAnswer}
