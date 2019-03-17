@@ -14,14 +14,12 @@ import {
     Typography,
 } from '@material-ui/core';
 import FreeText from '../containers/FreeText';
-import BigButton from '../components/BigButton';
 import SkipButton from '../components/SkipButton';
 import SubmitButton from '../components/SubmitButton';
 import Language from '../containers/Language';
 import MultiSelect from '../containers/MultiSelect';
-import {
-    FormattedMessage,
-} from 'react-intl';
+import Select from '../containers/Select';
+import { FormattedMessage } from 'react-intl';
 
 import {
     SELECT,
@@ -116,38 +114,15 @@ class QuestionPage extends React.Component {
     }
 
     /**
-     * @description rendering the selection method
-     * @returns button
-     */
-    renderSelect = () => {
-        return this.props.questionChoices.map(questionsChoice => (
-            <BigButton
-                key={questionsChoice.id}
-                onClick={() => this.props.onChoiceClick(questionsChoice)}
-                text={questionsChoice.name}
-            />
-        ));
-    }
-
-    renderMultiselect = () => (
-        <MultiSelect />
-    );
-
-    renderTextField = () => {
-        return <FreeText />;
-    }
-
-
-    /**
      * @description renders different question elements depending on question type
      */
     renderQuestionElements = (questionType) => {
         if (questionType === SELECT) {
-            return this.renderSelect();
+            return <Select moveToNextQuestion={this.props.moveToNextQuestion}/>;
         } else if (questionType === MULTI_SELECT) {
-            return this.renderMultiselect();
+            return <MultiSelect />;
         } else if (questionType === STR) {
-            return this.renderTextField();
+            return <FreeText />;
         } else if (questionType === QUESTION_TYPE_UNINITIALIZED) {
             return null;
         } else {
@@ -201,7 +176,7 @@ class QuestionPage extends React.Component {
         if (this.props.questionPos === 0) {
             return <Language />;
         }
-        return;
+        return null;
     }
 
 
