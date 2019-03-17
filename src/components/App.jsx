@@ -55,7 +55,6 @@ class App extends React.Component {
         choices: object.isRequired,
         resetText: func.isRequired,
         progressUpdate: func.isRequired,
-        progressReset: func.isRequired,
     }
 
     setFirstQuestion = async () => {
@@ -208,7 +207,7 @@ class App extends React.Component {
      * the state is reset so that a new questionnaire can be started
      */
     submitObservation = () => {
-        const { answers, resetAnswers, setAllAnswered, context, progressReset, progressUpdate } = this.props;
+        const { answers, resetAnswers, setAllAnswered, context, progressUpdate } = this.props;
 
         const time = new Date().toString().substring(0, 21);
         const data = {
@@ -228,7 +227,7 @@ class App extends React.Component {
 
         setTimeout(() => {
             setAllAnswered(false);
-            progressReset();
+            progressUpdate(0);
         }, 3000);
     }
 

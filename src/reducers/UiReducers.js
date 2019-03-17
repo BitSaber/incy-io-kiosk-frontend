@@ -1,4 +1,4 @@
-import { TEXT_CHANGE, TEXT_RESET, UPDATE_PROGRESS, PROGRESS_RESET } from '../constants/actions';
+import { TEXT_CHANGE, TEXT_RESET, UPDATE_PROGRESS } from '../constants/actions';
 
 const initialState = {
     freeText: { text: "" },
@@ -21,12 +21,6 @@ const reducer = (state = initialState, action) => {
         return {
             ...state,
             progress: action.progress,
-        };
-    }
-    else if (action.type === PROGRESS_RESET) {
-        return {
-            ...state,
-            progress: 0,
         };
     }
     return state;

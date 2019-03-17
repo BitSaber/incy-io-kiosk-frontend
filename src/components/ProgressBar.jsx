@@ -20,8 +20,7 @@ class ProgressBar extends React.Component {
 
     static propTypes = {
         progress: number.isRequired,
-        progressUpdate: func.isRequired,
-        progressReset: func.isRequired,
+        classes: PropTypes.object.isRequired,
     }
 
     render() {
@@ -36,9 +35,5 @@ class ProgressBar extends React.Component {
         );
     }
 }
-
-ProgressBar.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(ProgressBar);
