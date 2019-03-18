@@ -1,5 +1,7 @@
 import React from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 
 const style = {
     body: {
@@ -10,16 +12,23 @@ const style = {
     },
 };
 
-class LoadingPage extends React.Component {
+const styles = theme => ({
+    progress: {
+        margin: theme.spacing.unit * 50,
+    },
+});
 
-    render() {
-        return (
-            <div style={style.body}>
-                <CircularProgress />
-            </div>
-        );
-    }
-
+function LoadingPage(props) {
+    const { classes } = props;
+    return (
+        <div style={style.body}>
+            <CircularProgress className={classes.progress} color='primary' size={150} />
+        </div>
+    );
 }
 
-export default LoadingPage;
+LoadingPage.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(LoadingPage);
