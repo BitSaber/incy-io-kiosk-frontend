@@ -12,9 +12,9 @@ const style = {
     },
 };
 
-const styles = theme => ({
+const styles = theme => ({ // eslint-disable-line
     progress: {
-        margin: theme.spacing.unit * 50,
+        marginTop: 'calc(50vh - ('+theme.spacing.unit * 18.75 +'px / 2))',
     },
 });
 
