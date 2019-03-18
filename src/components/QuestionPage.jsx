@@ -249,8 +249,8 @@ class QuestionPage extends React.Component {
                         spacing={16} >
                         <Grid item xs={12} md={12} xl={12}>
                             {this.renderSubmitButton(this.props.questionType)}
-                            <Grid item xs={12} md={12} xl={12}>
-                            </Grid>
+                        </Grid>
+                        <Grid item xs={12} md={12} xl={12}>
                             {
                                 !this.props.currentIsRequired &&
                                 <SkipButton

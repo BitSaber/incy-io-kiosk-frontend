@@ -18,7 +18,6 @@ const combinedReducers = combineReducers({
     intl: intlReducer,
     answers: answerReducer,
     ui: uiReducer,
-    progress: uiReducer,
     questions: questionReducer,
     context: contextReducer,
     flags: flagsReducer,

@@ -16,7 +16,7 @@ jest.mock("../src/service", () => {
         },
         {
             position: 1,
-        }
+        },
     ];
     const mockGetQuestions = jest.fn();
     mockGetQuestions.mockReturnValue(mockQuestions);
@@ -48,7 +48,7 @@ describe('<App />', () => {
                 flags={{
                     isAllQuestionsAnswered: false,
                     isAllQuestionsDisplayed: false,
-                    error: { showError: false, messageId: "" }
+                    error: { showError: false, messageId: "" },
                 }}
                 setShowError={jest.fn()}
                 setErrorMsg={jest.fn()}
