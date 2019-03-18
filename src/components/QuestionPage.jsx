@@ -228,7 +228,7 @@ class QuestionPage extends React.Component {
                         alignItems="stretch"
                         spacing={16} >
 
-                        <Grid item xs={12} md={12} xl={12}> {
+                        <Grid item xs={6} md={6} xl={6}> {
                             this.props.error.showError &&
                             <Typography style={style.error} variant='h4' color='error'>
                                 <FormattedMessage id={this.props.error.messageId}

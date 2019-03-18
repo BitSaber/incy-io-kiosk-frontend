@@ -20,6 +20,8 @@ const style = {
 
 };
 
+
+
 const BigButton = ({ onClick, text }) => {
     return (
         <Grid item xs={12} md={12} xl={12} >
@@ -33,6 +35,7 @@ const BigButton = ({ onClick, text }) => {
 BigButton.propTypes = {
     onClick: PropTypes.func.isRequired,
     text: PropTypes.string.isRequired,
+    
 };
 
 export default BigButton;
