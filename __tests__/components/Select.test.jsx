@@ -6,7 +6,7 @@ import BigButton from '../../src/components/BigButton';
 
 describe('<Select />', () => {
     it('should render the selections', () => {
-        const questionChoices = [
+        const currentChoices = [
             { position: 1, id: 1, name: "Yes" },
             { position: 2, id: 2, name: "No" },
         ];
@@ -15,7 +15,7 @@ describe('<Select />', () => {
         const mockMoveToNextQuestion = jest.fn();
         const component = shallow(
             <Select
-                questionChoices={questionChoices}
+                currentChoices={currentChoices}
                 currentQuestion={currentQuestion}
                 addAnswer={mockAddAnswer}
                 moveToNextQuestion={mockMoveToNextQuestion}
@@ -27,7 +27,7 @@ describe('<Select />', () => {
     });
 
     it('should add an answer and move to the next question', async () => {
-        const questionChoices = [
+        const currentChoices = [
             { position: 1, id: 1, name: "Yes" },
             { position: 2, id: 2, name: "No" },
         ];
@@ -38,7 +38,7 @@ describe('<Select />', () => {
         const mockMoveToNextQuestion = jest.fn();
         const component = shallow(
             <Select
-                questionChoices={questionChoices}
+                currentChoices={currentChoices}
                 currentQuestion={currentQuestion}
                 addAnswer={mockAddAnswer}
                 moveToNextQuestion={mockMoveToNextQuestion}

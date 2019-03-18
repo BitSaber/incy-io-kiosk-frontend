@@ -13,8 +13,8 @@ const handleChoiceClick = async (choice, currentQuestion, addAnswer, moveToNextQ
     moveToNextQuestion();
 };
 
-const Select = ({ questionChoices, currentQuestion, addAnswer, moveToNextQuestion }) => {
-    return questionChoices.map(choice => (
+const Select = ({ currentChoices, currentQuestion, addAnswer, moveToNextQuestion }) => {
+    return currentChoices.map(choice => (
         <BigButton
             key={choice.id}
             onClick={() => handleChoiceClick(choice, currentQuestion, addAnswer, moveToNextQuestion)}
@@ -24,7 +24,7 @@ const Select = ({ questionChoices, currentQuestion, addAnswer, moveToNextQuestio
 };
 
 Select.propTypes = {
-    questionChoices: array.isRequired,
+    currentChoices: array.isRequired,
     currentQuestion: object.isRequired,
     addAnswer: func.isRequired,
     moveToNextQuestion: func.isRequired,
