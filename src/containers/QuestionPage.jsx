@@ -9,7 +9,6 @@ const mapStateToProps = (state, ownProps) => ({
     text: state.ui.freeText.text,
     error: state.flags.error,
     selectedChoices: state.choices.selectedChoices,
-    loadingStates: state.loadingStates,
 });
 
 const mapDispatchToProps = {

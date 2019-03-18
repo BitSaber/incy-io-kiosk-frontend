@@ -15,6 +15,7 @@ const mapStateToProps = state => ({
     context: state.context,
     flags: state.flags,
     choices: state.choices,
+    loadingStates: state.loadingStates,
 });
 
 const mapDispatchToProps = {
