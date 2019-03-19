@@ -9,6 +9,7 @@ const styles = {
     },
     bar: {
         height: 18,
+        background: '#0078CC',
     },
 };
 
