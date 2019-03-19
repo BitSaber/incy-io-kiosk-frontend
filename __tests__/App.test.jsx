@@ -38,7 +38,8 @@ describe('<App />', () => {
                 resetAnswers={jest.fn()}
                 setQuestions={setQuestions}
                 setCurrentQuestion={jest.fn()}
-                setAvailableChoices={jest.fn()}
+                setCurrentChoices={jest.fn()}
+                getAllChoices={jest.fn()}
                 questions={{ allQuestions: [] }}
                 context={{ place: [], category: [] }}
                 setPlace={setPlace}
@@ -52,7 +53,7 @@ describe('<App />', () => {
                 }}
                 setShowError={jest.fn()}
                 setErrorMsg={jest.fn()}
-                choices={{ availableChoices: [] }}
+                choices={{ allChoices: [], currentChoices: [], selectedChoices: [] }}
                 resetText={jest.fn()}
                 progressUpdate={jest.fn()}
             />

@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { addAnswerAction, resetAnswersAction } from '../actions/answerActions';
 import { setQuestionsAction, setCurrentQuestionAction } from '../actions/questionActions';
 import { setCategoryAction, setPlaceAction } from '../actions/contextActions';
-import { setAvailableChoicesAction } from '../actions/choiceActions';
 import { resetTextAction, progressUpdateAction } from '../actions/UiActions';
+import { setCurrentChoicesAction, getAllChoicesAction } from '../actions/choiceActions';
 import App from '../components/App';
 
 const mapStateToProps = state => ({
@@ -28,7 +28,8 @@ const mapDispatchToProps = {
     setShowError: setShowErrorAction,
     setErrorMsg: setErrorMsgAction,
     setCurrentQuestion: setCurrentQuestionAction,
-    setAvailableChoices: setAvailableChoicesAction,
+    getAllChoices: getAllChoicesAction,
+    setCurrentChoices: setCurrentChoicesAction,
     resetText: resetTextAction,
     progressUpdate: progressUpdateAction,
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { number, shape } from 'prop-types';
+import { number, shape, string } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
@@ -20,12 +20,8 @@ class ProgressBar extends React.Component {
     static propTypes = {
         progress: number.isRequired,
         classes: shape({
-            root: shape({
-                flexGrow: number.isRequired,
-            }),
-            bar: shape({
-                height: number.isRequired,
-            }),
+            root: string.isRequired,
+            bar: string.isRequired,
         }),
     }
 

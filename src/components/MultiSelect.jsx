@@ -37,7 +37,7 @@ class MultiSelect extends React.Component {
     render() {
         const selectedChoiceIds = this.props.selectedChoices.map(selection => selection.id);
 
-        return this.props.availableChoices.map(choice => {
+        return this.props.currentChoices.map(choice => {
             const isSelected = selectedChoiceIds.includes(choice.id);
             return (
                 <Grid item xs={12} md={12} xl={12} key={choice.id}>
@@ -55,7 +55,7 @@ class MultiSelect extends React.Component {
 }
 
 MultiSelect.propTypes = {
-    availableChoices: array.isRequired,
+    currentChoices: array.isRequired,
     selectedChoices: array.isRequired,
     setSelectedChoices: func.isRequired,
 };
