@@ -1,6 +1,6 @@
 import React from 'react';
 import { string, object, func, bool, shape, array } from 'prop-types';
-
+import ProgressBar from '../containers/ProgressBar';
 import questionService from '../service';
 import ThankYouPage from '../components/ThankYouPage';
 import QuestionPage from '../containers/QuestionPage';
@@ -57,6 +57,7 @@ class App extends React.Component {
         getAllChoices: func.isRequired,
         choices: object.isRequired,
         resetText: func.isRequired,
+        progressUpdate: func.isRequired,
     }
 
     setFirstQuestion = async () => {
@@ -135,6 +136,7 @@ class App extends React.Component {
             setCurrentQuestion,
             setCurrentChoices,
             resetText,
+            progressUpdate,
         } = this.props;
         const { allQuestions, currentQuestion } = questions;
         if (currentQuestion.type === STR)
@@ -144,8 +146,10 @@ class App extends React.Component {
 
         if (nextPos !== null) {
             const nextQuestion = allQuestions.find(question => question.position === nextPos);
+            const nextProgressValue = Math.min((nextPos * 100) / questions.allQuestions.length, 95);
             setCurrentChoices(nextQuestion.position);
             setCurrentQuestion(nextQuestion);
+            progressUpdate(nextProgressValue);
         } else {
             this.submitObservation();
         }
@@ -206,7 +210,7 @@ class App extends React.Component {
      * the state is reset so that a new questionnaire can be started
      */
     submitObservation = () => {
-        const { answers, resetAnswers, setAllAnswered, context } = this.props;
+        const { answers, resetAnswers, setAllAnswered, context, progressUpdate } = this.props;
 
         const time = new Date().toString().substring(0, 21);
         const data = {
@@ -222,9 +226,11 @@ class App extends React.Component {
 
         setAllAnswered(true);
         this.setFirstQuestion();
+        progressUpdate(100);
 
         setTimeout(() => {
             setAllAnswered(false);
+            progressUpdate(0);
         }, 3000);
     }
 
@@ -236,23 +242,24 @@ class App extends React.Component {
             return null;
         }
 
-        if (this.props.flags.isAllQuestionsAnswered) {
-            return <ThankYouPage />;
-        }
-
         return (
-            <QuestionPage
-                question={currentQuestion}
-                questionChoices={currentChoices}
-                onChoiceClick={this.handleChoiceClick}
-                questionType={currentQuestion.type}
-                onSubmitFreeText={this.submitTextAnswer}
-                questionPos={allQuestions.findIndex(question => question.id === currentQuestion.id)}
-                error={this.props.flags.error}
-                currentIsRequired={currentQuestion.required}
-                moveToNextQuestion={this.moveToNextQuestion}
-                showFieldRequired={this.showFieldRequired}
-            />
+            <div>
+                <ProgressBar />
+                {this.props.flags.isAllQuestionsAnswered ? (<ThankYouPage />) :
+                    (<QuestionPage
+                        question={currentQuestion}
+                        questionChoices={currentChoices}
+                        onChoiceClick={this.handleChoiceClick}
+                        questionType={currentQuestion.type}
+                        onSubmitFreeText={this.submitTextAnswer}
+                        questionPos={allQuestions.findIndex(question => question.id === currentQuestion.id)}
+                        error={this.props.flags.error}
+                        currentIsRequired={currentQuestion.required}
+                        moveToNextQuestion={this.moveToNextQuestion}
+                        showFieldRequired={this.showFieldRequired}
+                    />)}
+            </div>
+
         );
     }
 }

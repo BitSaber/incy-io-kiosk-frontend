@@ -118,7 +118,7 @@ class QuestionPage extends React.Component {
      */
     renderQuestionElements = (questionType) => {
         if (questionType === SELECT) {
-            return <Select moveToNextQuestion={this.props.moveToNextQuestion}/>;
+            return <Select moveToNextQuestion={this.props.moveToNextQuestion} />;
         } else if (questionType === MULTI_SELECT) {
             return <MultiSelect />;
         } else if (questionType === STR) {
@@ -185,7 +185,6 @@ class QuestionPage extends React.Component {
         return (
             <div style={style.body}>
                 <Grid container style={style.basic}>
-
                     <Grid
                         id="question-test-id"
                         container
@@ -195,7 +194,6 @@ class QuestionPage extends React.Component {
                     >
                         <Typography style={style.textStyle}> {this.props.question.name}</Typography>
                     </Grid>
-
                     <Grid container
                         direction="column"
                         justify="center"
@@ -214,7 +212,6 @@ class QuestionPage extends React.Component {
                         }</Grid>
                         {this.renderQuestionElements(this.props.questionType)}
                     </Grid>
-
                     <Grid container
                         direction="column"
                         justify="center"
@@ -234,7 +231,6 @@ class QuestionPage extends React.Component {
                             {this.renderLanguageButtons()}
                         </Grid>
                     </Grid>
-
                 </Grid>
             </div>
         );
