@@ -55,6 +55,14 @@ describe('<App />', () => {
                 setErrorMsg={jest.fn()}
                 choices={{ allChoices: [], currentChoices: [], selectedChoices: [] }}
                 resetText={jest.fn()}
+                loadingStates={{
+                    questions: '',
+                    choices: '',
+                    context: {
+                        category: '',
+                        place: '',
+                    },
+                }}
             />
         );
         expect(setQuestions.mock.toBeCalled)
