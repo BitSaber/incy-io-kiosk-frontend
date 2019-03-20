@@ -8,7 +8,6 @@ import {
     SELECT,
     STR,
 } from '../constants/questionTypes';
-import Promise from 'es6-promise';
 
 class App extends React.Component {
 
