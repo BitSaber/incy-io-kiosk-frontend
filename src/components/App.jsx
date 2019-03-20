@@ -8,6 +8,7 @@ import {
     SELECT,
     STR,
 } from '../constants/questionTypes';
+import Promise from 'es6-promise';
 
 class App extends React.Component {
 
@@ -15,15 +16,30 @@ class App extends React.Component {
      * @description sets up the context of the questionnaire,
      * fetches the questions and sets up the first question when the page is first loaded
      */
-    async componentDidMount() {
+    componentDidMount() {
         const { setCategory, setPlace, setQuestions,
             currentLanguageId, getAllChoices } = this.props;
-        await setCategory(currentLanguageId);
-        await setPlace(currentLanguageId);
-        await setQuestions(currentLanguageId);
-
-        await getAllChoices(this.props.questions.allQuestions, currentLanguageId);
-        this.setFirstQuestion();
+        const setCategoryPromise = setCategory(currentLanguageId);
+        const setPlacePromise = setPlace(currentLanguageId);
+        const contextPromises = [setCategoryPromise, setPlacePromise];
+        // Load context, in parallel
+        Promise.all(contextPromises).then(() => {
+            const setQuestionsPromise = setQuestions(currentLanguageId);
+            // Load questions
+            setQuestionsPromise.then(() => {
+                const getAllChoicesPromise = getAllChoices(this.props.questions.allQuestions, currentLanguageId);
+                // Load choices
+                getAllChoicesPromise.then(() => {
+                    this.setFirstQuestion();
+                }).catch((err) => {
+                    throw new Error('Error loading choices:', err);
+                });
+            }).catch((err) => {
+                throw new Error('Error loading question:', err);
+            });
+        }).catch((err) => {
+            throw new Error('Error loading context:', err);
+        });
     }
 
     static propTypes = {
