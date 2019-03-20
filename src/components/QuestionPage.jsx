@@ -40,7 +40,7 @@ const style = {
         height: '100vh',
     },
     basic: {
-        height: '70%',
+        height: '100%',
         alignItems: 'center',
         fontFamily: 'Roboto',
         overflow: 'hidden',
@@ -226,9 +226,9 @@ class QuestionPage extends React.Component {
                         direction="column"
                         justify="center"
                         alignItems="stretch"
-                        spacing={24} >
+                        spacing={16} >
 
-                        <Grid item xs={12} md={12} xl={12}> {
+                        <Grid item xs={6} md={6} xl={6}> {
                             this.props.error.showError &&
                             <Typography style={style.error} variant='h4' color='error'>
                                 <FormattedMessage id={this.props.error.messageId}

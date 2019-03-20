@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import Grid from '@material-ui/core/Grid';
 
 const style = {
     basic: {
@@ -12,11 +13,10 @@ const style = {
         display: 'flex',
         justifyContent: 'center',
         color: '#ffffff',
-        height: 184,
-        width: '100%',
+        height: 200,
+        width: '98%',
         textAlign: 'center',
         fontSize: 40,
-        marginTop: 450,
         marginLeft: 'auto',
         marginRight: 'auto',
     },
@@ -27,8 +27,12 @@ const style = {
 };
 
 const ThankYouPage = () => (
-    <div style={style.body}>
-        <div style={style.basic}>
+    <Grid
+        container
+        justify="center"
+        alignItems="center"
+        style={style.body}>
+        <Grid style={style.basic}>
             <div style={style.thankYouDiv} >
                 <h2 variant="h2">
                     <FormattedMessage id="thankyou.phrase"
@@ -38,9 +42,9 @@ const ThankYouPage = () => (
                     />
                 </h2>
             </div>
-        </div>
+        </Grid>
 
-    </div>
+    </Grid>
 );
 
 export default ThankYouPage;
