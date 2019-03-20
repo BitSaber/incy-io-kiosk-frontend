@@ -7,7 +7,6 @@ import {
     SET_CHOICES_LOADING_STATE,
 } from '../constants/actions';
 import { LOADING_STATE, FINISHED_STATE } from '../constants/loadingStates';
-import Promise from 'es6-promise';
 
 export const getAllChoicesAction = (questions, langId) => {
     return async (dispatch) => {
