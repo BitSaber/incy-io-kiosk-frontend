@@ -11,6 +11,6 @@ Application Launches
 React Renders
     Wait Until Keyword Succeeds    20    1    Application root should be rendered
 
-We display a question
-    Wait Until Keyword Succeeds    20    1    We display our initial question
+The loading screen is rendered
+    Wait Until Keyword Succeeds    20    1    The loading screen is rendered
 
