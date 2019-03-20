@@ -14,17 +14,18 @@ export const getAllChoicesAction = (questions, langId) => {
         dispatch({
             type: RESET_ALL_CHOICES,
         });
-        // here we use a for-loop to go through all questions (preferably sorted in some fashion),
-        // and dispatch them one by one to an array with all the possible choices
-        const qLen = questions.length;
-        for (let i = 0; i < qLen; i++) {
-            const choices = await service.getChoices(questions[i].id, langId);
+
+        // allows to get the choices concurrently
+        // eslint-disable-next-line no-undef
+        const choices = await Promise.all(questions.map(question => service.getChoices(question.id, langId)));
+
+        choices.forEach(choice => {
             dispatch({
                 type: GET_CHOICES,
-                payload: choices,
+                payload: choice,
             });
-        }
-        // set the lodaing state to be finished
+        });
+
         dispatch({
             type: SET_CHOICES_LOADING_STATE,
             payload: FINISHED_STATE,
