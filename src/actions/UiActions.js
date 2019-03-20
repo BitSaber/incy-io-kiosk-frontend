@@ -2,6 +2,7 @@ import {
     TEXT_CHANGE,
     TEXT_SUBMIT,
     TEXT_RESET,
+    UPDATE_PROGRESS,
 } from '../constants/actions';
 
 export const onTextChangeAction = text => ({
@@ -16,4 +17,9 @@ export const submitTextAction = text => ({
 
 export const resetTextAction = () => ({
     type: TEXT_RESET,
+});
+
+export const progressUpdateAction = progress => ({
+    type: UPDATE_PROGRESS,
+    progress: progress,
 });

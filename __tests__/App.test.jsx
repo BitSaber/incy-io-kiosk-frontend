@@ -49,7 +49,7 @@ describe('<App />', () => {
                 flags={{
                     isAllQuestionsAnswered: false,
                     isAllQuestionsDisplayed: false,
-                    error: {  showError: false, messageId: "" },
+                    error: { showError: false, messageId: "" },
                 }}
                 setShowError={jest.fn()}
                 setErrorMsg={jest.fn()}
@@ -63,10 +63,11 @@ describe('<App />', () => {
                         place: '',
                     },
                 }}
+                progressUpdate={jest.fn()}
             />
         );
-        expect(setQuestions.mock.toBeCalled)
-        expect(setCategory.mock.toBeCalled)
-        expect(setPlace.mock.toBeCalled)
+        expect(setQuestions.mock.toBeCalled);
+        expect(setCategory.mock.toBeCalled);
+        expect(setPlace.mock.toBeCalled);
     });
 });
