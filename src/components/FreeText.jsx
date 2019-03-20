@@ -2,6 +2,11 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { TextField } from '@material-ui/core';
 import { string, func } from 'prop-types';
+import PropTypes from 'prop-types';
+import TextField from '@material-ui/core/TextField';
+import { withStyles } from '@material-ui/core/styles';
+
+
 
 const style = {
     textDiv: {
@@ -27,14 +32,7 @@ export default class FreeText extends React.Component {
     }
 
     render() {
-
-        const label = (
-            <FormattedMessage id="textfield.placeholder"
-                defaultMessage="Your answer"
-                description="Placeholder on text field"
-                values={{ what: 'react-intl' }}
-            />
-        );
+        const { classes } = this.props;
 
         return (
             <div className="center-align txt">
@@ -45,6 +43,10 @@ export default class FreeText extends React.Component {
                         multiline
                         rows="20"
                         margin="normal"
+                        placeholder="Placeholder"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
                         value={this.props.text}
                         onChange={this.props.handleChange}
                         InputProps={{ disableUnderline: true }}
@@ -55,4 +57,3 @@ export default class FreeText extends React.Component {
         );
     }
 }
-
