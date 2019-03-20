@@ -21,7 +21,7 @@ const styles = theme => ({ // eslint-disable-line
 function LoadingPage(props) {
     const { classes } = props;
     return (
-        <div style={style.body} id="loading-screen-test-id">
+        <div style={style.body}>
             <CircularProgress className={classes.progress} color='primary' size={150} />
         </div>
     );

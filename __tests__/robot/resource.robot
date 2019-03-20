@@ -38,5 +38,5 @@ Kiosk App Should Be Open
 Application root should be rendered
     Page Should Contain Element    xpath: //div[@id='app']/div
 
-The loading screen is rendered
-    Page Should Contain Element    xpath: //div[@id='app']/div[@id='loading-screen-test-id']
+We display our initial question
+    Page Should Contain Element    xpath: //div[@id='app']/div/div[2]/div/div[@id='question-test-id']
