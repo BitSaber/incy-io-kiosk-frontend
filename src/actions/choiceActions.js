@@ -1,5 +1,5 @@
 import service from '../service';
-import { RESET_ALL_CHOICES, GET_CHOICES, SET_CURRENT_CHOICES,
+import { RESET_ALL_CHOICES, SET_CURRENT_CHOICES, SET_ALL_CHOICES,
     SET_SELECTED_CHOICES, SET_CHOICES_LOADING_STATE } from '../constants/actions';
 import { LOADING_STATE, FINISHED_STATE } from '../constants/loadingStates';
 
@@ -15,21 +15,21 @@ export const getAllChoicesAction = (questions, langId) => {
             type: RESET_ALL_CHOICES,
         });
 
-        // allows to get the choices concurrently
-        // eslint-disable-next-line no-undef
-        const choices = await Promise.all(questions.map(question => service.getChoices(question.id, langId)));
-
-        choices.forEach(choice => {
+        try {
+            // gets the choices concurrently
+            const choices = await Promise.all(questions.map(question => service.getChoices(question.id, langId)));
             dispatch({
-                type: GET_CHOICES,
-                payload: choice,
+                type: SET_ALL_CHOICES,
+                payload: choices,
             });
-        });
-
-        dispatch({
-            type: SET_CHOICES_LOADING_STATE,
-            payload: FINISHED_STATE,
-        });
+            dispatch({
+                type: SET_CHOICES_LOADING_STATE,
+                payload: FINISHED_STATE,
+            });
+        } catch (e) {
+            // TODO set error state
+            throw new Error('Error in getting choices:', e);
+        }
     };
 };
 
