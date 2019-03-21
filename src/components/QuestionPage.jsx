@@ -30,10 +30,7 @@ import {
 
 const style = {
     body: {
-        maxHeight: '3000px',
-        backgroundColor: '#0078CC',
-        display: 'block',
-        height: '100vh',
+        height: '100%',
     },
     basic: {
         height: '100%',
@@ -49,7 +46,7 @@ const style = {
     questionDiv: {
         backgroundColor: '#0496FF',
         display: 'flex',
-        height: '12%',
+        minHeight: '12%',
     },
     error: {
         fontWeight: 'bold',
@@ -216,7 +213,7 @@ class QuestionPage extends React.Component {
                         {this.renderQuestion()}
                     </Grid>
                     <Grid container
-                        direction="column"
+                        direction="row"
                         justify="center"
                         alignItems="stretch"
                         spacing={16} >

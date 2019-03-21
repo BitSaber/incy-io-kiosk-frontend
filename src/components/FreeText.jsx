@@ -6,7 +6,8 @@ import Grid from '@material-ui/core/Grid';
 
 const style = {
     textDiv: {
-        width: 500,
+        width: '100%',
+        maxWidth: 500,
         backgroundColor: '#0496FF',
         fontWeight: 'bold',
         borderRadius: 30,

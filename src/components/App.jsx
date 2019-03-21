@@ -11,6 +11,15 @@ import {
 } from '../constants/questionTypes';
 import { FINISHED_STATE } from '../constants/loadingStates';
 
+const style = {
+    body: {
+        overflow: 'hidden',
+        backgroundColor: '#0078CC',
+        display: 'block',
+        height: '100vh',
+    },
+};
+
 class App extends React.Component {
 
     /**
@@ -247,7 +256,7 @@ class App extends React.Component {
     isDoneLoading = () => {
         const { questions, choices, context } = this.props.loadingStates;
         return questions === FINISHED_STATE && choices === FINISHED_STATE &&
-        context.category === FINISHED_STATE && context.place === FINISHED_STATE;
+            context.category === FINISHED_STATE && context.place === FINISHED_STATE;
     }
 
     render() {
@@ -259,7 +268,7 @@ class App extends React.Component {
         }
 
         return (
-            <div>
+            <div style={style.body}>
                 <ProgressBar />
                 {this.props.flags.isAllQuestionsAnswered ? (<ThankYouPage />) :
                     (<QuestionPage

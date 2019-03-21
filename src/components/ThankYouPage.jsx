@@ -13,7 +13,7 @@ const style = {
         display: 'flex',
         justifyContent: 'center',
         color: '#ffffff',
-        height: 200,
+        minHeight: 200,
         width: '98%',
         textAlign: 'center',
         fontSize: 40,
