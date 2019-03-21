@@ -5,15 +5,18 @@ import {
     DEFAULT_ORG_NAME,
     DEFAULT_LINK_NAME,
     DEFAULT_BASE_API_URL,
+    DEFAULT_CATEGORY_NAME,
 } from './constants/defaults';
 
 import {
     ORG_NAME_COOKIE,
     LINK_NAME_COOKIE,
     BASE_URL_COOKIE,
+    CATEGORY_URL_COOKIE,
     BASE_URL_PARAM,
     ORG_NAME_URLPARAM,
     LINK_NAME_URLPARAM,
+    CATEGORY_URL_PARAM,
 } from './constants/config';
 
 const getValueFromCookieUrlOrDefaultAndCache = (defaultValue, urlParam, cookieName) => {
