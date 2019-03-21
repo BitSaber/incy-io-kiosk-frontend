@@ -4,7 +4,6 @@ import { addAnswerAction } from '../actions/answerActions';
 
 
 const mapStateToProps = state => ({
-    currentChoices: state.choices.currentChoices,
     currentQuestion: state.questions.currentQuestion,
 });
 

@@ -67,7 +67,6 @@ class App extends React.Component {
         }),
         setCategory: func.isRequired,
         setPlace: func.isRequired,
-        setCurrentChoices: func.isRequired,
         getAllChoices: func.isRequired,
         choices: object.isRequired,
         resetText: func.isRequired,
@@ -83,15 +82,12 @@ class App extends React.Component {
     }
 
     setFirstQuestion = async () => {
-        const { setCurrentQuestion, setCurrentChoices } = this.props;
+        const { setCurrentQuestion } = this.props;
         const { allQuestions } = this.props.questions;
 
         if (allQuestions.length > 0) {
             const currentQuestion = allQuestions[0];
             setCurrentQuestion(currentQuestion);
-            if (currentQuestion.type !== STR) {
-                setCurrentChoices(currentQuestion.position);
-            }
         }
     }
 
@@ -156,7 +152,6 @@ class App extends React.Component {
         const {
             questions,
             setCurrentQuestion,
-            setCurrentChoices,
             resetText,
             progressUpdate,
         } = this.props;
@@ -169,7 +164,6 @@ class App extends React.Component {
         if (nextPos !== null) {
             const nextQuestion = allQuestions.find(question => question.position === nextPos);
             const nextProgressValue = Math.min((nextPos * 100) / questions.allQuestions.length, 95);
-            setCurrentChoices(nextQuestion.position);
             setCurrentQuestion(nextQuestion);
             progressUpdate(nextProgressValue);
         } else {
@@ -264,11 +258,13 @@ class App extends React.Component {
 
     render() {
         const { allQuestions, currentQuestion } = this.props.questions;
-        const { currentChoices } = this.props.choices;
+        const { questionChoices } = this.props.choices;
 
-        if (!this.isDoneLoading() || !currentQuestion) {
+        if (!this.isDoneLoading() || !currentQuestion || !questionChoices) {
             return <LoadingPage />;
         }
+
+        const currentChoices = questionChoices.find(choice => choice.questionId === currentQuestion.id);
 
         return (
             <div style={style.body}>
@@ -276,7 +272,7 @@ class App extends React.Component {
                 {this.props.flags.isAllQuestionsAnswered ? (<ThankYouPage />) :
                     (<QuestionPage
                         question={currentQuestion}
-                        questionChoices={currentChoices}
+                        questionChoices={currentChoices.questionChoices}
                         onChoiceClick={this.handleChoiceClick}
                         questionType={currentQuestion.type}
                         onSubmitFreeText={this.submitTextAnswer}

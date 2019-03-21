@@ -112,7 +112,7 @@ class QuestionPage extends React.Component {
      */
     renderQuestionElements = (questionType) => {
         if (questionType === SELECT) {
-            return <Select moveToNextQuestion={this.props.moveToNextQuestion} />;
+            return <Select moveToNextQuestion={this.props.moveToNextQuestion} currentChoices={this.props.questionChoices} />;
         } else if (questionType === MULTI_SELECT) {
             return <MultiSelect />;
         } else if (questionType === STR) {
