@@ -35,6 +35,7 @@ const style = {
     basic: {
         flex: '1',
         alignItems: 'center',
+        padding: '8px',
     },
     textStyle: {
         color: '#ffffff',
@@ -222,10 +223,11 @@ class QuestionPage extends React.Component {
                     {this.renderQuestionElements(this.props.questionType)}
                 </Grid>
                 <Grid container
-                    direction="column"
+                    direction="row"
                     justify="center"
                     alignItems="center"
-                    spacing={16} >
+                    spacing={16}
+                >
                     <Grid item xs={12} md={12} xl={12}>
                         {this.renderSubmitButton(this.props.questionType)}
                     </Grid>
