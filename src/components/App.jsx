@@ -13,10 +13,11 @@ import { FINISHED_STATE } from '../constants/loadingStates';
 
 const style = {
     body: {
-        overflow: 'hidden',
+        overflow: 'auto',
         backgroundColor: '#0078CC',
-        display: 'block',
         height: '100vh',
+        maxHeight: '500vh',
+        fontFamily: 'Roboto',
     },
 };
 

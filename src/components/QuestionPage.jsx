@@ -30,13 +30,11 @@ import {
 
 const style = {
     body: {
-        height: '100%',
+
     },
     basic: {
         height: '100%',
         alignItems: 'center',
-        fontFamily: 'Roboto',
-        overflow: 'hidden',
     },
     textStyle: {
         color: '#ffffff',
@@ -201,43 +199,42 @@ class QuestionPage extends React.Component {
     render() {
 
         return (
-            <div style={style.body}>
-                <Grid container style={style.basic}>
-                    <Grid
-                        id="question-test-id"
-                        container
-                        justify="center"
-                        alignItems="center"
-                        style={style.questionDiv}
-                    >
-                        {this.renderQuestion()}
-                    </Grid>
-                    <Grid container
-                        direction="row"
-                        justify="center"
-                        alignItems="stretch"
-                        spacing={16} >
+            <Grid container style={style.basic}>
+                <Grid
+                    id="question-test-id"
+                    container
+                    justify="center"
+                    alignItems="center"
+                    style={style.questionDiv}
+                >
+                    {this.renderQuestion()}
+                </Grid>
+                <Grid container
+                    direction="row"
+                    justify="center"
+                    alignItems="stretch"
+                    spacing={16}
+                >
 
-                        <Grid item xs={12} md={12} xl={12}>
-                            {this.renderError()}
-                        </Grid>
-                        {this.renderQuestionElements(this.props.questionType)}
+                    <Grid item xs={12} md={12} xl={12}>
+                        {this.renderError()}
                     </Grid>
-                    <Grid container
-                        direction="column"
-                        justify="center"
-                        alignItems="center"
-                        spacing={16} >
-                        <Grid item xs={12} md={12} xl={12}>
-                            {this.renderSubmitButton(this.props.questionType)}
-                        </Grid>
-                        <Grid item xs={12} md={12} xl={12}>
-                            {this.renderSkipButton()}
-                            {this.renderLanguageButtons()}
-                        </Grid>
+                    {this.renderQuestionElements(this.props.questionType)}
+                </Grid>
+                <Grid container
+                    direction="column"
+                    justify="center"
+                    alignItems="center"
+                    spacing={16} >
+                    <Grid item xs={12} md={12} xl={12}>
+                        {this.renderSubmitButton(this.props.questionType)}
+                    </Grid>
+                    <Grid item xs={12} md={12} xl={12}>
+                        {this.renderSkipButton()}
+                        {this.renderLanguageButtons()}
                     </Grid>
                 </Grid>
-            </div>
+            </Grid>
         );
     }
 }
