@@ -70,7 +70,7 @@ An image of the current CI/CD pipeline is presented below
 
 These commands are assumed to be run from the root directory of this repository.
 
-_outside docker_ Start the docker image:
+_outside docker_ Start the docker container:
 
 ```sh
 docker run \
