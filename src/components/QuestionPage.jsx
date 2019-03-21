@@ -28,7 +28,6 @@ import {
     UNINITIALIZED as QUESTION_TYPE_UNINITIALIZED,
 } from '../constants/questionTypes';
 
-
 const style = {
     body: {
         maxHeight: '3000px',
@@ -109,7 +108,6 @@ class QuestionPage extends React.Component {
                 moveToNextQuestion();
             }
         };
-
         return <SubmitButton onClick={clickHandler} />;
     }
 
@@ -175,10 +173,33 @@ class QuestionPage extends React.Component {
     renderLanguageButtons = () => {
         if (this.props.questionPos === 0) {
             return <Language />;
+        } else {
+            return;
         }
-        return null;
     }
 
+    renderQuestion = () => {
+        return <Typography style={style.textStyle}> {this.props.question.name}</Typography>;
+    }
+
+    renderSkipButton = () => {
+        return !this.props.currentIsRequired &&
+            <SkipButton
+                onClick={() => this.props.moveToNextQuestion()}
+                text={"Skip"}
+            />;
+    }
+
+    renderError = () => {
+        return this.props.error.showError &&
+        <Typography style={style.error} variant='h4' color='error'>
+            <FormattedMessage id={this.props.error.messageId}
+                defaultMessage="This field is required!"
+                description="Requirement text"
+                values={{ what: 'react-intl' }}
+            />
+        </Typography>;
+    }
 
     render() {
 
@@ -192,7 +213,7 @@ class QuestionPage extends React.Component {
                         alignItems="center"
                         style={style.questionDiv}
                     >
-                        <Typography style={style.textStyle}> {this.props.question.name}</Typography>
+                        {this.renderQuestion()}
                     </Grid>
                     <Grid container
                         direction="column"
@@ -200,16 +221,9 @@ class QuestionPage extends React.Component {
                         alignItems="stretch"
                         spacing={24} >
 
-                        <Grid item xs={12} md={12} xl={12}> {
-                            this.props.error.showError &&
-                            <Typography style={style.error} variant='h4' color='error'>
-                                <FormattedMessage id={this.props.error.messageId}
-                                    defaultMessage="This field is required!"
-                                    description="Requirement text"
-                                    values={{ what: 'react-intl' }}
-                                />
-                            </Typography>
-                        }</Grid>
+                        <Grid item xs={12} md={12} xl={12}>
+                            {this.renderError()}
+                        </Grid>
                         {this.renderQuestionElements(this.props.questionType)}
                     </Grid>
                     <Grid container
@@ -221,13 +235,7 @@ class QuestionPage extends React.Component {
                             {this.renderSubmitButton(this.props.questionType)}
                         </Grid>
                         <Grid item xs={12} md={12} xl={12}>
-                            {
-                                !this.props.currentIsRequired &&
-                                <SkipButton
-                                    onClick={() => this.props.moveToNextQuestion()}
-                                    text={"Skip"}
-                                />
-                            }
+                            {this.renderSkipButton()}
                             {this.renderLanguageButtons()}
                         </Grid>
                     </Grid>
