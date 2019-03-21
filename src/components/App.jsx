@@ -1,13 +1,15 @@
 import React from 'react';
 import { string, object, func, bool, shape, array } from 'prop-types';
-
+import ProgressBar from '../containers/ProgressBar';
 import questionService from '../service';
 import ThankYouPage from '../components/ThankYouPage';
 import QuestionPage from '../containers/QuestionPage';
+import LoadingPage from '../components/LoadingPage';
 import {
     SELECT,
     STR,
 } from '../constants/questionTypes';
+import { FINISHED_STATE } from '../constants/loadingStates';
 
 class App extends React.Component {
 
@@ -16,11 +18,13 @@ class App extends React.Component {
      * fetches the questions and sets up the first question when the page is first loaded
      */
     async componentDidMount() {
-        const { setCategory, setPlace, setQuestions, currentLanguageId } = this.props;
+        const { setCategory, setPlace, setQuestions,
+            currentLanguageId, getAllChoices } = this.props;
         await setCategory(currentLanguageId);
         await setPlace(currentLanguageId);
         await setQuestions(currentLanguageId);
 
+        await getAllChoices(this.props.questions.allQuestions, currentLanguageId);
         this.setFirstQuestion();
     }
 
@@ -51,20 +55,30 @@ class App extends React.Component {
         }),
         setCategory: func.isRequired,
         setPlace: func.isRequired,
-        setAvailableChoices: func.isRequired,
+        setCurrentChoices: func.isRequired,
+        getAllChoices: func.isRequired,
         choices: object.isRequired,
         resetText: func.isRequired,
+        loadingStates: shape({
+            questions: string.isRequired,
+            choices: string.isRequired,
+            context: shape({
+                category: string.isRequired,
+                place: string.isRequired,
+            }).isRequired,
+        }).isRequired,
+        progressUpdate: func.isRequired,
     }
 
     setFirstQuestion = async () => {
-        const { currentLanguageId, setCurrentQuestion, setAvailableChoices } = this.props;
+        const { setCurrentQuestion, setCurrentChoices } = this.props;
         const { allQuestions } = this.props.questions;
 
         if (allQuestions.length > 0) {
             const currentQuestion = allQuestions[0];
             setCurrentQuestion(currentQuestion);
             if (currentQuestion.type !== STR) {
-                setAvailableChoices(currentQuestion.id, currentLanguageId);
+                setCurrentChoices(currentQuestion.position);
             }
         }
     }
@@ -123,15 +137,16 @@ class App extends React.Component {
     }
 
     /**
-     * @description Moves the questionnaire to the next question, or submits the answers if no more questions to be answered.
+     * @description Moves the questionnaire to the next question, or submits
+     * the answers if no more questions to be answered.
      */
     moveToNextQuestion = async () => {
         const {
             questions,
             setCurrentQuestion,
-            setAvailableChoices,
-            currentLanguageId,
+            setCurrentChoices,
             resetText,
+            progressUpdate,
         } = this.props;
         const { allQuestions, currentQuestion } = questions;
         if (currentQuestion.type === STR)
@@ -141,8 +156,10 @@ class App extends React.Component {
 
         if (nextPos !== null) {
             const nextQuestion = allQuestions.find(question => question.position === nextPos);
-            setAvailableChoices(nextQuestion.id, currentLanguageId);
+            const nextProgressValue = Math.min((nextPos * 100) / questions.allQuestions.length, 95);
+            setCurrentChoices(nextQuestion.position);
             setCurrentQuestion(nextQuestion);
+            progressUpdate(nextProgressValue);
         } else {
             this.submitObservation();
         }
@@ -203,7 +220,7 @@ class App extends React.Component {
      * the state is reset so that a new questionnaire can be started
      */
     submitObservation = () => {
-        const { answers, resetAnswers, setAllAnswered, context } = this.props;
+        const { answers, resetAnswers, setAllAnswered, context, progressUpdate } = this.props;
 
         const time = new Date().toString().substring(0, 21);
         const data = {
@@ -219,37 +236,45 @@ class App extends React.Component {
 
         setAllAnswered(true);
         this.setFirstQuestion();
+        progressUpdate(100);
 
         setTimeout(() => {
             setAllAnswered(false);
+            progressUpdate(0);
         }, 3000);
+    }
+
+    isDoneLoading = () => {
+        const { questions, choices, context } = this.props.loadingStates;
+        return questions === FINISHED_STATE && choices === FINISHED_STATE &&
+        context.category === FINISHED_STATE && context.place === FINISHED_STATE;
     }
 
     render() {
         const { allQuestions, currentQuestion } = this.props.questions;
-        const { availableChoices } = this.props.choices;
+        const { currentChoices } = this.props.choices;
 
-        if (!currentQuestion) {
-            return null;
-        }
-
-        if (this.props.flags.isAllQuestionsAnswered) {
-            return <ThankYouPage />;
+        if (!this.isDoneLoading() || !currentQuestion) {
+            return <LoadingPage />;
         }
 
         return (
-            <QuestionPage
-                question={currentQuestion}
-                questionChoices={availableChoices}
-                onChoiceClick={this.handleChoiceClick}
-                questionType={currentQuestion.type}
-                onSubmitFreeText={this.submitTextAnswer}
-                questionPos={allQuestions.findIndex(question => question.id === currentQuestion.id)}
-                error={this.props.flags.error}
-                currentIsRequired={currentQuestion.required}
-                moveToNextQuestion={this.moveToNextQuestion}
-                showFieldRequired={this.showFieldRequired}
-            />
+            <div>
+                <ProgressBar />
+                {this.props.flags.isAllQuestionsAnswered ? (<ThankYouPage />) :
+                    (<QuestionPage
+                        question={currentQuestion}
+                        questionChoices={currentChoices}
+                        onChoiceClick={this.handleChoiceClick}
+                        questionType={currentQuestion.type}
+                        onSubmitFreeText={this.submitTextAnswer}
+                        questionPos={allQuestions.findIndex(question => question.id === currentQuestion.id)}
+                        error={this.props.flags.error}
+                        currentIsRequired={currentQuestion.required}
+                        moveToNextQuestion={this.moveToNextQuestion}
+                        showFieldRequired={this.showFieldRequired}
+                    />)}
+            </div>
         );
     }
 }

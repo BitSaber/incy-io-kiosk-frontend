@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { addAnswerAction, resetAnswersAction } from '../actions/answerActions';
 import { setQuestionsAction, setCurrentQuestionAction } from '../actions/questionActions';
 import { setCategoryAction, setPlaceAction } from '../actions/contextActions';
-import { setAvailableChoicesAction } from '../actions/choiceActions';
-import { resetTextAction } from '../actions/UiActions';
+import { resetTextAction, progressUpdateAction } from '../actions/UiActions';
+import { setCurrentChoicesAction, getAllChoicesAction } from '../actions/choiceActions';
 import App from '../components/App';
 
 const mapStateToProps = state => ({
@@ -15,6 +15,8 @@ const mapStateToProps = state => ({
     context: state.context,
     flags: state.flags,
     choices: state.choices,
+    loadingStates: state.loadingStates,
+    progress: state.ui.progress,
 });
 
 const mapDispatchToProps = {
@@ -27,8 +29,10 @@ const mapDispatchToProps = {
     setShowError: setShowErrorAction,
     setErrorMsg: setErrorMsgAction,
     setCurrentQuestion: setCurrentQuestionAction,
-    setAvailableChoices: setAvailableChoicesAction,
+    getAllChoices: getAllChoicesAction,
+    setCurrentChoices: setCurrentChoicesAction,
     resetText: resetTextAction,
+    progressUpdate: progressUpdateAction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

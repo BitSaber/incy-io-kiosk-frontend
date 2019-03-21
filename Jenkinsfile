@@ -49,6 +49,20 @@ pipeline {
                 sh 'yarn build'
             }
         }
+        stage('Deploy to local test') {
+            steps {
+                script {
+                    lowercaseBranch = env.BRANCH_NAME.toLowerCase()
+                }
+                withCredentials([file(credentialsId: '2d6f0282-6e9d-4885-b209-3a8baf6cb797', variable: 'IDRSA')]) {
+                    sh 'cp "$IDRSA" ~/.ssh/id_rsa'
+                    sh 'chown $(whoami): ~/.ssh/id_rsa'
+                    sh 'chmod 600 ~/.ssh/id_rsa'
+                    sh 'ssh-keyscan bitsaber.net > ~/.ssh/known_hosts'
+                    sh "lftp -e \"rm -r -f ${lowercaseBranch}; mkdir ${lowercaseBranch}; mirror -R dist/ ${lowercaseBranch}/; quit;\" -u jenkins-dev-deploy, sftp://bitsaber.net/branches"
+                }
+            }
+        }
         stage('Robot Tests') {
             environment {
                 PATH = "$PATH:/opt/chromedriver/"
