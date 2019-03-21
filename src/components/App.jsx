@@ -18,6 +18,8 @@ const style = {
         height: '100vh',
         maxHeight: '500vh',
         fontFamily: 'Roboto',
+        display: 'flex',
+        flexDirection: 'column',
     },
 };
 

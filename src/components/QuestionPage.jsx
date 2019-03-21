@@ -33,7 +33,7 @@ const style = {
 
     },
     basic: {
-        height: '100%',
+        flex: '1',
         alignItems: 'center',
     },
     textStyle: {
