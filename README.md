@@ -41,7 +41,7 @@ git clone https://github.com/BitSaber/incy-io-kiosk-frontend.git
 * cd into the cloned folder i.e.
 
 ```sh
-cd incy-io-kiosk-frontend`
+cd incy-io-kiosk-frontend
 ```
 
 * Install project dependencies i.e.
