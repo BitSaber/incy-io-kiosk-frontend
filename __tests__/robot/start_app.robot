@@ -13,4 +13,3 @@ React Renders
 
 We display a question
     Wait Until Keyword Succeeds    20    1    We display our initial question
-
