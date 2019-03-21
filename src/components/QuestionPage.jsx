@@ -223,7 +223,7 @@ class QuestionPage extends React.Component {
                     {this.renderQuestionElements(this.props.questionType)}
                 </Grid>
                 <Grid container
-                    direction="row"
+                    direction="column"
                     justify="center"
                     alignItems="center"
                     spacing={16}
