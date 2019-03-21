@@ -154,32 +154,15 @@ class App extends React.Component {
             setCurrentQuestion,
             resetText,
             progressUpdate,
-        } = this.props;
-        const { allQuestions, currentQuestion } = questions;
-        if (currentQuestion.type === STR)
-            resetText();
-
-        const nextPos = this.findNextQuestionPosition();
-
-        if (nextPos !== null) {
-            const nextQuestion = allQuestions.find(question => question.position === nextPos);
-            const nextProgressValue = Math.min((nextPos * 100) / questions.allQuestions.length, 95);
-            setCurrentQuestion(nextQuestion);
-            progressUpdate(nextProgressValue);
-        } else {
-            this.submitObservation();
-        }
-    }
-
-    /**
-     * @description finds the position of the next question and returns it. If no more questions to display, returns null
-     */
-    findNextQuestionPosition = () => {
-        const {
-            questions,
             answers,
         } = this.props;
         const { allQuestions, currentQuestion } = questions;
+
+        if (currentQuestion.type === STR) {
+            resetText();
+        }
+
+        const answeredQuestionIds = Object.keys(answers).map(answer => Number(answer));
 
         const answeredChoiceIds = Object.values(answers).map(object => {
             if (Array.isArray(object)) {
@@ -190,25 +173,27 @@ class App extends React.Component {
             }
         }).flat();
 
-        let nextQuestionPosition = currentQuestion.position + 1;
+        const unansweredQuestions = allQuestions.filter(question => !answeredQuestionIds.includes(question.id));
 
-        while (nextQuestionPosition <= allQuestions.length) {
-            const nextQuestion = allQuestions.find(question => question.position === nextQuestionPosition);
-            if (nextQuestion) {
-                if (nextQuestion.depends_on_choice_id === null) {
-                    // next question is not dependent on a previous selected choice => the question is shown
-                    return nextQuestionPosition;
-                } else if (answeredChoiceIds.includes(nextQuestion.depends_on_choice_id)) {
-                    // next question is dependent on a previously selected choice => the question is shown
-                    return nextQuestionPosition;
-                }
+        const nextQuestion = unansweredQuestions.reduce((prevResult, question) => {
+            if (prevResult) {
+                return prevResult;
             }
-            nextQuestionPosition += 1;
+            if (question.depends_on_choice_id === null) {
+                return question;
+            }
+            if (answeredChoiceIds.includes(question.depends_on_choice_id)) {
+                return question;
+            }
+        }, null);
+
+        if (nextQuestion) {
+            setCurrentQuestion(nextQuestion);
+            progressUpdate(answeredQuestionIds.length / allQuestions.length * 100);
+        } else {
+            this.submitObservation();
         }
-
-        return null; // Returns null if while loop doesn't return a question postion - this means that no more questions to display
     }
-
 
     /**
      * @description calls `singleAnswerClick` for single select type questions,
