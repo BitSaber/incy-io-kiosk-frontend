@@ -1,34 +1,42 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import styled from 'styled-components';
-import PropTypes from 'prop-types'
-import '../css/style.css';
+import PropTypes from 'prop-types';
+import { Typography } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 
-export const TextContainer = styled.div`
-    padding:60px 60px;
-    margin:5px;
-    text-decoration:none;
-    text-shadow:0px 1px 0px #005667;
-    color: #ffffff;
-    font-size:19px;
-    font-weight:bold;
-`;
+const style = {
+    buttonStyle: {
+        width: '90%',
+        backgroundColor: '#0496FF',
+        minHeight: 100,
+        height: '100%',
+        borderRadius: 30,
 
-const ButtonContainer = styled.div`
-    margin:8px;
-`;
+    },
+    textStyle: {
+        fontSize: 32,
+        color: '#ffffff',
+        fontWeight: 'bold',
+    },
 
-const BigButton = ({ onClick, text }) => (
-    <ButtonContainer>
-        <Button className="newButton" variant="contained" onClick={onClick}>
-            <TextContainer>{text}</TextContainer>
-        </Button>
-    </ButtonContainer>
-);
+};
+
+
+
+const BigButton = ({ onClick, text }) => {
+    return (
+        <Grid item xs={12} sm={6} xl={3} >
+            <Button style={style.buttonStyle} variant="contained" onClick={onClick}>
+                <Typography style={style.textStyle}>{text}</Typography>
+            </Button>
+        </Grid >
+    );
+};
 
 BigButton.propTypes = {
     onClick: PropTypes.func.isRequired,
-    text: PropTypes.string.isRequired
+    text: PropTypes.string.isRequired,
+
 };
 
 export default BigButton;

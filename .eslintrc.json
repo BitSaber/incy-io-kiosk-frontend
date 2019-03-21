@@ -1,7 +1,7 @@
 {
     "env": {
         "browser": true,
-        "es6": false,
+        "es6": true,
         "node": false,
         "jest": true
     },
@@ -10,9 +10,29 @@
         "plugin:react/recommended"
     ],
     "parser": "babel-eslint",
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
     "rules": {
         "indent": [2, 4],
         "no-console": 1,
-        "no-trailing-spaces": 2
+        "no-trailing-spaces": 2,
+        "semi": ["error", "always"],
+        "comma-dangle": ["error", {
+            "arrays": "always-multiline",
+            "objects": "always-multiline",
+            "imports": "always-multiline",
+            "exports": "always-multiline",
+            "functions": "ignore"
+        }],
+        "eol-last": "error",
+        "prefer-const": "error",
+        "no-param-reassign": ["error", {
+            "props": true
+        }],
+        "no-lonely-if": "error",
+        "no-throw-literal": "error"
     }
 }

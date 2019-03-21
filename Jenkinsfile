@@ -49,6 +49,43 @@ pipeline {
                 sh 'yarn build'
             }
         }
+        stage('Deploy to local test') {
+            steps {
+                script {
+                    lowercaseBranch = env.BRANCH_NAME.toLowerCase()
+                }
+                withCredentials([file(credentialsId: '2d6f0282-6e9d-4885-b209-3a8baf6cb797', variable: 'IDRSA')]) {
+                    sh 'cp "$IDRSA" ~/.ssh/id_rsa'
+                    sh 'chown $(whoami): ~/.ssh/id_rsa'
+                    sh 'chmod 600 ~/.ssh/id_rsa'
+                    sh 'ssh-keyscan bitsaber.net > ~/.ssh/known_hosts'
+                    sh "lftp -e \"rm -r -f ${lowercaseBranch}; mkdir ${lowercaseBranch}; mirror -R dist/ ${lowercaseBranch}/; quit;\" -u jenkins-dev-deploy, sftp://bitsaber.net/branches"
+                }
+            }
+        }
+        stage('Robot Tests') {
+            environment {
+                PATH = "$PATH:/opt/chromedriver/"
+            }
+            steps {
+                sh 'cp -r dist heroku_docker/app'
+                sh 'docker build --tag incy-io-kiosk-frontend .'
+                sh 'docker run -d --name incy-io-kiosk-frontend -p 3000:3000 incy-io-kiosk-frontend'
+                sh 'robot -d robot_reports __tests__/robot'
+                sh 'docker stop incy-io-kiosk-frontend'
+                step([
+                    $class : 'RobotPublisher',
+                    outputPath: "./robot_reports/",
+                    outputFileName : "output.xml",
+                    disableArchiveOutput : false,
+                    reportFileName: "report.html",
+                    logFileName: "log.html",
+                    passThreshold : 100,
+                    unstableThreshold: 95.0,
+                    otherFiles : "*.png"
+                ])
+            }
+        }
         stage('Deploy to staging') {
             when {
                 expression { return env.BRANCH_NAME == 'develop' }
