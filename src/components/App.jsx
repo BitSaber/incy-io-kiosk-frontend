@@ -4,10 +4,12 @@ import ProgressBar from '../containers/ProgressBar';
 import questionService from '../service';
 import ThankYouPage from '../components/ThankYouPage';
 import QuestionPage from '../containers/QuestionPage';
+import LoadingPage from '../components/LoadingPage';
 import {
     SELECT,
     STR,
 } from '../constants/questionTypes';
+import { FINISHED_STATE } from '../constants/loadingStates';
 
 class App extends React.Component {
 
@@ -57,6 +59,14 @@ class App extends React.Component {
         getAllChoices: func.isRequired,
         choices: object.isRequired,
         resetText: func.isRequired,
+        loadingStates: shape({
+            questions: string.isRequired,
+            choices: string.isRequired,
+            context: shape({
+                category: string.isRequired,
+                place: string.isRequired,
+            }).isRequired,
+        }).isRequired,
         progressUpdate: func.isRequired,
     }
 
@@ -234,12 +244,18 @@ class App extends React.Component {
         }, 3000);
     }
 
+    isDoneLoading = () => {
+        const { questions, choices, context } = this.props.loadingStates;
+        return questions === FINISHED_STATE && choices === FINISHED_STATE &&
+        context.category === FINISHED_STATE && context.place === FINISHED_STATE;
+    }
+
     render() {
         const { allQuestions, currentQuestion } = this.props.questions;
         const { currentChoices } = this.props.choices;
 
-        if (!currentQuestion) {
-            return null;
+        if (!this.isDoneLoading() || !currentQuestion) {
+            return <LoadingPage />;
         }
 
         return (
@@ -259,7 +275,6 @@ class App extends React.Component {
                         showFieldRequired={this.showFieldRequired}
                     />)}
             </div>
-
         );
     }
 }
