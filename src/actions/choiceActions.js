@@ -1,5 +1,5 @@
 import service from '../service';
-import { RESET_ALL_CHOICES, GET_CHOICES, SET_CURRENT_CHOICES,
+import { RESET_ALL_CHOICES, SET_CURRENT_CHOICES, SET_ALL_CHOICES,
     SET_SELECTED_CHOICES, SET_CHOICES_LOADING_STATE } from '../constants/actions';
 import { LOADING_STATE, FINISHED_STATE } from '../constants/loadingStates';
 
@@ -14,21 +14,22 @@ export const getAllChoicesAction = (questions, langId) => {
         dispatch({
             type: RESET_ALL_CHOICES,
         });
-        // here we use a for-loop to go through all questions (preferably sorted in some fashion),
-        // and dispatch them one by one to an array with all the possible choices
-        const qLen = questions.length;
-        for (let i = 0; i < qLen; i++) {
-            const choices = await service.getChoices(questions[i].id, langId);
+
+        try {
+            // gets the choices concurrently
+            const choices = await Promise.all(questions.map(question => service.getChoices(question.id, langId)));
             dispatch({
-                type: GET_CHOICES,
+                type: SET_ALL_CHOICES,
                 payload: choices,
             });
+            dispatch({
+                type: SET_CHOICES_LOADING_STATE,
+                payload: FINISHED_STATE,
+            });
+        } catch (e) {
+            // TODO set error state
+            throw new Error('Error in getting choices:', e);
         }
-        // set the lodaing state to be finished
-        dispatch({
-            type: SET_CHOICES_LOADING_STATE,
-            payload: FINISHED_STATE,
-        });
     };
 };
 
