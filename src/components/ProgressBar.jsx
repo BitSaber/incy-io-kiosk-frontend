@@ -18,7 +18,6 @@ class ProgressBar extends React.Component {
     static propTypes = {
         progress: number.isRequired,
         classes: shape({
-            root: string.isRequired,
             bar: string.isRequired,
         }),
     }
