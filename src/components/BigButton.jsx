@@ -8,12 +8,12 @@ const style = {
     buttonStyle: {
         width: '90%',
         backgroundColor: '#0496FF',
-        height: 100,
+        height: 95,
         borderRadius: 30,
 
     },
     textStyle: {
-        fontSize: 35,
+        fontSize: 32,
         color: '#ffffff',
         fontWeight: 'bold',
     },
@@ -35,7 +35,7 @@ const BigButton = ({ onClick, text }) => {
 BigButton.propTypes = {
     onClick: PropTypes.func.isRequired,
     text: PropTypes.string.isRequired,
-    
+
 };
 
 export default BigButton;

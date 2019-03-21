@@ -47,13 +47,13 @@ const style = {
     },
     textStyle: {
         color: '#ffffff',
-        fontSize: 40,
+        fontSize: 36,
         fontWeight: 'bold',
     },
     questionDiv: {
         backgroundColor: '#0496FF',
         display: 'flex',
-        height: '10%',
+        height: '12%',
     },
     error: {
         fontWeight: 'bold',
