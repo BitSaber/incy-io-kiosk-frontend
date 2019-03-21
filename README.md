@@ -58,7 +58,7 @@ yarn start
 
 ## CI/CD
 
-When making pull requests and branches, [Jenkins](https://jenkins.bitsaber.net/job/BitSaber/job/incy-io-kiosk-frontend/) will run an automated CI/CD pipeline, using technologies such as [SonarQube](https://sonar.bitsaber.net/dashboard?id=INCY-IO-KIOSK-FRONTEND), [Robot Framework](https://robotframework.org/) and [Selenium](https://www.seleniumhq.org/), to name a few. This assures a baseline for code quality. Jenkins also won't let you merge anything unless the [CI/CD Pipeline](https://www.edureka.co/blog/ci-cd-pipeline/) succeeds.
+When making pull requests and branches, [Jenkins](https://jenkins.io/) will run an [automated CI/CD pipeline](https://jenkins.io/), using technologies such as [SonarQube](https://sonar.bitsaber.net/dashboard?id=INCY-IO-KIOSK-FRONTEND), [Robot Framework](https://robotframework.org/) and [Selenium](https://www.seleniumhq.org/), to name a few. This assures a baseline for code quality. Jenkins delivers the [CI/CD Pipeline](https://www.edureka.co/blog/ci-cd-pipeline/) results to GitHub, and this will assist preventing merging suboptimal code into protected branches.
 
 ### Jenkins Pipeline
 
