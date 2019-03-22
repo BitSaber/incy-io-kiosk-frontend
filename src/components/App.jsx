@@ -1,5 +1,5 @@
 import React from 'react';
-import { string, object, func, bool, shape, array } from 'prop-types';
+import { string, object, func, bool, shape, array, number } from 'prop-types';
 import ProgressBar from '../containers/ProgressBar';
 import questionService from '../service';
 import ThankYouPage from '../components/ThankYouPage';
@@ -62,8 +62,12 @@ class App extends React.Component {
         setErrorMsg: func.isRequired,
         setCurrentQuestion: func.isRequired,
         context: shape({
-            place: array.isRequired,
-            category: array.isRequired,
+            place: shape({
+                id: number.isRequired,
+            }).isRequired,
+            category: shape({
+                id: number.isRequired,
+            }).isRequired,
         }),
         setCategory: func.isRequired,
         setPlace: func.isRequired,
@@ -216,9 +220,9 @@ class App extends React.Component {
         const time = new Date().toString().substring(0, 21);
         const data = {
             occurred_at: time,
-            place: context.place[0].id,
+            place: context.place.id,
             deadline: null,
-            category: context.category[0].id,
+            category: context.category.id,
             answers: answers,
         };
         // calls the service.js postObservation to API

@@ -6,6 +6,7 @@ import {
     DEFAULT_LINK_NAME,
     DEFAULT_BASE_API_URL,
     DEFAULT_CATEGORY_NAME,
+    DEFAULT_PLACE_NAME,
 } from './constants/defaults';
 
 import {
@@ -13,10 +14,12 @@ import {
     LINK_NAME_COOKIE,
     BASE_URL_COOKIE,
     CATEGORY_URL_COOKIE,
+    PLACE_URL_COOKIE,
     BASE_URL_PARAM,
     ORG_NAME_URLPARAM,
     LINK_NAME_URLPARAM,
     CATEGORY_URL_PARAM,
+    PLACE_URL_PARAM,
 } from './constants/config';
 
 const getValueFromCookieUrlOrDefaultAndCache = (defaultValue, urlParam, cookieName) => {
@@ -48,6 +51,18 @@ const linkName = getValueFromCookieUrlOrDefaultAndCache(
     LINK_NAME_COOKIE
 );
 
+const categoryName = getValueFromCookieUrlOrDefaultAndCache(
+    DEFAULT_CATEGORY_NAME,
+    CATEGORY_URL_PARAM,
+    CATEGORY_URL_COOKIE
+);
+
+const placeName = getValueFromCookieUrlOrDefaultAndCache(
+    DEFAULT_PLACE_NAME,
+    PLACE_URL_PARAM,
+    PLACE_URL_COOKIE
+);
+
 const baseUrl = getValueFromCookieUrlOrDefaultAndCache(
     DEFAULT_BASE_API_URL,
     BASE_URL_PARAM,
@@ -77,20 +92,34 @@ const getLanguages = () => {
 };
 
 // TODO: headers (the language) should be somehow automatically added to each request
-const getCategory = (langId) => {
-    return getUrl(categoryUrl, {
+const getCategory = async (langId) => {
+    const categories = await getUrl(categoryUrl, {
         headers: {
             "Accept-Language": (langId + ';q=1'),
         },
     });
+    const selectedCategory = categoryName;
+    const foundCategory = categories.find(category => category.name === selectedCategory);
+    if (foundCategory) {
+        return foundCategory;
+    } else {
+        return categories[0];
+    }
 };
 
-const getPlace = (langId) => {
-    return getUrl(placeUrl, {
+const getPlace = async (langId) => {
+    const places = await getUrl(placeUrl, {
         headers: {
             "Accept-Language": (langId + ';q=1'),
         },
     });
+    const selectedPlace = placeName;
+    const foundPlace = places.find(place => place.name === selectedPlace);
+    if (foundPlace) {
+        return foundPlace;
+    } else {
+        return places[0];
+    }
 };
 
 const getQuestions = (langId) => {
