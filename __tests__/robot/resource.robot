@@ -13,7 +13,7 @@ ${BROWSER}        Chrome
 ${DELAY}          0
 ${INDEX URL}      http://${SERVER}/
 
-${APP TITLE}    React App
+${APP TITLE}    incy.io Kiosk
 
 ${IPAD W}    768
 ${IPAD H}    1024
