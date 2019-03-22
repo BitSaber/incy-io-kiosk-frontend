@@ -30,26 +30,22 @@ import {
 
 const style = {
     body: {
-        maxHeight: '3000px',
-        backgroundColor: '#0078CC',
-        display: 'block',
-        height: '120vh',
+
     },
     basic: {
-        height: '100%',
+        flex: '1',
         alignItems: 'center',
-        fontFamily: 'Roboto',
-        overflow: 'hidden',
+        padding: '8px',
     },
     textStyle: {
         color: '#ffffff',
-        fontSize: 40,
+        fontSize: 36,
         fontWeight: 'bold',
     },
     questionDiv: {
         backgroundColor: '#0496FF',
         display: 'flex',
-        height: '10%',
+        minHeight: '12%',
     },
     error: {
         fontWeight: 'bold',
@@ -192,55 +188,55 @@ class QuestionPage extends React.Component {
 
     renderError = () => {
         return this.props.error.showError &&
-        <Typography style={style.error} variant='h4' color='error'>
-            <FormattedMessage id={this.props.error.messageId}
-                defaultMessage="This field is required!"
-                description="Requirement text"
-                values={{ what: 'react-intl' }}
-            />
-        </Typography>;
+            <Typography style={style.error} variant='h4' color='error'>
+                <FormattedMessage id={this.props.error.messageId}
+                    defaultMessage="This field is required!"
+                    description="Requirement text"
+                    values={{ what: 'react-intl' }}
+                />
+            </Typography>;
     }
 
     render() {
 
         return (
-            <div style={style.body}>
-                <Grid container style={style.basic}>
-                    <Grid
-                        id="question-test-id"
-                        container
-                        justify="center"
-                        alignItems="center"
-                        style={style.questionDiv}
-                    >
-                        {this.renderQuestion()}
-                    </Grid>
-                    <Grid container
-                        direction="column"
-                        justify="center"
-                        alignItems="stretch"
-                        spacing={24} >
+            <Grid container style={style.basic}>
+                <Grid
+                    id="question-test-id"
+                    container
+                    justify="center"
+                    alignItems="center"
+                    style={style.questionDiv}
+                >
+                    {this.renderQuestion()}
+                </Grid>
+                <Grid container
+                    direction="row"
+                    justify="center"
+                    alignItems="stretch"
+                    spacing={16}
+                >
 
-                        <Grid item xs={12} md={12} xl={12}>
-                            {this.renderError()}
-                        </Grid>
-                        {this.renderQuestionElements(this.props.questionType)}
+                    <Grid item xs={12} md={12} xl={12}>
+                        {this.renderError()}
                     </Grid>
-                    <Grid container
-                        direction="column"
-                        justify="center"
-                        alignItems="center"
-                        spacing={16} >
-                        <Grid item xs={12} md={12} xl={12}>
-                            {this.renderSubmitButton(this.props.questionType)}
-                        </Grid>
-                        <Grid item xs={12} md={12} xl={12}>
-                            {this.renderSkipButton()}
-                            {this.renderLanguageButtons()}
-                        </Grid>
+                    {this.renderQuestionElements(this.props.questionType)}
+                </Grid>
+                <Grid container
+                    direction="column"
+                    justify="center"
+                    alignItems="center"
+                    spacing={16}
+                >
+                    <Grid item xs={12} md={12} xl={12}>
+                        {this.renderSubmitButton(this.props.questionType)}
+                    </Grid>
+                    <Grid item xs={12} md={12} xl={12}>
+                        {this.renderSkipButton()}
+                        {this.renderLanguageButtons()}
                     </Grid>
                 </Grid>
-            </div>
+            </Grid>
         );
     }
 }

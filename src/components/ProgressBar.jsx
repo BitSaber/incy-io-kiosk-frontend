@@ -4,9 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 const styles = {
-    root: {
-        flexGrow: 1,
-    },
     bar: {
         height: 18,
         background: '#0078CC',
@@ -21,7 +18,6 @@ class ProgressBar extends React.Component {
     static propTypes = {
         progress: number.isRequired,
         classes: shape({
-            root: string.isRequired,
             bar: string.isRequired,
         }),
     }

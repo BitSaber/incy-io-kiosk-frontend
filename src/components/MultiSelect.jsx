@@ -7,12 +7,15 @@ import { Typography } from '@material-ui/core';
 const buttonStyle = (isSelected) => ({
     width: '90%',
     backgroundColor: isSelected ? '#4cb4ff' : '#0496FF',
-    height: 100,
+    minHeight: 100,
+    height: '100%',
     borderRadius: 30,
     margin: 'auto',
+    overflowWrap: 'break-word',
 });
 
 const textStyle = {
+
     fontSize: 35,
     color: '#ffffff',
     fontWeight: 'bold',
@@ -28,7 +31,7 @@ class MultiSelect extends React.Component {
         if (selectedChoiceIds.includes(choice.id)) {
             newSelectedChoices = selectedChoices.filter(c => c.id !== choice.id);
         } else {
-            newSelectedChoices = [ ...selectedChoices, choice ];
+            newSelectedChoices = [...selectedChoices, choice];
         }
 
         setSelectedChoices(newSelectedChoices);
@@ -40,7 +43,7 @@ class MultiSelect extends React.Component {
         return this.props.currentChoices.map(choice => {
             const isSelected = selectedChoiceIds.includes(choice.id);
             return (
-                <Grid item xs={12} md={12} xl={12} key={choice.id}>
+                <Grid item xs={12} sm={6} xl={3} key={choice.id}>
                     <Button
                         variant={isSelected ? 'contained' : 'text'}
                         style={buttonStyle(isSelected)}

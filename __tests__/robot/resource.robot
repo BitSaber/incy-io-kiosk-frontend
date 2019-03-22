@@ -39,4 +39,4 @@ Application root should be rendered
     Page Should Contain Element    xpath: //div[@id='app']/div
 
 We display our initial question
-    Page Should Contain Element    xpath: //div[@id='app']/div/div[2]/div/div[@id='question-test-id']
+    Page Should Contain Element    xpath: //div[@id='app']/div/div[2]/div[@id='question-test-id']

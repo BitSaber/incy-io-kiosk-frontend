@@ -11,6 +11,7 @@ const style = {
         justifyContent: 'center',
         width: 300,
         height: 70,
+        margin: 8,
         borderRadius: 30,
 
     },

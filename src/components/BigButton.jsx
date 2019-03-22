@@ -8,21 +8,24 @@ const style = {
     buttonStyle: {
         width: '90%',
         backgroundColor: '#0496FF',
-        height: 100,
+        minHeight: 100,
+        height: '100%',
         borderRadius: 30,
 
     },
     textStyle: {
-        fontSize: 35,
+        fontSize: 32,
         color: '#ffffff',
         fontWeight: 'bold',
     },
 
 };
 
+
+
 const BigButton = ({ onClick, text }) => {
     return (
-        <Grid item xs={12} md={12} xl={12} >
+        <Grid item xs={12} sm={6} xl={3} >
             <Button style={style.buttonStyle} variant="contained" onClick={onClick}>
                 <Typography style={style.textStyle}>{text}</Typography>
             </Button>
@@ -33,6 +36,7 @@ const BigButton = ({ onClick, text }) => {
 BigButton.propTypes = {
     onClick: PropTypes.func.isRequired,
     text: PropTypes.string.isRequired,
+
 };
 
 export default BigButton;
