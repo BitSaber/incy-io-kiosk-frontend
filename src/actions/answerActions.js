@@ -1,12 +1,16 @@
-import { ADD_ANSWER, RESET_ANSWERS } from "../constants/actions";
+import { ADD_ANSWER, RESET_ANSWERS, SKIP_ANSWER } from "../constants/actions";
 
-// XXX: Why are these not dispatched?
 export const addAnswerAction = answer => ({
     type: ADD_ANSWER,
     payload: {
         questionId: answer.questionId,
         answer: answer.answer,
     },
+});
+
+export const skipAnswerAction = answerId => ({
+    type: SKIP_ANSWER,
+    payload: answerId,
 });
 
 export const resetAnswersAction = () => ({

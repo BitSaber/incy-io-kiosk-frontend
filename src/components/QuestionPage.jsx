@@ -74,6 +74,7 @@ class QuestionPage extends React.Component {
         currentIsRequired: bool.isRequired,
         text: string.isRequired,
         addAnswer: func.isRequired,
+        skipAnswer: func.isRequired,
         showFieldRequired: func.isRequired,
         selectedChoices: array.isRequired,
         setSelectedChoices: func.isRequired,
@@ -178,10 +179,15 @@ class QuestionPage extends React.Component {
         return <Typography style={style.textStyle}> {this.props.question.name}</Typography>;
     }
 
+    skipHandler = async () => {
+        await this.props.skipAnswer(this.props.question.id);
+        this.props.moveToNextQuestion();
+    }
+
     renderSkipButton = () => {
         return !this.props.currentIsRequired &&
             <SkipButton
-                onClick={() => this.props.moveToNextQuestion()}
+                onClick={this.skipHandler}
                 text={"Skip"}
             />;
     }

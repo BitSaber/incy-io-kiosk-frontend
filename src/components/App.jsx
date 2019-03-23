@@ -166,9 +166,11 @@ class App extends React.Component {
             resetText();
         }
 
-        const answeredQuestionIds = Object.keys(answers).map(answer => Number(answer));
+        // IDs of both answered and skipped questions
+        const answeredQuestionIds = Object.keys(answers.answers)
+            .map(answer => Number(answer)).concat(answers.skippedQuestionIds);
 
-        const answeredChoiceIds = Object.values(answers).map(object => {
+        const answeredChoiceIds = Object.values(answers.answers).map(object => {
             if (Array.isArray(object)) {
                 return object.map(x => x.id);
             }
@@ -179,6 +181,7 @@ class App extends React.Component {
 
         const unansweredQuestions = allQuestions.filter(question => !answeredQuestionIds.includes(question.id));
 
+        // iterates all unanswered questions and returns the next question to show
         const nextQuestion = unansweredQuestions.reduce((prevResult, question) => {
             if (prevResult) {
                 return prevResult;
@@ -223,7 +226,7 @@ class App extends React.Component {
             place: context.place.id,
             deadline: null,
             category: context.category.id,
-            answers: answers,
+            answers: answers.answers,
         };
         // calls the service.js postObservation to API
         questionService.postObservation(data);
