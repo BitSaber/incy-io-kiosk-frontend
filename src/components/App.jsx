@@ -219,27 +219,19 @@ class App extends React.Component {
     }
 
     render() {
-        const { allQuestions, currentQuestion } = this.props.questions;
+        const { currentQuestion } = this.props.questions;
         const { questionChoices } = this.props.choices;
 
         if (!this.isDoneLoading() || !currentQuestion || !questionChoices) {
             return <LoadingPage />;
         }
 
-        const currentChoices = questionChoices.find(choice => choice.questionId === currentQuestion.id);
-
         return (
             <div style={style.body}>
                 <ProgressBar />
                 {this.props.flags.isAllQuestionsAnswered ? (<ThankYouPage />) :
                     (<QuestionPage
-                        question={currentQuestion}
-                        questionChoices={currentChoices.questionChoices}
-                        questionType={currentQuestion.type}
                         onSubmitFreeText={this.submitTextAnswer}
-                        questionPos={allQuestions.findIndex(question => question.id === currentQuestion.id)}
-                        error={this.props.flags.error}
-                        currentIsRequired={currentQuestion.required}
                         moveToNextQuestion={this.moveToNextQuestion}
                         showFieldRequired={this.showFieldRequired}
                     />)}

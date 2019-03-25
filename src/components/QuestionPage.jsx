@@ -6,7 +6,6 @@ import {
     string,
     func,
     bool,
-    number,
     shape,
 } from 'prop-types';
 import Grid from '@material-ui/core/Grid';
@@ -60,23 +59,21 @@ class QuestionPage extends React.Component {
     }
 
     static propTypes = {
-        question: object.isRequired,
+        currentQuestion: object.isRequired,
         questionChoices: arrayOf(object).isRequired,
-        questionType: string.isRequired,
         onSubmitFreeText: func.isRequired,
-        questionPos: number.isRequired,
         error: shape({
             showError: bool.isRequired,
             messageId: string.isRequired,
         }).isRequired,
         moveToNextQuestion: func.isRequired,
-        currentIsRequired: bool.isRequired,
         text: string.isRequired,
         addAnswer: func.isRequired,
         skipAnswer: func.isRequired,
         showFieldRequired: func.isRequired,
         selectedChoices: array.isRequired,
         setSelectedChoices: func.isRequired,
+        allQuestions: array.isRequired,
     }
     /**
      * @description rendering the button on the screen
@@ -85,7 +82,7 @@ class QuestionPage extends React.Component {
     submitMultiButton = () => {
         const clickHandler = async () => {
             const {
-                question,
+                currentQuestion,
                 selectedChoices,
                 addAnswer,
                 moveToNextQuestion,
@@ -93,11 +90,11 @@ class QuestionPage extends React.Component {
                 setSelectedChoices,
             } = this.props;
 
-            if (question.required && selectedChoices.length === 0) {
+            if (currentQuestion.required && selectedChoices.length === 0) {
                 showFieldRequired();
             } else {
                 await addAnswer({
-                    questionId: question.id,
+                    questionId: currentQuestion.id,
                     answer: selectedChoices,
                 });
                 setSelectedChoices([]);
@@ -111,10 +108,12 @@ class QuestionPage extends React.Component {
      * @description renders different question elements depending on question type
      */
     renderQuestionElements = (questionType) => {
+        const { questionChoices, currentQuestion } = this.props;
+        const currentChoices = questionChoices.find(choice => choice.questionId === currentQuestion.id).questionChoices;
         if (questionType === SELECT) {
-            return <Select moveToNextQuestion={this.props.moveToNextQuestion} currentChoices={this.props.questionChoices} />;
+            return <Select moveToNextQuestion={this.props.moveToNextQuestion} currentChoices={currentChoices} />;
         } else if (questionType === MULTI_SELECT) {
-            return <MultiSelect currentChoices={this.props.questionChoices} />;
+            return <MultiSelect currentChoices={currentChoices} />;
         } else if (questionType === STR) {
             return <FreeText />;
         } else if (questionType === QUESTION_TYPE_UNINITIALIZED) {
@@ -128,12 +127,12 @@ class QuestionPage extends React.Component {
      * @description a text button for submitting free text from @function renderTextField
      */
     submitTextButton = () => {
-        return ( // XXX: does not render for some reason
+        return (
             <div className="center-align txt">
                 <Grid container direction="row" justify="center">
                     <SubmitButton
                         onClick={() => {
-                            this.props.onSubmitFreeText(this.props.text); //onClick should dispatch an action
+                            this.props.onSubmitFreeText(this.props.text);
                         }}
                         text="Submit"
                     />
@@ -167,7 +166,9 @@ class QuestionPage extends React.Component {
     }
 
     renderLanguageButtons = () => {
-        if (this.props.questionPos === 0) {
+        const { currentQuestion, allQuestions } = this.props;
+        const questionPosition = allQuestions.findIndex(question => question.id === currentQuestion.id);
+        if (questionPosition === 0) {
             return <Language />;
         } else {
             return;
@@ -175,16 +176,16 @@ class QuestionPage extends React.Component {
     }
 
     renderQuestion = () => {
-        return <Typography style={style.textStyle}> {this.props.question.name}</Typography>;
+        return <Typography style={style.textStyle}> {this.props.currentQuestion.name}</Typography>;
     }
 
     skipHandler = async () => {
-        await this.props.skipAnswer(this.props.question.id);
+        await this.props.skipAnswer(this.props.currentQuestion.id);
         this.props.moveToNextQuestion();
     }
 
     renderSkipButton = () => {
-        return !this.props.currentIsRequired &&
+        return !this.props.currentQuestion.required &&
             <SkipButton
                 onClick={this.skipHandler}
                 text={"Skip"}
@@ -225,7 +226,7 @@ class QuestionPage extends React.Component {
                     <Grid item xs={12} md={12} xl={12}>
                         {this.renderError()}
                     </Grid>
-                    {this.renderQuestionElements(this.props.questionType)}
+                    {this.renderQuestionElements(this.props.currentQuestion.type)}
                 </Grid>
                 <Grid container
                     direction="column"
@@ -234,7 +235,7 @@ class QuestionPage extends React.Component {
                     spacing={16}
                 >
                     <Grid item xs={12} md={12} xl={12}>
-                        {this.renderSubmitButton(this.props.questionType)}
+                        {this.renderSubmitButton(this.props.currentQuestion.type)}
                     </Grid>
                     <Grid item xs={12} md={12} xl={12}>
                         {this.renderSkipButton()}
