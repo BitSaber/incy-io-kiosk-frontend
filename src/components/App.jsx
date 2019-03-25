@@ -1,5 +1,5 @@
 import React from 'react';
-import { string, object, func, bool, shape, array } from 'prop-types';
+import { string, object, func, bool, shape, array, number } from 'prop-types';
 import ProgressBar from '../containers/ProgressBar';
 import questionService from '../service';
 import ThankYouPage from '../components/ThankYouPage';
@@ -62,12 +62,15 @@ class App extends React.Component {
         setErrorMsg: func.isRequired,
         setCurrentQuestion: func.isRequired,
         context: shape({
-            place: array.isRequired,
-            category: array.isRequired,
+            place: shape({
+                id: number.isRequired,
+            }).isRequired,
+            category: shape({
+                id: number.isRequired,
+            }).isRequired,
         }),
         setCategory: func.isRequired,
         setPlace: func.isRequired,
-        setCurrentChoices: func.isRequired,
         getAllChoices: func.isRequired,
         choices: object.isRequired,
         resetText: func.isRequired,
@@ -83,15 +86,12 @@ class App extends React.Component {
     }
 
     setFirstQuestion = async () => {
-        const { setCurrentQuestion, setCurrentChoices } = this.props;
+        const { setCurrentQuestion } = this.props;
         const { allQuestions } = this.props.questions;
 
         if (allQuestions.length > 0) {
             const currentQuestion = allQuestions[0];
             setCurrentQuestion(currentQuestion);
-            if (currentQuestion.type !== STR) {
-                setCurrentChoices(currentQuestion.position);
-            }
         }
     }
 
@@ -156,38 +156,21 @@ class App extends React.Component {
         const {
             questions,
             setCurrentQuestion,
-            setCurrentChoices,
             resetText,
             progressUpdate,
-        } = this.props;
-        const { allQuestions, currentQuestion } = questions;
-        if (currentQuestion.type === STR)
-            resetText();
-
-        const nextPos = this.findNextQuestionPosition();
-
-        if (nextPos !== null) {
-            const nextQuestion = allQuestions.find(question => question.position === nextPos);
-            const nextProgressValue = Math.min((nextPos * 100) / questions.allQuestions.length, 95);
-            setCurrentChoices(nextQuestion.position);
-            setCurrentQuestion(nextQuestion);
-            progressUpdate(nextProgressValue);
-        } else {
-            this.submitObservation();
-        }
-    }
-
-    /**
-     * @description finds the position of the next question and returns it. If no more questions to display, returns null
-     */
-    findNextQuestionPosition = () => {
-        const {
-            questions,
             answers,
         } = this.props;
         const { allQuestions, currentQuestion } = questions;
 
-        const answeredChoiceIds = Object.values(answers).map(object => {
+        if (currentQuestion.type === STR) {
+            resetText();
+        }
+
+        // IDs of both answered and skipped questions
+        const answeredQuestionIds = Object.keys(answers.answers)
+            .map(answer => Number(answer)).concat(answers.skippedQuestionIds);
+
+        const answeredChoiceIds = Object.values(answers.answers).map(object => {
             if (Array.isArray(object)) {
                 return object.map(x => x.id);
             }
@@ -196,25 +179,28 @@ class App extends React.Component {
             }
         }).flat();
 
-        let nextQuestionPosition = currentQuestion.position + 1;
+        const unansweredQuestions = allQuestions.filter(question => !answeredQuestionIds.includes(question.id));
 
-        while (nextQuestionPosition <= allQuestions.length) {
-            const nextQuestion = allQuestions.find(question => question.position === nextQuestionPosition);
-            if (nextQuestion) {
-                if (nextQuestion.depends_on_choice_id === null) {
-                    // next question is not dependent on a previous selected choice => the question is shown
-                    return nextQuestionPosition;
-                } else if (answeredChoiceIds.includes(nextQuestion.depends_on_choice_id)) {
-                    // next question is dependent on a previously selected choice => the question is shown
-                    return nextQuestionPosition;
-                }
+        // iterates all unanswered questions and returns the next question to show
+        const nextQuestion = unansweredQuestions.reduce((prevResult, question) => {
+            if (prevResult) {
+                return prevResult;
             }
-            nextQuestionPosition += 1;
+            if (question.depends_on_choice_id === null) {
+                return question;
+            }
+            if (answeredChoiceIds.includes(question.depends_on_choice_id)) {
+                return question;
+            }
+        }, null);
+
+        if (nextQuestion) {
+            setCurrentQuestion(nextQuestion);
+            progressUpdate(answeredQuestionIds.length / allQuestions.length * 100);
+        } else {
+            this.submitObservation();
         }
-
-        return null; // Returns null if while loop doesn't return a question postion - this means that no more questions to display
     }
-
 
     /**
      * @description calls `singleAnswerClick` for single select type questions,
@@ -237,10 +223,10 @@ class App extends React.Component {
         const time = new Date().toString().substring(0, 21);
         const data = {
             occurred_at: time,
-            place: context.place[0].id,
+            place: context.place.id,
             deadline: null,
-            category: context.category[0].id,
-            answers: answers,
+            category: context.category.id,
+            answers: answers.answers,
         };
         // calls the service.js postObservation to API
         questionService.postObservation(data);
@@ -264,11 +250,13 @@ class App extends React.Component {
 
     render() {
         const { allQuestions, currentQuestion } = this.props.questions;
-        const { currentChoices } = this.props.choices;
+        const { questionChoices } = this.props.choices;
 
-        if (!this.isDoneLoading() || !currentQuestion) {
+        if (!this.isDoneLoading() || !currentQuestion || !questionChoices) {
             return <LoadingPage />;
         }
+
+        const currentChoices = questionChoices.find(choice => choice.questionId === currentQuestion.id);
 
         return (
             <div style={style.body}>
@@ -276,7 +264,7 @@ class App extends React.Component {
                 {this.props.flags.isAllQuestionsAnswered ? (<ThankYouPage />) :
                     (<QuestionPage
                         question={currentQuestion}
-                        questionChoices={currentChoices}
+                        questionChoices={currentChoices.questionChoices}
                         onChoiceClick={this.handleChoiceClick}
                         questionType={currentQuestion.type}
                         onSubmitFreeText={this.submitTextAnswer}

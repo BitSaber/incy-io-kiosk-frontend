@@ -35,9 +35,9 @@ describe("questionActions", () => {
         const mockDispatch = jest.fn();
         const mockGetState = () => ({
             context: {
-                category: [{
+                category: {
                     question_ids: [ 1, 2, 3 ],
-                }],
+                },
             },
         });
         await action(mockDispatch, mockGetState);

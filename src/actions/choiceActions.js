@@ -1,6 +1,5 @@
 import service from '../service';
-import { RESET_ALL_CHOICES, SET_CURRENT_CHOICES, SET_ALL_CHOICES,
-    SET_SELECTED_CHOICES, SET_CHOICES_LOADING_STATE } from '../constants/actions';
+import { RESET_ALL_CHOICES, SET_CHOICES, SET_SELECTED_CHOICES, SET_CHOICES_LOADING_STATE } from '../constants/actions';
 import { LOADING_STATE, FINISHED_STATE } from '../constants/loadingStates';
 
 export const getAllChoicesAction = (questions, langId) => {
@@ -17,9 +16,15 @@ export const getAllChoicesAction = (questions, langId) => {
 
         try {
             // gets the choices concurrently
-            const choices = await Promise.all(questions.map(question => service.getChoices(question.id, langId)));
+            const choices = await Promise.all(questions.map(async question => {
+                const questionChoices = await service.getChoices(question.id, langId);
+                return {
+                    questionId: question.id,
+                    questionChoices,
+                };
+            }));
             dispatch({
-                type: SET_ALL_CHOICES,
+                type: SET_CHOICES,
                 payload: choices,
             });
             dispatch({
@@ -32,11 +37,6 @@ export const getAllChoicesAction = (questions, langId) => {
         }
     };
 };
-
-export const setCurrentChoicesAction = (questionPosition) => ({
-    type: SET_CURRENT_CHOICES,
-    payload: questionPosition,
-});
 
 export const setSelectedChoicesAction = (choices) => ({
     type: SET_SELECTED_CHOICES,

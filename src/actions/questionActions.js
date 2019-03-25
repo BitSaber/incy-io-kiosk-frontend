@@ -11,7 +11,7 @@ export const setQuestionsAction = (langId) => {
             payload: LOADING_STATE,
         });
         const { context } = getState();
-        const categoryQuestionIDs = context.category[0].question_ids;
+        const categoryQuestionIDs = context.category.question_ids;
         // get all questions
         const questions = await service.getQuestions(langId);
 
