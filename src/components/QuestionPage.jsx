@@ -74,6 +74,7 @@ class QuestionPage extends React.Component {
         currentIsRequired: bool.isRequired,
         text: string.isRequired,
         addAnswer: func.isRequired,
+        skipAnswer: func.isRequired,
         showFieldRequired: func.isRequired,
         selectedChoices: array.isRequired,
         setSelectedChoices: func.isRequired,
@@ -83,7 +84,7 @@ class QuestionPage extends React.Component {
      * @returns button with text and submit function
      */
     submitMultiButton = () => {
-        const clickHandler = () => {
+        const clickHandler = async () => {
             const {
                 question,
                 selectedChoices,
@@ -96,7 +97,7 @@ class QuestionPage extends React.Component {
             if (question.required && selectedChoices.length === 0) {
                 showFieldRequired();
             } else {
-                addAnswer({
+                await addAnswer({
                     questionId: question.id,
                     answer: selectedChoices,
                 });
@@ -112,9 +113,9 @@ class QuestionPage extends React.Component {
      */
     renderQuestionElements = (questionType) => {
         if (questionType === SELECT) {
-            return <Select moveToNextQuestion={this.props.moveToNextQuestion} />;
+            return <Select moveToNextQuestion={this.props.moveToNextQuestion} currentChoices={this.props.questionChoices} />;
         } else if (questionType === MULTI_SELECT) {
-            return <MultiSelect />;
+            return <MultiSelect currentChoices={this.props.questionChoices} />;
         } else if (questionType === STR) {
             return <FreeText />;
         } else if (questionType === QUESTION_TYPE_UNINITIALIZED) {
@@ -178,10 +179,15 @@ class QuestionPage extends React.Component {
         return <Typography style={style.textStyle}> {this.props.question.name}</Typography>;
     }
 
+    skipHandler = async () => {
+        await this.props.skipAnswer(this.props.question.id);
+        this.props.moveToNextQuestion();
+    }
+
     renderSkipButton = () => {
         return !this.props.currentIsRequired &&
             <SkipButton
-                onClick={() => this.props.moveToNextQuestion()}
+                onClick={this.skipHandler}
                 text={"Skip"}
             />;
     }

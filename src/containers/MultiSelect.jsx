@@ -3,7 +3,6 @@ import MultiSelect from '../components/MultiSelect';
 import { setSelectedChoicesAction } from '../actions/choiceActions';
 
 const mapStateToProps = state => ({
-    currentChoices: state.choices.currentChoices,
     selectedChoices: state.choices.selectedChoices,
 });
 
