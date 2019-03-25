@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import QuestionPage from '../components/QuestionPage';
 import { addAnswerAction, skipAnswerAction } from '../actions/answerActions';
 import { setSelectedChoicesAction } from '../actions/choiceActions';
+import { resetTextAction } from '../actions/UiActions';
 
 
 const mapStateToProps = (state, ownProps) => ({
@@ -11,13 +12,14 @@ const mapStateToProps = (state, ownProps) => ({
     questionChoices: state.choices.questionChoices,
     selectedChoices: state.choices.selectedChoices,
     currentQuestion: state.questions.currentQuestion,
-    allQuestions: state.questions.allQuestions,
+    questions: state.questions,
 });
 
 const mapDispatchToProps = {
     addAnswer: addAnswerAction,
     skipAnswer: skipAnswerAction,
     setSelectedChoices: setSelectedChoicesAction,
+    resetText: resetTextAction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuestionPage);

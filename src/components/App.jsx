@@ -107,26 +107,6 @@ class App extends React.Component {
             }, 3000);
         }
     }
-    /**
-     * @description submits the text answer to the answers in the initial state
-     */
-    submitTextAnswer = async (text) => {
-        const { addAnswer, questions, resetText } = this.props;
-        const { currentQuestion } = questions;
-
-        // checks if the text question is required and shows the required field in that case
-        if (('' + text).trim() === '' && currentQuestion.required) {
-            this.showFieldRequired();
-        } else {
-            // otherwise changes the state and saves the text
-            await addAnswer({
-                questionId: currentQuestion.id,
-                answer: text,
-            });
-            resetText();
-            this.moveToNextQuestion();
-        }
-    }
 
     /**
      * @description Moves the questionnaire to the next question, or submits

@@ -61,7 +61,6 @@ class QuestionPage extends React.Component {
     static propTypes = {
         currentQuestion: object.isRequired,
         questionChoices: arrayOf(object).isRequired,
-        onSubmitFreeText: func.isRequired,
         error: shape({
             showError: bool.isRequired,
             messageId: string.isRequired,
@@ -73,7 +72,11 @@ class QuestionPage extends React.Component {
         showFieldRequired: func.isRequired,
         selectedChoices: array.isRequired,
         setSelectedChoices: func.isRequired,
-        allQuestions: array.isRequired,
+        resetText: func.isRequired,
+        questions: shape({
+            allQuestions: array.isRequired,
+            currentQuestion: object,
+        }).isRequired,
     }
     /**
      * @description rendering the button on the screen
@@ -124,6 +127,27 @@ class QuestionPage extends React.Component {
     }
 
     /**
+     * @description submits the text answer to the answers in the initial state
+     */
+    submitTextAnswer = async (text) => {
+        const { addAnswer, questions, resetText } = this.props;
+        const { currentQuestion } = questions;
+
+        // checks if the text question is required and shows the required field in that case
+        if (('' + text).trim() === '' && currentQuestion.required) {
+            this.showFieldRequired();
+        } else {
+            // otherwise changes the state and saves the text
+            await addAnswer({
+                questionId: currentQuestion.id,
+                answer: text,
+            });
+            resetText();
+            this.props.moveToNextQuestion();
+        }
+    }
+
+    /**
      * @description a text button for submitting free text from @function renderTextField
      */
     submitTextButton = () => {
@@ -132,7 +156,7 @@ class QuestionPage extends React.Component {
                 <Grid container direction="row" justify="center">
                     <SubmitButton
                         onClick={() => {
-                            this.props.onSubmitFreeText(this.props.text);
+                            this.submitTextAnswer(this.props.text);
                         }}
                         text="Submit"
                     />
@@ -166,7 +190,7 @@ class QuestionPage extends React.Component {
     }
 
     renderLanguageButtons = () => {
-        const { currentQuestion, allQuestions } = this.props;
+        const { currentQuestion, questions: { allQuestions } } = this.props;
         const questionPosition = allQuestions.findIndex(question => question.id === currentQuestion.id);
         if (questionPosition === 0) {
             return <Language />;
