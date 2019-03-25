@@ -62,7 +62,6 @@ class QuestionPage extends React.Component {
     static propTypes = {
         question: object.isRequired,
         questionChoices: arrayOf(object).isRequired,
-        onChoiceClick: func.isRequired,
         questionType: string.isRequired,
         onSubmitFreeText: func.isRequired,
         questionPos: number.isRequired,

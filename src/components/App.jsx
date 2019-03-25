@@ -6,7 +6,6 @@ import ThankYouPage from '../components/ThankYouPage';
 import QuestionPage from '../containers/QuestionPage';
 import LoadingPage from '../components/LoadingPage';
 import {
-    SELECT,
     STR,
 } from '../constants/questionTypes';
 import { FINISHED_STATE } from '../constants/loadingStates';
@@ -129,25 +128,6 @@ class App extends React.Component {
         }
     }
 
-
-    /**
-     * @description simply adds the chosen choice to the
-     * answers array and moves to the next question
-     */
-    singleAnswerClick = async (choice) => {
-        const { addAnswer, questions } = this.props;
-        const { currentQuestion } = questions;
-
-        await addAnswer({
-            questionId: currentQuestion.id,
-            answer: {
-                id: choice.id,
-            },
-        });
-
-        this.moveToNextQuestion();
-    }
-
     /**
      * @description Moves the questionnaire to the next question, or submits
      * the answers if no more questions to be answered.
@@ -199,16 +179,6 @@ class App extends React.Component {
             progressUpdate(answeredQuestionIds.length / allQuestions.length * 100);
         } else {
             this.submitObservation();
-        }
-    }
-
-    /**
-     * @description calls `singleAnswerClick` for single select type questions,
-     * else does nothing
-     */
-    handleChoiceClick = (choice) => {
-        if (this.props.questions.currentQuestion.type === SELECT) {
-            this.singleAnswerClick(choice);
         }
     }
 
@@ -265,7 +235,6 @@ class App extends React.Component {
                     (<QuestionPage
                         question={currentQuestion}
                         questionChoices={currentChoices.questionChoices}
-                        onChoiceClick={this.handleChoiceClick}
                         questionType={currentQuestion.type}
                         onSubmitFreeText={this.submitTextAnswer}
                         questionPos={allQuestions.findIndex(question => question.id === currentQuestion.id)}
