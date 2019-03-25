@@ -248,6 +248,19 @@ class App extends React.Component {
             context.category === FINISHED_STATE && context.place === FINISHED_STATE;
     }
 
+    goToPreviousQuestion = () => {
+        // TODO: delete from answers and skipped questions when going back
+        const { answers, questions } = this.props;
+        const shownQuestionIds = Object.keys(answers.answers).concat(answers.skippedQuestionIds).map(id => Number(id));
+        const shownQuestions = questions.allQuestions.filter(question => shownQuestionIds.includes(question.id));//shownQuestionIds.map(id => questions.allQuestions);
+        const minPosition = Math.max(...shownQuestions.map(question => question.position));
+        const previousQuestion = shownQuestions.find(q => q.position === minPosition);
+
+        console.log(previousQuestion);
+        this.props.setCurrentQuestion(previousQuestion);
+
+    }
+
     render() {
         const { allQuestions, currentQuestion } = this.props.questions;
         const { questionChoices } = this.props.choices;
@@ -273,6 +286,7 @@ class App extends React.Component {
                         currentIsRequired={currentQuestion.required}
                         moveToNextQuestion={this.moveToNextQuestion}
                         showFieldRequired={this.showFieldRequired}
+                        goToPreviousQuestion={this.goToPreviousQuestion}
                     />)}
             </div>
         );
