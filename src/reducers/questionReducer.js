@@ -1,8 +1,9 @@
-import { SET_QUESTIONS, SET_CURRENT_QUESTION } from "../constants/actions";
+import { SET_QUESTIONS, SET_CURRENT_QUESTION, ADD_SHOWN_QUESTION, REMOVE_SHOWN_QUESTION } from "../constants/actions";
 
 const initialState = {
     allQuestions: [],
     currentQuestion: null,
+    shownQuestions: [],
 };
 
 const reducer = (state=initialState, action) => {
@@ -19,6 +20,19 @@ const reducer = (state=initialState, action) => {
             currentQuestion: action.payload,
         };
     }
+
+    if (action.type === ADD_SHOWN_QUESTION) {
+        return {
+            ...state,
+            shownQuestions: [...state.shownQuestions, action.payload],
+        };
+    }
+
+    if (action.type === REMOVE_SHOWN_QUESTION)
+        return {
+            ...state,
+            shownQuestions: state.shownQuestions.filter(questionId => questionId !== action.payload),
+    };
 
     return state;
 };

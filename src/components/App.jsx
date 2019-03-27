@@ -61,6 +61,9 @@ class App extends React.Component {
         setShowError: func.isRequired,
         setErrorMsg: func.isRequired,
         setCurrentQuestion: func.isRequired,
+        shownQuestions: array.isRequired,
+        addShownQuestion: func.isRequired,
+        removeShownQuestion: func.isRequired,
         context: shape({
             place: shape({
                 id: number.isRequired,
@@ -159,8 +162,12 @@ class App extends React.Component {
             resetText,
             progressUpdate,
             answers,
+            addShownQuestion,
         } = this.props;
         const { allQuestions, currentQuestion } = questions;
+
+        // Adds the question to shown questions array
+        addShownQuestion(currentQuestion);
 
         if (currentQuestion.type === STR) {
             resetText();
@@ -249,16 +256,13 @@ class App extends React.Component {
     }
 
     goToPreviousQuestion = () => {
-        // TODO: delete from answers and skipped questions when going back
-        const { answers, questions } = this.props;
-        const shownQuestionIds = Object.keys(answers.answers).concat(answers.skippedQuestionIds).map(id => Number(id));
-        const shownQuestions = questions.allQuestions.filter(question => shownQuestionIds.includes(question.id));//shownQuestionIds.map(id => questions.allQuestions);
-        const minPosition = Math.max(...shownQuestions.map(question => question.position));
-        const previousQuestion = shownQuestions.find(q => q.position === minPosition);
+        const { questions, removeShownQuestion, setCurrentQuestion } = this.props
+        const { shownQuestions, allQuestions } = questions
 
-        console.log(previousQuestion);
-        this.props.setCurrentQuestion(previousQuestion);
-
+        const previousQuestionId = shownQuestions[shownQuestions.length - 1]
+        const previousQuestion = allQuestions.find(question => question.id === previousQuestionId)
+        setCurrentQuestion(previousQuestion);
+        removeShownQuestion(previousQuestion);
     }
 
     render() {
