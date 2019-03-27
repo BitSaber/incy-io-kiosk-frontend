@@ -14,7 +14,6 @@ import {
 } from '@material-ui/core';
 import FreeText from '../containers/FreeText';
 import SkipButton from '../components/SkipButton';
-import SubmitButton from '../components/SubmitButton';
 import Language from '../containers/Language';
 import MultiSelect from '../containers/MultiSelect';
 import Select from '../containers/Select';
@@ -78,34 +77,6 @@ class QuestionPage extends React.Component {
             currentQuestion: object,
         }).isRequired,
     }
-    /**
-     * @description rendering the button on the screen
-     * @returns button with text and submit function
-     */
-    submitMultiButton = () => {
-        const clickHandler = async () => {
-            const {
-                currentQuestion,
-                selectedChoices,
-                addAnswer,
-                moveToNextQuestion,
-                showFieldRequired,
-                setSelectedChoices,
-            } = this.props;
-
-            if (currentQuestion.required && selectedChoices.length === 0) {
-                showFieldRequired();
-            } else {
-                await addAnswer({
-                    questionId: currentQuestion.id,
-                    answer: selectedChoices,
-                });
-                setSelectedChoices([]);
-                moveToNextQuestion();
-            }
-        };
-        return <SubmitButton onClick={clickHandler} />;
-    }
 
     /**
      * @description renders different question elements depending on question type
@@ -116,74 +87,11 @@ class QuestionPage extends React.Component {
         if (questionType === SELECT) {
             return <Select moveToNextQuestion={this.props.moveToNextQuestion} currentChoices={currentChoices} />;
         } else if (questionType === MULTI_SELECT) {
-            return <MultiSelect currentChoices={currentChoices} />;
+            return <MultiSelect currentChoices={currentChoices} moveToNextQuestion={this.props.moveToNextQuestion} showFieldRequired={this.props.showFieldRequired} />;
         } else if (questionType === STR) {
-            return <FreeText />;
+            return <FreeText moveToNextQuestion={this.props.moveToNextQuestion} />;
         } else if (questionType === QUESTION_TYPE_UNINITIALIZED) {
             return null;
-        } else {
-            throw new Error(`Invalid Question type '${questionType}'`);
-        }
-    }
-
-    /**
-     * @description submits the text answer to the answers in the initial state
-     */
-    submitTextAnswer = async (text) => {
-        const { addAnswer, questions, resetText } = this.props;
-        const { currentQuestion } = questions;
-
-        // checks if the text question is required and shows the required field in that case
-        if (('' + text).trim() === '' && currentQuestion.required) {
-            this.showFieldRequired();
-        } else {
-            // otherwise changes the state and saves the text
-            await addAnswer({
-                questionId: currentQuestion.id,
-                answer: text,
-            });
-            resetText();
-            this.props.moveToNextQuestion();
-        }
-    }
-
-    /**
-     * @description a text button for submitting free text from @function renderTextField
-     */
-    submitTextButton = () => {
-        return (
-            <div className="center-align txt">
-                <Grid container direction="row" justify="center">
-                    <SubmitButton
-                        onClick={() => {
-                            this.submitTextAnswer(this.props.text);
-                        }}
-                        text="Submit"
-                    />
-                </Grid>
-            </div>
-        );
-    }
-
-    questionHasSubmitButton = (questionType) => {
-        const questionsWithSubmitButtons = [
-            MULTI_SELECT,
-            STR,
-        ];
-        return questionsWithSubmitButtons.indexOf(questionType) !== -1;
-    }
-    /**
-     * @description renders different submit button depending on the question type
-     */
-    renderSubmitButton = (questionType) => {
-        if (!this.questionHasSubmitButton(questionType)) {
-            return null;
-        } else if (questionType === MULTI_SELECT) {
-            return this.submitMultiButton();
-        } else if (questionType === STR) {
-            return this.submitTextButton();
-        } else if (questionType === QUESTION_TYPE_UNINITIALIZED) {
-            return (<div>Loading, please wait...</div>);
         } else {
             throw new Error(`Invalid Question type '${questionType}'`);
         }
@@ -197,10 +105,6 @@ class QuestionPage extends React.Component {
         } else {
             return;
         }
-    }
-
-    renderQuestion = () => {
-        return <Typography style={style.textStyle}> {this.props.currentQuestion.name}</Typography>;
     }
 
     skipHandler = async () => {
@@ -238,7 +142,7 @@ class QuestionPage extends React.Component {
                     alignItems="center"
                     style={style.questionDiv}
                 >
-                    {this.renderQuestion()}
+                    <Typography style={style.textStyle}> {this.props.currentQuestion.name}</Typography>
                 </Grid>
                 <Grid container
                     direction="row"
@@ -258,9 +162,6 @@ class QuestionPage extends React.Component {
                     alignItems="center"
                     spacing={16}
                 >
-                    <Grid item xs={12} md={12} xl={12}>
-                        {this.renderSubmitButton(this.props.currentQuestion.type)}
-                    </Grid>
                     <Grid item xs={12} md={12} xl={12}>
                         {this.renderSkipButton()}
                         {this.renderLanguageButtons()}

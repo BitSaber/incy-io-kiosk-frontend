@@ -123,7 +123,7 @@ class App extends React.Component {
         const { allQuestions, currentQuestion } = questions;
 
         if (currentQuestion.type === STR) {
-            resetText();
+            await resetText();
         }
 
         // IDs of both answered and skipped questions
