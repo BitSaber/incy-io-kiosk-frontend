@@ -48,6 +48,7 @@ class App extends React.Component {
         questions: shape({
             allQuestions: array.isRequired,
             currentQuestion: object,
+            shownQuestions: array.isRequired,
         }).isRequired,
         setQuestions: func.isRequired,
         flags: shape({
@@ -61,7 +62,6 @@ class App extends React.Component {
         setShowError: func.isRequired,
         setErrorMsg: func.isRequired,
         setCurrentQuestion: func.isRequired,
-        shownQuestions: array.isRequired,
         addShownQuestion: func.isRequired,
         removeShownQuestion: func.isRequired,
         context: shape({
@@ -256,11 +256,12 @@ class App extends React.Component {
     }
 
     goToPreviousQuestion = () => {
-        const { questions, removeShownQuestion, setCurrentQuestion } = this.props
-        const { shownQuestions, allQuestions } = questions
+        const { questions, removeShownQuestion, setCurrentQuestion, progressUpdate } = this.props;
+        const { shownQuestions, allQuestions } = questions;
 
-        const previousQuestionId = shownQuestions[shownQuestions.length - 1]
-        const previousQuestion = allQuestions.find(question => question.id === previousQuestionId)
+        const previousQuestionId = shownQuestions[shownQuestions.length - 1];
+        const previousQuestion = allQuestions.find(question => question.id === previousQuestionId);
+        progressUpdate((shownQuestions.length - 1) / allQuestions.length * 100);
         setCurrentQuestion(previousQuestion);
         removeShownQuestion(previousQuestion);
     }

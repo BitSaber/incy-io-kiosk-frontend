@@ -177,7 +177,7 @@ class QuestionPage extends React.Component {
             return;
         }
     }
-    
+
     renderGoBackButton = () => {
         if (this.props.shownQuestions.length) {
             return <GoBackButton onClick={this.props.goToPreviousQuestion}/>;

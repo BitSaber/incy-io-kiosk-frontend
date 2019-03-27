@@ -32,7 +32,7 @@ const reducer = (state=initialState, action) => {
         return {
             ...state,
             shownQuestions: state.shownQuestions.filter(questionId => questionId !== action.payload),
-    };
+        };
 
     return state;
 };
