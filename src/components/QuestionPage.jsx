@@ -48,7 +48,6 @@ const style = {
     error: {
         fontWeight: 'bold',
     },
-
 };
 
 class QuestionPage extends React.Component {
@@ -81,15 +80,16 @@ class QuestionPage extends React.Component {
     /**
      * @description renders different question elements depending on question type
      */
-    renderQuestionElements = (questionType) => {
+    renderQuestionElements = () => {
         const { questionChoices, currentQuestion } = this.props;
+        const questionType = currentQuestion.type;
         const currentChoices = questionChoices.find(choice => choice.questionId === currentQuestion.id).questionChoices;
         if (questionType === SELECT) {
             return <Select moveToNextQuestion={this.props.moveToNextQuestion} currentChoices={currentChoices} />;
         } else if (questionType === MULTI_SELECT) {
             return <MultiSelect currentChoices={currentChoices} moveToNextQuestion={this.props.moveToNextQuestion} showFieldRequired={this.props.showFieldRequired} />;
         } else if (questionType === STR) {
-            return <FreeText moveToNextQuestion={this.props.moveToNextQuestion} />;
+            return <FreeText moveToNextQuestion={this.props.moveToNextQuestion} showFieldRequired={this.props.showFieldRequired} />;
         } else if (questionType === QUESTION_TYPE_UNINITIALIZED) {
             return null;
         } else {
@@ -142,7 +142,7 @@ class QuestionPage extends React.Component {
                     alignItems="center"
                     style={style.questionDiv}
                 >
-                    <Typography style={style.textStyle}> {this.props.currentQuestion.name}</Typography>
+                    <Typography style={style.textStyle}>{this.props.currentQuestion.name}</Typography>
                 </Grid>
                 <Grid container
                     direction="row"
@@ -154,7 +154,7 @@ class QuestionPage extends React.Component {
                     <Grid item xs={12} md={12} xl={12}>
                         {this.renderError()}
                     </Grid>
-                    {this.renderQuestionElements(this.props.currentQuestion.type)}
+                    {this.renderQuestionElements()}
                 </Grid>
                 <Grid container
                     direction="column"

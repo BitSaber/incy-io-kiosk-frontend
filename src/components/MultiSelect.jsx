@@ -66,7 +66,7 @@ class MultiSelect extends React.Component {
         const choices = this.props.currentChoices.map(choice => {
             const isSelected = selectedChoiceIds.includes(choice.id);
             return (
-                <Grid item xs={12} sm={6} xl={3} key={choice.id}>
+                <Grid item xs={12} sm={6} xl={3} key={choice.id} style={{ padding: 10 }}>
                     <Button
                         variant={isSelected ? 'contained' : 'text'}
                         style={buttonStyle(isSelected)}
@@ -80,7 +80,7 @@ class MultiSelect extends React.Component {
 
         return (
             <>
-                <Grid item container>
+                <Grid item container justify="center">
                     {choices}
                 </Grid>
                 <Grid item>

@@ -30,6 +30,7 @@ export default class FreeText extends React.Component {
         addAnswer: func.isRequired,
         questions: object.isRequired,
         moveToNextQuestion: func.isRequired,
+        showFieldRequired: func.isRequired,
     }
 
     handleChange = (event) => {
@@ -39,13 +40,13 @@ export default class FreeText extends React.Component {
     /**
      * @description submits the text answer to the answers in the initial state
      */
-    submitTextAnswer = async (text) => {
-        const { addAnswer, questions, resetText } = this.props;
+    submitTextAnswer = async () => {
+        const { addAnswer, questions, resetText, text } = this.props;
         const { currentQuestion } = questions;
 
         // checks if the text question is required and shows the required field in that case
         if (('' + text).trim() === '' && currentQuestion.required) {
-            this.showFieldRequired();
+            this.props.showFieldRequired();
         } else {
             // otherwise changes the state and saves the text
             await addAnswer({
@@ -55,24 +56,6 @@ export default class FreeText extends React.Component {
             await resetText();
             await this.props.moveToNextQuestion();
         }
-    }
-
-    /**
-     * @description a text button for submitting free text from @function renderTextField
-     */
-    submitTextButton = () => {
-        return (
-            <div className="center-align txt">
-                <Grid container direction="row" justify="center">
-                    <SubmitButton
-                        onClick={() => {
-                            this.submitTextAnswer(this.props.text);
-                        }}
-                        text="Submit"
-                    />
-                </Grid>
-            </div>
-        );
     }
 
     render() {
@@ -92,12 +75,7 @@ export default class FreeText extends React.Component {
                         />
                     </form>
                 </Grid>
-                <SubmitButton
-                    onClick={() => {
-                        this.submitTextAnswer(this.props.text);
-                    }}
-                    text="Submit"
-                />
+                <SubmitButton onClick={this.submitTextAnswer} text="Submit" />
             </Grid>
         );
     }
