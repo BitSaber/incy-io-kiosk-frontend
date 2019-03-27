@@ -10,6 +10,10 @@ describe('<MultiSelect />', () => {
                 currentChoices={[{ id: 1 }, { id: 2 }]}
                 selectedChoices={[]}
                 setSelectedChoices={jest.fn()}
+                moveToNextQuestion={jest.fn()}
+                showFieldRequired={jest.fn()}
+                currentQuestion={{}}
+                addAnswer={jest.fn()}
             />
         );
 
@@ -24,27 +28,61 @@ describe('<MultiSelect />', () => {
                 currentChoices={[{ id: 1 }, { id: 2 }]}
                 selectedChoices={[]}
                 setSelectedChoices={mockSetSelectedChoices}
+                moveToNextQuestion={jest.fn()}
+                showFieldRequired={jest.fn()}
+                currentQuestion={{}}
+                addAnswer={jest.fn()}
             />
         );
 
         const firstButton = component.find(Button).first();
         firstButton.props().onClick();
-        expect(mockSetSelectedChoices.mock.calls[0][0]).toEqual([{ id: 1 }]);
+        expect(mockSetSelectedChoices).toHaveBeenCalledWith([{ id: 1 }]);
     });
 
     it('should unselect a choice', () => {
-        const mockSetSelectedChoices = jest.fn()
+        const mockSetSelectedChoices = jest.fn();
 
         const component = shallow(
             <MultiSelect
                 currentChoices={[{ id: 1 }, { id: 2 }]}
                 selectedChoices={[{ id: 1 }]}
                 setSelectedChoices={mockSetSelectedChoices}
+                moveToNextQuestion={jest.fn()}
+                showFieldRequired={jest.fn()}
+                currentQuestion={{}}
+                addAnswer={jest.fn()}
             />
         );
 
         const firstButton = component.find(Button).first();
         firstButton.props().onClick();
-        expect(mockSetSelectedChoices.mock.calls[0][0]).toEqual([]);
+        expect(mockSetSelectedChoices).toHaveBeenCalledWith([]);
+    });
+
+    it('should submit the answer and move to next question', async () => {
+        const mockSetSelectedChoices = jest.fn();
+        const mockAddAnswers = jest.fn();
+        const mockMoveToNextQuestion = jest.fn();
+
+        const component = shallow(
+            <MultiSelect
+                currentChoices={[{ id: 1 }, { id: 2 }]}
+                selectedChoices={[{ id: 1 }]}
+                setSelectedChoices={mockSetSelectedChoices}
+                moveToNextQuestion={mockMoveToNextQuestion}
+                showFieldRequired={jest.fn()}
+                currentQuestion={{ id: 1 }}
+                addAnswer={mockAddAnswers}
+            />
+        );
+
+        const submitButton = component.find('SubmitButton');
+
+        await submitButton.props().onClick();
+
+        expect(mockAddAnswers).toHaveBeenCalledWith({ answer: [{ id: 1 }], questionId: 1 });
+        expect(mockMoveToNextQuestion).toHaveBeenCalled();
+
     });
 });
