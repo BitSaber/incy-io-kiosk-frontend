@@ -80,6 +80,7 @@ class QuestionPage extends React.Component {
         selectedChoices: array.isRequired,
         setSelectedChoices: func.isRequired,
         goToPreviousQuestion: func.isRequired,
+        shownQuestions: array.isRequired,
     }
     /**
      * @description rendering the button on the screen
@@ -176,6 +177,12 @@ class QuestionPage extends React.Component {
             return;
         }
     }
+    
+    renderGoBackButton = () => {
+        if (this.props.shownQuestions.length) {
+            return <GoBackButton onClick={this.props.goToPreviousQuestion}/>;
+        }
+    }
 
     renderQuestion = () => {
         return <Typography style={style.textStyle}> {this.props.question.name}</Typography>;
@@ -242,7 +249,7 @@ class QuestionPage extends React.Component {
                     <Grid item xs={12} md={12} xl={12}>
                         {this.renderSkipButton()}
                         {this.renderLanguageButtons()}
-                        <GoBackButton onClick={this.props.goToPreviousQuestion}/>
+                        {this.renderGoBackButton()}
                     </Grid>
                 </Grid>
             </Grid>

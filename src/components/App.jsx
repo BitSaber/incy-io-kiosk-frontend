@@ -291,6 +291,7 @@ class App extends React.Component {
                         moveToNextQuestion={this.moveToNextQuestion}
                         showFieldRequired={this.showFieldRequired}
                         goToPreviousQuestion={this.goToPreviousQuestion}
+                        shownQuestions={this.props.questions.shownQuestions}
                     />)}
             </div>
         );
