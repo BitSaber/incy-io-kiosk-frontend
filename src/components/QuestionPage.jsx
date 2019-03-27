@@ -247,9 +247,9 @@ class QuestionPage extends React.Component {
                         {this.renderSubmitButton(this.props.questionType)}
                     </Grid>
                     <Grid item xs={12} md={12} xl={12}>
+                        {this.renderGoBackButton()}
                         {this.renderSkipButton()}
                         {this.renderLanguageButtons()}
-                        {this.renderGoBackButton()}
                     </Grid>
                 </Grid>
             </Grid>

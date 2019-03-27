@@ -3,5 +3,6 @@
     "submitbutton": "Send",
     "skipbutton": "Skip",
     "questionpage.required": "This field is required!",
-    "textfield.placeholder": "Your answer"
+    "textfield.placeholder": "Your answer",
+    "gobackbutton": "Go back"
 }

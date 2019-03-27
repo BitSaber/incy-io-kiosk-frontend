@@ -17,8 +17,8 @@ const style = {
 
 const GoBackButton = ({ onClick }) => (
     <Button style={style.buttonStyle} variant="contained" onClick={onClick}>
-        <FormattedMessage id="Previous page"
-            defaultMessage="Previous page"
+        <FormattedMessage id="gobackbutton"
+            defaultMessage="Go Back"
             description="Previous page text"
             values={{ what: 'react-intl' }}
         />
