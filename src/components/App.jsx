@@ -44,6 +44,7 @@ class App extends React.Component {
         currentLanguageId: string.isRequired,
         answers: object.isRequired,
         addAnswer: func.isRequired,
+        removeAnswer: func.isRequired,
         resetAnswers: func.isRequired,
         questions: shape({
             allQuestions: array.isRequired,
@@ -64,6 +65,7 @@ class App extends React.Component {
         setCurrentQuestion: func.isRequired,
         addShownQuestion: func.isRequired,
         removeShownQuestion: func.isRequired,
+        resetShownQuestions: func.isRequired,
         context: shape({
             place: shape({
                 id: number.isRequired,
@@ -156,18 +158,17 @@ class App extends React.Component {
      * the answers if no more questions to be answered.
      */
     moveToNextQuestion = async () => {
+        this.props.addShownQuestion(this.props.questions.currentQuestion);
         const {
             questions,
             setCurrentQuestion,
             resetText,
             progressUpdate,
             answers,
-            addShownQuestion,
         } = this.props;
         const { allQuestions, currentQuestion } = questions;
 
         // Adds the question to shown questions array
-        addShownQuestion(currentQuestion);
 
         if (currentQuestion.type === STR) {
             resetText();
@@ -225,7 +226,7 @@ class App extends React.Component {
      * the state is reset so that a new questionnaire can be started
      */
     submitObservation = () => {
-        const { answers, resetAnswers, setAllAnswered, context, progressUpdate } = this.props;
+        const { answers, resetAnswers, setAllAnswered, context, progressUpdate, resetShownQuestions } = this.props;
 
         const time = new Date().toString().substring(0, 21);
         const data = {
@@ -238,6 +239,7 @@ class App extends React.Component {
         // calls the service.js postObservation to API
         questionService.postObservation(data);
         resetAnswers();
+        resetShownQuestions();
 
         setAllAnswered(true);
         this.setFirstQuestion();
@@ -256,11 +258,12 @@ class App extends React.Component {
     }
 
     goToPreviousQuestion = () => {
-        const { questions, removeShownQuestion, setCurrentQuestion, progressUpdate } = this.props;
+        const { questions, removeAnswer, removeShownQuestion, setCurrentQuestion, progressUpdate } = this.props;
         const { shownQuestions, allQuestions } = questions;
 
         const previousQuestionId = shownQuestions[shownQuestions.length - 1];
         const previousQuestion = allQuestions.find(question => question.id === previousQuestionId);
+        removeAnswer(previousQuestionId);
         progressUpdate((shownQuestions.length - 1) / allQuestions.length * 100);
         setCurrentQuestion(previousQuestion);
         removeShownQuestion(previousQuestion);

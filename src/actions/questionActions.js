@@ -1,6 +1,6 @@
 import service from '../service';
 
-import { SET_QUESTIONS, SET_CURRENT_QUESTION, SET_QUESTIONS_LOADING_STATE, ADD_SHOWN_QUESTION, REMOVE_SHOWN_QUESTION } from '../constants/actions';
+import { SET_QUESTIONS, SET_CURRENT_QUESTION, SET_QUESTIONS_LOADING_STATE, ADD_SHOWN_QUESTION, REMOVE_SHOWN_QUESTION, RESET_SHOWN_QUESTIONS } from '../constants/actions';
 import { LOADING_STATE, FINISHED_STATE } from '../constants/loadingStates';
 
 export const setQuestionsAction = (langId) => {
@@ -46,6 +46,10 @@ export const addShownQuestionAction = (question) => ({
 export const removeShownQuestionAction = (question) => ({
     type: REMOVE_SHOWN_QUESTION,
     payload: question.id,
+});
+
+export const resetShownQuestionsAction = () => ({
+    type: RESET_SHOWN_QUESTIONS,
 });
 
 export default {

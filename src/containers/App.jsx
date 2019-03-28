@@ -1,8 +1,8 @@
 import { setAllAnsweredAction, setShowErrorAction, setErrorMsgAction } from '../actions/flagActions';
 import { connect } from 'react-redux';
 
-import { addAnswerAction, resetAnswersAction } from '../actions/answerActions';
-import { setQuestionsAction, setCurrentQuestionAction, addShownQuestionAction, removeShownQuestionAction } from '../actions/questionActions';
+import { addAnswerAction, resetAnswersAction, removeAnswerAction } from '../actions/answerActions';
+import { setQuestionsAction, setCurrentQuestionAction, addShownQuestionAction, removeShownQuestionAction, resetShownQuestionsAction } from '../actions/questionActions';
 import { setCategoryAction, setPlaceAction } from '../actions/contextActions';
 import { resetTextAction, progressUpdateAction } from '../actions/UiActions';
 import { getAllChoicesAction } from '../actions/choiceActions';
@@ -21,6 +21,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     addAnswer: addAnswerAction,
+    removeAnswer: removeAnswerAction,
     resetAnswers: resetAnswersAction,
     setQuestions: setQuestionsAction,
     setCategory: setCategoryAction,
@@ -31,6 +32,7 @@ const mapDispatchToProps = {
     setCurrentQuestion: setCurrentQuestionAction,
     addShownQuestion: addShownQuestionAction,
     removeShownQuestion: removeShownQuestionAction,
+    resetShownQuestions: resetShownQuestionsAction,
     getAllChoices: getAllChoicesAction,
     resetText: resetTextAction,
     progressUpdate: progressUpdateAction,

@@ -1,4 +1,4 @@
-import { SET_QUESTIONS, SET_CURRENT_QUESTION, ADD_SHOWN_QUESTION, REMOVE_SHOWN_QUESTION } from "../constants/actions";
+import { SET_QUESTIONS, SET_CURRENT_QUESTION, ADD_SHOWN_QUESTION, REMOVE_SHOWN_QUESTION, RESET_SHOWN_QUESTIONS } from "../constants/actions";
 
 const initialState = {
     allQuestions: [],
@@ -28,11 +28,19 @@ const reducer = (state=initialState, action) => {
         };
     }
 
-    if (action.type === REMOVE_SHOWN_QUESTION)
+    if (action.type === REMOVE_SHOWN_QUESTION) {
         return {
             ...state,
             shownQuestions: state.shownQuestions.filter(questionId => questionId !== action.payload),
         };
+    }
+
+    if (action.type === RESET_SHOWN_QUESTIONS) {
+        return {
+            ...state,
+            shownQuestions: [],
+        };
+    }
 
     return state;
 };
