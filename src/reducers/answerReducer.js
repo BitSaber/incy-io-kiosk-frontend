@@ -2,6 +2,7 @@ import { ADD_ANSWER, RESET_ANSWERS, REMOVE_ANSWER } from "../constants/actions";
 
 const initialState = {
     answers: {},
+    allAnswers: {},
     skippedQuestionIds: [],
 };
 
@@ -11,6 +12,10 @@ const reducer = (state=initialState, action) => {
             ...state,
             answers: {
                 ...state.answers,
+                [action.payload.questionId]: action.payload.answer,
+            },
+            allAnswers: {
+                ...state.allAnswers,
                 [action.payload.questionId]: action.payload.answer,
             },
         };
