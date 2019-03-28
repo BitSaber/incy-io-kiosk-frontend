@@ -1,4 +1,4 @@
-import { ADD_ANSWER, RESET_ANSWERS, SKIP_ANSWER, REMOVE_ANSWER } from "../constants/actions";
+import { ADD_ANSWER, RESET_ANSWERS, REMOVE_ANSWER } from "../constants/actions";
 
 const initialState = {
     answers: {},
@@ -13,13 +13,6 @@ const reducer = (state=initialState, action) => {
                 ...state.answers,
                 [action.payload.questionId]: action.payload.answer,
             },
-        };
-    }
-
-    if (action.type === SKIP_ANSWER) {
-        return {
-            ...state,
-            skippedQuestionIds: [ ...state.skippedQuestionIds, action.payload ],
         };
     }
 

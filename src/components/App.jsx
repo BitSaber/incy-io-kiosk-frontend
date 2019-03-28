@@ -158,7 +158,9 @@ class App extends React.Component {
      * the answers if no more questions to be answered.
      */
     moveToNextQuestion = async () => {
-        this.props.addShownQuestion(this.props.questions.currentQuestion);
+
+        await this.props.addShownQuestion(this.props.questions.currentQuestion);
+
         const {
             questions,
             setCurrentQuestion,
@@ -166,8 +168,8 @@ class App extends React.Component {
             progressUpdate,
             answers,
         } = this.props;
-        const { allQuestions, currentQuestion } = questions;
-
+        const { allQuestions, currentQuestion, shownQuestions } = questions;
+        console.log(shownQuestions);
         // Adds the question to shown questions array
 
         if (currentQuestion.type === STR) {
@@ -175,8 +177,7 @@ class App extends React.Component {
         }
 
         // IDs of both answered and skipped questions
-        const answeredQuestionIds = Object.keys(answers.answers)
-            .map(answer => Number(answer)).concat(answers.skippedQuestionIds);
+        const answeredQuestionIds = shownQuestions;
 
         const answeredChoiceIds = Object.values(answers.answers).map(object => {
             if (Array.isArray(object)) {
