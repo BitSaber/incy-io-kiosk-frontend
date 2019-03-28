@@ -159,6 +159,7 @@ class App extends React.Component {
      */
     moveToNextQuestion = async () => {
 
+        // Adds the question to shown questions array
         await this.props.addShownQuestion(this.props.questions.currentQuestion);
 
         const {
@@ -169,8 +170,7 @@ class App extends React.Component {
             answers,
         } = this.props;
         const { allQuestions, currentQuestion, shownQuestions } = questions;
-        console.log(shownQuestions);
-        // Adds the question to shown questions array
+
 
         if (currentQuestion.type === STR) {
             resetText();
