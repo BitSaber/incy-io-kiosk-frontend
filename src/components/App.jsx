@@ -78,6 +78,7 @@ class App extends React.Component {
         setPlace: func.isRequired,
         getAllChoices: func.isRequired,
         choices: object.isRequired,
+        setSelectedChoices: func.isRequired,
         resetText: func.isRequired,
         loadingStates: shape({
             questions: string.isRequired,
@@ -259,11 +260,35 @@ class App extends React.Component {
     }
 
     goToPreviousQuestion = () => {
-        const { questions, removeAnswer, removeShownQuestion, setCurrentQuestion, progressUpdate } = this.props;
+        const { answers, questions, removeAnswer, removeShownQuestion, setCurrentQuestion, progressUpdate, setSelectedChoices } = this.props;
         const { shownQuestions, allQuestions } = questions;
+
+        const answeredQuestionIds = Object.keys(answers.allAnswers)
+            .map(answer => Number(answer));
+
+        // console.log(answers.allAnswers);
+        // const answeredChoiceIds = Object.values(answers.allAnswers).map(object => {
+        //     if (Array.isArray(object)) {
+        //         return object.map(x => x.id);
+        //     }
+        //     else {
+        //         return object.id;
+        //     }
+        // }).flat();
 
         const previousQuestionId = shownQuestions[shownQuestions.length - 1];
         const previousQuestion = allQuestions.find(question => question.id === previousQuestionId);
+
+        const previousQuestionChoiceIds = answers.allAnswers[previousQuestionId];
+        console.log(previousQuestionChoiceIds);
+
+        if (answeredQuestionIds.includes(previousQuestionId)) {
+            console.log("This question has been answered.");
+            setSelectedChoices(previousQuestionChoiceIds);
+        } else {
+            console.log("This question has not been answered.");
+        }
+        console.log(this.props.choices.selectedChoices);
         removeAnswer(previousQuestionId);
         progressUpdate((shownQuestions.length - 1) / allQuestions.length * 100);
         setCurrentQuestion(previousQuestion);

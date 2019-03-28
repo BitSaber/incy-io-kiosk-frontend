@@ -22,7 +22,7 @@ const reducer = (state=initialState, action) => {
     }
 
     if (action.type === REMOVE_ANSWER) {
-        var previousAnswers = state.answers;
+        const previousAnswers = state.answers;
         delete previousAnswers[action.payload];
         return {
             ...state,

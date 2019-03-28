@@ -1,5 +1,5 @@
 import React from "react";
-import { array, func } from "prop-types";
+import { array, func, object } from "prop-types";
 import Button from "@material-ui/core/Button";
 import Grid from '@material-ui/core/Grid';
 import { Typography } from '@material-ui/core';
@@ -61,6 +61,7 @@ MultiSelect.propTypes = {
     currentChoices: array.isRequired,
     selectedChoices: array.isRequired,
     setSelectedChoices: func.isRequired,
+    answers: object.isRequired,
 };
 
 export default MultiSelect;

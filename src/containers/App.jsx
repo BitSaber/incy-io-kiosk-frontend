@@ -5,7 +5,7 @@ import { addAnswerAction, resetAnswersAction, removeAnswerAction } from '../acti
 import { setQuestionsAction, setCurrentQuestionAction, addShownQuestionAction, removeShownQuestionAction, resetShownQuestionsAction } from '../actions/questionActions';
 import { setCategoryAction, setPlaceAction } from '../actions/contextActions';
 import { resetTextAction, progressUpdateAction } from '../actions/UiActions';
-import { getAllChoicesAction } from '../actions/choiceActions';
+import { getAllChoicesAction, setSelectedChoicesAction } from '../actions/choiceActions';
 import App from '../components/App';
 
 const mapStateToProps = state => ({
@@ -30,6 +30,7 @@ const mapDispatchToProps = {
     setShowError: setShowErrorAction,
     setErrorMsg: setErrorMsgAction,
     setCurrentQuestion: setCurrentQuestionAction,
+    setSelectedChoices: setSelectedChoicesAction,
     addShownQuestion: addShownQuestionAction,
     removeShownQuestion: removeShownQuestionAction,
     resetShownQuestions: resetShownQuestionsAction,
