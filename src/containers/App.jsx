@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { addAnswerAction, resetAnswersAction, removeAnswerAction } from '../actions/answerActions';
 import { setQuestionsAction, setCurrentQuestionAction, addShownQuestionAction, removeShownQuestionAction, resetShownQuestionsAction } from '../actions/questionActions';
 import { setCategoryAction, setPlaceAction } from '../actions/contextActions';
-import { resetTextAction, progressUpdateAction } from '../actions/UiActions';
+import { resetTextAction, progressUpdateAction, onTextChangeAction } from '../actions/UiActions';
 import { getAllChoicesAction, setSelectedChoicesAction } from '../actions/choiceActions';
 import App from '../components/App';
 
@@ -36,6 +36,7 @@ const mapDispatchToProps = {
     resetShownQuestions: resetShownQuestionsAction,
     getAllChoices: getAllChoicesAction,
     resetText: resetTextAction,
+    textChange: onTextChangeAction,
     progressUpdate: progressUpdateAction,
 };
 

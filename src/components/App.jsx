@@ -80,6 +80,7 @@ class App extends React.Component {
         choices: object.isRequired,
         setSelectedChoices: func.isRequired,
         resetText: func.isRequired,
+        textChange: func.isRequired,
         loadingStates: shape({
             questions: string.isRequired,
             choices: string.isRequired,
@@ -260,7 +261,7 @@ class App extends React.Component {
     }
 
     goToPreviousQuestion = () => {
-        const { answers, questions, removeAnswer, removeShownQuestion, setCurrentQuestion, progressUpdate, setSelectedChoices } = this.props;
+        const { answers, questions, removeAnswer, removeShownQuestion, setCurrentQuestion, progressUpdate, setSelectedChoices, textChange } = this.props;
         const { shownQuestions, allQuestions } = questions;
 
         const answeredQuestionIds = Object.keys(answers.allAnswers)
@@ -288,7 +289,9 @@ class App extends React.Component {
         } else {
             console.log("This question has not been answered.");
         }
-        console.log(this.props.choices.selectedChoices);
+        if (previousQuestion.type === STR) {
+            textChange(previousQuestionChoiceIds);
+        }
         removeAnswer(previousQuestionId);
         progressUpdate((shownQuestions.length - 1) / allQuestions.length * 100);
         setCurrentQuestion(previousQuestion);
