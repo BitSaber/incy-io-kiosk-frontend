@@ -8,6 +8,7 @@ import LoadingPage from '../components/LoadingPage';
 import {
     SELECT,
     STR,
+    MULTI_SELECT,
 } from '../constants/questionTypes';
 import { FINISHED_STATE } from '../constants/loadingStates';
 
@@ -206,6 +207,18 @@ class App extends React.Component {
         }, null);
 
         if (nextQuestion) {
+            const previousChoices = this.props.answers.allAnswers[nextQuestion.id];
+            if (previousChoices) {
+                if (nextQuestion.type === MULTI_SELECT) {
+                    this.props.setSelectedChoices(previousChoices);
+                }
+                if (nextQuestion.type === SELECT) {
+                    this.props.setSelectedChoices([previousChoices]);
+                }
+            } else {
+                this.props.setSelectedChoices([]);
+            }
+
             setCurrentQuestion(nextQuestion);
             progressUpdate(answeredQuestionIds.length / allQuestions.length * 100);
         } else {
@@ -243,6 +256,7 @@ class App extends React.Component {
         questionService.postObservation(data);
         resetAnswers();
         resetShownQuestions();
+        this.props.setSelectedChoices([]);
 
         setAllAnswered(true);
         this.setFirstQuestion();
@@ -264,33 +278,18 @@ class App extends React.Component {
         const { answers, questions, removeAnswer, removeShownQuestion, setCurrentQuestion, progressUpdate, setSelectedChoices, textChange } = this.props;
         const { shownQuestions, allQuestions } = questions;
 
-        const answeredQuestionIds = Object.keys(answers.allAnswers)
-            .map(answer => Number(answer));
-
-        // console.log(answers.allAnswers);
-        // const answeredChoiceIds = Object.values(answers.allAnswers).map(object => {
-        //     if (Array.isArray(object)) {
-        //         return object.map(x => x.id);
-        //     }
-        //     else {
-        //         return object.id;
-        //     }
-        // }).flat();
-
         const previousQuestionId = shownQuestions[shownQuestions.length - 1];
         const previousQuestion = allQuestions.find(question => question.id === previousQuestionId);
 
         const previousQuestionChoiceIds = answers.allAnswers[previousQuestionId];
-        console.log(previousQuestionChoiceIds);
-
-        if (answeredQuestionIds.includes(previousQuestionId)) {
-            console.log("This question has been answered.");
-            setSelectedChoices(previousQuestionChoiceIds);
-        } else {
-            console.log("This question has not been answered.");
-        }
         if (previousQuestion.type === STR) {
             textChange(previousQuestionChoiceIds);
+        }
+        else if (previousQuestion.type === MULTI_SELECT) {
+            setSelectedChoices(previousQuestionChoiceIds);
+        }
+        else if (previousQuestion.type === SELECT) {
+            setSelectedChoices([previousQuestionChoiceIds]);
         }
         removeAnswer(previousQuestionId);
         progressUpdate((shownQuestions.length - 1) / allQuestions.length * 100);
