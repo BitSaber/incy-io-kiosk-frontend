@@ -29,12 +29,12 @@ import {
 } from '../constants/questionTypes';
 
 const style = {
-    body: {
-
-    },
     basic: {
         flex: '1',
         alignItems: 'center',
+
+    },
+    body: {
         padding: '8px',
     },
     textStyle: {
@@ -221,6 +221,7 @@ class QuestionPage extends React.Component {
                     justify="center"
                     alignItems="stretch"
                     spacing={16}
+                    style={style.body}
                 >
 
                     <Grid item xs={12} md={12} xl={12}>

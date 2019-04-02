@@ -6,7 +6,7 @@ import { Typography } from '@material-ui/core';
 
 const buttonStyle = (isSelected) => ({
     width: '90%',
-    backgroundColor: isSelected ? '#4cb4ff' : '#0496FF',
+    backgroundColor: isSelected ? '#4cb4ff' : '#ffffff',
     minHeight: 100,
     height: '100%',
     borderRadius: 30,
@@ -17,7 +17,7 @@ const buttonStyle = (isSelected) => ({
 const textStyle = {
 
     fontSize: 35,
-    color: '#ffffff',
+    color: '#0496FF',
     fontWeight: 'bold',
 };
 

@@ -6,6 +6,7 @@ const style = {
     basic: {
         overflow: 'hidden',
         fontFamily: 'Roboto',
+        fontSize: 40,
     },
     thankYouDiv: {
         backgroundColor: '#0496FF',
@@ -16,7 +17,7 @@ const style = {
         minHeight: 200,
         width: '98%',
         textAlign: 'center',
-        fontSize: 40,
+        minFontSize: '50%',
         marginLeft: 'auto',
         marginRight: 'auto',
     },
