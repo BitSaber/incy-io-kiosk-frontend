@@ -1,7 +1,7 @@
 import service from '../service';
 import { SET_CATEGORY, SET_PLACE,
     SET_CATEGORY_LOADING_STATE, SET_PLACE_LOADING_STATE, RESET_LOADING_STATE } from '../constants/actions';
-import { LOADING_STATE, FINISHED_STATE } from '../constants/loadingStates';
+import { LOADING_STATE, FINISHED_STATE, ERROR_STATE } from '../constants/loadingStates';
 
 export const setCategoryAction = (langId) => {
     return async (dispatch) => {
@@ -14,11 +14,21 @@ export const setCategoryAction = (langId) => {
             type: SET_CATEGORY_LOADING_STATE,
             payload: LOADING_STATE,
         });
-        const category = await service.getCategory(langId);
-        dispatch({
-            type: SET_CATEGORY,
-            payload: category,
-        });
+
+        try {
+            const category = await service.getCategory(langId);
+            dispatch({
+                type: SET_CATEGORY,
+                payload: category,
+            });
+        } catch(err) {
+            dispatch({
+                type: SET_CATEGORY_LOADING_STATE,
+                payload: ERROR_STATE,
+            });
+            return;
+        }
+
         dispatch({
             type: SET_CATEGORY_LOADING_STATE,
             payload: FINISHED_STATE,
@@ -32,11 +42,21 @@ export const setPlaceAction = (langId) => {
             type: SET_PLACE_LOADING_STATE,
             payload: LOADING_STATE,
         });
-        const place = await service.getPlace(langId);
-        dispatch({
-            type: SET_PLACE,
-            payload: place,
-        });
+
+        try {
+            const place = await service.getPlace(langId);
+            dispatch({
+                type: SET_PLACE,
+                payload: place,
+            });
+        } catch(err) {
+            dispatch({
+                type: SET_PLACE_LOADING_STATE,
+                payload: ERROR_STATE,
+            });
+            return;
+        }
+
         dispatch({
             type: SET_PLACE_LOADING_STATE,
             payload: FINISHED_STATE,

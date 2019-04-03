@@ -1,6 +1,6 @@
 import React from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import PropTypes from 'prop-types';
+import PropTypes, { bool } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 const style = {
@@ -19,16 +19,18 @@ const styles = theme => ({ // eslint-disable-line
 });
 
 function LoadingPage(props) {
-    const { classes } = props;
+    const { classes, inError } = props;
     return (
         <div style={style.body}>
-            <CircularProgress className={classes.progress} color='primary' size={150} />
+            {inError ? (<div>ERROR MATHAFAKA</div>) :
+                (<CircularProgress className={classes.progress} color='primary' size={150} />)}
         </div>
     );
 }
 
 LoadingPage.propTypes = {
     classes: PropTypes.object.isRequired,
+    inError: bool.isRequired,
 };
 
 export default withStyles(styles)(LoadingPage);

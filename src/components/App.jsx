@@ -9,7 +9,7 @@ import {
     SELECT,
     STR,
 } from '../constants/questionTypes';
-import { FINISHED_STATE } from '../constants/loadingStates';
+import { FINISHED_STATE, ERROR_STATE } from '../constants/loadingStates';
 
 const style = {
     body: {
@@ -248,12 +248,18 @@ class App extends React.Component {
             context.category === FINISHED_STATE && context.place === FINISHED_STATE;
     }
 
+    isInError = () => {
+        const { questions, choices, context } = this.props.loadingStates;
+        return questions === ERROR_STATE || choices === ERROR_STATE ||
+            context.category === ERROR_STATE || context.place === ERROR_STATE;
+    }
+
     render() {
         const { allQuestions, currentQuestion } = this.props.questions;
         const { questionChoices } = this.props.choices;
 
         if (!this.isDoneLoading() || !currentQuestion || !questionChoices) {
-            return <LoadingPage />;
+            return <LoadingPage inError={this.isInError()} />;
         }
 
         const currentChoices = questionChoices.find(choice => choice.questionId === currentQuestion.id);
