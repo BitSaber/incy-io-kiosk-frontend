@@ -49,15 +49,15 @@ describe('<Select />', () => {
             />
         );
 
-        const firstChoice = component.first();
-        await firstChoice.props().onClick;
+        const firstChoiceBtn = component.first().children();
+        await firstChoiceBtn.props().onClick();
 
         expect(mockAddAnswer).toHaveBeenCalledTimes(1);
         expect(mockAddAnswer.mock.calls[0][0]).toEqual({
             answer: { id: 1 },
             questionId: 1234,
         });
-
+        
         expect(mockMoveToNextQuestion).toHaveBeenCalledTimes(1);
     });
 });
