@@ -28,6 +28,8 @@ import {
     UNINITIALIZED as QUESTION_TYPE_UNINITIALIZED,
 } from '../constants/questionTypes';
 
+const elementSpacingPx = 16;
+
 const style = {
     basic: {
         flex: '1',
@@ -49,6 +51,9 @@ const style = {
     },
     error: {
         fontWeight: 'bold',
+    },
+    mitigateMatUiLimitation: {
+        padding: `${elementSpacingPx/2}px`,
     },
 
 };
@@ -216,33 +221,35 @@ class QuestionPage extends React.Component {
                 >
                     {this.renderQuestion()}
                 </Grid>
-                <Grid container
-                    direction="row"
-                    justify="center"
-                    alignItems="stretch"
-                    spacing={16}
-                    style={style.body}
-                >
+                <div style={style.mitigateMatUiLimitation} >
+                    <Grid container
+                        direction="row"
+                        justify="center"
+                        alignItems="stretch"
+                        spacing={elementSpacingPx}
+                        style={style.body}
+                    >
 
-                    <Grid item xs={12} md={12} xl={12}>
-                        {this.renderError()}
+                        <Grid item xs={12} md={12} xl={12}>
+                            {this.renderError()}
+                        </Grid>
+                        {this.renderQuestionElements(this.props.questionType)}
                     </Grid>
-                    {this.renderQuestionElements(this.props.questionType)}
-                </Grid>
-                <Grid container
-                    direction="column"
-                    justify="center"
-                    alignItems="center"
-                    spacing={16}
-                >
-                    <Grid item xs={12} md={12} xl={12}>
-                        {this.renderSubmitButton(this.props.questionType)}
+                    <Grid container
+                        direction="column"
+                        justify="center"
+                        alignItems="center"
+                        spacing={elementSpacingPx}
+                    >
+                        <Grid item xs={12} md={12} xl={12}>
+                            {this.renderSubmitButton(this.props.questionType)}
+                        </Grid>
+                        <Grid item xs={12} md={12} xl={12}>
+                            {this.renderSkipButton()}
+                            {this.renderLanguageButtons()}
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12} md={12} xl={12}>
-                        {this.renderSkipButton()}
-                        {this.renderLanguageButtons()}
-                    </Grid>
-                </Grid>
+                </div>
             </Grid>
         );
     }
