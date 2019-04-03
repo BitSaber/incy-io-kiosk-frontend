@@ -23,17 +23,17 @@ const textStyle = {
 
 class Select extends React.Component {
     handleChoice = (choice) => {
-
-        this.props.addAnswer({
-            questionId: this.props.currentQuestion.id,
+        const { addAnswer, currentQuestion, setSelectedChoices, moveToNextQuestion } = this.props;
+        addAnswer({
+            questionId: currentQuestion.id,
             answer: {
                 id: choice.id,
             },
         });
 
         const newSelectedChoices = [choice];
-        this.props.setSelectedChoices(newSelectedChoices);
-        this.props.moveToNextQuestion();
+        setSelectedChoices(newSelectedChoices);
+        moveToNextQuestion();
 
     }
 

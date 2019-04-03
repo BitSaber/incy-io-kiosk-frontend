@@ -50,7 +50,7 @@ describe('<Select />', () => {
         );
 
         const firstChoice = component.first();
-        await firstChoice.props().onClick();
+        await firstChoice.props().onClick;
 
         expect(mockAddAnswer).toHaveBeenCalledTimes(1);
         expect(mockAddAnswer.mock.calls[0][0]).toEqual({
