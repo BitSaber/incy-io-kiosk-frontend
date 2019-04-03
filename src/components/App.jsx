@@ -260,7 +260,7 @@ class App extends React.Component {
 
         return (
             <div style={style.body}>
-                <ProgressBar />
+                <ProgressBar barColor={'#2696fb'} />
                 {this.props.flags.isAllQuestionsAnswered ? (<ThankYouPage />) :
                     (<QuestionPage
                         question={currentQuestion}
