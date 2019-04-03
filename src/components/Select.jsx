@@ -1,33 +1,69 @@
-import React from 'react';
-import { object, array, func } from 'prop-types';
+import React from "react";
+import { array, func, object } from "prop-types";
+import Button from "@material-ui/core/Button";
+import Grid from '@material-ui/core/Grid';
+import { Typography } from '@material-ui/core';
 
-import BigButton from './BigButton';
+const buttonStyle = (isSelected) => ({
+    width: '90%',
+    backgroundColor: isSelected ? '#4cb4ff' : '#0496FF',
+    minHeight: 100,
+    height: '100%',
+    borderRadius: 30,
+    margin: 'auto',
+    overflowWrap: 'break-word',
+});
 
-const handleChoiceClick = async (choice, currentQuestion, addAnswer, moveToNextQuestion) => {
-    await addAnswer({
-        questionId: currentQuestion.id,
-        answer: {
-            id: choice.id,
-        },
-    });
-    moveToNextQuestion();
+const textStyle = {
+
+    fontSize: 35,
+    color: '#ffffff',
+    fontWeight: 'bold',
 };
 
-const Select = ({ currentChoices, currentQuestion, addAnswer, moveToNextQuestion }) => {
-    return currentChoices.map(choice => (
-        <BigButton
-            key={choice.id}
-            onClick={() => handleChoiceClick(choice, currentQuestion, addAnswer, moveToNextQuestion)}
-            text={choice.name}
-        />
-    ));
-};
+class Select extends React.Component {
+    handleChoice = (choice) => {
+
+        this.props.addAnswer({
+            questionId: this.props.currentQuestion.id,
+            answer: {
+                id: choice.id,
+            },
+        });
+
+        const newSelectedChoices = [choice];
+        this.props.setSelectedChoices(newSelectedChoices);
+        this.props.moveToNextQuestion();
+
+    }
+
+    render() {
+        const selectedChoiceIds = this.props.selectedChoices.map(selection => selection.id);
+
+        return this.props.currentChoices.map(choice => {
+            const isSelected = selectedChoiceIds.includes(choice.id);
+            return (
+                <Grid item xs={12} sm={6} xl={3} key={choice.id}>
+                    <Button
+                        variant={isSelected ? 'contained' : 'text'}
+                        style={buttonStyle(isSelected)}
+                        onClick={() => this.handleChoice(choice)}
+                    >
+                        <Typography style={textStyle}>{choice.name}</Typography>
+                    </Button>
+                </Grid>
+            );
+        });
+    }
+}
 
 Select.propTypes = {
-    currentChoices: array.isRequired,
     currentQuestion: object.isRequired,
-    addAnswer: func.isRequired,
+    currentChoices: array.isRequired,
+    selectedChoices: array.isRequired,
     moveToNextQuestion: func.isRequired,
+    setSelectedChoices: func.isRequired,
+    addAnswer: func.isRequired,
 };
 
 export default Select;

@@ -280,8 +280,8 @@ class App extends React.Component {
 
         const previousQuestionId = shownQuestions[shownQuestions.length - 1];
         const previousQuestion = allQuestions.find(question => question.id === previousQuestionId);
-
         const previousQuestionChoiceIds = answers.allAnswers[previousQuestionId];
+
         if (previousQuestion.type === STR) {
             textChange(previousQuestionChoiceIds);
         }
