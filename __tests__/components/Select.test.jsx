@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import Select from '../../src/components/Select';
-import BigButton from '../../src/components/BigButton';
+import { Button } from '@material-ui/core';
 
 describe('<Select />', () => {
     it('should render the selections', () => {
@@ -19,10 +19,12 @@ describe('<Select />', () => {
                 currentQuestion={currentQuestion}
                 addAnswer={mockAddAnswer}
                 moveToNextQuestion={mockMoveToNextQuestion}
+                setSelectedChoices={jest.fn()}
+                selectedChoices={[]}
             />
         );
 
-        const buttons = component.find(BigButton);
+        const buttons = component.find(Button);
         expect(buttons.length).toBe(2);
     });
 
@@ -42,6 +44,8 @@ describe('<Select />', () => {
                 currentQuestion={currentQuestion}
                 addAnswer={mockAddAnswer}
                 moveToNextQuestion={mockMoveToNextQuestion}
+                setSelectedChoices={jest.fn()}
+                selectedChoices={[]}
             />
         );
 
