@@ -17,7 +17,7 @@ class ProgressBar extends React.Component {
 
     componentDidMount() {
         // XXX: Mega-hack. Current version of LinearProgress does not support
-        // what we are about to do is:
+        // what we are about to do:
         // if we have specified barColor, insert CSS for it, given that we haven't
         // aleady done this hack
         const styleElId = 'haxed-progressbar-color';
