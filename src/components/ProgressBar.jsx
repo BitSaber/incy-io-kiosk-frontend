@@ -17,12 +17,17 @@ class ProgressBar extends React.Component {
 
     componentDidMount() {
         // XXX: Mega-hack. Current version of LinearProgress does not support
-        // what we are about to do
-        // so if we have specified barColor, insert CSS for it
-        if(['string', 'number'].indexOf(typeof this.props.barColor) !== -1)
-            document.styleSheets[document.styleSheets.length-1]
-                .addRule('#linearProgressBar01 div',
-                    'background-color: '+this.props.barColor+' !important');
+        // what we are about to do is:
+        // if we have specified barColor, insert CSS for it, given that we haven't
+        // aleady done this hack
+        const styleElId = 'haxed-progressbar-color';
+        if(document.querySelectorAll(`#${styleElId}`).length < 1
+            && ['string', 'number'].indexOf(typeof this.props.barColor) !== -1) {
+            const style = document.createElement('style');
+            style.setAttribute('id', 'haxed-progressbar-color');
+            style.innerHTML = '#linearProgressBar01 div { background-color: '+this.props.barColor+' !important }';
+            document.head.appendChild(style);
+        }
     }
 
     static propTypes = {
