@@ -1,7 +1,8 @@
 import React from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import PropTypes, { bool } from 'prop-types';
+import PropTypes, {bool} from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import ErrorPage from '../components/ErrorPage';
 
 const style = {
     body: {
@@ -22,7 +23,7 @@ function LoadingPage(props) {
     const { classes, inError } = props;
     return (
         <div style={style.body}>
-            {inError ? (<div>ERROR MATHAFAKA</div>) :
+            {inError ? <ErrorPage/> :
                 (<CircularProgress className={classes.progress} color='primary' size={150} />)}
         </div>
     );

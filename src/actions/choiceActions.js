@@ -28,12 +28,10 @@ export const getAllChoicesAction = (questions, langId) => {
                 payload: choices,
             });
         } catch (e) {
-            // TODO set error state
             dispatch({
                 type: SET_CHOICES_LOADING_STATE,
                 payload: ERROR_STATE,
             });
-            console.log("hahahaahhahahahaha");
             throw new Error('Error in getting choices:', e);
         }
         dispatch({

@@ -3,5 +3,6 @@
     "submitbutton": "Skicka",
     "skipbutton": "Skip",
     "questionpage.required": "Denna fråga är obligatorisk!",
-    "textfield.placeholder": "Ditt svar"
+    "textfield.placeholder": "Ditt svar",
+    "error.message": "Fel"
 }
