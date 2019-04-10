@@ -294,7 +294,7 @@ class App extends React.Component {
             }
         } else {
             const emptyArray = [];
-            const emptyTextArray = [''];
+            const emptyTextArray = '';
             if (previousQuestion.type === STR) {
                 textChange(emptyTextArray);
             } else if (previousQuestion.type === MULTI_SELECT) {
