@@ -282,14 +282,26 @@ class App extends React.Component {
         const previousQuestion = allQuestions.find(question => question.id === previousQuestionId);
         const previousQuestionChoiceIds = answers.allAnswers[previousQuestionId];
 
-        if (previousQuestion.type === STR) {
-            textChange(previousQuestionChoiceIds);
-        }
-        else if (previousQuestion.type === MULTI_SELECT) {
-            setSelectedChoices(previousQuestionChoiceIds);
-        }
-        else if (previousQuestion.type === SELECT) {
-            setSelectedChoices([previousQuestionChoiceIds]);
+        if(previousQuestionChoiceIds) {
+            if (previousQuestion.type === STR) {
+                textChange(previousQuestionChoiceIds);
+            }
+            else if (previousQuestion.type === MULTI_SELECT) {
+                setSelectedChoices(previousQuestionChoiceIds);
+            }
+            else if (previousQuestion.type === SELECT) {
+                setSelectedChoices([previousQuestionChoiceIds]);
+            }
+        } else {
+            const emptyArray = [];
+            const emptyTextArray = [''];
+            if (previousQuestion.type === STR) {
+                textChange(emptyTextArray);
+            } else if (previousQuestion.type === MULTI_SELECT) {
+                setSelectedChoices(emptyArray);
+            } else if (previousQuestion.type === SELECT) {
+                setSelectedChoices(emptyArray);
+            }
         }
         removeAnswer(previousQuestionId);
         progressUpdate((shownQuestions.length - 1) / allQuestions.length * 100);

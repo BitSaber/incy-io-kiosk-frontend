@@ -57,7 +57,7 @@ describe('<Select />', () => {
             answer: { id: 1 },
             questionId: 1234,
         });
-        
+
         expect(mockMoveToNextQuestion).toHaveBeenCalledTimes(1);
     });
 });
