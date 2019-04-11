@@ -7,7 +7,7 @@ const style = {
         backgroundColor: '#0078CC',
         height: '100vh',
     },
-    thankYouDiv: {
+    errorDiv: {
         backgroundColor: '#0496FF',
         borderRadius: 30,
         display: 'flex',
@@ -29,7 +29,7 @@ function ErrorPage() {
             justify="center"
             alignItems="center"
             style={style.body}>
-            <div style={style.thankYouDiv} >
+            <div style={style.errorDiv} >
                 <h2 variant="h2">
                     <FormattedMessage id="error.message"
                         defaultMessage="Something went wrong"
