@@ -3,5 +3,6 @@
     "submitbutton": "Lähetä",
     "skipbutton": "Seuraavaan",
     "questionpage.required": "Tämä kysymys on pakollinen!",
-    "textfield.placeholder": "Vastauksesi"
+    "textfield.placeholder": "Vastauksesi",
+    "gobackbutton": "Edellinen"
 }

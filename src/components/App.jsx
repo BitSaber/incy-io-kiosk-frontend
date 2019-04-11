@@ -8,6 +8,7 @@ import LoadingPage from '../components/LoadingPage';
 import {
     SELECT,
     STR,
+    MULTI_SELECT,
 } from '../constants/questionTypes';
 import { FINISHED_STATE } from '../constants/loadingStates';
 
@@ -44,10 +45,12 @@ class App extends React.Component {
         currentLanguageId: string.isRequired,
         answers: object.isRequired,
         addAnswer: func.isRequired,
+        removeAnswer: func.isRequired,
         resetAnswers: func.isRequired,
         questions: shape({
             allQuestions: array.isRequired,
             currentQuestion: object,
+            shownQuestions: array.isRequired,
         }).isRequired,
         setQuestions: func.isRequired,
         flags: shape({
@@ -61,6 +64,9 @@ class App extends React.Component {
         setShowError: func.isRequired,
         setErrorMsg: func.isRequired,
         setCurrentQuestion: func.isRequired,
+        addShownQuestion: func.isRequired,
+        removeShownQuestion: func.isRequired,
+        resetShownQuestions: func.isRequired,
         context: shape({
             place: shape({
                 id: number.isRequired,
@@ -73,7 +79,9 @@ class App extends React.Component {
         setPlace: func.isRequired,
         getAllChoices: func.isRequired,
         choices: object.isRequired,
+        setSelectedChoices: func.isRequired,
         resetText: func.isRequired,
+        textChange: func.isRequired,
         loadingStates: shape({
             questions: string.isRequired,
             choices: string.isRequired,
@@ -153,6 +161,10 @@ class App extends React.Component {
      * the answers if no more questions to be answered.
      */
     moveToNextQuestion = async () => {
+
+        // Adds the question to shown questions array
+        await this.props.addShownQuestion(this.props.questions.currentQuestion);
+
         const {
             questions,
             setCurrentQuestion,
@@ -160,15 +172,15 @@ class App extends React.Component {
             progressUpdate,
             answers,
         } = this.props;
-        const { allQuestions, currentQuestion } = questions;
+        const { allQuestions, currentQuestion, shownQuestions } = questions;
+
 
         if (currentQuestion.type === STR) {
             resetText();
         }
 
         // IDs of both answered and skipped questions
-        const answeredQuestionIds = Object.keys(answers.answers)
-            .map(answer => Number(answer)).concat(answers.skippedQuestionIds);
+        const answeredQuestionIds = shownQuestions;
 
         const answeredChoiceIds = Object.values(answers.answers).map(object => {
             if (Array.isArray(object)) {
@@ -195,6 +207,18 @@ class App extends React.Component {
         }, null);
 
         if (nextQuestion) {
+            const previousChoices = this.props.answers.allAnswers[nextQuestion.id];
+            if (previousChoices) {
+                if (nextQuestion.type === MULTI_SELECT) {
+                    this.props.setSelectedChoices(previousChoices);
+                }
+                if (nextQuestion.type === SELECT) {
+                    this.props.setSelectedChoices([previousChoices]);
+                }
+            } else {
+                this.props.setSelectedChoices([]);
+            }
+
             setCurrentQuestion(nextQuestion);
             progressUpdate(answeredQuestionIds.length / allQuestions.length * 100);
         } else {
@@ -218,7 +242,7 @@ class App extends React.Component {
      * the state is reset so that a new questionnaire can be started
      */
     submitObservation = () => {
-        const { answers, resetAnswers, setAllAnswered, context, progressUpdate } = this.props;
+        const { answers, resetAnswers, setAllAnswered, context, progressUpdate, resetShownQuestions } = this.props;
 
         const time = new Date().toString().substring(0, 21);
         const data = {
@@ -231,6 +255,8 @@ class App extends React.Component {
         // calls the service.js postObservation to API
         questionService.postObservation(data);
         resetAnswers();
+        resetShownQuestions();
+        this.props.setSelectedChoices([]);
 
         setAllAnswered(true);
         this.setFirstQuestion();
@@ -246,6 +272,41 @@ class App extends React.Component {
         const { questions, choices, context } = this.props.loadingStates;
         return questions === FINISHED_STATE && choices === FINISHED_STATE &&
             context.category === FINISHED_STATE && context.place === FINISHED_STATE;
+    }
+
+    goToPreviousQuestion = () => {
+        const { answers, questions, removeAnswer, removeShownQuestion, setCurrentQuestion, progressUpdate, setSelectedChoices, textChange } = this.props;
+        const { shownQuestions, allQuestions } = questions;
+
+        const previousQuestionId = shownQuestions[shownQuestions.length - 1];
+        const previousQuestion = allQuestions.find(question => question.id === previousQuestionId);
+        const previousQuestionChoiceIds = answers.allAnswers[previousQuestionId];
+
+        if(previousQuestionChoiceIds) {
+            if (previousQuestion.type === STR) {
+                textChange(previousQuestionChoiceIds);
+            }
+            else if (previousQuestion.type === MULTI_SELECT) {
+                setSelectedChoices(previousQuestionChoiceIds);
+            }
+            else if (previousQuestion.type === SELECT) {
+                setSelectedChoices([previousQuestionChoiceIds]);
+            }
+        } else {
+            const emptyArray = [];
+            const emptyTextArray = '';
+            if (previousQuestion.type === STR) {
+                textChange(emptyTextArray);
+            } else if (previousQuestion.type === MULTI_SELECT) {
+                setSelectedChoices(emptyArray);
+            } else if (previousQuestion.type === SELECT) {
+                setSelectedChoices(emptyArray);
+            }
+        }
+        removeAnswer(previousQuestionId);
+        progressUpdate((shownQuestions.length - 1) / allQuestions.length * 100);
+        setCurrentQuestion(previousQuestion);
+        removeShownQuestion(previousQuestion);
     }
 
     render() {
@@ -273,6 +334,8 @@ class App extends React.Component {
                         currentIsRequired={currentQuestion.required}
                         moveToNextQuestion={this.moveToNextQuestion}
                         showFieldRequired={this.showFieldRequired}
+                        goToPreviousQuestion={this.goToPreviousQuestion}
+                        shownQuestions={this.props.questions.shownQuestions}
                     />)}
             </div>
         );
