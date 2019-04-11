@@ -4,5 +4,6 @@
     "skipbutton": "Skip",
     "questionpage.required": "This field is required!",
     "textfield.placeholder": "Your answer",
-    "error.message": "Something went wrong :("
+    "error.message": "Something went wrong :(",
+    "gobackbutton": "Go back"
 }

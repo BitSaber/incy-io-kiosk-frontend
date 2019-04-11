@@ -4,5 +4,6 @@
     "skipbutton": "Seuraavaan",
     "questionpage.required": "Tämä kysymys on pakollinen!",
     "textfield.placeholder": "Vastauksesi",
-    "error.message": "Virhe"
+    "error.message": "Virhe",
+    "gobackbutton": "Edellinen"
 }
