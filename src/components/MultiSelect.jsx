@@ -4,9 +4,10 @@ import Button from "@material-ui/core/Button";
 import Grid from '@material-ui/core/Grid';
 import { Typography } from '@material-ui/core';
 
+//'#0496FF'
 const buttonStyle = (isSelected) => ({
     width: '90%',
-    backgroundColor: isSelected ? '#4cb4ff' : '#0496FF',
+    backgroundColor: isSelected ?  '#a89a8b' : '#FFFFFF',
     minHeight: 100,
     height: '100%',
     borderRadius: 30,
@@ -14,12 +15,12 @@ const buttonStyle = (isSelected) => ({
     overflowWrap: 'break-word',
 });
 
-const textStyle = {
+const textStyle = (isSelected) => ({
 
     fontSize: 35,
-    color: '#ffffff',
+    color: isSelected ? '#FFFFFF' : '#0078CC',
     fontWeight: 'bold',
-};
+});
 
 class MultiSelect extends React.Component {
     handleChoice = (choice) => {
@@ -49,7 +50,7 @@ class MultiSelect extends React.Component {
                         style={buttonStyle(isSelected)}
                         onClick={() => this.handleChoice(choice)}
                     >
-                        <Typography style={textStyle}>{choice.name}</Typography>
+                        <Typography style={textStyle(isSelected)}>{choice.name}</Typography>
                     </Button>
                 </Grid>
             );
