@@ -8,20 +8,23 @@ describe('questionReducer', () => {
         const state = deepFreeze(reducer(undefined, { type: 'TEST' }));
         expect(state).toEqual({
             allQuestions: [],
-            currentQuestion: null
+            currentQuestion: null,
+            shownQuestions: [],
         });
-    })
+    });
 
     it('should set the questions', () => {
         const state = deepFreeze(reducer(undefined, { type: SET_QUESTIONS, payload: [{ id: 1 }] }));
         expect(state).toEqual({
             allQuestions: [{ id: 1 }],
-            currentQuestion: null
+            currentQuestion: null,
+            shownQuestions: [],
         });
         const nextState = deepFreeze(reducer(state, { type: SET_QUESTIONS, payload: [{ id: 2 }] }));
         expect(nextState).toEqual({
             allQuestions: [{ id: 2 }],
-            currentQuestion: null
+            currentQuestion: null,
+            shownQuestions: [],
         });
     });
 
@@ -30,15 +33,17 @@ describe('questionReducer', () => {
         expect(state).toEqual({
             allQuestions: [],
             currentQuestion: {
-                id: 1
+                id: 1,
             },
+            shownQuestions: [],
         });
         const nextState = deepFreeze(reducer(state, { type: SET_CURRENT_QUESTION, payload: { id: 2 } }));
         expect(nextState).toEqual({
             allQuestions: [],
             currentQuestion: {
-                id: 2
+                id: 2,
             },
+            shownQuestions: [],
         });
     });
 });

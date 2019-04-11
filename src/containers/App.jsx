@@ -1,11 +1,11 @@
 import { setAllAnsweredAction, setShowErrorAction, setErrorMsgAction } from '../actions/flagActions';
 import { connect } from 'react-redux';
 
-import { addAnswerAction, resetAnswersAction } from '../actions/answerActions';
-import { setQuestionsAction, setCurrentQuestionAction } from '../actions/questionActions';
+import { addAnswerAction, resetAnswersAction, removeAnswerAction } from '../actions/answerActions';
+import { setQuestionsAction, setCurrentQuestionAction, addShownQuestionAction, removeShownQuestionAction, resetShownQuestionsAction } from '../actions/questionActions';
 import { setCategoryAction, setPlaceAction } from '../actions/contextActions';
-import { resetTextAction, progressUpdateAction } from '../actions/UiActions';
-import { getAllChoicesAction } from '../actions/choiceActions';
+import { resetTextAction, progressUpdateAction, onTextChangeAction } from '../actions/UiActions';
+import { getAllChoicesAction, setSelectedChoicesAction } from '../actions/choiceActions';
 import App from '../components/App';
 
 const mapStateToProps = state => ({
@@ -21,6 +21,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     addAnswer: addAnswerAction,
+    removeAnswer: removeAnswerAction,
     resetAnswers: resetAnswersAction,
     setQuestions: setQuestionsAction,
     setCategory: setCategoryAction,
@@ -29,8 +30,13 @@ const mapDispatchToProps = {
     setShowError: setShowErrorAction,
     setErrorMsg: setErrorMsgAction,
     setCurrentQuestion: setCurrentQuestionAction,
+    setSelectedChoices: setSelectedChoicesAction,
+    addShownQuestion: addShownQuestionAction,
+    removeShownQuestion: removeShownQuestionAction,
+    resetShownQuestions: resetShownQuestionsAction,
     getAllChoices: getAllChoicesAction,
     resetText: resetTextAction,
+    textChange: onTextChangeAction,
     progressUpdate: progressUpdateAction,
 };
 

@@ -1,7 +1,8 @@
-import { ADD_ANSWER, RESET_ANSWERS, SKIP_ANSWER } from "../constants/actions";
+import { ADD_ANSWER, RESET_ANSWERS, REMOVE_ANSWER } from "../constants/actions";
 
 const initialState = {
     answers: {},
+    allAnswers: {},
     skippedQuestionIds: [],
 };
 
@@ -13,13 +14,21 @@ const reducer = (state=initialState, action) => {
                 ...state.answers,
                 [action.payload.questionId]: action.payload.answer,
             },
+            allAnswers: {
+                ...state.allAnswers,
+                [action.payload.questionId]: action.payload.answer,
+            },
         };
     }
 
-    if (action.type === SKIP_ANSWER) {
+    if (action.type === REMOVE_ANSWER) {
+        const previousAnswers = state.answers;
+        delete previousAnswers[action.payload];
         return {
             ...state,
-            skippedQuestionIds: [ ...state.skippedQuestionIds, action.payload ],
+            answers: {
+                ...previousAnswers,
+            },
         };
     }
 

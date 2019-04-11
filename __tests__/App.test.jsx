@@ -36,11 +36,20 @@ describe('<App />', () => {
                 answers={{}}
                 addAnswer={jest.fn()}
                 resetAnswers={jest.fn()}
+                removeAnswer={jest.fn()}
                 setQuestions={setQuestions}
                 setCurrentQuestion={jest.fn()}
                 setCurrentChoices={jest.fn()}
+                addShownQuestion={jest.fn()}
+                removeShownQuestion={jest.fn()}
+                resetShownQuestions={jest.fn()}
+                textChange={jest.fn()}
+                setSelectedChoices={jest.fn()}
                 getAllChoices={jest.fn()}
-                questions={{ allQuestions: [] }}
+                questions={{
+                    allQuestions: [],
+                    shownQuestions: [],
+                }}
                 context={{ place: { id: 1 }, category: { id: 1 } }}
                 setPlace={setPlace}
                 setCategory={setCategory}
