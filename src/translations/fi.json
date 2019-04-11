@@ -4,5 +4,7 @@
     "skipbutton": "Seuraavaan",
     "questionpage.required": "Tämä kysymys on pakollinen!",
     "textfield.placeholder": "Vastauksesi",
-    "gobackbutton": "Edellinen"
+    "error.message": "Jokin meni pieleen :(",
+    "gobackbutton": "Edellinen",
+    "noquestions": "Ei Kysymyksiä."
 }
