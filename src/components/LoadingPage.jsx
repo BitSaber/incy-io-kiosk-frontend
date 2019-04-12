@@ -2,7 +2,7 @@ import React from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import PropTypes, {bool} from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import ErrorPage from '../components/ErrorPage';
+import TextLabelPage from '../components/TextLabelPage';
 
 const style = {
     body: {
@@ -23,7 +23,7 @@ function LoadingPage(props) {
     const { classes, inError } = props;
     return (
         <div style={style.body}>
-            {inError ? <ErrorPage/> :
+            {inError ? <TextLabelPage intl_id="error.message" /> :
                 (<CircularProgress className={classes.progress} color='primary' size={150} />)}
         </div>
     );

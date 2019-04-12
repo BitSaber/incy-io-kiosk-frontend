@@ -5,5 +5,6 @@
     "questionpage.required": "Denna fråga är obligatorisk!",
     "textfield.placeholder": "Ditt svar",
     "error.message": "Någonting gick fel :(",
-    "gobackbutton": "Föregående"
+    "gobackbutton": "Föregående",
+    "noquestions": "Inga Frågor"
 }
