@@ -104,11 +104,11 @@ class App extends React.Component {
     }
 
     /**
-     * @description showing the question as required on screen
+     * @description shows the given error message for 3 seconds
      */
-    showFieldRequired = () => {
+    showErrorMsg = (intl_id) => {
         const { setShowError, setErrorMsg } = this.props;
-        setErrorMsg("questionpage.required");
+        setErrorMsg(intl_id);
         if (!this.props.flags.showError) {
             setShowError(true);
             setTimeout(() => {
@@ -125,7 +125,7 @@ class App extends React.Component {
 
         // checks if the text question is required and shows the required field in that case
         if (('' + text).trim() === '' && currentQuestion.required) {
-            this.showFieldRequired();
+            this.showErrorMsg("questionpage.required");
         } else {
             // otherwise changes the state and saves the text
             await addAnswer({
@@ -242,30 +242,37 @@ class App extends React.Component {
      * the state is reset so that a new questionnaire can be started
      */
     submitObservation = () => {
-        const { answers, resetAnswers, setAllAnswered, context, progressUpdate, resetShownQuestions } = this.props;
-
-        const time = new Date().toString().substring(0, 21);
-        const data = {
-            occurred_at: time,
-            place: context.place.id,
-            deadline: null,
-            category: context.category.id,
-            answers: answers.answers,
-        };
+        const { answers, resetAnswers, setAllAnswered, context,
+            progressUpdate, resetShownQuestions, removeAnswer } = this.props;
         // calls the service.js postObservation to API
-        questionService.postObservation(data);
-        resetAnswers();
-        resetShownQuestions();
-        this.props.setSelectedChoices([]);
+        if (!navigator.onLine) { // TODO: currently only checks if internet connection exists
+            this.showErrorMsg("questionpage.cantpost");
+            // TODO: adds unnecessary answers
+            //removeAnswer(answers.answers[answers.answers.length - 1].keys()); // removes the unnecessarily added answer
+            //console.log(answers.answers[answers.answers.length - 1]);
+        } else {
+            const time = new Date().toString().substring(0, 21);
+            const data = {
+                occurred_at: time,
+                place: context.place.id,
+                deadline: null,
+                category: context.category.id,
+                answers: answers.answers,
+            };
+            questionService.postObservation(data);
+            resetAnswers();
+            resetShownQuestions();
+            this.props.setSelectedChoices([]);
 
-        setAllAnswered(true);
-        this.setFirstQuestion();
-        progressUpdate(100);
+            setAllAnswered(true);
+            this.setFirstQuestion();
+            progressUpdate(100);
 
-        setTimeout(() => {
-            setAllAnswered(false);
-            progressUpdate(0);
-        }, 3000);
+            setTimeout(() => {
+                setAllAnswered(false);
+                progressUpdate(0);
+            }, 3000);
+        }
     }
 
     isDoneLoading = () => {
@@ -338,10 +345,9 @@ class App extends React.Component {
                         questionType={currentQuestion.type}
                         onSubmitFreeText={this.submitTextAnswer}
                         questionPos={allQuestions.findIndex(question => question.id === currentQuestion.id)}
-                        error={this.props.flags.error}
                         currentIsRequired={currentQuestion.required}
                         moveToNextQuestion={this.moveToNextQuestion}
-                        showFieldRequired={this.showFieldRequired}
+                        showErrorMsg={this.showErrorMsg}
                         goToPreviousQuestion={this.goToPreviousQuestion}
                         shownQuestions={this.props.questions.shownQuestions}
                     />)}

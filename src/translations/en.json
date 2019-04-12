@@ -6,5 +6,6 @@
     "textfield.placeholder": "Your answer",
     "loading.error": "Something went wrong... Check your link",
     "gobackbutton": "Go back",
-    "noquestions": "No Questions"
+    "noquestions": "No Questions",
+    "questionpage.cantpost": "Failed to send data, check your connection"
 }

@@ -6,5 +6,6 @@
     "textfield.placeholder": "Vastauksesi",
     "loading.error": "Jokin meni pieleen... Tarkista linkki",
     "gobackbutton": "Edellinen",
-    "noquestions": "Ei Kysymyksiä."
+    "noquestions": "Ei Kysymyksiä.",
+    "questionpage.cantpost": "Palautetta ei voitu lähettää, tarkista yhteys"
 }
