@@ -2,7 +2,7 @@ import React from 'react';
 import { string, object, func, bool, shape, array, number } from 'prop-types';
 import ProgressBar from '../containers/ProgressBar';
 import questionService from '../service';
-import ThankYouPage from '../components/ThankYouPage';
+import TextLabelPage from './TextLabelPage';
 import QuestionPage from '../containers/QuestionPage';
 import LoadingPage from '../components/LoadingPage';
 import {
@@ -313,8 +313,10 @@ class App extends React.Component {
         const { allQuestions, currentQuestion } = this.props.questions;
         const { questionChoices } = this.props.choices;
 
-        if (!this.isDoneLoading() || !currentQuestion || !questionChoices) {
+        if (!this.isDoneLoading()) {
             return <LoadingPage />;
+        } else if (!currentQuestion || !questionChoices) {
+            return <TextLabelPage intl_id="noquestions" />;
         }
 
         const currentChoices = questionChoices.find(choice => choice.questionId === currentQuestion.id);
@@ -322,7 +324,7 @@ class App extends React.Component {
         return (
             <div style={style.body}>
                 <ProgressBar barColor={'#2696fb'} />
-                {this.props.flags.isAllQuestionsAnswered ? (<ThankYouPage />) :
+                {this.props.flags.isAllQuestionsAnswered ? (<TextLabelPage intl_id="thankyou.phrase" />) :
                     (<QuestionPage
                         question={currentQuestion}
                         questionChoices={currentChoices.questionChoices}
