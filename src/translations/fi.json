@@ -1,7 +1,7 @@
 {
     "thankyou.phrase": "Kiitos palautteestasi!",
     "submitbutton": "Lähetä",
-    "skipbutton": "Seuraavaan",
+    "skipbutton": "Ohita",
     "questionpage.required": "Tämä kysymys on pakollinen!",
     "textfield.placeholder": "Vastauksesi",
     "loading.error": "Jokin meni pieleen... Tarkista linkki",
