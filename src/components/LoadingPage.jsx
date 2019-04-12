@@ -23,7 +23,7 @@ function LoadingPage(props) {
     const { classes, inError } = props;
     return (
         <div style={style.body}>
-            {inError ? <TextLabelPage intl_id="error.message" /> :
+            {inError ? <TextLabelPage intl_id="loading.error" /> :
                 (<CircularProgress className={classes.progress} color='primary' size={150} />)}
         </div>
     );

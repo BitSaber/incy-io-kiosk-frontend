@@ -4,7 +4,7 @@
     "skipbutton": "Skip",
     "questionpage.required": "This field is required!",
     "textfield.placeholder": "Your answer",
-    "error.message": "Something went wrong... RIP",
+    "loading.error": "Something went wrong... Check your link",
     "gobackbutton": "Go back",
     "noquestions": "No Questions"
 }

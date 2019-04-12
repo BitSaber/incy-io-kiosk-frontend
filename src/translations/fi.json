@@ -4,7 +4,7 @@
     "skipbutton": "Seuraavaan",
     "questionpage.required": "Tämä kysymys on pakollinen!",
     "textfield.placeholder": "Vastauksesi",
-    "error.message": "Jokin meni pieleen :(",
+    "loading.error": "Jokin meni pieleen... Tarkista linkki",
     "gobackbutton": "Edellinen",
     "noquestions": "Ei Kysymyksiä."
 }

@@ -4,7 +4,7 @@
     "skipbutton": "Skip",
     "questionpage.required": "Denna fråga är obligatorisk!",
     "textfield.placeholder": "Ditt svar",
-    "error.message": "Någonting gick fel :(",
+    "loading.error": "Någonting gick fel... Kolla din länk",
     "gobackbutton": "Föregående",
     "noquestions": "Inga Frågor"
 }
