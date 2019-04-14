@@ -243,7 +243,7 @@ class App extends React.Component {
      */
     submitObservation = () => {
         const { answers, resetAnswers, setAllAnswered, context,
-            progressUpdate, resetShownQuestions, removeAnswer } = this.props;
+            progressUpdate, resetShownQuestions } = this.props;
         // calls the service.js postObservation to API
         if (!navigator.onLine) { // TODO: currently only checks if internet connection exists
             this.showErrorMsg("questionpage.cantpost");
