@@ -4,5 +4,6 @@
     "skipbutton": "Skip",
     "questionpage.required": "This field is required!",
     "textfield.placeholder": "Your answer",
-    "gobackbutton": "Go back"
+    "gobackbutton": "Go back",
+    "noquestions": "No Questions"
 }

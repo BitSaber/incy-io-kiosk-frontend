@@ -4,5 +4,6 @@
     "skipbutton": "Skip",
     "questionpage.required": "Denna fråga är obligatorisk!",
     "textfield.placeholder": "Ditt svar",
-    "gobackbutton": "Föregående"
+    "gobackbutton": "Föregående",
+    "noquestions": "Inga Frågor"
 }
