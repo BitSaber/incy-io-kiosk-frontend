@@ -1,8 +1,9 @@
 import React from 'react';
 
 import { TextField } from '@material-ui/core';
-import { string, func } from 'prop-types';
+import { string, func, shape } from 'prop-types';
 import Grid from '@material-ui/core/Grid';
+import { injectIntl } from 'react-intl';
 
 const style = {
     textDiv: {
@@ -17,7 +18,7 @@ const style = {
     },
 };
 
-export default class FreeText extends React.Component {
+class FreeText extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -26,12 +27,13 @@ export default class FreeText extends React.Component {
         text: string.isRequired,
         handleChange: func.isRequired,
         resetText: func.isRequired,
+        intl: shape({
+            formatMessage: func.isRequired,
+        }).isRequired,
     }
 
     render() {
-
-
-
+        const placeholder = this.props.intl.formatMessage({id: "textfield.placeholder"});
         return (
             <Grid >
                 <form>
@@ -41,7 +43,7 @@ export default class FreeText extends React.Component {
                         rows="10"
                         margin="normal"
                         value={this.props.text}
-                        placeholder="Open feedback"
+                        placeholder={placeholder}
                         onChange={this.props.handleChange}
                         InputProps={{ disableUnderline: true, style: { fontSize: 30, color: '#ffffff', hover: '#ffffff' } }}
                         style={style.textDiv}
@@ -51,3 +53,5 @@ export default class FreeText extends React.Component {
         );
     }
 }
+
+export default injectIntl(FreeText);
