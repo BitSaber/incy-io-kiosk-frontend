@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 
 const style = {
     textDiv: {
-        width: '100%',
+        width: '95%',
         maxWidth: 500,
         backgroundColor: '#0496FF',
         fontWeight: 'bold',
@@ -41,6 +41,7 @@ export default class FreeText extends React.Component {
                         rows="10"
                         margin="normal"
                         value={this.props.text}
+                        placeholder="Open feedback"
                         onChange={this.props.handleChange}
                         InputProps={{ disableUnderline: true, style: { fontSize: 30, color: '#ffffff', hover: '#ffffff' } }}
                         style={style.textDiv}

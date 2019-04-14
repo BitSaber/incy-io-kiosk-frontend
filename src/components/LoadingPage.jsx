@@ -1,7 +1,8 @@
 import React from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { object } from 'prop-types';
+import { object, bool } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import TextLabelPage from '../components/TextLabelPage';
 
 const style = {
     body: {
@@ -20,20 +21,21 @@ const styles = theme => ({ // eslint-disable-line
 });
 
 function LoadingPage(props) {
-    const { classes } = props;
+    const { classes, inError } = props;
     return (
         <div style={style.body}>
-            <CircularProgress
-                className={classes.progress}
-                color='primary'
-                size={150}
-            />
+            {inError ? <TextLabelPage intl_id="loading.error" /> :
+                (<CircularProgress
+                    className={classes.progress}
+                    color='primary'
+                    size={150} />)}
         </div>
     );
 }
 
 LoadingPage.propTypes = {
     classes: object.isRequired,
+    inError: bool.isRequired,
 };
 
 export default withStyles(styles)(LoadingPage);
