@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Typography } from '@material-ui/core';
 
-
+// '#c6ad94', 2 '#bcad9c', '#a89a8b'
 const style = {
     buttonStyle: {
-        backgroundColor: '#003459',
+        backgroundColor: '#a89a8b',
         justifyContent: 'center',
         width: 300,
         height: 70,

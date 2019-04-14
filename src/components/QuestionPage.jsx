@@ -245,11 +245,16 @@ class QuestionPage extends React.Component {
                     <Grid item xs={12} md={12} xl={12}>
                         {this.renderSubmitButton(this.props.questionType)}
                     </Grid>
-                    <Grid item xs={12} md={12} xl={12}>
+                    <Grid container
+                        direction="row"
+                        justify="center"
+                        alignItems="baseline"
+                        spacing={16}
+                    >
                         {this.renderGoBackButton()}
                         {this.renderSkipButton()}
-                        {this.renderLanguageButtons()}
                     </Grid>
+                    {this.renderLanguageButtons()}
                 </Grid>
             </Grid>
         );
