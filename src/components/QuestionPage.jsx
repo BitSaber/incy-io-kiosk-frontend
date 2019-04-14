@@ -30,12 +30,12 @@ import {
 } from '../constants/questionTypes';
 
 const style = {
-    body: {
-
-    },
     basic: {
         flex: '1',
         alignItems: 'center',
+        overflowX: 'hidden',
+    },
+    body: {
         padding: '8px',
     },
     textStyle: {
@@ -179,7 +179,7 @@ class QuestionPage extends React.Component {
 
     renderGoBackButton = () => {
         if (this.props.shownQuestions.length) {
-            return <GoBackButton onClick={this.props.goToPreviousQuestion}/>;
+            return <GoBackButton onClick={this.props.goToPreviousQuestion} />;
         }
     }
 
@@ -213,7 +213,7 @@ class QuestionPage extends React.Component {
     render() {
 
         return (
-            <Grid container style={style.basic}>
+            <Grid container spacing={0} style={style.basic}>
                 <Grid
                     id="question-test-id"
                     container
@@ -228,6 +228,7 @@ class QuestionPage extends React.Component {
                     justify="center"
                     alignItems="stretch"
                     spacing={16}
+                    style={style.body}
                 >
 
                     <Grid item xs={12} md={12} xl={12}>
@@ -244,11 +245,16 @@ class QuestionPage extends React.Component {
                     <Grid item xs={12} md={12} xl={12}>
                         {this.renderSubmitButton(this.props.questionType)}
                     </Grid>
-                    <Grid item xs={12} md={12} xl={12}>
+                    <Grid container
+                        direction="row"
+                        justify="center"
+                        alignItems="baseline"
+                        spacing={16}
+                    >
                         {this.renderGoBackButton()}
                         {this.renderSkipButton()}
-                        {this.renderLanguageButtons()}
                     </Grid>
+                    {this.renderLanguageButtons()}
                 </Grid>
             </Grid>
         );
