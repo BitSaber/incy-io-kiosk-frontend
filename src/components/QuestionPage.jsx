@@ -75,7 +75,7 @@ class QuestionPage extends React.Component {
         currentIsRequired: bool.isRequired,
         text: string.isRequired,
         addAnswer: func.isRequired,
-        showFieldRequired: func.isRequired,
+        showErrorMsg: func.isRequired,
         selectedChoices: array.isRequired,
         setSelectedChoices: func.isRequired,
         goToPreviousQuestion: func.isRequired,
@@ -92,12 +92,12 @@ class QuestionPage extends React.Component {
                 selectedChoices,
                 addAnswer,
                 moveToNextQuestion,
-                showFieldRequired,
+                showErrorMsg,
                 setSelectedChoices,
             } = this.props;
 
             if (question.required && selectedChoices.length === 0) {
-                showFieldRequired();
+                showErrorMsg("questionpage.required");
             } else {
                 await addAnswer({
                     questionId: question.id,
