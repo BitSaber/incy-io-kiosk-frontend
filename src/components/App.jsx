@@ -314,7 +314,7 @@ class App extends React.Component {
         const { questionChoices } = this.props.choices;
 
         if (!this.isDoneLoading()) {
-            return <LoadingPage circleColor={'#2696fb'} />;
+            return <LoadingPage />;
         } else if (!currentQuestion || !questionChoices) {
             return <TextLabelPage intl_id="noquestions" />;
         }
