@@ -2,8 +2,10 @@
     "thankyou.phrase": "Tack för svaret!",
     "submitbutton": "Skicka",
     "skipbutton": "Skip",
-    "questionpage.required": "Denna fråga är obligatorisk!",
+    "questionpage.required": "Frågan är obligatorisk!",
     "textfield.placeholder": "Ditt svar",
+    "loading.error": "Någonting gick fel... Kolla din länk",
     "gobackbutton": "Föregående",
-    "noquestions": "Inga Frågor"
+    "noquestions": "Inga Frågor",
+    "questionpage.cantpost": "Kunde inte skicka observationen, kolla din anslutning"
 }
