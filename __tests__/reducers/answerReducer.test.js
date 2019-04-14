@@ -21,12 +21,9 @@ describe('answerReducer', () => {
     it('should add an answer', () => {
         const state = deepFreeze(answerReducer(undefined, addAnswerAction({ questionId: 1, answer: 'test'})));
         expect(state).toEqual({
-<<<<<<< HEAD
             allAnswers: {
                 '1': 'test',
             },
-=======
->>>>>>> master
             answers: {
                 '1': 'test',
             },
@@ -38,7 +35,6 @@ describe('answerReducer', () => {
         const state = deepFreeze(answerReducer(undefined, addAnswerAction({ questionId: 1, answer: 'test1'})));
         const result = deepFreeze(answerReducer(state, addAnswerAction({questionId: 2, answer: 'test2'})));
         expect(result).toEqual({
-<<<<<<< HEAD
             allAnswers: {
                 '1': 'test1',
                 '2': 'test2',
@@ -48,24 +44,6 @@ describe('answerReducer', () => {
                 '2': 'test2',
             },
             skippedQuestionIds: [],
-=======
-            answers: {
-                '1': 'test1',
-                '2': 'test2',
-            },
-            skippedQuestionIds: [],
-        });
-    });
-
-    it('should skip a question', () => {
-        const state = deepFreeze(answerReducer(undefined, addAnswerAction({ questionId: 1, answer: 'test1'})));
-        const result = deepFreeze(answerReducer(state, skipAnswerAction(123)));
-        expect(result).toEqual({
-            answers: {
-                '1': 'test1',
-            },
-            skippedQuestionIds: [ 123 ],
->>>>>>> master
         });
     });
 
@@ -73,10 +51,7 @@ describe('answerReducer', () => {
         const state = deepFreeze(answerReducer(undefined, addAnswerAction({ questionId: 1, answer: 'test1'})));
         const result = deepFreeze(answerReducer(state, resetAnswersAction()));
         expect(result).toEqual({
-<<<<<<< HEAD
             allAnswers: {},
-=======
->>>>>>> master
             answers: {},
             skippedQuestionIds: [],
         });
