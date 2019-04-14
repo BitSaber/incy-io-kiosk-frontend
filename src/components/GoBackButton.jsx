@@ -13,7 +13,7 @@ const style = {
         color: '#ffffff',
         borderRadius: 30,
         fontWeight: 'bold',
-        padding: '30px',
+        // padding: '30px',
     },
 };
 
