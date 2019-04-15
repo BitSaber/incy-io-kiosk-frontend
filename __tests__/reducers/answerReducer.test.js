@@ -12,6 +12,7 @@ describe('answerReducer', () => {
     it('should set the initial state', () => {
         const state = deepFreeze(answerReducer(undefined, { type: 'TEST_ACTION' }));
         expect(state).toEqual({
+            allAnswers: {},
             answers: {},
             skippedQuestionIds: [],
         });
@@ -20,6 +21,9 @@ describe('answerReducer', () => {
     it('should add an answer', () => {
         const state = deepFreeze(answerReducer(undefined, addAnswerAction({ questionId: 1, answer: 'test'})));
         expect(state).toEqual({
+            allAnswers: {
+                '1': 'test',
+            },
             answers: {
                 '1': 'test',
             },
@@ -31,6 +35,10 @@ describe('answerReducer', () => {
         const state = deepFreeze(answerReducer(undefined, addAnswerAction({ questionId: 1, answer: 'test1'})));
         const result = deepFreeze(answerReducer(state, addAnswerAction({questionId: 2, answer: 'test2'})));
         expect(result).toEqual({
+            allAnswers: {
+                '1': 'test1',
+                '2': 'test2',
+            },
             answers: {
                 '1': 'test1',
                 '2': 'test2',
@@ -39,21 +47,11 @@ describe('answerReducer', () => {
         });
     });
 
-    it('should skip a question', () => {
-        const state = deepFreeze(answerReducer(undefined, addAnswerAction({ questionId: 1, answer: 'test1'})));
-        const result = deepFreeze(answerReducer(state, skipAnswerAction(123)));
-        expect(result).toEqual({
-            answers: {
-                '1': 'test1',
-            },
-            skippedQuestionIds: [ 123 ],
-        });
-    });
-
     it('should reset the state', () => {
         const state = deepFreeze(answerReducer(undefined, addAnswerAction({ questionId: 1, answer: 'test1'})));
         const result = deepFreeze(answerReducer(state, resetAnswersAction()));
         expect(result).toEqual({
+            allAnswers: {},
             answers: {},
             skippedQuestionIds: [],
         });

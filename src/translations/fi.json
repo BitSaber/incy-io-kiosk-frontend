@@ -1,7 +1,11 @@
 {
     "thankyou.phrase": "Kiitos palautteestasi!",
     "submitbutton": "Lähetä",
-    "skipbutton": "Seuraavaan",
+    "skipbutton": "Ohita",
     "questionpage.required": "Tämä kysymys on pakollinen!",
-    "textfield.placeholder": "Vastauksesi"
+    "textfield.placeholder": "Vastauksesi",
+    "loading.error": "Jokin meni pieleen... Tarkista linkki",
+    "gobackbutton": "Edellinen",
+    "noquestions": "Ei Kysymyksiä.",
+    "questionpage.cantpost": "Palautetta ei voitu lähettää, tarkista yhteys"
 }

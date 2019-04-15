@@ -15,6 +15,7 @@ import {
 } from '@material-ui/core';
 import FreeText from '../containers/FreeText';
 import SkipButton from '../components/SkipButton';
+import GoBackButton from '../components/GoBackButton';
 import SubmitButton from '../components/SubmitButton';
 import Language from '../containers/Language';
 import MultiSelect from '../containers/MultiSelect';
@@ -29,12 +30,12 @@ import {
 } from '../constants/questionTypes';
 
 const style = {
-    body: {
-
-    },
     basic: {
         flex: '1',
         alignItems: 'center',
+        overflowX: 'hidden',
+    },
+    body: {
         padding: '8px',
     },
     textStyle: {
@@ -74,10 +75,11 @@ class QuestionPage extends React.Component {
         currentIsRequired: bool.isRequired,
         text: string.isRequired,
         addAnswer: func.isRequired,
-        skipAnswer: func.isRequired,
-        showFieldRequired: func.isRequired,
+        showErrorMsg: func.isRequired,
         selectedChoices: array.isRequired,
         setSelectedChoices: func.isRequired,
+        goToPreviousQuestion: func.isRequired,
+        shownQuestions: array.isRequired,
     }
     /**
      * @description rendering the button on the screen
@@ -90,12 +92,12 @@ class QuestionPage extends React.Component {
                 selectedChoices,
                 addAnswer,
                 moveToNextQuestion,
-                showFieldRequired,
+                showErrorMsg,
                 setSelectedChoices,
             } = this.props;
 
             if (question.required && selectedChoices.length === 0) {
-                showFieldRequired();
+                showErrorMsg("questionpage.required");
             } else {
                 await addAnswer({
                     questionId: question.id,
@@ -175,12 +177,17 @@ class QuestionPage extends React.Component {
         }
     }
 
+    renderGoBackButton = () => {
+        if (this.props.shownQuestions.length) {
+            return <GoBackButton onClick={this.props.goToPreviousQuestion} />;
+        }
+    }
+
     renderQuestion = () => {
         return <Typography style={style.textStyle}> {this.props.question.name}</Typography>;
     }
 
     skipHandler = async () => {
-        await this.props.skipAnswer(this.props.question.id);
         this.props.moveToNextQuestion();
     }
 
@@ -206,7 +213,7 @@ class QuestionPage extends React.Component {
     render() {
 
         return (
-            <Grid container style={style.basic}>
+            <Grid container spacing={0} style={style.basic}>
                 <Grid
                     id="question-test-id"
                     container
@@ -221,6 +228,7 @@ class QuestionPage extends React.Component {
                     justify="center"
                     alignItems="stretch"
                     spacing={16}
+                    style={style.body}
                 >
 
                     <Grid item xs={12} md={12} xl={12}>
@@ -237,10 +245,16 @@ class QuestionPage extends React.Component {
                     <Grid item xs={12} md={12} xl={12}>
                         {this.renderSubmitButton(this.props.questionType)}
                     </Grid>
-                    <Grid item xs={12} md={12} xl={12}>
+                    <Grid container
+                        direction="row"
+                        justify="center"
+                        alignItems="baseline"
+                        spacing={16}
+                    >
+                        {this.renderGoBackButton()}
                         {this.renderSkipButton()}
-                        {this.renderLanguageButtons()}
                     </Grid>
+                    {this.renderLanguageButtons()}
                 </Grid>
             </Grid>
         );

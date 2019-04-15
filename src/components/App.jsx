@@ -2,14 +2,15 @@ import React from 'react';
 import { string, object, func, bool, shape, array, number } from 'prop-types';
 import ProgressBar from '../containers/ProgressBar';
 import questionService from '../service';
-import ThankYouPage from '../components/ThankYouPage';
+import TextLabelPage from './TextLabelPage';
 import QuestionPage from '../containers/QuestionPage';
 import LoadingPage from '../components/LoadingPage';
 import {
     SELECT,
     STR,
+    MULTI_SELECT,
 } from '../constants/questionTypes';
-import { FINISHED_STATE } from '../constants/loadingStates';
+import { FINISHED_STATE, ERROR_STATE } from '../constants/loadingStates';
 
 const style = {
     body: {
@@ -44,10 +45,12 @@ class App extends React.Component {
         currentLanguageId: string.isRequired,
         answers: object.isRequired,
         addAnswer: func.isRequired,
+        removeAnswer: func.isRequired,
         resetAnswers: func.isRequired,
         questions: shape({
             allQuestions: array.isRequired,
             currentQuestion: object,
+            shownQuestions: array.isRequired,
         }).isRequired,
         setQuestions: func.isRequired,
         flags: shape({
@@ -61,6 +64,9 @@ class App extends React.Component {
         setShowError: func.isRequired,
         setErrorMsg: func.isRequired,
         setCurrentQuestion: func.isRequired,
+        addShownQuestion: func.isRequired,
+        removeShownQuestion: func.isRequired,
+        resetShownQuestions: func.isRequired,
         context: shape({
             place: shape({
                 id: number.isRequired,
@@ -73,7 +79,9 @@ class App extends React.Component {
         setPlace: func.isRequired,
         getAllChoices: func.isRequired,
         choices: object.isRequired,
+        setSelectedChoices: func.isRequired,
         resetText: func.isRequired,
+        textChange: func.isRequired,
         loadingStates: shape({
             questions: string.isRequired,
             choices: string.isRequired,
@@ -96,11 +104,11 @@ class App extends React.Component {
     }
 
     /**
-     * @description showing the question as required on screen
+     * @description shows the given error message for 3 seconds
      */
-    showFieldRequired = () => {
+    showErrorMsg = (intl_id) => {
         const { setShowError, setErrorMsg } = this.props;
-        setErrorMsg("questionpage.required");
+        setErrorMsg(intl_id);
         if (!this.props.flags.showError) {
             setShowError(true);
             setTimeout(() => {
@@ -117,7 +125,7 @@ class App extends React.Component {
 
         // checks if the text question is required and shows the required field in that case
         if (('' + text).trim() === '' && currentQuestion.required) {
-            this.showFieldRequired();
+            this.showErrorMsg("questionpage.required");
         } else {
             // otherwise changes the state and saves the text
             await addAnswer({
@@ -153,6 +161,10 @@ class App extends React.Component {
      * the answers if no more questions to be answered.
      */
     moveToNextQuestion = async () => {
+
+        // Adds the question to shown questions array
+        await this.props.addShownQuestion(this.props.questions.currentQuestion);
+
         const {
             questions,
             setCurrentQuestion,
@@ -160,15 +172,15 @@ class App extends React.Component {
             progressUpdate,
             answers,
         } = this.props;
-        const { allQuestions, currentQuestion } = questions;
+        const { allQuestions, currentQuestion, shownQuestions } = questions;
+
 
         if (currentQuestion.type === STR) {
             resetText();
         }
 
         // IDs of both answered and skipped questions
-        const answeredQuestionIds = Object.keys(answers.answers)
-            .map(answer => Number(answer)).concat(answers.skippedQuestionIds);
+        const answeredQuestionIds = shownQuestions;
 
         const answeredChoiceIds = Object.values(answers.answers).map(object => {
             if (Array.isArray(object)) {
@@ -195,6 +207,18 @@ class App extends React.Component {
         }, null);
 
         if (nextQuestion) {
+            const previousChoices = this.props.answers.allAnswers[nextQuestion.id];
+            if (previousChoices) {
+                if (nextQuestion.type === MULTI_SELECT) {
+                    this.props.setSelectedChoices(previousChoices);
+                }
+                if (nextQuestion.type === SELECT) {
+                    this.props.setSelectedChoices([previousChoices]);
+                }
+            } else {
+                this.props.setSelectedChoices([]);
+            }
+
             setCurrentQuestion(nextQuestion);
             progressUpdate(answeredQuestionIds.length / allQuestions.length * 100);
         } else {
@@ -218,28 +242,37 @@ class App extends React.Component {
      * the state is reset so that a new questionnaire can be started
      */
     submitObservation = () => {
-        const { answers, resetAnswers, setAllAnswered, context, progressUpdate } = this.props;
-
-        const time = new Date().toString().substring(0, 21);
-        const data = {
-            occurred_at: time,
-            place: context.place.id,
-            deadline: null,
-            category: context.category.id,
-            answers: answers.answers,
-        };
+        const { answers, resetAnswers, setAllAnswered, context,
+            progressUpdate, resetShownQuestions } = this.props;
         // calls the service.js postObservation to API
-        questionService.postObservation(data);
-        resetAnswers();
+        if (!navigator.onLine) { // TODO: currently only checks if internet connection exists
+            this.showErrorMsg("questionpage.cantpost");
+            // TODO: adds unnecessary answers
+            //removeAnswer(answers.answers[answers.answers.length - 1].keys()); // removes the unnecessarily added answer
+            //console.log(answers.answers[answers.answers.length - 1]);
+        } else {
+            const time = new Date().toString().substring(0, 21);
+            const data = {
+                occurred_at: time,
+                place: context.place.id,
+                deadline: null,
+                category: context.category.id,
+                answers: answers.answers,
+            };
+            questionService.postObservation(data);
+            resetAnswers();
+            resetShownQuestions();
+            this.props.setSelectedChoices([]);
 
-        setAllAnswered(true);
-        this.setFirstQuestion();
-        progressUpdate(100);
+            setAllAnswered(true);
+            this.setFirstQuestion();
+            progressUpdate(100);
 
-        setTimeout(() => {
-            setAllAnswered(false);
-            progressUpdate(0);
-        }, 3000);
+            setTimeout(() => {
+                setAllAnswered(false);
+                progressUpdate(0);
+            }, 3000);
+        }
     }
 
     isDoneLoading = () => {
@@ -248,20 +281,63 @@ class App extends React.Component {
             context.category === FINISHED_STATE && context.place === FINISHED_STATE;
     }
 
+    isInError = () => {
+        const { questions, choices, context } = this.props.loadingStates;
+        return questions === ERROR_STATE || choices === ERROR_STATE ||
+            context.category === ERROR_STATE || context.place === ERROR_STATE;
+    }
+
+    goToPreviousQuestion = () => {
+        const { answers, questions, removeAnswer, removeShownQuestion, setCurrentQuestion, progressUpdate, setSelectedChoices, textChange } = this.props;
+        const { shownQuestions, allQuestions } = questions;
+
+        const previousQuestionId = shownQuestions[shownQuestions.length - 1];
+        const previousQuestion = allQuestions.find(question => question.id === previousQuestionId);
+        const previousQuestionChoiceIds = answers.allAnswers[previousQuestionId];
+
+        if(previousQuestionChoiceIds) {
+            if (previousQuestion.type === STR) {
+                textChange(previousQuestionChoiceIds);
+            }
+            else if (previousQuestion.type === MULTI_SELECT) {
+                setSelectedChoices(previousQuestionChoiceIds);
+            }
+            else if (previousQuestion.type === SELECT) {
+                setSelectedChoices([previousQuestionChoiceIds]);
+            }
+        } else {
+            const emptyArray = [];
+            const emptyTextArray = '';
+            if (previousQuestion.type === STR) {
+                textChange(emptyTextArray);
+            } else if (previousQuestion.type === MULTI_SELECT) {
+                setSelectedChoices(emptyArray);
+            } else if (previousQuestion.type === SELECT) {
+                setSelectedChoices(emptyArray);
+            }
+        }
+        removeAnswer(previousQuestionId);
+        progressUpdate((shownQuestions.length - 1) / allQuestions.length * 100);
+        setCurrentQuestion(previousQuestion);
+        removeShownQuestion(previousQuestion);
+    }
+
     render() {
         const { allQuestions, currentQuestion } = this.props.questions;
         const { questionChoices } = this.props.choices;
 
-        if (!this.isDoneLoading() || !currentQuestion || !questionChoices) {
-            return <LoadingPage />;
+        if (!this.isDoneLoading()) {
+            return <LoadingPage inError={this.isInError()} />;
+        } else if (!currentQuestion || !questionChoices) {
+            return <TextLabelPage intl_id="noquestions" />;
         }
 
         const currentChoices = questionChoices.find(choice => choice.questionId === currentQuestion.id);
 
         return (
             <div style={style.body}>
-                <ProgressBar />
-                {this.props.flags.isAllQuestionsAnswered ? (<ThankYouPage />) :
+                <ProgressBar barColor={'#2696fb'} />
+                {this.props.flags.isAllQuestionsAnswered ? (<TextLabelPage intl_id="thankyou.phrase" />) :
                     (<QuestionPage
                         question={currentQuestion}
                         questionChoices={currentChoices.questionChoices}
@@ -269,10 +345,11 @@ class App extends React.Component {
                         questionType={currentQuestion.type}
                         onSubmitFreeText={this.submitTextAnswer}
                         questionPos={allQuestions.findIndex(question => question.id === currentQuestion.id)}
-                        error={this.props.flags.error}
                         currentIsRequired={currentQuestion.required}
                         moveToNextQuestion={this.moveToNextQuestion}
-                        showFieldRequired={this.showFieldRequired}
+                        showErrorMsg={this.showErrorMsg}
+                        goToPreviousQuestion={this.goToPreviousQuestion}
+                        shownQuestions={this.props.questions.shownQuestions}
                     />)}
             </div>
         );

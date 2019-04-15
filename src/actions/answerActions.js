@@ -1,4 +1,4 @@
-import { ADD_ANSWER, RESET_ANSWERS, SKIP_ANSWER } from "../constants/actions";
+import { ADD_ANSWER, RESET_ANSWERS, REMOVE_ANSWER } from "../constants/actions";
 
 export const addAnswerAction = answer => ({
     type: ADD_ANSWER,
@@ -8,8 +8,8 @@ export const addAnswerAction = answer => ({
     },
 });
 
-export const skipAnswerAction = answerId => ({
-    type: SKIP_ANSWER,
+export const removeAnswerAction = answerId => ({
+    type: REMOVE_ANSWER,
     payload: answerId,
 });
 

@@ -1,13 +1,15 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
+import PropTypes from 'prop-types';
 
 const style = {
     basic: {
         overflow: 'hidden',
         fontFamily: 'Roboto',
+        fontSize: 40,
     },
-    thankYouDiv: {
+    labelDiv: {
         backgroundColor: '#0496FF',
         borderRadius: 30,
         display: 'flex',
@@ -16,7 +18,7 @@ const style = {
         minHeight: 200,
         width: '98%',
         textAlign: 'center',
-        fontSize: 40,
+        minFontSize: '50%',
         marginLeft: 'auto',
         marginRight: 'auto',
     },
@@ -26,18 +28,18 @@ const style = {
     },
 };
 
-const ThankYouPage = () => (
+const TextLabelPage = ({intl_id}) => (
     <Grid
         container
         justify="center"
         alignItems="center"
         style={style.body}>
         <Grid style={style.basic}>
-            <div style={style.thankYouDiv} >
+            <div style={style.labelDiv} >
                 <h2 variant="h2">
-                    <FormattedMessage id="thankyou.phrase"
-                        defaultMessage="Thank you for the feedback!"
-                        description="Thank you text on thank you page"
+                    <FormattedMessage id={intl_id}
+                        defaultMessage=""
+                        description=""
                         values={{ what: 'react-intl' }}
                     />
                 </h2>
@@ -47,4 +49,8 @@ const ThankYouPage = () => (
     </Grid>
 );
 
-export default ThankYouPage;
+TextLabelPage.propTypes = {
+    intl_id: PropTypes.string.isRequired,
+};
+
+export default TextLabelPage;

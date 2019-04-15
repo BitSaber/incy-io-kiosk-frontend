@@ -5,7 +5,7 @@ import {
     DEFAULT_ORG_NAME,
     DEFAULT_LINK_NAME,
     DEFAULT_BASE_API_URL,
-    DEFAULT_CATEGORY_NAME,
+    DEFAULT_CATEGORY_ID,
     DEFAULT_PLACE_NAME,
 } from './constants/defaults';
 
@@ -51,8 +51,8 @@ const linkName = getValueFromCookieUrlOrDefaultAndCache(
     LINK_NAME_COOKIE
 );
 
-const categoryName = getValueFromCookieUrlOrDefaultAndCache(
-    DEFAULT_CATEGORY_NAME,
+const categoryId = getValueFromCookieUrlOrDefaultAndCache(
+    DEFAULT_CATEGORY_ID,
     CATEGORY_URL_PARAM,
     CATEGORY_URL_COOKIE
 );
@@ -98,8 +98,8 @@ const getCategory = async (langId) => {
             "Accept-Language": (langId + ';q=1'),
         },
     });
-    const selectedCategory = categoryName;
-    const foundCategory = categories.find(category => category.name === selectedCategory);
+    const selectedCategoryId = categoryId;
+    const foundCategory = categories.find(category => category.id.toString() === selectedCategoryId);
     if (foundCategory) {
         return foundCategory;
     } else {

@@ -17,20 +17,20 @@ const style = {
     },
 };
 
-const SkipButton = ({ onClick }) => (
+const GoBackButton = ({ onClick }) => (
     <Grid item xs={12} sm={6} xl={3}>
         <Button style={style.buttonStyle} variant="contained" onClick={onClick}>
-            <FormattedMessage id="skipbutton"
-                defaultMessage="Skip"
-                description="Skip button text"
+            <FormattedMessage id="gobackbutton"
+                defaultMessage="Go Back"
+                description="Previous page text"
                 values={{ what: 'react-intl' }}
             />
         </Button>
     </Grid>
 );
 
-SkipButton.propTypes = {
+GoBackButton.propTypes = {
     onClick: PropTypes.func.isRequired,
 };
 
-export default SkipButton;
+export default GoBackButton;
