@@ -1,5 +1,5 @@
 # incy.io Kiosk Frontend
-[![Build Status](https://jenkins.bitsaber.net/buildStatus/icon?job=BitSaber/incy-io-kiosk-frontend/master)](https://jenkins.bitsaber.net/job/BitSaber/incy-io-kiosk-frontend/master)
+[![Build Status](https://jenkins.bitsaber.net/buildStatus/icon?job=BitSaber/incy-io-kiosk-frontend/master)](https://jenkins.bitsaber.net/job/BitSaber/job/incy-io-kiosk-frontend/master)
 [![Quality Gate](https://sonar.bitsaber.net/api/badges/gate?key=INCY-IO-KIOSK-FRONTEND)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
 [![Lines](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=lines)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
 [![Percentage of comments](https://sonar.bitsaber.net/api/badges/measure?key=INCY-IO-KIOSK-FRONTEND&metric=comment_lines_density)](https://sonar.bitsaber.net/dashboard/index/INCY-IO-KIOSK-FRONTEND)
