@@ -19,13 +19,11 @@ pipeline {
         }
         stage('Static code analysis') {
             steps {
-                withCredentials([string(credentialsId: 'jenkins-slaves-sonar-token', variable: 'SONAR_AUTH_TOKEN')]) {
-                    withSonarQubeEnv('BitSaber Sonar') {
-                        script {
-                            scannerHome = tool 'SonarScanner'
-                        }
-                        sh "${scannerHome}/bin/sonar-scanner -D sonar.login=\"${SONAR_AUTH_TOKEN}\""
+                withSonarQubeEnv('BitSaber Sonar') {
+                    script {
+                        scannerHome = tool 'SonarScanner'
                     }
+                    sh "${scannerHome}/bin/sonar-scanner"
                 }
             }
         }
@@ -49,20 +47,20 @@ pipeline {
                 sh 'yarn build'
             }
         }
-        stage('Deploy to local test') {
-            steps {
-                script {
-                    lowercaseBranch = env.BRANCH_NAME.toLowerCase()
-                }
-                withCredentials([file(credentialsId: '2d6f0282-6e9d-4885-b209-3a8baf6cb797', variable: 'IDRSA')]) {
-                    sh 'cp "$IDRSA" ~/.ssh/id_rsa'
-                    sh 'chown $(whoami): ~/.ssh/id_rsa'
-                    sh 'chmod 600 ~/.ssh/id_rsa'
-                    sh 'ssh-keyscan bitsaber.net > ~/.ssh/known_hosts'
-                    sh "lftp -e \"rm -r -f ${lowercaseBranch}; mkdir ${lowercaseBranch}; mirror -R dist/ ${lowercaseBranch}/; quit;\" -u jenkins-dev-deploy, sftp://bitsaber.net/branches"
-                }
-            }
-        }
+        /* stage('Deploy to local test') { */
+        /*     steps { */
+        /*         script { */
+        /*             lowercaseBranch = env.BRANCH_NAME.toLowerCase() */
+        /*         } */
+        /*         withCredentials([file(credentialsId: '2d6f0282-6e9d-4885-b209-3a8baf6cb797', variable: 'IDRSA')]) { */
+        /*             sh 'cp "$IDRSA" ~/.ssh/id_rsa' */
+        /*             sh 'chown $(whoami): ~/.ssh/id_rsa' */
+        /*             sh 'chmod 600 ~/.ssh/id_rsa' */
+        /*             sh 'ssh-keyscan bitsaber.net > ~/.ssh/known_hosts' */
+        /*             sh "lftp -e \"rm -r -f ${lowercaseBranch}; mkdir ${lowercaseBranch}; mirror -R dist/ ${lowercaseBranch}/; quit;\" -u jenkins-dev-deploy, sftp://bitsaber.net/branches" */
+        /*         } */
+        /*     } */
+        /* } */
         stage('Robot Tests') {
             environment {
                 PATH = "$PATH:/opt/chromedriver/"
@@ -86,35 +84,35 @@ pipeline {
                 ])
             }
         }
-        stage('Deploy to staging') {
-            when {
-                expression { return env.BRANCH_NAME == 'develop' }
-            }
-            steps {
-                withCredentials([file(credentialsId: '770b87fe-7835-4a6d-a769-2a7879c12b76', variable: 'HEROKUCREDS')]) {
-                    sh 'cp "$HEROKUCREDS" ~/.netrc'
-                    sh 'cd heroku_docker'
-                    sh 'heroku container:login'
-                    sh 'docker build .'
-                    sh 'heroku container:push web --app incy-io-kiosk-staging'
-                    sh 'heroku container:release web --app incy-io-kiosk-staging'
-                }
-            }
-        }
-        stage('Deploy to production') {
-            when {
-                expression { return env.BRANCH_NAME == 'master' }
-            }
-            steps {
-                withCredentials([file(credentialsId: '770b87fe-7835-4a6d-a769-2a7879c12b76', variable: 'HEROKUCREDS')]) {
-                    sh 'cp "$HEROKUCREDS" ~/.netrc'
-                    sh 'cd heroku_docker'
-                    sh 'heroku container:login'
-                    sh 'docker build .'
-                    sh 'heroku container:push web --app incy-io-kiosk-production'
-                    sh 'heroku container:release web --app incy-io-kiosk-production'
-                }
-            }
-        }
+        /* stage('Deploy to staging') { */
+        /*     when { */
+        /*         expression { return env.BRANCH_NAME == 'develop' } */
+        /*     } */
+        /*     steps { */
+        /*         withCredentials([file(credentialsId: '770b87fe-7835-4a6d-a769-2a7879c12b76', variable: 'HEROKUCREDS')]) { */
+        /*             sh 'cp "$HEROKUCREDS" ~/.netrc' */
+        /*             sh 'cd heroku_docker' */
+        /*             sh 'heroku container:login' */
+        /*             sh 'docker build .' */
+        /*             sh 'heroku container:push web --app incy-io-kiosk-staging' */
+        /*             sh 'heroku container:release web --app incy-io-kiosk-staging' */
+        /*         } */
+        /*     } */
+        /* } */
+        /* stage('Deploy to production') { */
+        /*     when { */
+        /*         expression { return env.BRANCH_NAME == 'master' } */
+        /*     } */
+        /*     steps { */
+        /*         withCredentials([file(credentialsId: '770b87fe-7835-4a6d-a769-2a7879c12b76', variable: 'HEROKUCREDS')]) { */
+        /*             sh 'cp "$HEROKUCREDS" ~/.netrc' */
+        /*             sh 'cd heroku_docker' */
+        /*             sh 'heroku container:login' */
+        /*             sh 'docker build .' */
+        /*             sh 'heroku container:push web --app incy-io-kiosk-production' */
+        /*             sh 'heroku container:release web --app incy-io-kiosk-production' */
+        /*         } */
+        /*     } */
+        /* } */
     }
 }
